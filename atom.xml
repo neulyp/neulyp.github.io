@@ -42,4 +42,707 @@
     
   </entry>
   
+  <entry>
+    <title>eclipse（4.5.2）hadoop2.7.2开发环境配置</title>
+    <link href="http://yoursite.com/2016/07/22/eclipse%E4%B8%ADhadoop2-7-2%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2016/07/22/eclipse中hadoop2-7-2开发环境配置/</id>
+    <published>2016-07-22T12:52:12.000Z</published>
+    <updated>2016-07-22T12:53:42.531Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>eclipse（4.5.2） hadoop2.7.2 开发环境配置</p>
+<p>##一.需要的资源列表<br>    hadoop2.7.2<br>    Eclipse Version: Mars.2 Release (4.5.2)<br>    Java jdk 1.7<br>    winutils #2.7.2<br>    hadoop.dll #2.7.2<br>    hadoop-eclipse-plugin-2.7.2 #插件</p>
+<p>##二.hadoop-eclipse-plugin-2.7.2插件制作<br>问题保留：插件制作步骤暂时没有研究。所用的插件直接用现成下载的。<br>链接地址为：<br><a href="http://download.csdn.net/detail/tondayong1981/9432425#comment" target="_blank" rel="external">http://download.csdn.net/detail/tondayong1981/9432425#comment</a></p>
+<p>hadoop.dll和winutills链接地址为（ps：该版本为下载的是2.7.1，但是在2.7.2下面也可以运行）：<br><a href="http://download.csdn.net/detail/qq_16899785/9292533#comment" target="_blank" rel="external">http://download.csdn.net/detail/qq_16899785/9292533#comment</a></p>
+<p>##三.eclipse配置过程</p>
+<p>第一步：将hadoop解压缩到某个目录下面。</p>
+<p>第二步：将下载的hadoop.dll和winutills执行以下步骤：</p>
+<ul>
+<li>将文件解压到hadoop的bin目录下</li>
+<li>将hadoop.dll复制到C:\Window\System32下</li>
+<li>添加环境变量HADOOP_HOME，指向hadoop目录</li>
+<li>将%HADOOP_HOME%\bin加入到path里面</li>
+<li>重启myeclipse或者eclipse</li>
+</ul>
+<p>第三步：将hadoop-eclipse-plugin-2.7.2放在eclipse的pligins目录下，重启eclipse。</p>
+<pre><code>windows-&gt;perference-&gt;Hadoop Map/Reduce #配置hadoop安装目录。完成退出。
+windows-&gt;open perspective-&gt;other-&gt;map/reduce.
+</code></pre><p>新建一个map/reduce locations.具体设置如下：</p>
+<pre><code>Location Name ： 此处为参数设置名称，可以任意填写
+Map/Reduce Master (此处为Hadoop集群的Map/Reduce地址，应该和mapred-site.xml中的mapred.job.tracker设置相同)
+DFS Master (此处为Hadoop的master服务器地址，应该和core-site.xml中的 fs.default.name 设置相同)
+</code></pre><p>执行以下步骤：</p>
+<pre><code>dfs locations reconnected
+</code></pre><p>可以看到连接到hdfs上了已经。</p>
+<p>如果tmp目录下面出现permission denied 的问题。可以尝试两种解决方案。第一种修改用户与hadoop上的用户名一直。第二种，修改hdfs-site.xml文件，将dfs.permissions 设置为false。内容如下：</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;dfs.permissions&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><p>##四.eclipse编写wordcount程序</p>
+<pre><code>new-&gt;other-&gt;map/reduce project
+new-&gt;class-&gt;org.apache.hadoop.examples.WordCount
+new-&gt;log4j.properties
+####
+log4j.rootLogger=debug,stdout,R 
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender 
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout 
+log4j.appender.stdout.layout.ConversionPattern=%5p - %m%n 
+log4j.appender.R=org.apache.log4j.RollingFileAppender 
+log4j.appender.R.File=mapreduce_test.log 
+log4j.appender.R.MaxFileSize=1MB 
+log4j.appender.R.MaxBackupIndex=1 
+log4j.appender.R.layout=org.apache.log4j.PatternLayout 
+log4j.appender.R.layout.ConversionPattern=%p %t %c - %m%n 
+log4j.logger.com.codefutures=DEBUG 
+####
+</code></pre><p>WorldCount代码如下：<br>    package org.apache.hadoop.examples;</p>
+<pre><code>import java.io.IOException;
+import java.util.StringTokenizer;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
+
+public class WordCount {
+
+  public static class TokenizerMapper 
+   extends Mapper&lt;Object, Text, Text, IntWritable&gt;{
+
+private final static IntWritable one = new IntWritable(1);
+private Text word = new Text();
+
+public void map(Object key, Text value, Context context
+) throws IOException, InterruptedException {
+  StringTokenizer itr = new StringTokenizer(value.toString());
+  while (itr.hasMoreTokens()) {
+word.set(itr.nextToken());
+context.write(word, one);
+  }
+}
+  }
+
+  public static class IntSumReducer 
+   extends Reducer&lt;Text,IntWritable,Text,IntWritable&gt; {
+private IntWritable result = new IntWritable();
+
+public void reduce(Text key, Iterable&lt;IntWritable&gt; values, 
+   Context context
+   ) throws IOException, InterruptedException {
+  int sum = 0;
+  for (IntWritable val : values) {
+sum += val.get();
+  }
+  result.set(sum);
+  context.write(key, result);
+}
+  }
+
+  public static void main(String[] args) throws Exception {
+Configuration conf = new Configuration();
+
+String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+if (otherArgs.length != 2) {
+  System.err.println(&quot;Usage: wordcount &lt;in&gt; &lt;out&gt;&quot;);
+  System.exit(2);
+}
+Job job = new Job(conf, &quot;word count&quot;);
+job.setJarByClass(WordCount.class);
+job.setMapperClass(TokenizerMapper.class);
+job.setCombinerClass(IntSumReducer.class);
+job.setReducerClass(IntSumReducer.class);
+job.setOutputKeyClass(Text.class);
+job.setOutputValueClass(IntWritable.class);
+FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
+FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
+System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
+</code></pre><p>运行步骤：<br>run as-&gt; run conf -&gt;arguments<br>    hdfs://192.168.186.101:9000/input/w3<br>    hdfs://192.168.186.101:9000/input/out3<br>该路径为hdfs上输入文件的木和输出文件目录。输出文件目录会自动创建。（如果已经存在该目录，需要重新输入一个输出目录）</p>
+<p>运行成功</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;eclipse（4.5.2） hadoop2.7.2 开发环境配置&lt;/p&gt;
+&lt;p&gt;##一.需要的资源列表&lt;br&gt;    hadoop2.7.2&lt;br&gt;    Eclipse Version: Mars.2 Release (4.5.2)&lt;
+    
+    </summary>
+    
+      <category term="hadoop" scheme="http://yoursite.com/categories/hadoop/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop配置</title>
+    <link href="http://yoursite.com/2016/07/13/hadoop%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2016/07/13/hadoop配置/</id>
+    <published>2016-07-13T14:40:58.000Z</published>
+    <updated>2016-07-13T14:43:49.279Z</updated>
+    
+    <content type="html"><![CDATA[<p>在centos7环境下部署hadoop2.7.2<br><a id="more"></a></p>
+<p>##hadoop2.7.2 虚拟机分布式配置 ##</p>
+<h3 id="一、配置环境"><a href="#一、配置环境" class="headerlink" title="一、配置环境"></a>一、配置环境</h3><ul>
+<li>centos7 </li>
+<li>hadoop2.7.2</li>
+<li>java jdk1.7</li>
+</ul>
+<h3 id="二、修改hostname和ip"><a href="#二、修改hostname和ip" class="headerlink" title="二、修改hostname和ip"></a>二、修改hostname和ip</h3><p>配置ip地址和hostname如下所示：</p>
+<ul>
+<li>192.168.186.1 master</li>
+<li>192.168.186.2 slave1</li>
+<li>192.168.186.3 slave2</li>
+</ul>
+<p>其中配置hostname命令如下：</p>
+<pre><code>hostnamectl set -hostname master
+Hostnamectl status
+</code></pre><p>设置ip地址命令如下：</p>
+<pre><code>cd /etc/sysconfig/network-scripts
+vi ifcfg-eno16777736
+service network restart #让配置生效
+</code></pre><p>其中虚拟机选择的网络建立方式为NAT。中间出现自己定义一个静态ip，NAT又动态分配一个ip的问题。</p>
+<p>解决办法为更改虚拟机有线连接配置中，为自定义，设置为自己定义的静态ip。</p>
+<p>修改hosts文件。添加以下内容:</p>
+<pre><code>vi /etc/hosts
+
+192.168.186.1 master
+192.168.186.2 slave1
+192.168.186.3 slave2
+</code></pre><h3 id="三、安装Java-jdk"><a href="#三、安装Java-jdk" class="headerlink" title="三、安装Java jdk"></a>三、安装Java jdk</h3><p>查看是否安装openJDK.如果安装可以卸载，安装sun的JDK。</p>
+<pre><code>java -version
+rpm -qa|grep java #查看安装的openJDK的source
+rpm -e --nodeps +source #source为openjdk源
+vi /etc/profile
+export JAVA_HOME=/home/java/jdk1.7.0_79
+export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$PATH:$JAVA_HOME/bin 
+</code></pre><p>使配置生效，查看Java 版本</p>
+<pre><code>source /etc/profile
+java -version
+</code></pre><h3 id="三、关闭防火墙"><a href="#三、关闭防火墙" class="headerlink" title="三、关闭防火墙"></a>三、关闭防火墙</h3><pre><code>systemctl stop firewalld.service #停止firewall
+systemctl disable firewalld.service #禁止firewall开机启动
+</code></pre><h3 id="四、安装hadoop"><a href="#四、安装hadoop" class="headerlink" title="四、安装hadoop"></a>四、安装hadoop</h3><pre><code>tar hadoop-2.7.2.tar.gz #解压
+hadoop目录下创建数据存放的文件夹，tmp、dfs、dfs/data、dfs/name
+</code></pre><p>然后修改etc下面的配置文件。（不一一列举）</p>
+<p>修改slaves文件：</p>
+<pre><code>[root@master hadoop]# vi slaves
+[root@master hadoop]# cat slaves
+slave1
+slave2
+</code></pre><p>修改JAVA_HOME值（export JAVA_HOME=/usr/jdk1.7）：</p>
+<pre><code>[root@master hadoop]# source hadoop-env.sh
+[root@master hadoop]# source yarn-env.sh
+</code></pre><p>修改以下四个文件（具体配置内容见度娘）：</p>
+<pre><code>core-site.xml
+hdfs-site.xml
+mapred-site.xml
+yarn-site.xml
+</code></pre><p>遇到的问题：启动的时候datanode启动失败。</p>
+<p>把整个hadoop复制到slave节点：</p>
+<pre><code>sudo scp -r /usr/hadoop aboutyun@slave1:~/
+</code></pre><h3 id="五、设置无密码登录ssh"><a href="#五、设置无密码登录ssh" class="headerlink" title="五、设置无密码登录ssh"></a>五、设置无密码登录ssh</h3><p>CentOS默认没有启动ssh无密登录，去掉/etc/ssh/sshd_config其中2行的注释，每台服务器都要设置。</p>
+<pre><code>#RSAAuthentication yes
+#PubkeyAuthentication yes
+</code></pre><p>输入命令，<code>ssh-keygen -t rsa</code>，生成key，都不输入密码，一直回车，/root就会生成.ssh文件夹</p>
+<p>在Master服务器，进入/root/.ssh目录，通过SSH命令合并，</p>
+<pre><code>cat id_rsa.pub&gt;&gt; authorized_keys
+</code></pre><p>slave节点:</p>
+<p>生成rsa,将rsa.pub运城拷贝到master：</p>
+<pre><code>scp id_rsa.pub master:/root/.ssh/id_rsa.pub.s2
+</code></pre><p>主节点进行以下步骤：</p>
+<pre><code>[root@master .ssh]# cat id_rsa.pub.s1&gt;&gt;authorized_keys 
+[root@master .ssh]# cat id_rsa.pub.s2&gt;&gt;authorized_keys 
+[root@master .ssh]# cat authorized_keys 
+</code></pre><p>再将生成的复制到s1 s2：</p>
+<pre><code>scp authorized_keys slave1:/root/.ssh
+scp authorized_keys slave2:/root/.ssh
+</code></pre><p>登录测试：</p>
+<pre><code>ssh master
+ssh slave1
+</code></pre><p>在Master服务器启动hadoop，从节点会自动启动，进入/home/hadoop/hadoop-2.7.0目录。</p>
+<pre><code>bin/hdfs namenode -format
+sbin/start-all.sh，#也可以分开sbin/start-dfs.sh、sbin/start-yarn.sh
+sbin/stop-all.sh#关闭
+jps
+</code></pre><p>Web访问，要先开放端口或者直接关闭防火墙：</p>
+<pre><code>systemctl stop firewalld.service
+http://192.168.0.182:8088/
+http://192.168.0.182:50070/
+</code></pre><h3 id="五、运行wordcount"><a href="#五、运行wordcount" class="headerlink" title="五、运行wordcount"></a>五、运行wordcount</h3><pre><code>bin/hdfs dfs -mkdir /test
+bin/hdfs dfs -ls /
+bin/hdfs dfs -put /home/words /test/
+bin/hdfs dfs -ls /test/
+bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount /test/words /test/out
+bin/hdfs dfs -ls /test
+bin/hdfs dfs -ls /test/out
+bin/hadoop fs -cat /test/out/part-r-00000
+</code></pre><p>另一种hadoop命令方式</p>
+<pre><code>hadoop fs -mkdir /input
+hadoop fs -put LICENSE.txt  /input
+hadoop fs -ls /input
+hadoop fs -cat /input/LICENSE.txt
+hadoop jar /home/yy/hadoop-2.7.1/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar wordcount /input /output
+hadoop fs -ls /output
+hadoop fs -cat /output/part-r-00000
+</code></pre><p>遇到的问题。</p>
+<ul>
+<li>yarn设置内存大小</li>
+<li>put命令失败，由于ip没有配置对。</li>
+<li>也有其他原因，内存不够，多次format节点，造成id不一致等。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在centos7环境下部署hadoop2.7.2&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Hadoop" scheme="http://yoursite.com/categories/Hadoop/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mybatis</title>
+    <link href="http://yoursite.com/2016/02/25/mybatis/"/>
+    <id>http://yoursite.com/2016/02/25/mybatis/</id>
+    <published>2016-02-25T14:26:18.000Z</published>
+    <updated>2016-02-25T14:54:51.089Z</updated>
+    
+    <content type="html"><![CDATA[<p>MyBatis<br><a id="more"></a><br>1.xml映射配置文件<br>sqlMapConfig.xml</p>
+<p>setting：设置信息</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"cacheEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadingEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"multipleResultSetsEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"useColumnLabel"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"useGeneratedKeys"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"autoMappingBehavior"</span> <span class="attr">value</span>=<span class="string">"PARTIAL"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"defaultExecutorType"</span> <span class="attr">value</span>=<span class="string">"SIMPLE"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"defaultStatementTimeout"</span> <span class="attr">value</span>=<span class="string">"25"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"defaultFetchSize"</span> <span class="attr">value</span>=<span class="string">"100"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"safeRowBoundsEnabled"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"mapUnderscoreToCamelCase"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"localCacheScope"</span> <span class="attr">value</span>=<span class="string">"SESSION"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"jdbcTypeForNull"</span> <span class="attr">value</span>=<span class="string">"OTHER"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadTriggerMethods"</span> <span class="attr">value</span>=<span class="string">"equals,clone,hashCode,toString"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>typeAliases；设置别名，用来减少类完全限定名的冗余<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Author"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Author"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Blog"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Blog"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Comment"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Comment"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Post"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Post"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Section"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Section"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Tag"</span> <span class="attr">type</span>=<span class="string">"domain.blog.Tag"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>mappers 映射器<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Using classpath relative resources --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"org/mybatis/builder/AuthorMapper.xml"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"org/mybatis/builder/BlogMapper.xml"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"org/mybatis/builder/PostMapper.xml"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>2.mapper xml 文件</p>
+<p>SQL 映射文件有很少的几个顶级元素（按照它们应该被定义的顺序）：</p>
+<p>cache – 给定命名空间的缓存配置。<br>cache-ref – 其他命名空间缓存配置的引用。<br>resultMap – 是最复杂也是最强大的元素，用来描述如何从数据库结果集中来加载对象。<br>sql – 可被其他语句引用的可重用语句块。<br>insert – 映射插入语句<br>update – 映射更新语句<br>delete – 映射删除语句<br>select – 映射查询语句</p>
+<p>2.1 select<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;select</div><div class="line">  id=&quot;selectPerson&quot;</div><div class="line">  parameterType=&quot;int&quot;</div><div class="line">  parameterMap=&quot;deprecated&quot;</div><div class="line">  resultType=&quot;hashmap&quot;</div><div class="line">  resultMap=&quot;personResultMap&quot;</div><div class="line">  flushCache=&quot;false&quot;</div><div class="line">  useCache=&quot;true&quot;</div><div class="line">  timeout=&quot;10000&quot;</div><div class="line">  fetchSize=&quot;256&quot;</div><div class="line">  statementType=&quot;PREPARED&quot;</div><div class="line">  resultSetType=&quot;FORWARD_ONLY&quot;&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;selectPerson&quot; parameterType=&quot;int&quot; resultType=&quot;hashmap&quot;&gt;</div><div class="line">  SELECT * FROM PERSON WHERE ID = #&#123;id&#125;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<p>2.2 insert update delete<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;insert</div><div class="line">  id=&quot;insertAuthor&quot;</div><div class="line">  parameterType=&quot;domain.blog.Author&quot;</div><div class="line">  flushCache=&quot;true&quot;</div><div class="line">  statementType=&quot;PREPARED&quot;</div><div class="line">  keyProperty=&quot;&quot;</div><div class="line">  keyColumn=&quot;&quot;</div><div class="line">  useGeneratedKeys=&quot;&quot;</div><div class="line">  timeout=&quot;20&quot;&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;update</div><div class="line">  id=&quot;updateAuthor&quot;</div><div class="line">  parameterType=&quot;domain.blog.Author&quot;</div><div class="line">  flushCache=&quot;true&quot;</div><div class="line">  statementType=&quot;PREPARED&quot;</div><div class="line">  timeout=&quot;20&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;delete</div><div class="line">  id=&quot;deleteAuthor&quot;</div><div class="line">  parameterType=&quot;domain.blog.Author&quot;</div><div class="line">  flushCache=&quot;true&quot;</div><div class="line">  statementType=&quot;PREPARED&quot;</div><div class="line">  timeout=&quot;20&quot;&gt;</div></pre></td></tr></table></figure>
+<p>2.3 sql 定义可充用代码段</p>
+<p>2.4字符串替换</p>
+<p>#{}<br>${} 不安全</p>
+<p>2.5 resultmap</p>
+<ol>
+<li>动态sql<br>if<br>choose (when, otherwise)<br>trim (where, set)<br>foreach<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’ </div><div class="line">  &lt;if test=&quot;title != null&quot;&gt;</div><div class="line">    AND title like #&#123;title&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">  &lt;if test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">    AND author_name like #&#123;author.name&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’</div><div class="line">  &lt;choose&gt;</div><div class="line">    &lt;when test=&quot;title != null&quot;&gt;</div><div class="line">      AND title like #&#123;title&#125;</div><div class="line">    &lt;/when&gt;</div><div class="line">    &lt;when test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">      AND author_name like #&#123;author.name&#125;</div><div class="line">    &lt;/when&gt;</div><div class="line">    &lt;otherwise&gt;</div><div class="line">      AND featured = 1</div><div class="line">    &lt;/otherwise&gt;</div><div class="line">  &lt;/choose&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  &lt;where&gt; </div><div class="line">    &lt;if test=&quot;state != null&quot;&gt;</div><div class="line">         state = #&#123;state&#125;</div><div class="line">    &lt;/if&gt; </div><div class="line">    &lt;if test=&quot;title != null&quot;&gt;</div><div class="line">        AND title like #&#123;title&#125;</div><div class="line">    &lt;/if&gt;</div><div class="line">    &lt;if test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">        AND author_name like #&#123;author.name&#125;</div><div class="line">    &lt;/if&gt;</div><div class="line">  &lt;/where&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<p>bind 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文。比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;selectBlogsLike&quot; resultType=&quot;Blog&quot;&gt;</div><div class="line">  &lt;bind name=&quot;pattern&quot; value=&quot;&apos;%&apos; + _parameter.getTitle() + &apos;%&apos;&quot; /&gt;</div><div class="line">  SELECT * FROM BLOG</div><div class="line">  WHERE title LIKE #&#123;pattern&#125;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<p>4.SQL语句构建器类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">private String selectPersonSql() &#123;</div><div class="line">  return new SQL() &#123;&#123;</div><div class="line">    SELECT(&quot;P.ID, P.USERNAME, P.PASSWORD, P.FULL_NAME&quot;);</div><div class="line">    SELECT(&quot;P.LAST_NAME, P.CREATED_ON, P.UPDATED_ON&quot;);</div><div class="line">    FROM(&quot;PERSON P&quot;);</div><div class="line">    FROM(&quot;ACCOUNT A&quot;);</div><div class="line">    INNER_JOIN(&quot;DEPARTMENT D on D.ID = P.DEPARTMENT_ID&quot;);</div><div class="line">    INNER_JOIN(&quot;COMPANY C on D.COMPANY_ID = C.ID&quot;);</div><div class="line">    WHERE(&quot;P.ID = A.ID&quot;);</div><div class="line">    WHERE(&quot;P.FIRST_NAME like ?&quot;);</div><div class="line">    OR();</div><div class="line">    WHERE(&quot;P.LAST_NAME like ?&quot;);</div><div class="line">    GROUP_BY(&quot;P.ID&quot;);</div><div class="line">    HAVING(&quot;P.LAST_NAME like ?&quot;);</div><div class="line">    OR();</div><div class="line">    HAVING(&quot;P.FIRST_NAME like ?&quot;);</div><div class="line">    ORDER_BY(&quot;P.ID&quot;);</div><div class="line">    ORDER_BY(&quot;P.FULL_NAME&quot;);</div><div class="line">  &#125;&#125;.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>5.logging 日志</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MyBatis&lt;br&gt;
+    
+    </summary>
+    
+      <category term="MyBatis" scheme="http://yoursite.com/categories/MyBatis/"/>
+    
+    
+      <category term="MyBatis" scheme="http://yoursite.com/tags/MyBatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中OutOfMemoryError</title>
+    <link href="http://yoursite.com/2015/12/31/Java%E4%B8%ADOutOfMemoryError/"/>
+    <id>http://yoursite.com/2015/12/31/Java中OutOfMemoryError/</id>
+    <published>2015-12-30T16:30:12.000Z</published>
+    <updated>2015-12-30T16:36:49.549Z</updated>
+    
+    <content type="html"><![CDATA[<p>OutOfMemoryError<br><a id="more"></a><br>相信有一定java开发经验的人或多或少都会遇到OutOfMemoryError的问题，这个问题曾困扰了我很长时间，随着解决各类问题经验的积累以及对问题根源的探索，终于有了一个比较深入的认识。<br>在解决java内存溢出问题之前，需要对jvm（java虚拟机）的内存管理有一定的认识。jvm管理的内存大致包括三种不同类型的内存区域：Permanent Generation space（永久保存区域）、Heap space(堆区域)、Java Stacks(Java栈）。其中永久保存区域主要存放Class（类）和Meta的信息，Class第一次被Load的时候被放入PermGen space区域，Class需要存储的内容主要包括方法和静态属性。堆区域用来存放Class的实例（即对象），对象需要存储的内容主要是非静态属性。每次用new创建一个对象实例后，对象实例存储在堆区域中，这部分空间也被jvm的垃圾回收机制管理。而Java栈跟大多数编程语言包括汇编语言的栈功能相似，主要基本类型变量以及方法的输入输出参数。Java程序的每个线程中都有一个独立的堆栈。容易发生内存溢出问题的内存空间包括：Permanent Generation space和Heap space。</p>
+<p>第一种OutOfMemoryError： PermGen space<br>发生这种问题的原意是程序中使用了大量的jar或class，使java虚拟机装载类的空间不够，与Permanent Generation space有关。解决这类问题有以下两种办法：</p>
+<ol>
+<li>增加java虚拟机中的XX:PermSize和XX:MaxPermSize参数的大小，其中XX:PermSize是初始永久保存区域大小，XX:MaxPermSize是最大永久保存区域大小。如针对tomcat6.0，在catalina.sh 或catalina.bat文件中一系列环境变量名说明结束处（大约在70行左右） 增加一行：<br>JAVA_OPTS=” -XX:PermSize=64M -XX:MaxPermSize=128m”<br>如果是windows服务器还可以在系统环境变量中设置。感觉用tomcat发布sprint+struts+hibernate架构的程序时很容易发生这种内存溢出错误。使用上述方法，我成功解决了部署ssh项目的tomcat服务器经常宕机的问题。</li>
+<li>清理应用程序中web-inf/lib下的jar，如果tomcat部署了多个应用，很多应用都使用了相同的jar，可以将共同的jar移到tomcat共同的lib下，减少类的重复加载。这种方法是网上部分人推荐的，我没试过，但感觉减少不了太大的空间，最靠谱的还是第一种方法。</li>
+</ol>
+<p>第二种OutOfMemoryError：  Java heap space<br>发生这种问题的原因是java虚拟机创建的对象太多，在进行垃圾回收之间，虚拟机分配的到堆内存空间已经用满了，与Heap space有关。解决这类问题有两种思路：</p>
+<ol>
+<li>检查程序，看是否有死循环或不必要地重复创建大量对象。找到原因后，修改程序和算法。<br>我以前写一个使用K-Means文本聚类算法对几万条文本记录（每条记录的特征向量大约10来个）进行文本聚类时，由于程序细节上有问题，就导致了Java heap space的内存溢出问题，后来通过修改程序得到了解决。</li>
+<li>增加Java虚拟机中Xms（初始堆大小）和Xmx（最大堆大小）参数的大小。如：set JAVA_OPTS= -Xms256m -Xmx1024m</li>
+<li><strong>我遇到的问题是是由于在资源上读取一个文件，将其转换成对象，导致溢出，所以要设置tomact内存的大小.。在eclipse里面设置。debug as -&gt; debug configurations -&gt;tomact(项目部署的tomact) VM arguments -&gt;添加-Xms256m -Xmx1024m</strong></li>
+</ol>
+<p>第三种OutOfMemoryError：unable to create new native thread<br>这种错误在Java线程个数很多的情况下容易发生，我暂时还没遇到过，发生原意和解决办法可以参考：<a href="http://hi.baidu.com/hexiong/blog/item/16dc9e518fb10c2542a75b3c.html" target="_blank" rel="external">http://hi.baidu.com/hexiong/blog/item/16dc9e518fb10c2542a75b3c.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;OutOfMemoryError&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pressure</title>
+    <link href="http://yoursite.com/2015/12/31/Pressure/"/>
+    <id>http://yoursite.com/2015/12/31/Pressure/</id>
+    <published>2015-12-30T16:26:38.000Z</published>
+    <updated>2015-12-30T16:28:06.439Z</updated>
+    
+    <content type="html"><![CDATA[<p>有种无力感。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有种无力感。&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>simpleEmail</title>
+    <link href="http://yoursite.com/2015/12/09/simpleEmail/"/>
+    <id>http://yoursite.com/2015/12/09/simpleEmail/</id>
+    <published>2015-12-09T11:36:02.000Z</published>
+    <updated>2015-12-09T15:37:51.439Z</updated>
+    
+    <content type="html"><![CDATA[<p>simpleEmail实现邮件发送<br><a id="more"></a><br>需要的包<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">commons-email-<span class="number">1.4</span></div><div class="line">mail</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.mail;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> 吕云鹏</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MailService</span> </span>&#123;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 发送邮件</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> from</div><div class="line">	 *            发件人</div><div class="line">	 * <span class="doctag">@param</span> to</div><div class="line">	 *            收件人</div><div class="line">	 * <span class="doctag">@param</span> title</div><div class="line">	 *            标题</div><div class="line">	 * <span class="doctag">@param</span> msg</div><div class="line">	 *            正文</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String from, String to, String title, String msg)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.mail;</div><div class="line"><span class="keyword">import</span> org.apache.commons.mail.EmailException;</div><div class="line"><span class="keyword">import</span> org.apache.commons.mail.SimpleEmail;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> 吕云鹏</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailServiceImpl</span> <span class="keyword">implements</span> <span class="title">MailService</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String host = <span class="string">"smtp.163.com"</span>;</div><div class="line">	<span class="keyword">private</span> String username = <span class="string">"****"</span>;</div><div class="line">	<span class="keyword">private</span> String password = <span class="string">"****"</span>;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String from, String to, String title, String msg)</span></span></div><div class="line">			<span class="keyword">throws</span> EmailException &#123;</div><div class="line">		SimpleEmail email = <span class="keyword">new</span> SimpleEmail();</div><div class="line">		email.setHostName(host); <span class="comment">// 设置邮件服务</span></div><div class="line">		email.setAuthentication(username, password);<span class="comment">// 登陆邮件服务</span></div><div class="line">		email.setCharset(<span class="string">"UTF-8"</span>);</div><div class="line">		<span class="comment">//email.setFrom(from, "ibm_test");</span></div><div class="line">		email.setFrom(from);</div><div class="line">		email.addTo(to);</div><div class="line">		email.setSubject(title);<span class="comment">// 设置标题</span></div><div class="line">		email.setMsg(msg);<span class="comment">// 设置正文</span></div><div class="line">		email.send();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		MailServiceImpl impl = <span class="keyword">new</span> MailServiceImpl();</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			impl.sendMail(<span class="string">"***"</span>, <span class="string">"***"</span>, <span class="string">"about workflow"</span>, <span class="string">"请完成工作任务"</span>);</div><div class="line">			System.out.println(<span class="string">"邮件发送成功"</span>);</div><div class="line">		&#125; <span class="keyword">catch</span> (EmailException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;simpleEmail实现邮件发送&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="邮件服务" scheme="http://yoursite.com/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库SQL优化大总结之百万级数据库优化方案</title>
+    <link href="http://yoursite.com/2015/11/30/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E4%BC%98%E5%8C%96%E5%A4%A7%E6%80%BB%E7%BB%93%E4%B9%8B%E7%99%BE%E4%B8%87%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2015/11/30/数据库SQL优化大总结之百万级数据库优化方案/</id>
+    <published>2015-11-30T15:52:50.000Z</published>
+    <updated>2015-12-09T15:38:37.071Z</updated>
+    
+    <content type="html"><![CDATA[<p>数据库SQL优化大总结之百万级数据库优化方案<br><a id="more"></a><br>1.对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。</p>
+<p>2.应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num is null</div></pre></td></tr></table></figure></p>
+<p>最好不要给数据库留NULL，尽可能的使用 NOT NULL填充数据库.</p>
+<p>备注、描述、评论之类的可以设置为 NULL，其他的，最好不要使用NULL。</p>
+<p>不要以为 NULL 不需要空间，比如：char(100) 型，在字段建立时，空间就固定了， 不管是否插入值（NULL也包含在内），都是占用 100个字符的空间的，如果是varchar这样的变长字段， null 不占用空间。</p>
+<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 0</div></pre></td></tr></table></figure></p>
+<p>3.应尽量避免在 where 子句中使用 != 或 &lt;&gt; 操作符，否则将引擎放弃使用索引而进行全表扫描。</p>
+<p>4.应尽量避免在 where 子句中使用 or 来连接条件，如果一个字段有索引，一个字段没有索引，将导致引擎放弃使用索引而进行全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num=10 or Name = &apos;admin&apos;</div></pre></td></tr></table></figure></p>
+<p>可以这样查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 10</div><div class="line">union all</div><div class="line">select id from t where Name = &apos;admin&apos;</div></pre></td></tr></table></figure></p>
+<p>5.in 和 not in 也要慎用，否则会导致全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num in(1,2,3)</div></pre></td></tr></table></figure></p>
+<p>对于连续的数值，能用 between 就不要用 in 了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num between 1 and 3</div></pre></td></tr></table></figure></p>
+<p>很多时候用 exists 代替 in 是一个好的选择：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select num from a where num in(select num from b)</div></pre></td></tr></table></figure></p>
+<p>用下面的语句替换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select num from a where exists(select 1 from b where num=a.num)</div></pre></td></tr></table></figure></p>
+<p>6.下面的查询也将导致全表扫描：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where name like ‘%abc%’</div></pre></td></tr></table></figure></p>
+<p>若要提高效率，可以考虑全文检索。</p>
+<p>7.如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = @num</div></pre></td></tr></table></figure></p>
+<p>可以改为强制查询使用索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t with(index(索引名)) where num = @num</div></pre></td></tr></table></figure></p>
+<p>.应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num/2 = 100</div></pre></td></tr></table></figure></p>
+<p>应改为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 100*2</div></pre></td></tr></table></figure></p>
+<p>9.应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select id from t where substring(name,1,3) = ’abc’       -–name以abc开头的id</div><div class="line">select id from t where datediff(day,createdate,’2005-11-30′) = 0    -–‘2005-11-30’    --生成的id</div></pre></td></tr></table></figure></p>
+<p>应改为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select id from t where name like &apos;abc%&apos;</div><div class="line">select id from t where createdate &gt;= &apos;2005-11-30&apos; and createdate &lt; &apos;2005-12-1&apos;</div></pre></td></tr></table></figure></p>
+<p>10.不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
+<p>11.在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使用，并且应尽可能的让字段顺序与索引顺序相一致。</p>
+<p>12.不要写一些没有意义的查询，如需要生成一个空表结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select col1,col2 into #t from t where 1=0</div></pre></td></tr></table></figure></p>
+<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create table #t(…)</div></pre></td></tr></table></figure></p>
+<p>13.Update 语句，如果只更改1、2个字段，不要Update全部字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志。</p>
+<p>14.对于多张大数据量（这里几百条就算大了）的表JOIN，要先分页再JOIN，否则逻辑读会很高，性能很差。</p>
+<p>15.这样不带任何条件的count会引起全表扫描，并且没有任何业务意义，是一定要杜绝的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select count(*) from table；</div></pre></td></tr></table></figure></p>
+<p>16.索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
+<p>17.应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
+<p>18.尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连 接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
+<p>19.尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
+<p>20.任何地方都不要使用 select <em> from t ，用具体的字段列表代替“</em>”，不要返回用不到的任何字段。</p>
+<p>21.尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
+<p>22.避免频繁创建和删除临时表，以减少系统表资源的消耗。临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件， 最好使用导出表。</p>
+<p>23.在新建临时表时，如果一次性插入数据量很大，那么可以使用 select into 代替 create table，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先create table，然后insert。</p>
+<p>24.如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p>
+<p>25.尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
+<p>26.使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
+<p>27.与临时表一样，游标并不是不可使用。对小型数据集使用 FAST_FORWARD 游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
+<p>28.在所有的存储过程和触发器的开始处设置 SET NOCOUNT ON ，在结束时设置 SET NOCOUNT OFF 。无需在执行存储过程和触发器的每个语句后向客户端发送 DONE_IN_PROC 消息。</p>
+<p>29.尽量避免大事务操作，提高系统并发能力。</p>
+<p>30.尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
+<p>实际案例分析：拆分大的 DELETE 或INSERT 语句，批量提交SQL语句<br>    　　如果你需要在一个在线的网站上去执行一个大的 DELETE 或 INSERT         查询，你需要非常小心，要避免你的操作让你的整个网站停止相应。因为这两个操作是会锁表的，表一锁住了，别的操作都进不来了。<br>    　　Apache 会有很多的子进程或线程。所以，其工作起来相当有效率，而我们的服务器也不希望有太多的子进程，线程和数据库链接，这是极大的占服务器资源的事情，尤其是内存。<br>    　　如果你把你的表锁上一段时间，比如30秒钟，那么对于一个有很高访问量的站点来说，这30秒所积累的访问进程/线程，数据库链接，打开的文件数，可能不仅仅会让你的WEB服务崩溃，还可能会让你的整台服务器马上挂了。所以，如果你有一个大的处理，你一定把其拆分，使用 LIMIT oracle(rownum),sqlserver(top)条件是一个好的方法。<br>    　　下面是一个mysql示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">while(1)&#123;</div><div class="line"> 　　//每次只做1000条</div><div class="line">　　 mysql_query(“delete from logs where log_date &lt;= ’2012-11-01’ limit 1000”);</div><div class="line"> 　　if(mysql_affected_rows() == 0)&#123;</div><div class="line">　　 　　//删除完成，退出！</div><div class="line">　　 　　break；</div><div class="line">　　&#125;</div><div class="line">//每次暂停一段时间，释放表让其他进程/线程访问。</div><div class="line">usleep(50000)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;数据库SQL优化大总结之百万级数据库优化方案&lt;br&gt;
+    
+    </summary>
+    
+      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
+    
+    
+      <category term="SQL优化" scheme="http://yoursite.com/tags/SQL%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>quartz in web</title>
+    <link href="http://yoursite.com/2015/11/27/web/"/>
+    <id>http://yoursite.com/2015/11/27/web/</id>
+    <published>2015-11-27T12:39:32.000Z</published>
+    <updated>2015-12-09T15:38:09.300Z</updated>
+    
+    <content type="html"><![CDATA[<p>##quartz在web的配置<br><a id="more"></a><br><strong>1. jar包</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">commons-collections.jar</div><div class="line">commons-logging-<span class="number">1.0</span>.4.jar</div><div class="line">log4j-<span class="number">1.2</span>.15.jar</div><div class="line">quartz-all-<span class="number">1.6</span>.1.jar</div><div class="line">slf4j-api-<span class="number">1.5</span>.6.jar</div><div class="line">slf4j-log4j12-<span class="number">1.5</span>.6.jar</div></pre></td></tr></table></figure>
+<p><strong>2. 配置web.xml</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span>    </div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span> Listener.QuartzSchedulerListener <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>备注：Listener.QuartzSchedulerListener实现 ServletContextListene接口。并实现继承的方法。</p>
+<p><strong>3. java方法（1、SchedulerTask ，2、SchedulerJob，3、QuartzSchedulerListener  ）</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.Job;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext arg0)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</div><div class="line">		System.out.println(<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>).format(<span class="keyword">new</span> Date())+ <span class="string">"★★★★★★★★★★★"</span>);  </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@Description</span>: </div><div class="line"> *</div><div class="line"> * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line"> * <span class="doctag">@Package</span> com.joyce.quartz</div><div class="line"> * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Comsys-LZP</div><div class="line"> * <span class="doctag">@date</span> 2014-6-26 下午03:15:52</div><div class="line"> * <span class="doctag">@version</span> V2.0</div><div class="line"> */</div><div class="line"><span class="keyword">package</span> com.joyce.quartz;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.CronTrigger;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SchedulerFactory;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@Description</span>: 定时任务管理类</div><div class="line"> * </div><div class="line"> * <span class="doctag">@ClassName</span>: QuartzManager</div><div class="line"> * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> Comsys-LZP</div><div class="line"> * <span class="doctag">@date</span> 2014-6-26 下午03:15:52</div><div class="line"> * <span class="doctag">@version</span> V2.0</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzManager</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SchedulerFactory gSchedulerFactory = <span class="keyword">new</span> StdSchedulerFactory();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> String JOB_GROUP_NAME = <span class="string">"EXTJWEB_JOBGROUP_NAME"</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> String TRIGGER_GROUP_NAME = <span class="string">"EXTJWEB_TRIGGERGROUP_NAME"</span>;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 添加一个定时任务，使用默认的任务组名，触发器名，触发器组名</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 *            任务名</div><div class="line">	 * <span class="doctag">@param</span> cls</div><div class="line">	 *            任务</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 *            时间设置，参考quartz说明文档</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:47:44</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addJob</span><span class="params">(String jobName, Class cls, String time)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			JobDetail jobDetail = <span class="keyword">new</span> JobDetail(jobName, JOB_GROUP_NAME, cls);<span class="comment">// 任务名，任务组，任务执行类</span></div><div class="line">			<span class="comment">// 触发器</span></div><div class="line">			CronTrigger trigger = <span class="keyword">new</span> CronTrigger(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 触发器名,触发器组</span></div><div class="line">			trigger.setCronExpression(time);<span class="comment">// 触发器时间设定</span></div><div class="line">			sched.scheduleJob(jobDetail, trigger);</div><div class="line">			<span class="comment">// 启动</span></div><div class="line">			<span class="keyword">if</span> (!sched.isShutdown()) &#123;</div><div class="line">				sched.start();</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 添加一个定时任务</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 *            任务名</div><div class="line">	 * <span class="doctag">@param</span> jobGroupName</div><div class="line">	 *            任务组名</div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 *            触发器名</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 *            触发器组名</div><div class="line">	 * <span class="doctag">@param</span> jobClass</div><div class="line">	 *            任务</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 *            时间设置，参考quartz说明文档</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:48:15</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addJob</span><span class="params">(String jobName, String jobGroupName,</span></span></div><div class="line">			String triggerName, String triggerGroupName, Class jobClass,</div><div class="line">			String time) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			JobDetail jobDetail = <span class="keyword">new</span> JobDetail(jobName, jobGroupName, jobClass);<span class="comment">// 任务名，任务组，任务执行类</span></div><div class="line">			<span class="comment">// 触发器</span></div><div class="line">			CronTrigger trigger = <span class="keyword">new</span> CronTrigger(triggerName, triggerGroupName);<span class="comment">// 触发器名,触发器组</span></div><div class="line">			trigger.setCronExpression(time);<span class="comment">// 触发器时间设定</span></div><div class="line">			sched.scheduleJob(jobDetail, trigger);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 修改一个任务的触发时间(使用默认的任务组名，触发器名，触发器组名)</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:21</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyJobTime</span><span class="params">(String jobName, String time)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			CronTrigger trigger = (CronTrigger) sched.getTrigger(jobName,TRIGGER_GROUP_NAME);</div><div class="line">			<span class="keyword">if</span> (trigger == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">			String oldTime = trigger.getCronExpression();</div><div class="line">			<span class="keyword">if</span> (!oldTime.equalsIgnoreCase(time)) &#123;</div><div class="line">				JobDetail jobDetail = sched.getJobDetail(jobName,JOB_GROUP_NAME);</div><div class="line">				Class objJobClass = jobDetail.getJobClass();</div><div class="line">				removeJob(jobName);</div><div class="line">				addJob(jobName, objJobClass, time);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 修改一个任务的触发时间</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:37</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyJobTime</span><span class="params">(String triggerName,</span></span></div><div class="line">			String triggerGroupName, String time) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			CronTrigger trigger = (CronTrigger) sched.getTrigger(triggerName,triggerGroupName);</div><div class="line">			<span class="keyword">if</span> (trigger == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">			String oldTime = trigger.getCronExpression();</div><div class="line">			<span class="keyword">if</span> (!oldTime.equalsIgnoreCase(time)) &#123;</div><div class="line">				CronTrigger ct = (CronTrigger) trigger;</div><div class="line">				<span class="comment">// 修改时间</span></div><div class="line">				ct.setCronExpression(time);</div><div class="line">				<span class="comment">// 重启触发器</span></div><div class="line">				sched.resumeTrigger(triggerName, triggerGroupName);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 移除一个任务(使用默认的任务组名，触发器名，触发器组名)</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:51</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeJob</span><span class="params">(String jobName)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.pauseTrigger(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 停止触发器</span></div><div class="line">			sched.unscheduleJob(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 移除触发器</span></div><div class="line">			sched.deleteJob(jobName, JOB_GROUP_NAME);<span class="comment">// 删除任务</span></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 移除一个任务</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * <span class="doctag">@param</span> jobGroupName</div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:01</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeJob</span><span class="params">(String jobName, String jobGroupName,</span></span></div><div class="line">			String triggerName, String triggerGroupName) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.pauseTrigger(triggerName, triggerGroupName);<span class="comment">// 停止触发器</span></div><div class="line">			sched.unscheduleJob(triggerName, triggerGroupName);<span class="comment">// 移除触发器</span></div><div class="line">			sched.deleteJob(jobName, jobGroupName);<span class="comment">// 删除任务</span></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>:启动所有定时任务</div><div class="line">	 * </div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:18</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">startJobs</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.start();</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>:关闭所有定时任务</div><div class="line">	 * </div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:26</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shutdownJobs</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			<span class="keyword">if</span> (!sched.isShutdown()) &#123;</div><div class="line">				sched.shutdown();</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.text.ParseException;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletContextEvent;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletContextListener;</div><div class="line"><span class="keyword">import</span> org.quartz.CronTrigger;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SchedulerException;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> Quartz.SchedulerJob;</div><div class="line"><span class="keyword">import</span> Quartz.SchedulerTask;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzSchedulerListener</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span></span>&#123; </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent arg0)</span> </span>&#123; </div><div class="line">	<span class="comment">//銷毀任務</span></div><div class="line">	<span class="comment">//調用QuartzManager裡面的方法（一種辦法）</span></div><div class="line">	 &#125; </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent arg0)</span> </span>&#123; </div><div class="line">	<span class="comment">//初始化任務</span></div><div class="line">	</div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##quartz在web的配置&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
+    
+    
+      <category term="quartz" scheme="http://yoursite.com/tags/quartz/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Calendar</title>
+    <link href="http://yoursite.com/2015/11/24/Calendar/"/>
+    <id>http://yoursite.com/2015/11/24/Calendar/</id>
+    <published>2015-11-24T15:13:04.000Z</published>
+    <updated>2015-12-09T15:36:59.600Z</updated>
+    
+    <content type="html"><![CDATA[<p>java中Calendar的使用方法<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.outofmemory.codes.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Calendar;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalendarDemo</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     Calendar calendar=Calendar.getInstance();</div><div class="line">     calendar.setTime(<span class="keyword">new</span> Date());</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+<span class="keyword">new</span> Date());</div><div class="line">     String year=String.valueOf(calendar.get(Calendar.YEAR));</div><div class="line">     String month=String.valueOf(calendar.get(Calendar.MONTH)+<span class="number">1</span>);</div><div class="line">     String day=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));</div><div class="line">     String week=String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)-<span class="number">1</span>);</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+year+<span class="string">"年"</span>+month+<span class="string">"月"</span>+day+<span class="string">"日，星期"</span>+week);</div><div class="line">     <span class="keyword">long</span> year2009=calendar.getTimeInMillis();</div><div class="line">     calendar.set(<span class="number">1989</span>,<span class="number">9</span>,<span class="number">26</span>);<span class="comment">//这里与真实的月份之间相差1</span></div><div class="line">     <span class="keyword">long</span> year1989=calendar.getTimeInMillis();</div><div class="line">     <span class="keyword">long</span> days=(year2009-year1989)/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</div><div class="line">     System.out.println(<span class="string">"今天和1989年10月26日相隔"</span>+days+<span class="string">"天，"</span>+<span class="string">"也就是说我在这个美丽的星球上已经幸福的生活了"</span>+days+<span class="string">"天。"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Calendar类的静态方法getInstance()可以初始化一个日历对象:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Calendar now = Calendar.getInstance();</div></pre></td></tr></table></figure></p>
+<p>可以使用下面三个方法把日历定到任何一个时间：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute,<span class="keyword">int</span> second)</div></pre></td></tr></table></figure></p>
+<p>如果想获得年份、月份、小时等信息可以使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Now.get(Calendar.Month) <span class="comment">//这样的方法 0表示一月，1表示二月</span></div><div class="line">get(Calendar.DAY_OF_MONTH)<span class="comment">//获得这个月的第几天</span></div><div class="line">get(Calendar.DAY_OF_WEEK)<span class="comment">//获得这个星期的第几天</span></div><div class="line">get(Calendar.DAY_OF_YEAR)<span class="comment">//获得这个年的第几天</span></div><div class="line">getTimeMillis()<span class="comment">//获得当前时间的毫秒表示</span></div></pre></td></tr></table></figure></p>
+<p>如下是Calendar类方法简介</p>
+<pre><code> abstract void add(int field, int amount) 根据日历的规则，为给定的日历字段添加或减去指定的时间量。   
+ boolean after(Object when) 判断此 Calendar 表示的时间是否在指定 Object表示的时间之后，返回判断结果。 
+ boolean before(Object when)  判断此 Calendar 表示的时间是否在指定 Object表示的时间之前，返回判断结果。 
+ void clear() 将此 Calendar的所日历字段值和时间值（从历元至现在的毫秒偏移量）设置成未定义。 
+ void clear(int field)  将此 Calendar的给定日历字段值和时间值（从历元至现在的毫秒偏移量）设置成未定义。
+ Object clone() 创建并返回此对象的一个副本。 
+ int compareTo(Calendar anotherCalendar)  比较两个 Calendar对象表示的时间值（从历元至现在的毫秒偏移量）。 
+ protected void complete() 填充日历字段中所有未设置的字段。
+ protected abstract void computeFields() 将当前毫秒时间值 time 转换为 fields[]中的日历字段值。
+ protected abstract void computeTime() 将 fields[] 中的当前日历字段值转换为毫秒时间值    time。 
+ boolean equals(Object obj)  将此 Calendar 与指定 Object 比较。 
+ int get(int field)返回给定日历字段的值。 
+ int getActualMaximum(int field)给定此 Calendar 的时间值，返回指定日历字段可能拥有的最大值。
+ int getActualMinimum(int field)给定此 Calendar 的时间值，返回指定日历字段可能拥有的最小值。 
+ static Locale[] getAvailableLocales()返回所有语言环境的数组，此类的 getInstance方法可以为其返回本地化的实例。 
+ String getDisplayName(int field, int style, Locale locale) 返回给定 style和locale下的日历 field 值的字符串表示形式。 
+ Map&lt;String,Integer&gt; getDisplayNames(int field, int style, Locale locale) 返回给定 style 和 locale 下包含日历 field 所有名称的 Map 及其相应字段值。
+int getFirstDayOfWeek()获取一星期的第一天；例如，在美国，这一天是 SUNDAY，而在法国，这一天是 MONDAY。
+abstract int getGreatestMinimum(int field)返回此 Calendar实例给定日历字段的最高的最小值。 
+static Calendar getInstance() 使用默认时区和语言环境获得一个日历。 
+static Calendar getInstance(Locale aLocale) 使用默认时区和指定语言环境获得一个日历。 
+static Calendar getInstance(TimeZone zone) 使用指定时区和默认语言环境获得一个日历。 
+static Calendar getInstance(TimeZone zone, Locale aLocale)    使用指定时区和语言环境获得一个日历。
+abstract int getLeastMaximum(int field) 返回此Calendar实例给定日历字段的最低的最大值。
+abstract int getMaximum(int field) 返回此 Calendar 实例给定日历字段的最大值。 
+int getMinimalDaysInFirstWeek()获取一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则此方法将返回 1。 
+ abstract int getMinimum(int field) 返回此 Calendar 实例给定日历字段的最小值。
+Date getTime()返回一个表示此 Calendar 时间值（从历元至现在的毫秒偏移量）的 Date 对象。
+long getTimeInMillis()返回此 Calendar 的时间值，以毫秒为单位。 
+TimeZone getTimeZone()获得时区。 int hashCode()返回该此日历的哈希码。 
+protected int internalGet(int field)返回给定日历字段的值。 
+boolean isLenient()判断日期/时间的解释是否为宽松的。 
+boolean isSet(int field) 确定给定日历字段是否已经设置了一个值，其中包括因为调用 get方法触发内部字段计算而导致已经设置该值的情况。 
+abstract void roll(int field, boolean up)    在给定的时间字段上添加或减去（上/下）单个时间单元，不更改更大的字段。 
+void roll(int field, int amount) 向指定日历字段添加指定（有符号的）时间量，不更改更大的字段。 
+void set(int field, int value) 将给定的日历字段设置为给定值。
+void set(int year, int month, int date) 设置日历字段 YEAR、MONTH 和 DAY_OF_MONTH 的值。
+void set(int year, int month, int date, int hourOfDay, int minute)设置日历字段 YEAR、MONTH、DAY_OF_MONTH、HOUR_OF_DAY 和 MINUTE 的值。 
+void set(int year, int month, int date, int hourOfDay, int minute, int second) 设置字段 YEAR、MONTH、DAY_OF_MONTH、HOUR、MINUTE 和    SECOND 的值。
+void setFirstDayOfWeek(int value) 设置一星期的第一天是哪一天；例如，在美国，这一天是SUNDAY，而在法国，这一天是 MONDAY。 
+void setLenient(boolean lenient) 指定日期/时间解释是否是宽松的。 
+void setMinimalDaysInFirstWeek(int value)设置一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则使用值 1 调用此方法。 
+void setTime(Date date) 使用给定的 Date 设置此 Calendar 的时间。 
+void setTimeInMillis(long millis) 用给定的 long 值设置此 Calendar 的当前时间值。
+void setTimeZone(TimeZone value) 使用给定的时区值来设置时区。 
+String toString() 返回此日历的字符串表示形式
+</code></pre><h2 id="Calendar的常用方法示例"><a href="#Calendar的常用方法示例" class="headerlink" title="Calendar的常用方法示例"></a>Calendar的常用方法示例</h2><p>1、计算某一月份的最大天数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Calendar time=Calendar.getInstance(); </div><div class="line">time.clear(); </div><div class="line">time.set(Calendar.YEAR,year); </div><div class="line">time.set(Calendar.MONTH,i-<span class="number">1</span>);<span class="comment">//注意,Calendar对象默认一月为0             </span></div><div class="line"><span class="keyword">int</span> day=time.getActualMaximum(Calendar.DAY_OF_MONTH);<span class="comment">//本月份的天数</span></div></pre></td></tr></table></figure></p>
+<p>注：在使用set方法之前，必须先clear一下，否则很多信息会继承自系统当前时间</p>
+<p>2、Calendar和Date的转化</p>
+<p>(1) Calendar转化为Date<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">Date date=cal.getTime();</div></pre></td></tr></table></figure></p>
+<p>(2) Date转化为Calendar<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Date date=<span class="keyword">new</span> Date();</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.setTime(date);</div></pre></td></tr></table></figure></p>
+<p>3、格式化输出日期时间<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Date date=<span class="keyword">new</span> Date();</div><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd hh:mm:ss"</span>);</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
+<p>4、计算一年中的第几星期</p>
+<p>(1)计算某一天是一年中的第几星期<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line"><span class="keyword">int</span> weekno=cal.get(Calendar.WEEK_OF_YEAR);</div></pre></td></tr></table></figure></p>
+<p>(2)计算一年中的第几星期是几号<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.WEEK_OF_YEAR, <span class="number">1</span>);</div><div class="line">cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);</div><div class="line">System.out.println(df.format(cal.getTime()));</div></pre></td></tr></table></figure></p>
+<p>输出:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">01</span>-<span class="number">02</span></div></pre></td></tr></table></figure></p>
+<p>5、add()和roll()的用法</p>
+<p>(1) add()方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line">cal.add(Calendar.DATE, -<span class="number">4</span>);</div><div class="line">Date date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div><div class="line">cal.add(Calendar.DATE, <span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">08</span>-<span class="number">30</span></div><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">03</span></div></pre></td></tr></table></figure></p>
+<p>(2)roll方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line">cal.roll(Calendar.DATE, -<span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div><div class="line">cal.roll(Calendar.DATE, <span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">29</span></div><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">03</span></div></pre></td></tr></table></figure></p>
+<p>可见，roll()方法在本月内循环，一般使用add()方法；</p>
+<p>6、计算两个任意时间中间的间隔天数</p>
+<p>(1)传进Calendar对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">/</div><div class="line">**计算两个时间之间相隔天数</div><div class="line"> * <span class="meta">@param</span> startday  开始时间</div><div class="line"> * <span class="meta">@param</span> endday 结束时间</div><div class="line"> * <span class="meta">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIntervalDays</span><span class="params">(Calendar startday,Calendar endday)</span></span>&#123;</div><div class="line">    <span class="comment">//确保startday在endday之前</span></div><div class="line">    <span class="keyword">if</span>(startday.after(endday))&#123;</div><div class="line">        Calendar cal=startday;</div><div class="line">        startday=endday;</div><div class="line">        endday=cal;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//分别得到两个时间的毫秒数</span></div><div class="line">    <span class="keyword">long</span> sl=startday.getTimeInMillis();</div><div class="line">    <span class="keyword">long</span> el=endday.getTimeInMillis();</div><div class="line"></div><div class="line">    <span class="keyword">long</span> ei=el-sl;    </div><div class="line">    <span class="comment">//根据毫秒数计算间隔天数</span></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(ei/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>(2)传进Date对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**计算两个时间之间相隔天数</span></div><div class="line"> * <span class="doctag">@param</span> startday  开始时间</div><div class="line"> * <span class="doctag">@param</span> endday 结束时间</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIntervalDays</span><span class="params">(Date startday,Date endday)</span></span>&#123;</div><div class="line">    <span class="comment">//确保startday在endday之前</span></div><div class="line">    <span class="keyword">if</span>(startday.after(endday))&#123;</div><div class="line">        Date cal=startday;</div><div class="line">        startday=endday;</div><div class="line">        endday=cal;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//分别得到两个时间的毫秒数</span></div><div class="line">    <span class="keyword">long</span> sl=startday.getTime();</div><div class="line">    <span class="keyword">long</span> el=endday.getTime();</div><div class="line"></div><div class="line">    <span class="keyword">long</span> ei=el-sl;    </div><div class="line">    <span class="comment">//根据毫秒数计算间隔天数</span></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(ei/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>同理，可以用相同的方法计算出任意两个时间相隔的小时数，分钟数，秒钟数等</p>
+<p>注：以上方法是完全按时间计算，有时并不能令人满意，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">startday=<span class="string">"2006-10-11 20:00:00"</span> endday=<span class="string">"2006-10-12 8:00:00"</span></div></pre></td></tr></table></figure></p>
+<p>计算结果为0，但是我们也许相让计算结果变为1，此时可以用如下方法实现：</p>
+<p>在传参之前，先设定endday的时间，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">endday.set(Calendar.HOUR_OF_DAY, <span class="number">23</span>);</div><div class="line">endday.set(Calendar.MINUTE, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.SECOND, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.MILLISECOND, <span class="number">59</span>);</div></pre></td></tr></table></figure></p>
+<p>这样再传进去startday,endday，则结果就如我们所愿了。不过，如果嫌以上方法麻烦，可以参考以下方法：</p>
+<p>(3)改进精确计算相隔天数的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDaysBetween</span> <span class="params">(Calendar d1, Calendar d2)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (d1.after(d2)) &#123;  <span class="comment">// swap dates so that d1 is start and d2 is end</span></div><div class="line">        java.util.Calendar swap = d1;</div><div class="line">        d1 = d2;</div><div class="line">        d2 = swap;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> days = d2.get(Calendar.DAY_OF_YEAR) - d1.get(Calendar.DAY_OF_YEAR);</div><div class="line">    <span class="keyword">int</span> y2 = d2.get(Calendar.YEAR);</div><div class="line">    <span class="keyword">if</span> (d1.get(Calendar.YEAR) != y2) &#123;</div><div class="line">        d1 = (Calendar) d1.clone();</div><div class="line">        do &#123;</div><div class="line">            days += d1.getActualMaximum(Calendar.DAY_OF_YEAR);<span class="comment">//得到当年的实际天数</span></div><div class="line">            d1.add(Calendar.YEAR, <span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">while</span> (d1.get(Calendar.YEAR) != y2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> days;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;java中Calendar的使用方法&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
+    
+    
+      <category term="Calendar" scheme="http://yoursite.com/tags/Calendar/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JSONObject</title>
+    <link href="http://yoursite.com/2015/11/23/JSONObject/"/>
+    <id>http://yoursite.com/2015/11/23/JSONObject/</id>
+    <published>2015-11-23T11:32:48.000Z</published>
+    <updated>2015-12-09T15:37:30.157Z</updated>
+    
+    <content type="html"><![CDATA[<p>JSONObject<br><a id="more"></a><br>1.public Object put (Object key, Object value)<br>将value映射到key下。如果此JSONObject对象之前存在一个value在这个key下，当前的value会替换掉之前的value<br>Associates the specified value with the specified key in this map(optional operation). If the map previously contained . a mapping for this key, the old value is replaced by the specified value. (A map m is said to contain a mapping for a key k if and only if m.containsKey(k) would return true .))</p>
+<p>2.public JSONObject accumulate (String key, Object value) 累积value到这个key下。这个方法同element()方法类似，特殊的是，如果当前已经存在一个value在这个key下那么一个JSONArray将会存储在这个key下来保存所有累积的value。如果已经存在一个JSONArray，那么当前的value就会添加到这个JSONArray中<br>。相比之下replace方法会替代先前的value<br>Accumulate values under a key. It is similar to the element method except that if there is already an object stored<br>under the key then a JSONArray is stored under the key to hold all of the accumulated values. If there is already a<br>JSONArray, then the new value is appended to it. In contrast, the replace method replaces the previous value.</p>
+<p>3.public JSONObject element (String key, Object value) 将键/值对放到这个JSONObject对象里面。如果当前value为空(null)，那么如果这个key存在的话，这个key就会移除掉。如果这<br>个key之前有value值，那么此方法会调用accumulate()方法。<br>Put a key/value pair in the JSONObject. If the value is null, then the key will be removed from the JSONObject if it is<br>present. If there is a previous value assigned to the key, it will call accumulate.</p>
+<p>转载：<a href="http://blog.csdn.net/z69183787/article/details/18655143" target="_blank" rel="external">http://blog.csdn.net/z69183787/article/details/18655143</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;JSONObject&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JSON" scheme="http://yoursite.com/categories/JSON/"/>
+    
+    
+      <category term="JSONObject" scheme="http://yoursite.com/tags/JSONObject/"/>
+    
+      <category term="put" scheme="http://yoursite.com/tags/put/"/>
+    
+      <category term="accumulate" scheme="http://yoursite.com/tags/accumulate/"/>
+    
+      <category term="element" scheme="http://yoursite.com/tags/element/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何声明数组及push,pop,shift,unshift操作</title>
+    <link href="http://yoursite.com/2015/11/21/%E5%A6%82%E4%BD%95%E5%A3%B0%E6%98%8E%E6%95%B0%E7%BB%84%E5%8F%8Apush-pop-shift-unshift%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2015/11/21/如何声明数组及push-pop-shift-unshift操作/</id>
+    <published>2015-11-21T08:47:25.000Z</published>
+    <updated>2015-11-21T09:19:05.514Z</updated>
+    
+    <content type="html"><![CDATA[<p>#如何声明数组及push,pop,shift,unshift操作<br><a id="more"></a></p>
+<p>###一、js中数组的声明可以有几种方式声明<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [];  <span class="comment">// 简写模式</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(); <span class="comment">// 直接new一个</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="built_in">Array</span>();  <span class="comment">// 或者new也可以</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>); <span class="comment">// new的时候传入一个参数表示初始化数组长度</span></div></pre></td></tr></table></figure></p>
+<p>但如果你想创建一个只有一个元素3的数组，那么使用 new 方法是不能实现的，因为系统会把你传入的3当作数组的长度，除非你使用引号引起来当作字符串，如<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">'3'</span>); </div><div class="line">alert(tmp);  <span class="comment">// 3</span></div></pre></td></tr></table></figure></p>
+<p>我们可以使用简写模式创建数组，这样就可以创建只有一个数字元素3的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [<span class="number">3</span>]</div><div class="line">alert(<span class="keyword">typeof</span> tmp[<span class="number">0</span>]);  <span class="comment">// number</span></div></pre></td></tr></table></figure></p>
+<p>也可以初始多个元素，并且元素的值可以是任意类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 简约模式创建数组</span></div><div class="line"><span class="comment">// 数组的元素可以是任意一种数据类型</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="number">3</span>,<span class="literal">true</span>,<span class="number">8.5</span>,&#123;<span class="string">'name'</span>:<span class="string">'lizhong'</span>&#125;,[<span class="string">'a'</span>,<span class="string">'b'</span>]];</div><div class="line">alert(tmp.length); <span class="comment">// 5</span></div></pre></td></tr></table></figure></p>
+<p>###二、unshift 在数组第一个元素前插入元素<br>unshift // 在数组第一个元素前插入元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用unshift在数组第一个元素前插入元素</span></div><div class="line"><span class="comment">// 返回数组长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.unshift(<span class="string">'c'</span>);</div><div class="line">alert(len); <span class="comment">// 3</span></div><div class="line">alert(tmp); <span class="comment">// c,a,b</span></div></pre></td></tr></table></figure></p>
+<p>也可以一次插入多个元素，顺序依次从左边排起<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用unshift在数组第一个元素前插入元素</span></div><div class="line"><span class="comment">// 返回数组长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.unshift(<span class="string">'c'</span>,<span class="string">'d'</span>);</div><div class="line">alert(len); <span class="comment">// 4</span></div><div class="line">alert(tmp); <span class="comment">// c,d,a,b</span></div></pre></td></tr></table></figure></p>
+<p>###三、shift弹出数组第一个元素，返回被弹出的元素值<br>小实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用shift弹出数组第一个元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> val = tmp.shift();</div><div class="line">alert(val); <span class="comment">// a</span></div><div class="line">alert(tmp); <span class="comment">// b,c</span></div></pre></td></tr></table></figure></p>
+<p>如果是一个空数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用shift弹出数组第一个元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [];</div><div class="line"><span class="keyword">var</span> val = tmp.shift();</div><div class="line">alert(val); <span class="comment">// undefined</span></div><div class="line">alert(tmp); <span class="comment">// 空</span></div></pre></td></tr></table></figure></p>
+<p>###四、push在数组末尾添加元素<br>跟unshift相反，push在数组末尾添加元素，返回添加元素以后的数组长度<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用push在数组末尾添加多个元素</span></div><div class="line"><span class="comment">// 返回数组最新长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.push(<span class="string">'d'</span>);</div><div class="line">alert(len); <span class="comment">// 4</span></div><div class="line">alert(tmp); <span class="comment">// a,b,c,d</span></div></pre></td></tr></table></figure></p>
+<p>也可以一次添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用push在数组末尾添加多个元素</span></div><div class="line"><span class="comment">// 返回数组最新长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.push(<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>);</div><div class="line">alert(len); <span class="comment">// 6</span></div><div class="line">alert(tmp); <span class="comment">// a,b,c,d,e,f</span></div></pre></td></tr></table></figure></p>
+<p>###五、pop函数删除数组末尾元素<br>跟shift相反，pop弹出的是数组末尾元素，返回被弹出的元素值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用pop弹出数组末尾元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> val = tmp.pop();</div><div class="line">alert(val); <span class="comment">// c</span></div><div class="line">alert(tmp); <span class="comment">// a,b</span></div></pre></td></tr></table></figure></p>
+<p>如果数组为空，返回undefined<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用pop弹出数组末尾元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [];</div><div class="line"><span class="keyword">var</span> val = tmp.pop();</div><div class="line">alert(val); <span class="comment">// undefined</span></div><div class="line">alert(tmp); <span class="comment">// 空</span></div></pre></td></tr></table></figure></p>
+<p>利用以上四个函数，我们可以做一些队列处理，具体案例就不写代码了。<br>push功能其实也可以这么实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line">tmp[tmp.length] = <span class="string">'d'</span>;</div><div class="line">alert(tmp); <span class="comment">// a,b,c,d</span></div></pre></td></tr></table></figure></p>
+<p>注意：以上四个函数unshift、shift、pop、push函数操作都会在数组本身上修改。</p>
+<p>转载：<a href="http://www.qttc.net/201303296.html" target="_blank" rel="external">http://www.qttc.net/201303296.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#如何声明数组及push,pop,shift,unshift操作&lt;br&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="http://yoursite.com/categories/JS/"/>
+    
+    
+      <category term="js" scheme="http://yoursite.com/tags/js/"/>
+    
+      <category term="push" scheme="http://yoursite.com/tags/push/"/>
+    
+      <category term="pop" scheme="http://yoursite.com/tags/pop/"/>
+    
+      <category term="shift" scheme="http://yoursite.com/tags/shift/"/>
+    
+      <category term="unshift" scheme="http://yoursite.com/tags/unshift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>北京的夜</title>
+    <link href="http://yoursite.com/2015/11/19/%E5%8C%97%E4%BA%AC%E7%9A%84%E5%A4%9C/"/>
+    <id>http://yoursite.com/2015/11/19/北京的夜/</id>
+    <published>2015-11-18T18:21:53.000Z</published>
+    <updated>2015-12-09T15:38:22.800Z</updated>
+    
+    <content type="html"><![CDATA[<p>随笔<br><a id="more"></a><br>晚上八点、回到家中.整个人昏昏沉沉的. 便睡着了.醒来才发现依旧是漆黑的夜…   感觉好漫长.我想我是失眠了.鼻子干干的.<br>应该算是来了有段时间了.感觉还好.生活有着他预定的轨迹.然后就开始乱想.尝试了趴着睡 横着睡 抱成一团 总之就是睡不着.</p>
+<p>突然发呆怎么能三年挣到100万. 好像工作的话  待遇好一点的话 一年也就20万么？ 我纯粹是不了解行情 在yy. 貌似拿不到100万。只能创业吧. 但是创业能做什么 总是说工作几年和朋友去创业 可是能做什么.一直总是也只是说说而已. 其实想想能做什么.nothing，sorry. 不过后来又脑洞大开了 100万貌似买一辆车和一个房子就没了… 貌似根本不够啊.  那么问题来了. 假设两年后毕业一个月1万多一点的工资 怎么能实现自己的追求. 想想 好像是做不到的 … 好吧想的有点多了 两年后能找到工作再说吧… 你们要是有什么见解 可以告诉我哈 怎么三年拿到100万.. 我貌似想不到了.人艰不拆</p>
+<p>工作后 觉得开始怀念. 总之说不出来 或更加珍惜以前觉得无所谓或者不怎么在乎的事.总想找个机会 在会学校下..见见室友 和朋友装个逼..  哦 其实我免修还没办.体测也没做.也不知道后果是什么.. 再然后 最近比较经常和哈吉和我狗语音 每次挺开心的 这是一种在学校一起生活三年都没有的感觉 以前会因为小事吵架.比谁懒不下楼拿外卖.为了寝室值日生气.也不会去怀念 觉得感情也就这样 毕竟不会说一些心里话 总是嘻嘻哈哈 打打闹闹.. 现在呢 说不出来只是觉得 温暖.. 大概是没人来看我装逼了吧 …  也不能一起面对面打游戏 嘲讽了. 好烦 哦 .以前和春哥还打过架呢. 总和他闹别扭 可是现在觉得自己太折腾自己了..  挺好的人.除了睡觉打呼噜 还是很可爱的 现在和春哥说话也蛮开心.一样的真心感觉温暖.</p>
+<p>再然后 人会一瞬间就懂了很多 或者自己觉得自己成长了. </p>
+<p>对了.其实我特别羡慕500.长得帅.（我也挺帅的啊 天生觉得不丑咋办 哼哼哼）个子高.脾气不错.最主要唱歌好听啊 说到这个 .感觉公司里王腾也挺帅.. 事实证明 程序员里面真的有帅哥.. 我很喜欢听歌 却从来不会唱歌 .一直幻想在众人面前唱首歌 大家用惊叹的目光看着我 233…  好吧纯属yy.. 总之就是很渴望 渴望渴望 . 不过我貌似真的不会.只能听着别人唱.高中就羡慕兰..只能听着他唱.</p>
+<p>毕业了.发现了身边的人都好厉害.以前没觉得.结果 工作一个比一个6.百度华为什么的.出国读研的也都不错.很好的学校. 自己也就普普通通 一般的大学 一般的研究生 一般的实习..  有点不甘心. 估计以后会带着不甘度过好几年吧 然后走向一个自己觉得满意的地方.至少不能比别人差太多嘛.  喜欢走在前方. 不是跟随. 虽然嘴里这么说 但是还是渣的要命. 哎 啥时候才能nb点.. 好好装个逼… 一步一步来吧 希望我能自己有一天对自己感到满意.</p>
+<p>md.写到3点多了 还是睡不着.明早还要上班啊…崩溃 我已经预感到白天没精神一天的情况了.话说 早上还起得来么.</p>
+<p>题外话 炒菜 油热了 放进食物 用加水么？ 为什么 我感觉有水的会砰砰的乱溅.. 吓得差点把锅扔了…<br>晚上喝牛奶时有助于睡眠还是不利于消化… </p>
+<p>最后 附上我新到的衣服.总之就这样吧 . 我去听歌 让自己赶紧睡着.<br>额… 怎么添加图片？ 算了..</p>
+<p>看了看窗外 夜还是那么黑.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随笔&lt;br&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+  </entry>
+  
 </feed>
