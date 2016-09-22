@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Windows下安装scikit-learn · lyp's blog</title><meta name="description" content="Windows下安装scikit-learn - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Windows下安装scikit-learn</h1><div class="post-info">Nov 27, 2015</div><div class="post-content"><p>###Windows下安装scikit-learn<br><a id="more"></a></p>
+<hr>
+<p>准备工作</p>
+<ul>
+<li>Python (&gt;= 2.6 or &gt;= 3.3),</li>
+<li>Numpy (&gt;= 1.6.1)</li>
+<li>Scipy (&gt;= 0.9),</li>
+<li>Matplotlib（可选）</li>
+</ul>
+<hr>
+<p>NumPy</p>
+<p>NumPy系统是Python的一种开源的数值计算扩展。这种工具可用来存储和处理大型矩阵，比Python自身的嵌套列表（nested list structure)结构要高效的多（该结构也可以用来表示矩阵（matrix））。</p>
+<p>Scipy</p>
+<p>SciPy是一款方便、易于使用、专为科学和工程设计的Python工具包.它包括统计,优化,整合,线性代数模块,傅里叶变换,信号和图像处理,常微分方程求解器等等.</p>
+<p>Matplotlib</p>
+<p>matplotlib 是python最著名的绘图库，它提供了一整套和matlab相似的命令API，十分适合交互式地进行制图。而且也可以方便地将它作为绘图控件，嵌入GUI应用程序中。</p>
+<hr>
+<p>下载地址</p>
+<p>Python：<a href="https://www.python.org/downloads/" target="_blank" rel="external">https://www.python.org/downloads/</a></p>
+<p>Numpy：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy" target="_blank" rel="external">http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy</a></p>
+<p>Scipy：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy" target="_blank" rel="external">http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy</a></p>
+<p>Matplotlib：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib" target="_blank" rel="external">http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib</a></p>
+<p>scikit-learn：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#scikit-learn" target="_blank" rel="external">http://www.lfd.uci.edu/~gohlke/pythonlibs/#scikit-learn</a></p>
+<hr>
+<p>安装步骤：</p>
+<ol>
+<li>安装python3.5,注意配置环境变量。</li>
+<li>安装easy_install，安装pip（python官网下载）</li>
+</ol>
+<pre><code>python ez_setup.py
+python setup.py install
+</code></pre><ol>
+<li><p>安装numpy,scipy,matployib,scikit-learn.例如</p>
+<pre><code>pip install .\numpy-1.11.1-cp35-cp35m-win_amd64.whl         #安装numpy
+pip install .\scipy-0.18.0-cp35-cp35m-win_amd64.whl         #安装scipy
+pip install .\matplotlib-2.0.0b3-cp35-cp35m-win_amd64.whl         #安装matplotlib
+pip install .\scikit_learn-0.17.1-cp35-cp35m-win_amd64.whl         #安装scikit-learn
+</code></pre></li>
+</ol>
+<hr>
+<p>测试：</p>
+<pre><code>python
+&gt;&gt;&gt; from sklearn import datasets
+&gt;&gt;&gt; iris = datasets.load_iris()
+&gt;&gt;&gt; digits = datasets.load_digits()
+&gt;&gt;&gt; print(digits.data)  
+[[  0.   0.   5. ...,   0.   0.   0.]
+  [  0.   0.   0. ...,  10.   0.   0.]
+ [  0.   0.   0. ...,  16.   9.   0.]
+ ...,
+ [  0.   0.   1. ...,   6.   0.   0.]
+ [  0.   0.   2. ...,  12.   0.   0.]
+ [  0.   0.  10. ...,  12.   1.   0.]]
+
+&gt;&gt;&gt; digits.target
+array([0, 1, 2, ..., 8, 9, 8])
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2015/11/30/数据库SQL优化大总结之百万级数据库优化方案/" class="prev">PREV</a><a href="/2015/11/27/web/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
