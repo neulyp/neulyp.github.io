@@ -1,0 +1,174 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> java杂记 · Hexo</title><meta name="description" content="java杂记 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Hexo"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">java杂记</h1><div class="post-info">Sep 23, 2016</div><div class="post-content"><a id="more"></a>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.Comparable和Comparator接口是干什么的？列出它们的区别。</p>
+<p>Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。</p>
+<p>Java提供了包含compare()和equals()两个方法的Comparator接口。compare()方法用来给两个输入参数排序，返回负数，0，正数表明第一个参数是小于，等于，大于第二个参数。equals()方法需要一个对象作为参数，它用来决定输入参数是否和comparator相等。只有当输入参数也是一个comparator并且输入参数和当前comparator的排序结果是相同的时候，这个方法才返回true。</p>
+<p>3.Enumeration接口和Iterator接口的区别有哪些？</p>
+<p>Enumeration速度是Iterator的2倍，同时占用更少的内存。但是，Iterator远远比Enumeration安全，因为其他线程不能够修改正在被iterator遍历的集合里面的对象。同时，Iterator允许调用者删除底层集合里面的元素，这对Enumeration来说是不可能的。</p>
+<p>4.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+<p>###JDBC</p>
+<p>8.什么是JDBC？</p>
+<p>JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。</p>
+<p>9.PreparedStatement比Statement有什么优势？</p>
+<p>PreparedStatements是预编译的，因此，性能会更好。同时，不同的查询参数值，PreparedStatement可以重用。</p>
+<p>10.什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？</p>
+<p>CallableStatement用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。准备一个CallableStatement的方法是：</p>
+<pre><code>CallableStament.prepareCall();
+</code></pre><hr>
+<p>##一.GC<br>Java中的垃圾回收机制</p>
+<p>####GC针对什么对象？<br>了解GC机制的第一步就是理解什么样的对象会被回收。当一个对象通过一系列根对象(比如：静态属性引用的常量)都不可达时就会被回收。简而言之，当一个对象的所有引用都为null。循环依赖不算做引用，如果对象A有一个指向对象B的引用，对象B也有一个指向对象A的引用，除此之外，它们没有其他引用，那么对象A和对象B都、需要被回收(如下图,ObjA和ObjB需要被回收)。</p>
+<p>####堆内存是如何划分的？</p>
+<p>Java中对象都在堆上创建。为了GC，堆内存分为三个部分，也可以说三代，分别称为新生代，老年代和永久代。其中新生代又进一步分为Eden区，Survivor 1区和Survivor 2区(如下图)。新创建的对象会分配在Eden区,在经历一次Minor GC后会被移到Survivor 1区，再经历一次Minor GC后会被移到Survivor 2区，直到升至老年代,需要注意的是，一些大对象(长字符串或数组)可能会直接存放到老年代。</p>
+<p><img src="http://i.imgur.com/KU1IyMG.png" alt=""></p>
+<p>####GC算法<br>1.标记清除算法</p>
+<p>分为标记和清除两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。该算法的缺点是效率不高并且会产生不连续的内存碎片。<br><img src="http://i.imgur.com/PTYTd1h.jpg" alt=""></p>
+<p>2.复制算法</p>
+<p>把内存空间划为两个区域，每次只使用其中一个区域。垃圾回收时，遍历当前使用区域，把正在使用中的对象复制到另外一个区域中。次算法每次只处理正在使用中的对象，因此复制成本比较小，同时复制过去以后还能进行相应的内存整理，不会出现“碎片”问题。优点：实现简单，运行高效。缺点：会浪费一定的内存。一般新生代采用这种算法<br><img src="http://i.imgur.com/wXBBEyQ.jpg" alt=""></p>
+<p>3.标记整理算法</p>
+<p>标记阶段与标记清除算法一样。但后续并不是直接对可回收的对象进行清理，而是让所有存活对象都想一端移动，然后清理。优点是不会造成内存碎片<br><img src="http://i.imgur.com/1H8E9sw.jpg" alt=""></p>
+<p>####Java中垃圾回收器的类型<br>Java提供多种类型的垃圾回收器。JVM中的垃圾收集一般都采用“分代收集”，不同的堆内存区域采用不同的收集算法，主要目的就是为了增加吞吐量或降低停顿时间。</p>
+<ul>
+<li>Serial收集器：新生代收集器，使用复制算法，使用一个线程进行GC，串行，其它工作线程暂停。</li>
+<li>ParNew收集器：新生代收集器，使用复制算法，Serial收集器的多线程版，用多个线程进行GC，并行，其它工作线程暂停。使用-XX:+UseParNewGC开关来控制使用ParNew+Serial Old收集器组合收集内存；使用-XX:ParallelGCThreads来设置执行内存回收的线程数。</li>
+<li>Parallel Scavenge 收集器：吞吐量优先的垃圾回收器，作用在新生代，使用复制算法，关注CPU吞吐量，即运行用户代码的时间/总时间。使用-XX:+UseParallelGC开关控制使用Parallel Scavenge+Serial Old收集器组合回收垃圾。</li>
+<li>Serial Old收集器：老年代收集器，单线程收集器，串行，使用标记整理算法，使用单线程进行GC，其它工作线程暂停。</li>
+<li>Parallel Old收集器：吞吐量优先的垃圾回收器，作用在老年代，多线程，并行，多线程机制与Parallel Scavenge差不错，使用标记整理算法，在Parallel Old执行时，仍然需要暂停其它线程。</li>
+<li>CMS（Concurrent Mark Sweep）收集器：老年代收集器，致力于获取最短回收停顿时间（即缩短垃圾回收的时间），使用标记清除算法，多线程，优点是并发收集（用户线程可以和GC线程同时工作），停顿小。使用-XX:+UseConcMarkSweepGC进行ParNew+CMS+Serial Old进行内存回收，优先使用ParNew+CMS（原因见Full GC和并发垃圾回收一节），当用户线程内存不足时，采用备用方案Serial Old收集。</li>
+</ul>
+<p>####与GC有关的JVM参数<br>做GC调优需要大量的实践，耐心和对项目的分析。我曾经参与过高容量，低延迟的电商系统，在开发中我们需要通过分析造成Full GC的原因来提高系统性能，在这个过程中我发现做GC的调优很大程度上依赖于对系统的分析，系统拥有怎样的对象以及他们的平均生命周期。</p>
+<p>举个例子，如果一个应用大多是短生命周期的对象，那么应该确保Eden区足够大，这样可以减少Minor GC的次数。可以通过-XX:NewRatio来控制新生代和老年代的比例，比如-XX:NewRatio=3代表新生代和老年代的比例为1：3。需要注意的是，扩大新生代的大小会减少老年代的大小，这会导致Major GC执行的更频繁，而Major GC可能会造成用户线程的停顿从而降低系统吞吐量。JVM中可以用NewSize和MaxNewSize参数来指定新生代内存最小和最大值，如果两个参数值一样，那么就相当于固定了新生代的大小。<br>个人建议，在做GC调优之前最好深入理解Java中GC机制，推荐阅读Sun Microsystems提供的有关GC的文档。这个链接可能会对理解GC机制提供一些帮助。下面的图列出了各个区可用的一些JVM参数。<br><img src="http://i.imgur.com/bwvkDEn.png" alt=""></p>
+<p>####总结</p>
+<ul>
+<li>为了分代垃圾回收，Java堆内存分为3代：新生代，老年代和永久代。</li>
+<li>新的对象实例会优先分配在新生代，在经历几次Minor GC后(默认15次)，还存活的会被移至老年代(某些大对象会直接在老年代分配)。</li>
+<li>永久代是否执行GC，取决于采用的JVM。</li>
+<li>Minor GC发生在新生代，当Eden区没有足够空间时，会发起一次Minor GC，将Eden区中的存活对象移至Survivor区。Major GC发生在老年代，当升到老年代的对象大于老年代剩余空间时会发生Major GC。</li>
+<li>发生Major GC时用户线程会暂停，会降低系统性能和吞吐量。</li>
+<li>JVM的参数-Xmx和-Xms用来设置Java堆内存的初始大小和最大值。依据个人经验这个值的比例最好是1:1或者1:1.5。比如，你可以将-Xmx和-Xms都设为1GB，或者-Xmx和-Xms设为1.2GB和1.8GB。</li>
+<li>Java中不能手动触发GC，但可以用不同的引用类来辅助垃圾回收器工作(比如：弱引用或软引用)。</li>
+</ul>
+<hr>
+<p>##二.hashmap</p>
+<p>原文链接：<a href="http://yemengying.com/2016/05/07/threadsafe-hashmap/" target="_blank" rel="external">http://yemengying.com/2016/05/07/threadsafe-hashmap/</a></p>
+<p>####hashmap的自动扩容机制<br>HashMap 内部的 Node 数组默认的大小是16，假设有100万个元素，那么最好的情况下每个 hash 桶里都有62500个元素😱，这时get(),put(),remove()等方法效率都会降低。为了解决这个问题，HashMap 提供了自动扩容机制，当元素个数达到数组大小 loadFactor 后会扩大数组的大小，在默认情况下，数组大小为16，loadFactor 为0.75，也就是说当 HashMap 中的元素超过16\0.75=12时，会把数组大小扩展为2*16=32，并且重新计算每个元素在新数组中的位置。</p>
+<p>####为什么线程不安全<br>个人觉得 HashMap 在并发时可能出现的问题主要是两方面,首先如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的数据被覆盖。第二就是如果多个线程同时检测到元素个数超过数组大小* loadFactor ，这样就会发生多个线程同时对 Node 数组进行扩容，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失。</p>
+<p>关于 HashMap 线程不安全这一点，《Java并发编程的艺术》一书中是这样说的：</p>
+<blockquote>
+<p>HashMap 在并发执行 put 操作时会引起死循环，导致 CPU 利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。死循环并不是发生在 put 操作时，而是发生在扩容时。</p>
+</blockquote>
+<p>####如何安全的使用hashmap</p>
+<ul>
+<li>Hashtable</li>
+<li>ConcurrentHashMap</li>
+<li>Synchronized Map</li>
+</ul>
+<pre><code>//Hashtable
+Map&lt;String, String&gt; hashtable = new Hashtable&lt;&gt;();
+
+//synchronizedMap
+Map&lt;String, String&gt; synchronizedHashMap = Collections.synchronizedMap(new HashMap&lt;String, String&gt;());
+
+//ConcurrentHashMap
+Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
+</code></pre><p>hashtable通过使用 <em>synchronized</em>来保证线程安全。</p>
+<p>concurrenthashmap：</p>
+<ul>
+<li>CHM允许并发的读和线程安全的更新操作</li>
+<li>在执行写操作时，CHM只锁住部分的Map</li>
+<li>并发的更新是通过内部根据并发级别将Map分割成小部分实现的</li>
+<li>高的并发级别会造成时间和空间的浪费，低的并发级别在写线程多时会引起线程间的竞争</li>
+<li>CHM的所有操作都是线程安全</li>
+<li>CHM返回的迭代器是弱一致性，fail-safe并且不会抛出ConcurrentModificationException异常</li>
+<li>CHM不允许null的键值</li>
+<li>可以使用CHM代替HashTable，但要记住CHM不会锁住整个Map</li>
+</ul>
+<p>Synchronized Map：<br>从源码中可以看出调用 synchronizedMap() 方法后会返回一个 SynchronizedMap 类的对象，而在 SynchronizedMap 类中使用了 synchronized 同步关键字来保证对 Map 的操作是线程安全的。</p>
+<p>####hashmap如何解决冲突<br>其实就是链接法，将索引值相同的元素存放到一个单链表里。但为了解决在频繁冲突时HashMap性能降低的问题，Java 8中做了一个小优化，在冲突的元素个数超过设定的值(默认为8)时，会使用平衡树来替代链表存储冲突的元素。</p>
+<hr>
+<p>##三.java创建对象有哪几种</p>
+<ul>
+<li>new</li>
+<li>工厂模式</li>
+<li>反射</li>
+<li>克隆</li>
+</ul>
+<p>#四.java反射详解<br>原文链接：<a href="http://www.jianshu.com/p/53eb4e16d00e" target="_blank" rel="external">http://www.jianshu.com/p/53eb4e16d00e</a></p>
+<p>####什么是反射</p>
+<p> 主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。<br> 反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是反射使用不当会成本很高！<br>反射（Reflection）能够让运行于 JVM 中的程序检测和修改运行时的行为</p>
+<p>反射机制的作用：</p>
+<ol>
+<li>反编译：.class–&gt;.java</li>
+<li><p>通过反射机制访问java对象的属性，方法，构造方法等；</p>
+<pre><code>String s = &quot;java.util.Date&quot;;
+   Object m = Class.forName(s).newInstance();
+</code></pre><p>####为什么需要反射<br>通过反射，我们能够</p>
+</li>
+</ol>
+<ul>
+<li>在运行时检测对象的类型；</li>
+<li>动态构造某个类的对象；</li>
+<li>检测类的属性和方法；</li>
+<li>任意调用对象的方法；</li>
+<li>修改构造函数、方法、属性的可见性。</li>
+</ul>
+<p>JUnit通过反射来遍历包含 @Test 注解的方法，并在运行单元测试时调用它们。</p>
+<p>Web框架<br>开发人员可以在配置文件中定义对各种接口和类的实现。通过反射机制，框架能够快速地动态初始化所需要的类。</p>
+<p>Spring框架使用如下的配置文件：</p>
+<pre><code>&lt;bean id=&quot;someID&quot; class=&quot;com.programcreek.Foo&quot;&gt;
+    &lt;property name=&quot;someField&quot; value=&quot;someValue&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>当Spring容器处理 bean 元素时，会使用Class.forName(“com.programcreek.Foo”)来初始化这个类，并再次使用反射获取 property 元素对应的setter方法，为对象的属性赋值。</p>
+<hr>
+<p>##五.异常<br>5.throw和throws有什么区别？</p>
+<p>throw关键字用来在程序中明确的抛出异常，相反，throws语句用来表明方法不能处理的异常。每一个方法都必须要指定哪些异常不能处理，所以方法的调用者才能够确保处理可能发生的异常，多个异常是用逗号分隔的。</p>
+<p>6.Java中Exception和Error有什么区别？</p>
+<p>Exception和Error都是Throwable的子类。Exception用于用户程序可以捕获的异常情况。Error定义了不期望被用户程序捕获的异常。</p>
+<p>7.Java中的两种异常类型是什么？他们有什么区别？</p>
+<p>Java中有两种异常：受检查的(checked)异常和不受检查的(unchecked)异常。不受检查的异常不需要在方法或者是构造函数上声明，就算方法或者是构造函数的执行可能会抛出这样的异常，并且不受检查的异常可以传播到方法或者是构造函数的外面。相反，受检查的异常必须要用throws语句在方法或者是构造函数上声明。<br><img src="http://i.imgur.com/hUwjIXa.jpg" alt=""></p>
+<p>##六.spring相关</p>
+<p>spring的核心 ioc和aop</p>
+<p>Spring Bean的生命周期（非常详细）<a href="http://www.cnblogs.com/zrtqsk/p/3735273.html" target="_blank" rel="external">http://www.cnblogs.com/zrtqsk/p/3735273.html</a></p>
+<p>####spring中用到的设计模式<br>工厂模式:IOC容器<br>代理模式:AOP<br>策略模式:在spring采取动态代理时，根据代理的类有无实现接口有JDK和CGLIB两种代理方式，就是采用策略模式实现的<br>单例模式:默认情况下spring中的bean只存在一个实例<br>只知道这四个。。。。</p>
+<p>####讲一讲Spring IoC和AOP<br>IoC的核心是依赖反转，将创建对象和对象之间的依赖管理交给IoC容器来做，完成对象之间的解耦。<br>AOP主要是利用代理模式，把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>权限，日志，处理异常，事务等等，个人理解就是把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>####Spring中编码统一要如何做<br>配置一个拦截器</p>
+<pre><code>&lt;filter&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;encoding&lt;/param-name&gt;  
+           &lt;param-value&gt;UTF-8&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;forceEncoding&lt;/param-name&gt;  
+           &lt;param-value&gt;true&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+   &lt;/filter&gt;  
+   &lt;filter-mapping&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
+   &lt;/filter-mapping&gt;
+</code></pre><hr>
+<p>##七.数据库相关</p>
+<p>###mysql索引原理</p>
+<p>来源：美团点评技术团队<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="external">http://tech.meituan.com/mysql-index.html</a></p>
+<p>####详解b+树</p>
+<p><img src="http://i.imgur.com/iFzh0Ub.jpg" alt=""></p>
+<p>如上图，是一颗b+树，关于b+树的定义可以参见B+树，这里只说一些重点，浅蓝色的块我们称之为一个磁盘块，可以看到每个磁盘块包含几个数据项（深蓝色所示）和指针（黄色所示），如磁盘块1包含数据项17和35，包含指针P1、P2、P3，P1表示小于17的磁盘块，P2表示在17和35之间的磁盘块，P3表示大于35的磁盘块。真实的数据存在于叶子节点即3、5、9、10、13、15、28、29、36、60、75、79、90、99。非叶子节点只不存储真实的数据，只存储指引搜索方向的数据项，如17、35并不真实存在于数据表中。</p>
+<p>####b+树的查找过程<br>如图所示，如果要查找数据项29，那么首先会把磁盘块1由磁盘加载到内存，此时发生一次IO，在内存中用二分查找确定29在17和35之间，锁定磁盘块1的P2指针，内存时间因为非常短（相比磁盘的IO）可以忽略不计，通过磁盘块1的P2指针的磁盘地址把磁盘块3由磁盘加载到内存，发生第二次IO，29在26和30之间，锁定磁盘块3的P2指针，通过指针加载磁盘块8到内存，发生第三次IO，同时内存中做二分查找找到29，结束查询，总计三次IO。真实的情况是，3层的b+树可以表示上百万的数据，如果上百万的数据查找只需要三次IO，性能提高将是巨大的，如果没有索引，每个数据项都要发生一次IO，那么总共需要百万次的IO，显然成本非常非常高。</p>
+<p>####b+树性质<br>1.通过上面的分析，我们知道IO次数取决于b+数的高度h，假设当前数据表的数据为N，每个磁盘块的数据项的数量是m，则有h=㏒(m+1)N，当数据量N一定的情况下，m越大，h越小；而m = 磁盘块的大小 / 数据项的大小，磁盘块的大小也就是一个数据页的大小，是固定的，如果数据项占的空间越小，数据项的数量越多，树的高度越低。这就是为什么每个数据项，即索引字段要尽量的小，比如int占4字节，要比bigint8字节少一半。这也是为什么b+树要求把真实的数据放到叶子节点而不是内层节点，一旦放到内层节点，磁盘块的数据项会大幅度下降，导致树增高。当数据项等于1时将会退化成线性表。</p>
+<p>2.当b+树的数据项是复合的数据结构，比如(name,age,sex)的时候，b+数是按照从左到右的顺序来建立搜索树的，比如当(张三,20,F)这样的数据来检索的时候，b+树会优先比较name来确定下一步的所搜方向，如果name相同再依次比较age和sex，最后得到检索的数据；但当(20,F)这样的没有name的数据来的时候，b+树就不知道下一步该查哪个节点，因为建立搜索树的时候name就是第一个比较因子，必须要先根据name来搜索才能知道下一步去哪里查询。比如当(张三,F)这样的数据来检索时，b+树可以用name来指定搜索方向，但下一个字段age的缺失，所以只能把名字等于张三的数据都找到，然后再匹配性别是F的数据了， 这个是非常重要的性质，即索引的最左匹配特性。</p>
+<p>####建索引的几大原则</p>
+<ol>
+<li>最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
+<li>尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录</li>
+<li>索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);</li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
+</ol>
+<p>####mysql分页优化<br>ps：吐槽下，饿了么面试问我，但是呢。我压根没优化过…<br>参考另一个。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/09/23/java泛型/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
