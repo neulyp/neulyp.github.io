@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-22T16:04:02.358Z</updated>
+  <updated>2016-09-24T12:34:35.774Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2016/09/24/k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/"/>
+    <id>http://yoursite.com/2016/09/24/k-近邻算法/</id>
+    <published>2016-09-24T12:34:35.700Z</published>
+    <updated>2016-09-24T12:34:35.774Z</updated>
+    
+    <content type="html"><![CDATA[<p>#k-近邻算法</p>
+<p>####1.工作原理<br>存在一个样本数据集合，也成为训练样本集，并且样本集中每个数据都存在标签。加我们知道样本集中荷每一条数据玉所属分类之间的关系，输入没有标签的数据，将新数据的每个特征和样本数据进行比较然后算法提取出样本集中特征醉相思的数据的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据。最后，选择开个醉相思数据中出现次数最多的分类，作为新数据的分类。</p>
+<p>####2.伪代码</p>
+<ol>
+<li>计算已知类别数据器中点与当前点之间的距离；</li>
+<li>按照距离递增次序排序</li>
+<li>选择与当前距离最小的k个点</li>
+<li>确定前k个点所在类别的出现频率</li>
+<li>返回前k个点出现的频率最高的类别作为当前点的预测分类</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#k-近邻算法&lt;/p&gt;
+&lt;p&gt;####1.工作原理&lt;br&gt;存在一个样本数据集合，也成为训练样本集，并且样本集中每个数据都存在标签。加我们知道样本集中荷每一条数据玉所属分类之间的关系，输入没有标签的数据，将新数据的每个特征和样本数据进行比较然后算法提取出样本集中特征醉相思的数
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>java杂记</title>
@@ -266,141 +295,6 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
   </entry>
   
   <entry>
-    <title>mysql分页优化</title>
-    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T08:58:07.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
-<p>1.基本分页</p>
-<pre><code>select * from Member limit 10, 100;  
-#m表示要显示的页数，n表示显示的记录行数
-</code></pre><p>2.子查询优化</p>
-<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
-</code></pre><p>3.反向查找</p>
-<p>当偏移量大大于一半</p>
-<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
-#时间：2.6493s
-SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
-#1.0035
-</code></pre><p>4.limit限制优化法 </p>
-<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
-<p>5.优化limit和offset </p>
-<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Java类的连接与初始化</title>
-    <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T12:41:54.573Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<p>Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。</p>
-<p><img src="http://i.imgur.com/kQuMdeK.png" alt=""></p>
-<p>解析过程可以推迟到累的初始化之后进行，但这是有条件的，java虚拟机必须在每个类或借口主动使用时进行初始化。<br>以下为主动使用的情况：</p>
-<ul>
-<li>(1).(无论直接通过new创建出来的，还是通过反射、克隆、序列化创建的)创建某个类新的实例</li>
-<li>(2).使用某个类的静态方法</li>
-<li>(3).访问某个类或接口的静态字段</li>
-<li>(4).调用JavaAPI中的某些反射方法</li>
-<li>(5).初始化某个类的子类(要求其祖先类都要被初始化，否则无法正确访问其继承的成员)</li>
-<li>(6).启动某个标明为启动类的类(含有main()方法)</li>
-</ul>
-<p>主动使用会导致类的初始化，其超类均将在该类的初始化之前被初始化，但通过子类访问父类的静态字段或方法时，对于子类(或子接口、接口的实现类)来说，这种访问就是被动访问，或者说访问了该类(接口)中的不在该类(接口)中声明的静态成员。</p>
-<p>如：<br>Grandpa的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Grandpa {
-    static{
-        System.out.println(&quot;Grandpa was initialized.&quot;);
-    }
-}
-</code></pre><p>Parent的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Parent extends Grandpa{
-    static String language = &quot;Chinese&quot;;
-    static{
-        System.out.println(&quot;Parent was initialized.&quot;);
-    }
-}
-</code></pre><p>Cindy的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Cindy extends Parent{
-    static{
-        System.out.println(&quot;Child was initialized.&quot;);
-    }
-}
-</code></pre><p>现在通过Cindy访问父类的language成员</p>
-<pre><code>package com.ice.passiveaccess;
-
-public class PassiveAccessTest {
-    public static void main(String args[]){
-        System.out.println(Cindy.language);
-    }
-}
-</code></pre><p>结果如下：</p>
-<pre><code>Grandpa was initialized.
-Parent was initialized.
-Chinese
-</code></pre><p>可见这是被动访问，Cindy自身并没有初始化</p>
-<p>下面简要介绍装载、验证与初始化过程：<br>1.装载：</p>
-<ul>
-<li>(1).找到该类型的class文件，产生一个该类型的class文件二进制数据流(ClassLoader需要实现的loadClassData()方法)</li>
-<li>(2).解析该二进制数据流为方法区内的数据结构</li>
-<li>(3).创建一个该类型的java.lang.Class实例</li>
-<li>在加载器的相关代码中可以看到，最终通过defineClass()创建一个Java类型对象(Class对象)。</li>
-</ul>
-<p>2.验证：<br>class文件校验器需要四趟独立的扫描来完成验证工作，其中：</p>
-<p>第一趟扫描在装载时进行，会对class文件进行结构检查，如</p>
-<blockquote>
-<p>(1).对魔数进行检查，以判断该文件是否是一个正常的class文件<br>(2).对主次版本号进行检查，以判断class文件是否与java虚拟机兼容。<br>(3).对class文件的长度和类型进行检查，避免class文件部分缺失或被附加内容。</p>
-</blockquote>
-<p>第二趟扫描在连接过程中进行，会对类型数据进行语义检查，主要检查各个类的二进制兼容性(主要是查看超类和子类的关系)和类本身是否符合特定的语义条件</p>
-<blockquote>
-<p>(1).final类不能拥有子类<br>(2).final方法不能被重写(覆盖)<br>(3).子类和超类之间没有不兼容的方法声明<br>(4).检查常量池入口类型是否一致(如CONSTANT_Class常量池的内容是否指向一个CONSTANT_Utf8字符串常量池)<br>(5).检查常量池的所有特殊字符串，以确定它们是否是其所属类型的实例，以及是否符合特定的上下文无关语法、格式</p>
-</blockquote>
-<p>第三趟扫描为字节码验证，其验证内容和实现较为复杂，主要检验字节码是否可以被java虚拟机安全地执行。</p>
-<p>第四趟扫描在解析过程中进行，为对符号引用的验证。在动态连接过程中，通过保存在常量池的符号引用查找被引用的类、接口、字段、方法时，在把符号引用替换成直接引用时，首先需要确认查找的元素真正存在，然后需要检查访问权限、查找的元素是否是静态类成员而非实例成员。</p>
-<p>3.准备：</p>
-<p>为类变量分配内存、设置默认初始值(内存设置初始值，而非对类变量真正地进行初始化，即类中声明int i = 5，但实际上这里是分配内存并设置初始值为0)</p>
-<p>4.解析：</p>
-<p>在类的常量池中寻找类、接口、字段、方法的符号引用，将这些符号引用替换成直接引用</p>
-<p>5.初始化</p>
-<p>对类变量赋予指定的初始值(这个时候int i = 5就必须赋予i以初值5)。这个初始值的给定方式有两种，一种是通过类变量的初始化语句，一种是静态初始化语句。而这些初始化语句都将被Java编译器一起放在方法中。<br>如前面所述，一个类的初始化需要初始化其直接超类，并递归初始化其祖先类，初始化是通过调用类的初始化方法完成的。此外，对于接口，并不需要初始化其父接口，而只需要执行该接口的接口初始化方法就可以了。</p>
-<p>注意：</p>
-<p>(1). 在初始化阶段，只会为类变量(静态全局变量)进行初始化工作，并且当类变量声明为final类型切初始化语句采用了常量表达式方式进行初始化赋值，那么， 也不会对其进行初始化，它将会直接被编译器计算并保存在常量池中，并且对这些变量的使用也将直接将其变量值嵌入到字节码中。</p>
-<p>(2).接口的初始化与类有所不同，在初始化阶段，会为在接口中声明的所有public、static和final类型的、无法被编译为常量的字段进行初始化</p>
-<p>6.类实例化</p>
-<p>这里需要明白什么是类初始化，什么是类实例化，以及类的实例对象的初始化<br>如前面所述，类初始化时对类(静态)变量赋予指定的初始值，类初始化之后就可以访问类的静态字段和方法，而访问类的非静态(实例)字段和方法，就需要创建类的对象实例，故类的实例化是在类的初始化之后，是在堆上创建一个该类的对象。</p>
-<p>类的静态方法和字段属于类，作为类型数据保存在方法区，其生命周期取决于类，而实例方法和字段位于Java堆，其生命周期取决于对象的生命周期。
-　　</p>
-<p>类的初始化会从祖先类到子类、按出现顺序，对类变量的初始化语句、静态初始化语句块依次进行初始化。而对类实例的初始化也类似，会从祖先类到子类、按出现顺序，对类成员的初始化语句、实例初始化块、构造方法依次进行初始化。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。&lt;/p&gt;
-&lt;p&gt;&lt;img sr
-    
-    </summary>
-    
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Java集合</title>
     <link href="http://yoursite.com/2016/09/22/java%E9%9B%86%E5%90%88/"/>
     <id>http://yoursite.com/2016/09/22/java集合/</id>
@@ -568,6 +462,141 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
       &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;1.Java集合框架是什么？说出一些集合框架的优点？&lt;/p&gt;
 &lt;p&gt;每种编程语言中都有集合，最初的Java版本包含几种集合类：Vector、Stack、HashTable和Array。随着集合的广泛使用，Java1.2提出了囊括所有集合接
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mysql分页优化</title>
+    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T08:58:07.172Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
+<p>1.基本分页</p>
+<pre><code>select * from Member limit 10, 100;  
+#m表示要显示的页数，n表示显示的记录行数
+</code></pre><p>2.子查询优化</p>
+<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
+</code></pre><p>3.反向查找</p>
+<p>当偏移量大大于一半</p>
+<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
+#时间：2.6493s
+SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
+#1.0035
+</code></pre><p>4.limit限制优化法 </p>
+<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
+<p>5.优化limit和offset </p>
+<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java类的连接与初始化</title>
+    <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T12:41:54.573Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。</p>
+<p><img src="http://i.imgur.com/kQuMdeK.png" alt=""></p>
+<p>解析过程可以推迟到累的初始化之后进行，但这是有条件的，java虚拟机必须在每个类或借口主动使用时进行初始化。<br>以下为主动使用的情况：</p>
+<ul>
+<li>(1).(无论直接通过new创建出来的，还是通过反射、克隆、序列化创建的)创建某个类新的实例</li>
+<li>(2).使用某个类的静态方法</li>
+<li>(3).访问某个类或接口的静态字段</li>
+<li>(4).调用JavaAPI中的某些反射方法</li>
+<li>(5).初始化某个类的子类(要求其祖先类都要被初始化，否则无法正确访问其继承的成员)</li>
+<li>(6).启动某个标明为启动类的类(含有main()方法)</li>
+</ul>
+<p>主动使用会导致类的初始化，其超类均将在该类的初始化之前被初始化，但通过子类访问父类的静态字段或方法时，对于子类(或子接口、接口的实现类)来说，这种访问就是被动访问，或者说访问了该类(接口)中的不在该类(接口)中声明的静态成员。</p>
+<p>如：<br>Grandpa的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Grandpa {
+    static{
+        System.out.println(&quot;Grandpa was initialized.&quot;);
+    }
+}
+</code></pre><p>Parent的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Parent extends Grandpa{
+    static String language = &quot;Chinese&quot;;
+    static{
+        System.out.println(&quot;Parent was initialized.&quot;);
+    }
+}
+</code></pre><p>Cindy的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Cindy extends Parent{
+    static{
+        System.out.println(&quot;Child was initialized.&quot;);
+    }
+}
+</code></pre><p>现在通过Cindy访问父类的language成员</p>
+<pre><code>package com.ice.passiveaccess;
+
+public class PassiveAccessTest {
+    public static void main(String args[]){
+        System.out.println(Cindy.language);
+    }
+}
+</code></pre><p>结果如下：</p>
+<pre><code>Grandpa was initialized.
+Parent was initialized.
+Chinese
+</code></pre><p>可见这是被动访问，Cindy自身并没有初始化</p>
+<p>下面简要介绍装载、验证与初始化过程：<br>1.装载：</p>
+<ul>
+<li>(1).找到该类型的class文件，产生一个该类型的class文件二进制数据流(ClassLoader需要实现的loadClassData()方法)</li>
+<li>(2).解析该二进制数据流为方法区内的数据结构</li>
+<li>(3).创建一个该类型的java.lang.Class实例</li>
+<li>在加载器的相关代码中可以看到，最终通过defineClass()创建一个Java类型对象(Class对象)。</li>
+</ul>
+<p>2.验证：<br>class文件校验器需要四趟独立的扫描来完成验证工作，其中：</p>
+<p>第一趟扫描在装载时进行，会对class文件进行结构检查，如</p>
+<blockquote>
+<p>(1).对魔数进行检查，以判断该文件是否是一个正常的class文件<br>(2).对主次版本号进行检查，以判断class文件是否与java虚拟机兼容。<br>(3).对class文件的长度和类型进行检查，避免class文件部分缺失或被附加内容。</p>
+</blockquote>
+<p>第二趟扫描在连接过程中进行，会对类型数据进行语义检查，主要检查各个类的二进制兼容性(主要是查看超类和子类的关系)和类本身是否符合特定的语义条件</p>
+<blockquote>
+<p>(1).final类不能拥有子类<br>(2).final方法不能被重写(覆盖)<br>(3).子类和超类之间没有不兼容的方法声明<br>(4).检查常量池入口类型是否一致(如CONSTANT_Class常量池的内容是否指向一个CONSTANT_Utf8字符串常量池)<br>(5).检查常量池的所有特殊字符串，以确定它们是否是其所属类型的实例，以及是否符合特定的上下文无关语法、格式</p>
+</blockquote>
+<p>第三趟扫描为字节码验证，其验证内容和实现较为复杂，主要检验字节码是否可以被java虚拟机安全地执行。</p>
+<p>第四趟扫描在解析过程中进行，为对符号引用的验证。在动态连接过程中，通过保存在常量池的符号引用查找被引用的类、接口、字段、方法时，在把符号引用替换成直接引用时，首先需要确认查找的元素真正存在，然后需要检查访问权限、查找的元素是否是静态类成员而非实例成员。</p>
+<p>3.准备：</p>
+<p>为类变量分配内存、设置默认初始值(内存设置初始值，而非对类变量真正地进行初始化，即类中声明int i = 5，但实际上这里是分配内存并设置初始值为0)</p>
+<p>4.解析：</p>
+<p>在类的常量池中寻找类、接口、字段、方法的符号引用，将这些符号引用替换成直接引用</p>
+<p>5.初始化</p>
+<p>对类变量赋予指定的初始值(这个时候int i = 5就必须赋予i以初值5)。这个初始值的给定方式有两种，一种是通过类变量的初始化语句，一种是静态初始化语句。而这些初始化语句都将被Java编译器一起放在方法中。<br>如前面所述，一个类的初始化需要初始化其直接超类，并递归初始化其祖先类，初始化是通过调用类的初始化方法完成的。此外，对于接口，并不需要初始化其父接口，而只需要执行该接口的接口初始化方法就可以了。</p>
+<p>注意：</p>
+<p>(1). 在初始化阶段，只会为类变量(静态全局变量)进行初始化工作，并且当类变量声明为final类型切初始化语句采用了常量表达式方式进行初始化赋值，那么， 也不会对其进行初始化，它将会直接被编译器计算并保存在常量池中，并且对这些变量的使用也将直接将其变量值嵌入到字节码中。</p>
+<p>(2).接口的初始化与类有所不同，在初始化阶段，会为在接口中声明的所有public、static和final类型的、无法被编译为常量的字段进行初始化</p>
+<p>6.类实例化</p>
+<p>这里需要明白什么是类初始化，什么是类实例化，以及类的实例对象的初始化<br>如前面所述，类初始化时对类(静态)变量赋予指定的初始值，类初始化之后就可以访问类的静态字段和方法，而访问类的非静态(实例)字段和方法，就需要创建类的对象实例，故类的实例化是在类的初始化之后，是在堆上创建一个该类的对象。</p>
+<p>类的静态方法和字段属于类，作为类型数据保存在方法区，其生命周期取决于类，而实例方法和字段位于Java堆，其生命周期取决于对象的生命周期。
+　　</p>
+<p>类的初始化会从祖先类到子类、按出现顺序，对类变量的初始化语句、静态初始化语句块依次进行初始化。而对类实例的初始化也类似，会从祖先类到子类、按出现顺序，对类成员的初始化语句、实例初始化块、构造方法依次进行初始化。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。&lt;/p&gt;
+&lt;p&gt;&lt;img sr
     
     </summary>
     
@@ -1311,82 +1340,107 @@ String toString() 返回此日历的字符串表示形式
   </entry>
   
   <entry>
-    <title>存储过程</title>
-    <link href="http://yoursite.com/2015/11/21/sql%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/"/>
-    <id>http://yoursite.com/2015/11/21/sql存储过程/</id>
+    <title>js数字格式化</title>
+    <link href="http://yoursite.com/2015/11/21/js%E6%95%B0%E5%AD%97%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+    <id>http://yoursite.com/2015/11/21/js数字格式化/</id>
     <published>2015-11-21T08:47:25.000Z</published>
-    <updated>2016-09-24T07:54:45.163Z</updated>
+    <updated>2016-09-24T07:53:01.713Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
-<p>mysql 存储过程，while循环</p>
-<pre><code>--lyp 20160824 begin
-DROP PROCEDURE if EXISTS pp;
-delimiter //
-CREATE PROCEDURE pp ()
-BEGIN
-DECLARE n INT ;
-DECLARE i INT ;
-DECLARE t VARCHAR(255);
-DECLARE s VARCHAR(255);
-SET n = 200 ;
-SET i =1 ;
-WHILE i &lt; n DO
-    BEGIN
-        IF ((select count(*) from information_schema.tables where table_name = CONCAT(&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char))))
-        THEN
-            SET @s=CONCAT(&quot;alter table &quot;,&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char),&quot; add column contract_money double(64,2) COMMENT &apos;合同金额&apos; AFTER loan_AMT&quot;);
-            PREPARE stmt FROM @s ;
-            EXECUTE stmt ;
-            DEALLOCATE PREPARE stmt ;
-        END IF;
-    END;
-    SET i = i + 1 ;
-END WHILE ;
-END ;//
-
-CALL pp();
---lyp 20160824 end
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;mysql 存储过程，while循环&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;--lyp 20160824 begin
-DROP PROCEDURE if EXISTS pp;
-delimiter //
-CREATE PROCEDURE pp ()
-    
-    </summary>
-    
-      <category term="sql" scheme="http://yoursite.com/categories/sql/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>js百分数</title>
-    <link href="http://yoursite.com/2015/11/21/js%E7%99%BE%E5%88%86%E6%95%B0/"/>
-    <id>http://yoursite.com/2015/11/21/js百分数/</id>
-    <published>2015-11-21T08:47:25.000Z</published>
-    <updated>2016-09-24T07:53:54.807Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-Number.prototype.toPercent = function(){
-return (Math.round(this * 10000)/100).toFixed(2) + &apos;%&apos;;
+<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
+<p>(1).  1111111-&gt;11,111,111.00</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function outputmoney(number) {
+number = number.replace(/\,/g, &quot;&quot;);
+if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
+number = Math.round(number * 100) / 100;
+    if (number &lt; 0)
+        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
+    else
+        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
+} 
+//格式化金额
+function outputdollars(number) {
+    if (number.length &lt;= 3)
+        return (number == &apos;&apos; ? &apos;0&apos; : number);
+    else {
+        var mod = number.length % 3;
+        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
+        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
+            if ((mod == 0) &amp;&amp; (i == 0))
+                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+            else
+                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
+        }
+        return (output);
+    }
 }
-var A=0.35897, B=0.25554;
- alert([A, A.toPercent(), B, B.toPercent()].join(&apos;\n&apos;));
+function outputcents(amount) {
+    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
+}
 &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
+<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
+&lt;script language=&quot;javascript&quot;&gt;
+function tran(id)
+{
+  var v, j, sj, rv = &quot;&quot;;
+  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
+  j = v[0].length % 3;
+  sj = v[0].substr(j).toString();
+  for (var i = 0; i &lt; sj.length; i++)
+  {
+    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
+  }
+  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
+  if (rvalue.charCodeAt(0) == 44)
+  {
+    rvalue = rvalue.substr(1);
+  }
+  id.value = rvalue;
+}
+function tran2(id)
+{
+  var v;
+  v = id.value.replace(/,/g,&quot;&quot;);
+  alert(v);
+}
+&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+body,td,th,input {
+ font-size: 12px;
+}
+--&gt;
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
+&lt;br/&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>]]></content>
     
     <summary type="html">
     
       &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
-Number.prototype.toPercent = function(){
-return (Math.round(thi
+&lt;p&gt;#JS数字格式化(三位加逗号处理保留两位置小数)&lt;/p&gt;
+&lt;p&gt;(1).  1111111-&amp;gt;11,111,111.00&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;script typ
     
     </summary>
     
@@ -1396,43 +1450,48 @@ return (Math.round(thi
   </entry>
   
   <entry>
-    <title>设计模式</title>
-    <link href="http://yoursite.com/2015/11/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2015/11/21/设计模式/</id>
+    <title>如何声明数组及push,pop,shift,unshift操作</title>
+    <link href="http://yoursite.com/2015/11/21/%E5%A6%82%E4%BD%95%E5%A3%B0%E6%98%8E%E6%95%B0%E7%BB%84%E5%8F%8Apush-pop-shift-unshift%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2015/11/21/如何声明数组及push-pop-shift-unshift操作/</id>
     <published>2015-11-21T08:47:25.000Z</published>
-    <updated>2016-09-22T16:16:55.986Z</updated>
+    <updated>2015-11-21T09:19:05.514Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a>
-<p>设计模式<br><a href="http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html" target="_blank" rel="external">http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html</a></p>
-<p>一、设计模式的分类</p>
-<p>总体来说设计模式分为三大类：</p>
-<p>创建型模式，共五种：工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。</p>
-<p>结构型模式，共七种：适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。</p>
-<p>行为型模式，共十一种：策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。</p>
-<p>二、设计模式的六大原则</p>
-<p>1、开闭原则（Open Close Principle）</p>
-<p>开闭原则就是说对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级。想要达到这样的效果，我们需要使用接口和抽象类，后面的具体设计中我们会提到这点。</p>
-<p>2、里氏代换原则（Liskov Substitution Principle）</p>
-<p>里氏代换原则(Liskov Substitution Principle LSP)面向对象设计的基本原则之一。 里氏代换原则中说，任何基类可以出现的地方，子类一定可以出现。 LSP是继承复用的基石，只有当衍生类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。里氏代换原则是对“开-闭”原则的补充。实现“开-闭”原则的关键步骤就是抽象化。而基类与子类的继承关系就是抽象化的具体实现，所以里氏代换原则是对实现抽象化的具体步骤的规范。—— From Baidu 百科</p>
-<p>3、依赖倒转原则（Dependence Inversion Principle）</p>
-<p>这个是开闭原则的基础，具体内容：真对接口编程，依赖于抽象而不依赖于具体。</p>
-<p>4、接口隔离原则（Interface Segregation Principle）</p>
-<p>这个原则的意思是：使用多个隔离的接口，比使用单个接口要好。还是一个降低类之间的耦合度的意思，从这儿我们看出，其实设计模式就是一个软件的设计思想，从大型软件架构出发，为了升级和维护方便。所以上文中多次出现：降低依赖，降低耦合。</p>
-<p>5、迪米特法则（最少知道原则）（Demeter Principle）</p>
-<p>为什么叫最少知道原则，就是说：一个实体应当尽量少的与其他实体之间发生相互作用，使得系统功能模块相对独立。</p>
-<p>6、合成复用原则（Composite Reuse Principle）</p>
-<p>原则是尽量使用合成/聚合的方式，而不是使用继承。</p>
+    <content type="html"><![CDATA[<p>#如何声明数组及push,pop,shift,unshift操作<br><a id="more"></a></p>
+<p>###一、js中数组的声明可以有几种方式声明<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [];  <span class="comment">// 简写模式</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(); <span class="comment">// 直接new一个</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="built_in">Array</span>();  <span class="comment">// 或者new也可以</span></div><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>); <span class="comment">// new的时候传入一个参数表示初始化数组长度</span></div></pre></td></tr></table></figure></p>
+<p>但如果你想创建一个只有一个元素3的数组，那么使用 new 方法是不能实现的，因为系统会把你传入的3当作数组的长度，除非你使用引号引起来当作字符串，如<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">'3'</span>); </div><div class="line">alert(tmp);  <span class="comment">// 3</span></div></pre></td></tr></table></figure></p>
+<p>我们可以使用简写模式创建数组，这样就可以创建只有一个数字元素3的数组<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [<span class="number">3</span>]</div><div class="line">alert(<span class="keyword">typeof</span> tmp[<span class="number">0</span>]);  <span class="comment">// number</span></div></pre></td></tr></table></figure></p>
+<p>也可以初始多个元素，并且元素的值可以是任意类型<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 简约模式创建数组</span></div><div class="line"><span class="comment">// 数组的元素可以是任意一种数据类型</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="number">3</span>,<span class="literal">true</span>,<span class="number">8.5</span>,&#123;<span class="string">'name'</span>:<span class="string">'lizhong'</span>&#125;,[<span class="string">'a'</span>,<span class="string">'b'</span>]];</div><div class="line">alert(tmp.length); <span class="comment">// 5</span></div></pre></td></tr></table></figure></p>
+<p>###二、unshift 在数组第一个元素前插入元素<br>unshift // 在数组第一个元素前插入元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用unshift在数组第一个元素前插入元素</span></div><div class="line"><span class="comment">// 返回数组长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.unshift(<span class="string">'c'</span>);</div><div class="line">alert(len); <span class="comment">// 3</span></div><div class="line">alert(tmp); <span class="comment">// c,a,b</span></div></pre></td></tr></table></figure></p>
+<p>也可以一次插入多个元素，顺序依次从左边排起<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用unshift在数组第一个元素前插入元素</span></div><div class="line"><span class="comment">// 返回数组长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.unshift(<span class="string">'c'</span>,<span class="string">'d'</span>);</div><div class="line">alert(len); <span class="comment">// 4</span></div><div class="line">alert(tmp); <span class="comment">// c,d,a,b</span></div></pre></td></tr></table></figure></p>
+<p>###三、shift弹出数组第一个元素，返回被弹出的元素值<br>小实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用shift弹出数组第一个元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> val = tmp.shift();</div><div class="line">alert(val); <span class="comment">// a</span></div><div class="line">alert(tmp); <span class="comment">// b,c</span></div></pre></td></tr></table></figure></p>
+<p>如果是一个空数组：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用shift弹出数组第一个元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [];</div><div class="line"><span class="keyword">var</span> val = tmp.shift();</div><div class="line">alert(val); <span class="comment">// undefined</span></div><div class="line">alert(tmp); <span class="comment">// 空</span></div></pre></td></tr></table></figure></p>
+<p>###四、push在数组末尾添加元素<br>跟unshift相反，push在数组末尾添加元素，返回添加元素以后的数组长度<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用push在数组末尾添加多个元素</span></div><div class="line"><span class="comment">// 返回数组最新长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.push(<span class="string">'d'</span>);</div><div class="line">alert(len); <span class="comment">// 4</span></div><div class="line">alert(tmp); <span class="comment">// a,b,c,d</span></div></pre></td></tr></table></figure></p>
+<p>也可以一次添加多个元素<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用push在数组末尾添加多个元素</span></div><div class="line"><span class="comment">// 返回数组最新长度</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> len = tmp.push(<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>);</div><div class="line">alert(len); <span class="comment">// 6</span></div><div class="line">alert(tmp); <span class="comment">// a,b,c,d,e,f</span></div></pre></td></tr></table></figure></p>
+<p>###五、pop函数删除数组末尾元素<br>跟shift相反，pop弹出的是数组末尾元素，返回被弹出的元素值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用pop弹出数组末尾元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line"><span class="keyword">var</span> val = tmp.pop();</div><div class="line">alert(val); <span class="comment">// c</span></div><div class="line">alert(tmp); <span class="comment">// a,b</span></div></pre></td></tr></table></figure></p>
+<p>如果数组为空，返回undefined<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用pop弹出数组末尾元素</span></div><div class="line"><span class="comment">// 返回被弹出的元素值</span></div><div class="line"><span class="keyword">var</span> tmp = [];</div><div class="line"><span class="keyword">var</span> val = tmp.pop();</div><div class="line">alert(val); <span class="comment">// undefined</span></div><div class="line">alert(tmp); <span class="comment">// 空</span></div></pre></td></tr></table></figure></p>
+<p>利用以上四个函数，我们可以做一些队列处理，具体案例就不写代码了。<br>push功能其实也可以这么实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>];</div><div class="line">tmp[tmp.length] = <span class="string">'d'</span>;</div><div class="line">alert(tmp); <span class="comment">// a,b,c,d</span></div></pre></td></tr></table></figure></p>
+<p>注意：以上四个函数unshift、shift、pop、push函数操作都会在数组本身上修改。</p>
+<p>转载：<a href="http://www.qttc.net/201303296.html" target="_blank" rel="external">http://www.qttc.net/201303296.html</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;设计模式&lt;br&gt;&lt;a href=&quot;http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;htt
+      &lt;p&gt;#如何声明数组及push,pop,shift,unshift操作&lt;br&gt;
     
     </summary>
     
-      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="JS" scheme="http://yoursite.com/categories/JS/"/>
     
+    
+      <category term="js" scheme="http://yoursite.com/tags/js/"/>
+    
+      <category term="push" scheme="http://yoursite.com/tags/push/"/>
+    
+      <category term="pop" scheme="http://yoursite.com/tags/pop/"/>
+    
+      <category term="shift" scheme="http://yoursite.com/tags/shift/"/>
+    
+      <category term="unshift" scheme="http://yoursite.com/tags/unshift/"/>
     
   </entry>
   
