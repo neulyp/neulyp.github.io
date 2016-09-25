@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> oracle · lyp's blog</title><meta name="description" content="oracle - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">oracle</h1><div class="post-info">Sep 25, 2016</div><div class="post-content"><a id="more"></a>
+<p>很少使用oracle，记录两个问题。</p>
+<p>###1.在Maven仓库中添加Oracle JDBC驱动</p>
+<p>由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</p>
+<p>1.获取oracle jdbc driver</p>
+<ol>
+<li>通过Oracle官方网站下载相应版本： <a href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html" target="_blank" rel="external">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</a></li>
+<li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc14.jar</li>
+</ol>
+<p>2.安装到本地仓库</p>
+<pre><code>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=D:\Document_x64\Downloads\ojdbc14.jar
+</code></pre><p>3.pom文件中添加引用</p>
+<pre><code>&lt;dependency&gt;
+&lt;groupId&gt;com.oracle&lt;/groupId&gt;
+&lt;artifactId&gt;ojdbc7&lt;/artifactId&gt;
+&lt;version&gt;12.1.0.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>###2. “ORA-00942: 表或视图不存在 “的原因和解决方法</p>
+<p>产生的原因：<br>Oracle 是大小写敏感的，我们创自己写Sql脚本创建表的时候Oracle会自动将我们的表名，字段名转成大写,</p>
+<pre><code>create table T_WindRadar  (
+   wr_id                VARCHAR2(64)                    not null,
+   wr_reciveTime        DATE,
+   wr_image             BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>但是 Oracle 同样支持”” 语法，将表名或字段名加上””后，Oracle不会将其转换成大写。</p>
+<pre><code>create table &quot;T_WindRadar&quot;  (
+   &quot;wr_id&quot;                VARCHAR2(64)                    not null,
+   &quot;wr_reciveTime&quot;        DATE,
+   &quot;wr_image &quot;            BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>如果加上了””,那么我们采用一般的SQL语句查询则会产生“ORA-00942: 表或视图不存在 ”，因此SQL脚本中需要将表名也加上””。</p>
+<pre><code>select * from  &quot;T_WindRadar&quot;;
+</code></pre><p>这种情况在我们手写SQL的时候一般不会发生，但是我们使用powerdesigner设计数据库的时候，由于不注意会经常出现此类问题，因为Powerdesigner生成的SQL文件默认是加””的。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/09/25/k-近邻算法/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
