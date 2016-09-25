@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-25T14:28:12.599Z</updated>
+  <updated>2016-09-25T15:56:27.683Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,100 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Object类有哪些方法</title>
+    <link href="http://yoursite.com/2016/09/25/Object%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2016/09/25/Object类有哪些方法/</id>
+    <published>2016-09-25T15:52:26.000Z</published>
+    <updated>2016-09-25T15:56:27.683Z</updated>
+    
+    <content type="html"><![CDATA[<p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
+<pre><code>clone();
+equals();
+finalize();
+getClass();
+notify(),notifyAll();
+hashCode();
+toString();
+wait();
+</code></pre><p>摘要如下：</p>
+<pre><code>protected  Object    clone() //创建并返回此对象的一个副本。
+boolean    equals(Object obj) //指示某个其他对象是否与此对象“相等”。
+protected  void    finalize() //当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。
+Class&lt;? extends Object&gt;    getClass() //返回一个对象的运行时类。
+int    hashCode() //返回该对象的哈希码值。
+void    notify() //唤醒在此对象监视器上等待的单个线程。
+void    notifyAll() //唤醒在此对象监视器上等待的所有线程。
+String    toString()  //返回该对象的字符串表示。
+void    wait() //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法。
+void    wait(long timeout) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量。
+void    wait(long timeout, int nanos) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;clone();
+equals();
+finalize();
+getClass();
+notify(),notifyAll();
+hashCode()
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java多线程</title>
+    <link href="http://yoursite.com/2016/09/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://yoursite.com/2016/09/25/java多线程/</id>
+    <published>2016-09-25T15:43:30.000Z</published>
+    <updated>2016-09-25T15:46:03.440Z</updated>
+    
+    <content type="html"><![CDATA[<p>线程和进程有什么区别？</p>
+<p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<p>如何在Java中实现线程？</p>
+<p>答：<br>创建线程有两种方式：</p>
+<ol>
+<li>一、继承 Thread 类，扩展线程。</li>
+<li>二、实现 Runnable 接口。</li>
+</ol>
+<p>启动一个线程是调用run()还是start()方法？</p>
+<p>答：启动一个线程是调用start()方法，使线程所代表的虚拟处理机处于可运行状态，这意味着它可以由JVM 调度并执行，这并不意味着线程就会立即运行。run()方法是线程启动后要进行回调（callback）的方法。</p>
+<p>Thread类的sleep()方法和对象的wait()方法都可以让线程暂停执行，它们有什么区别?</p>
+<ul>
+<li>sleep()方法（休眠）是线程类（Thread）的静态方法，调用此方法会让当前线程暂停执行指定的时间，将执行机会（CPU）让给其他线程，但是对象的锁依然保持，因此休眠时间结束后会自动恢复（线程回到就绪状态，请参考第66题中的线程状态转换图）。</li>
+<li>wait()是Object类的方法，调用对象的wait()方法导致当前线程放弃对象的锁（线程暂停执行），进入对象的等待池（wait pool），只有调用对象的notify()方法（或notifyAll()方法）时才能唤醒等待池中的线程进入等锁池（lock pool），如果线程重新获得对象的锁就可以进入就绪状态。</li>
+</ul>
+<p>线程的sleep()方法和yield()方法有什么区别？</p>
+<p>答：</p>
+<ul>
+<li>① sleep()方法给其他线程运行机会时不考虑线程的优先级，因此会给低优先级的线程以运行的机会；yield()方法只会给相同优先级或更高优先级的线程以运行的机会；</li>
+<li>② 线程执行sleep()方法后转入阻塞（blocked）状态，而执行yield()方法后转入就绪（ready）状态；</li>
+<li>③ sleep()方法声明抛出InterruptedException，而yield()方法没有声明任何异常；</li>
+<li>④ sleep()方法比yield()方法（跟操作系统CPU调度相关）具有更好的可移植性。</li>
+</ul>
+<p>请说出与线程同步以及线程调度相关的方法。<br>答：</p>
+<ul>
+<li>wait()：使一个线程处于等待（阻塞）状态，并且释放所持有的对象的锁；</li>
+<li>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理InterruptedException异常；</li>
+<li>notify()：唤醒一个处于等待状态的线程，当然在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由JVM确定唤醒哪个线程，而且与优先级无关；</li>
+<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;线程和进程有什么区别？&lt;/p&gt;
+&lt;p&gt;答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>oracle</title>
@@ -362,6 +456,42 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
   </entry>
   
   <entry>
+    <title>mysql分页优化</title>
+    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T08:58:07.172Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
+<p>1.基本分页</p>
+<pre><code>select * from Member limit 10, 100;  
+#m表示要显示的页数，n表示显示的记录行数
+</code></pre><p>2.子查询优化</p>
+<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
+</code></pre><p>3.反向查找</p>
+<p>当偏移量大大于一半</p>
+<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
+#时间：2.6493s
+SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
+#1.0035
+</code></pre><p>4.limit限制优化法 </p>
+<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
+<p>5.优化limit和offset </p>
+<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Java类的连接与初始化</title>
     <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
     <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
@@ -632,42 +762,6 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
     </summary>
     
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>mysql分页优化</title>
-    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T08:58:07.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
-<p>1.基本分页</p>
-<pre><code>select * from Member limit 10, 100;  
-#m表示要显示的页数，n表示显示的记录行数
-</code></pre><p>2.子查询优化</p>
-<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
-</code></pre><p>3.反向查找</p>
-<p>当偏移量大大于一半</p>
-<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
-#时间：2.6493s
-SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
-#1.0035
-</code></pre><p>4.limit限制优化法 </p>
-<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
-<p>5.优化limit和offset </p>
-<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
     
     
   </entry>
@@ -1371,148 +1465,6 @@ String toString() 返回此日历的字符串表示形式
     
     
       <category term="Calendar" scheme="http://yoursite.com/tags/Calendar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JSONObject</title>
-    <link href="http://yoursite.com/2015/11/23/JSONObject/"/>
-    <id>http://yoursite.com/2015/11/23/JSONObject/</id>
-    <published>2015-11-23T11:32:48.000Z</published>
-    <updated>2015-12-09T15:37:30.157Z</updated>
-    
-    <content type="html"><![CDATA[<p>JSONObject<br><a id="more"></a><br>1.public Object put (Object key, Object value)<br>将value映射到key下。如果此JSONObject对象之前存在一个value在这个key下，当前的value会替换掉之前的value<br>Associates the specified value with the specified key in this map(optional operation). If the map previously contained . a mapping for this key, the old value is replaced by the specified value. (A map m is said to contain a mapping for a key k if and only if m.containsKey(k) would return true .))</p>
-<p>2.public JSONObject accumulate (String key, Object value) 累积value到这个key下。这个方法同element()方法类似，特殊的是，如果当前已经存在一个value在这个key下那么一个JSONArray将会存储在这个key下来保存所有累积的value。如果已经存在一个JSONArray，那么当前的value就会添加到这个JSONArray中<br>。相比之下replace方法会替代先前的value<br>Accumulate values under a key. It is similar to the element method except that if there is already an object stored<br>under the key then a JSONArray is stored under the key to hold all of the accumulated values. If there is already a<br>JSONArray, then the new value is appended to it. In contrast, the replace method replaces the previous value.</p>
-<p>3.public JSONObject element (String key, Object value) 将键/值对放到这个JSONObject对象里面。如果当前value为空(null)，那么如果这个key存在的话，这个key就会移除掉。如果这<br>个key之前有value值，那么此方法会调用accumulate()方法。<br>Put a key/value pair in the JSONObject. If the value is null, then the key will be removed from the JSONObject if it is<br>present. If there is a previous value assigned to the key, it will call accumulate.</p>
-<p>转载：<a href="http://blog.csdn.net/z69183787/article/details/18655143" target="_blank" rel="external">http://blog.csdn.net/z69183787/article/details/18655143</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;JSONObject&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JSON" scheme="http://yoursite.com/categories/JSON/"/>
-    
-    
-      <category term="JSONObject" scheme="http://yoursite.com/tags/JSONObject/"/>
-    
-      <category term="put" scheme="http://yoursite.com/tags/put/"/>
-    
-      <category term="accumulate" scheme="http://yoursite.com/tags/accumulate/"/>
-    
-      <category term="element" scheme="http://yoursite.com/tags/element/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>js数字格式化</title>
-    <link href="http://yoursite.com/2015/11/21/js%E6%95%B0%E5%AD%97%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-    <id>http://yoursite.com/2015/11/21/js数字格式化/</id>
-    <published>2015-11-21T08:47:25.000Z</published>
-    <updated>2016-09-24T07:53:01.713Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
-<p>(1).  1111111-&gt;11,111,111.00</p>
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &quot;&quot;);
-if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
-number = Math.round(number * 100) / 100;
-    if (number &lt; 0)
-        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
-    else
-        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
-} 
-//格式化金额
-function outputdollars(number) {
-    if (number.length &lt;= 3)
-        return (number == &apos;&apos; ? &apos;0&apos; : number);
-    else {
-        var mod = number.length % 3;
-        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
-        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
-            if ((mod == 0) &amp;&amp; (i == 0))
-                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
-            else
-                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
-        }
-        return (output);
-    }
-}
-function outputcents(amount) {
-    amount = Math.round(((amount) - Math.floor(amount)) * 100);
-    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
-}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
-<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
-&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
-&lt;script language=&quot;javascript&quot;&gt;
-function tran(id)
-{
-  var v, j, sj, rv = &quot;&quot;;
-  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
-  j = v[0].length % 3;
-  sj = v[0].substr(j).toString();
-  for (var i = 0; i &lt; sj.length; i++)
-  {
-    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
-  }
-  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
-  if (rvalue.charCodeAt(0) == 44)
-  {
-    rvalue = rvalue.substr(1);
-  }
-  id.value = rvalue;
-}
-function tran2(id)
-{
-  var v;
-  v = id.value.replace(/,/g,&quot;&quot;);
-  alert(v);
-}
-&lt;/script&gt;
-&lt;style type=&quot;text/css&quot;&gt;
-&lt;!--
-body,td,th,input {
- font-size: 12px;
-}
---&gt;
-&lt;/style&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
-&lt;br/&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;#JS数字格式化(三位加逗号处理保留两位置小数)&lt;/p&gt;
-&lt;p&gt;(1).  1111111-&amp;gt;11,111,111.00&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-&amp;lt;script typ
-    
-    </summary>
-    
-      <category term="js" scheme="http://yoursite.com/categories/js/"/>
-    
     
   </entry>
   
