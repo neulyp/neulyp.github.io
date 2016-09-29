@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-25T15:56:27.683Z</updated>
+  <updated>2016-09-29T12:00:05.559Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,227 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习weka（一）</title>
+    <link href="http://yoursite.com/2016/09/29/weka1/"/>
+    <id>http://yoursite.com/2016/09/29/weka1/</id>
+    <published>2016-09-29T12:39:32.000Z</published>
+    <updated>2016-09-29T12:00:05.559Z</updated>
+    
+    <content type="html"><![CDATA[<p>###机器学习weka（一）<br><a id="more"></a></p>
+<p>##1.Instances</p>
+<p>Instances对象实例化后，就存储了所有数据，同时也附带了很多数据属性，简单来说，你可以认为Instances就像一个电子表格，存储了你所加载的数据。 </p>
+<p>Instances实例化有很多方式，在这里我介绍三种方式：<br>1.通过文件加载</p>
+<pre><code>Instances(java.io.Reader reader) 
+Reads an ARFF file from a reader, and assigns a weight of one to each instance.
+
+Instances(java.io.Reader reader, int capacity) 
+Deprecated. instead of using this method in conjunction with the readInstance(Reader) method, one should use the ArffLoader or DataSource class instead.
+
+Instances data = new Instances( new BufferedReader(new FileReader(&quot;/Path/data.arff&quot;)));
+</code></pre><p>2.使用DataSource从文件中加载数据 </p>
+<pre><code>DataSource source = new DataSource(&quot;/some/where/data.arff&quot;);
+Instances data = source.getDataSet();
+</code></pre><p>3.从数据库实例化Instances对象</p>
+<pre><code>InstanceQuery query= new InstanceQuery();
+query.setDebug(true);
+query.setUsername(&quot;C##TEST&quot;);
+query.setPassword(&quot;test&quot;);
+query.setDatabaseURL(&quot;jdbc:oracle:thin:@127.0.0.1:1521:ORCL&quot;);
+String sql=&quot;SELECT * FROM (SELECT MDI_READING , MDI_TS from M_FS_DB_INTERVAL where  CST_ID= 5695 ) where rownum &lt; 10000&quot;;
+query.setQuery(sql);
+Instances train=query.retrieveInstances();
+</code></pre><p>4.自己构造一个instances</p>
+<pre><code>Creates an empty set of instances. Uses the given attribute information. Sets the capacity of the set of instances to 0 if its negative. Given attribute information must not be changed after this constructor has been used.Parameters:name the name of the relationattInfo the attribute informationcapacity the capacity of the setThrows:IllegalArgumentException - if attribute names are not unique
+
+Instances(java.lang.String name, java.util.ArrayList&lt;Attribute&gt; attInfo, int capacity) 
+Creates an empty set of instances.
+</code></pre><p>根据构造方法我们需要创建一个attInfo对象。</p>
+<pre><code>ArrayList&lt;Attribute&gt; atts = new ArrayList&lt;Attribute&gt;();
+Attribute attribute1 = new Attribute(&quot;ID&quot;);
+Attribute attribute2 = new Attribute(&quot;District&quot;);
+Attribute attribute3 = new Attribute(&quot;CountryCode&quot;);
+Attribute attribute4 = new Attribute(&quot;Population&quot;);
+atts.add(attribute1);
+atts.add(attribute2);
+atts.add(attribute3);
+atts.add(attribute4);
+</code></pre><p>构建instances对象</p>
+<pre><code>Instances df = new Instances(&quot;Data&quot;, atts, 0);
+</code></pre><p>构建instance对象</p>
+<pre><code>Create empty instance with three attribute values 
+Instance inst = new DenseInstance(3); 
+// Set instance&apos;s values for the attributes &quot;length&quot;, &quot;weight&quot;, and &quot;position&quot;
+inst.setValue(length, 5.3); 
+inst.setValue(weight, 300); 
+inst.setValue(position, &quot;first&quot;); 
+// Set instance&apos;s dataset to be the dataset &quot;race&quot; 
+inst.setDataset(instances); 
+</code></pre><p>instances对象添加instance值</p>
+<pre><code>instances.add(inst);
+</code></pre><p>##2.Attribute</p>
+<p>1.介绍</p>
+<p>attribute指的是Weka中数据的属性，一般就是表明数据集信息，数据每一列的性质等。之前讲过的Weka数据格式ARFF其实头信息包含的就是数据的Attribute信息。之前讲的Weka的数据存储方式Instances也有Attribute属性。<br>Attribute属性主要分以下几类:</p>
+<pre><code>numeric: This type of attribute represents a floating-point number. 
+         就是代表连续的，浮点数变量，如气温。
+nominal: This type of attribute represents a fixed set of nominal values. 
+         指的是离散的，刻意被划分为几类的变量，如户口类型。
+string: This type of attribute represents a dynamically expanding set of nominal values. Usually used in text classification. 
+         指的该列内容是文本，一般用于文本挖掘。
+date: This type of attribute represents a date, internally represented as floating-point number storing the milliseconds since January 1, 1970, 00:00:00 GMT. The string representation of the date must be ISO-8601 compliant, the default is yyyy-MM-dd&apos;T&apos;HH:mm:ss. 
+         指的该列数据代表日期，要按照规范格式写。
+relational: This type of attribute can contain other attributes and is, e.g., used for representing Multi-Instance data. (Multi-Instance data consists of a nominal attribute containing the bag-id, then a relational attribute with all the attributes of the bag, and finally the class attribute.) 
+    用来实现其他类型的数据。
+</code></pre><p>2.attribute的创建</p>
+<pre><code>// Create numeric attributes &quot;length&quot; and &quot;weight&quot; 
+Attribute length = new Attribute(&quot;length&quot;); 
+Attribute weight = new Attribute(&quot;weight&quot;); 
+// Create list to hold nominal values &quot;first&quot;, &quot;second&quot;, &quot;third&quot; 
+List my_nominal_values = new ArrayList(3); 
+my_nominal_values.add(&quot;first&quot;); 
+my_nominal_values.add(&quot;second&quot;); 
+my_nominal_values.add(&quot;third&quot;); 
+// Create nominal attribute &quot;position&quot; 
+Attribute position = new Attribute(&quot;position&quot;, my_nominal_values);
+</code></pre><p>##3.Filter（数据预处理）</p>
+<p>1.什么是数据预处理？</p>
+<p>加载完毕数据集后，还是不能直接进行数据挖掘模型的训练和学习，必须要进行数据预处理，数据预处理一般指的是以下四个方面：数据清理，数据集成，数据变换，数据归约等。</p>
+<ul>
+<li><p>①数据清理<br>数据清理例程通过填写缺失的值、光滑噪声数据、识别或删除离群点并解决不一致性来“清理”数据。主要是达到如下目标：格式标准化，异常数据清除，错误纠正，重复数据的清除。 </p>
+</li>
+<li><p>②数据集成<br>数据集成例程将多个数据源中的数据结合起来并统一存储，建立数据仓库的过程实际上就是数据集成。 </p>
+</li>
+<li><p>③数据变换<br>通过平滑聚集，数据概化，规范化等方式将数据转换成适用于数据挖掘的形式。 </p>
+</li>
+<li><p>④数据归约<br>数据挖掘时往往数据量非常大，在少量数据上进行挖掘分析需要很长的时间，数据归约技术可以用来得到数据集的归约表示，它小得多，但仍然接近于保持原数据的完整性，并结果与归约前结果相同或几乎相同。<br>这些预处理都可以使用Weka的Filter来实现。Weka的Filter作用是将一个Instances输入后，通过特定的数据清洗过程，将清洗好的Instances输出，也就是说，Filter处理的维度是在Instances层面上进行的。你也可以通过Filter的组合来实现复杂的数据处理。</p>
+</li>
+</ul>
+<p>Filter提供的功能<br>FIlter功能还是比较强大的，但是Filter分为非监督学习和监督学习两种过滤器，分别属于weka.filters.unsupervised.attribute和weka.filters.unsupervised.attribute，至于监督学习和非监督学习，简单理解就是看输入数据是否有标签（label）。输入数据有标签，则为有监督学习，没标签则为无监督学习。这两种方式下的过滤器是不一样的，使用时一定要注意。<br>非监督学习包下的方法比较多，先讲解一下&gt; weka.filters.unsupervised.attribute主要方法的含义： </p>
+<blockquote>
+<p>1.Add<br>为数据库添加一个新的属性，新的属性将会包含所有缺失值。</p>
+<p>2.AddExpression<br>新增一个属性，该属性由现有属性通过设定的表达式计算得出。支持+, -, *, /, ^, log, abs, cos, exp, sqrt, floor, ceil, rint, tan, sin。现有属性由a+索引值构成。 </p>
+<p>3.AddNoise<br>只对名义属性有效，依照一定比例修改值。 </p>
+<p>4.Center<br>将数值化属性的平均化为0。 </p>
+<p>5.ChangeDateFormat<br>修改数据格式 </p>
+<p>6.Discretize<br>简单划分的离散化处理。参数： </p>
+<p>7.MathExpression<br>功能和AddExpression类似，不过支持的运算更多，特别是MAX和MIN的支持特别有用。所有支持运算符如下：+, -, *, /, pow, log,abs, cos, exp, sqrt, tan, sin, ceil, floor, rint, (, ),A,MEAN, MAX, MIN, SD, COUNT, SUM, SUMSQUARED, ifelse </p>
+<p>8.Reorder<br>重新排列属性，输入2-last，1可以让第一项排到最后，如果输入1,3,5的话…其他项就没有了 </p>
+<p>9.Standardize<br>这个和Center功能大致相同，多了一个标准化单位变异数 </p>
+<p>10.StringToNominal<br>将String型转化为Nominal型</p>
+</blockquote>
+<p>然后再讲一下weka.filters.unsupervised.instance包下的主要方法和含义： </p>
+<ul>
+<li>1.NonSparseToSparse 将所有输入转为稀疏格式 </li>
+<li>2.Normalize 规范化整个实例集 </li>
+<li>3.RemoveFolds 交叉验证，不支持分层，如果需要的话使用监督学习中的方法 </li>
+<li>4.RemoveRange  移除制定范围的实例，化为NaN </li>
+<li>5.Resample  随机抽样，从现有样本产生新的小样本 </li>
+<li>6.SubsetByExpression 根据规则进行过滤，支持逻辑运算，向上取值，取绝对值等等</li>
+</ul>
+<p>监督学习下虽然方法比较少，但是思路有所不同，主要是在有标签的情况下，很多方法诸如抽样就必须考虑不同数据分类的比例</p>
+<pre><code>//假设已经有一个数据集tempData
+Normalize normalize = new Normalize();
+String[] normalOptions = new String[]{&quot;-S&quot;,&quot;2.0&quot;,&quot;-T&quot;,&quot;-1.0&quot;};
+normalize.setOptions(normalOptions);
+normalize.setInputFormat(tempData);
+newData = Filter.useFilter(tempData,normalize);
+</code></pre><p>2.采样</p>
+<p>数据预处理中，有一个原理很简单但是非常重要的部分：采样。良好的采样可以让数据集变得平衡，会大大的提高预测和分类的效果。<br>采样是很复杂的一个领域，背后涉及到数据的分布/数据的性质等很多内容。常见的采样有： </p>
+<ul>
+<li>Simple Random Sampling(简单随机采样)， </li>
+<li>OfflineSampling(离线等可能K采样)， </li>
+<li>Online Sampling(在线等可能K采样)， </li>
+<li>Ratio-based Sampling(等比例随机采样)， </li>
+<li>Acceptance-RejectionSampling(接受-拒绝采样)， </li>
+<li>Importance Sampling(重要性采样)， </li>
+<li>MCMC(MarkovChain Monte Carlo 马尔科夫蒙特卡罗采样算法)。</li>
+</ul>
+<p>Filter支持多种采样方式，其中有监督的采样比较复杂，因此主要讲解有监督学习采样方法。Filter中的Resample采样就是简单的有放回抽样。</p>
+<pre><code>Resample
+
+  Open Declaration   weka.filters.supervised.instance.Resample
+
+
+Produces a random subsample of a dataset using either sampling with replacement or without replacement.
+ The original dataset must fit entirely in memory. The number of instances in the generated dataset may be specified. The dataset must have a nominal class attribute. If not, use the unsupervised version. The filter can be made to maintain the class distribution in the subsample, or to bias the class distribution toward a uniform distribution. When used in batch mode (i.e. in the FilteredClassifier), subsequent batches are NOT resampled. 
+
+ Valid options are: 
+
+
+ -S &lt;num&gt;
+  Specify the random number seed (default 1)
+  指定随机数种子，随机数种子相同，则采样结果相同。
+
+ -Z &lt;num&gt;
+  The size of the output dataset, as a percentage of
+  the input dataset (default 100)
+  指定采样数据占整个数据的比例。
+
+ -B &lt;num&gt;
+  Bias factor towards uniform class distribution.
+  0 = distribution in input data -- 1 = uniform distribution.
+  (default 0)
+ 是否按照原来数据类别的分布分层抽样
+
+ -no-replacement
+  Disables replacement of instances
+  (default: with replacement)
+
+ -V
+  Inverts the selection - only available with &apos;-no-replacement&apos;.
+
+Version:$Revision: 11310 $Author:Len Trigg (len@reeltwo.com)FracPete (fracpete at waikato dot ac dot nz)Eibe Frank
+</code></pre><p>使用Resample进行采样是比较简单的，下面是一个例子：</p>
+<pre><code>public static Instances BoostrapSample(Instances data) {
+        String[] options = {&quot;-S&quot;,1};
+        Resample convert = new Resample();
+        try {
+            convert.setOptions(options);
+            convert.setInputFormat(data);
+            data = Filter.useFilter(data, convert);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+</code></pre><p>SMOTE采样<br>随机采样比较简单，其实Weka还支持一种附加的采样方法，在Weka3.6版本以下，这个功能嵌入在Weka包里，Weka3.7版本开始，这个功能需要额外的第三方包的支持，这种采样就是SMOTE采样。<br>SMOTE算法的思想是合成新的少数类样本，合成的策略是对每个少数类样本a，从它的最近邻中随机选一个样本b，然后在a、b之间的连线上随机选一点作为新合成的少数类样本。 这是一种过采样方法，通过制造更多模拟的少数类样本来实现各个样本之间的平衡。</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;nz.ac.waikato.cms.weka&lt;/groupId&gt;
+    &lt;artifactId&gt;SMOTE&lt;/artifactId&gt;
+    &lt;version&gt;1.0.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>SMOTE采样实现代码如下：</p>
+<pre><code>public static Instances SMOTESample(Instances data,int normalElemFlag) {
+        SMOTE convert = new SMOTE();
+        int seed = (int) (Math.random() * 10);
+        String[] options = {&quot;-S&quot;, String.valueOf(seed), &quot;-P&quot;, &quot;100.0&quot;, &quot;-K&quot;, &quot;5&quot;};
+        Instances SmoteInstances = null;
+        try {
+            convert.setOptions(options);
+            convert.setInputFormat(data);
+            SmoteInstances = Filter.useFilter(data, convert);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return SmoteInstances;
+    }
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;###机器学习weka（一）&lt;br&gt;
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
+    
+  </entry>
   
   <entry>
     <title>Object类有哪些方法</title>
@@ -201,62 +422,6 @@ hashCode()
     </summary>
     
       <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>java泛型</title>
-    <link href="http://yoursite.com/2016/09/23/java%E6%B3%9B%E5%9E%8B/"/>
-    <id>http://yoursite.com/2016/09/23/java泛型/</id>
-    <published>2016-09-23T12:52:12.000Z</published>
-    <updated>2016-09-22T16:03:40.193Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
-<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
-<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
-<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
-<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
-    array[pos] = data;  
-} 
-</code></pre><p>###二、泛型用法<br>1.泛型类</p>
-<p>2.泛型方法</p>
-<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
-<pre><code>List&lt;?&gt; list;存放任意的对象
-List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
-List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
-</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
-<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
-<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
-}
-</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
-<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
-<p>JAVA的容器—List,Map,Set<br>Collection </p>
-<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
-<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
-<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
-<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
-<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
-<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
-<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
-<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
-<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
-<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
-<p>2.HashSet和TreeSet有什么区别？</p>
-<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
-<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;###一、泛型的由来&lt;br&gt;在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。&lt;br&gt;利用泛型，我们可以；&lt;/p&gt;
-&lt;p&gt;1、表示多个可变类型之间的相互关系：HashMap&lt;t,s&gt;表示类型T与S的映
-    
-    </summary>
-    
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
     
     
   </entry>
@@ -456,6 +621,62 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
   </entry>
   
   <entry>
+    <title>java泛型</title>
+    <link href="http://yoursite.com/2016/09/23/java%E6%B3%9B%E5%9E%8B/"/>
+    <id>http://yoursite.com/2016/09/23/java泛型/</id>
+    <published>2016-09-23T12:52:12.000Z</published>
+    <updated>2016-09-22T16:03:40.193Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
+<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
+<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
+<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
+<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
+    array[pos] = data;  
+} 
+</code></pre><p>###二、泛型用法<br>1.泛型类</p>
+<p>2.泛型方法</p>
+<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
+<pre><code>List&lt;?&gt; list;存放任意的对象
+List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
+List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
+</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
+<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
+<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
+}
+</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
+<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
+<p>JAVA的容器—List,Map,Set<br>Collection </p>
+<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
+<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
+<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
+<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
+<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
+<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
+<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;###一、泛型的由来&lt;br&gt;在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。&lt;br&gt;利用泛型，我们可以；&lt;/p&gt;
+&lt;p&gt;1、表示多个可变类型之间的相互关系：HashMap&lt;t,s&gt;表示类型T与S的映
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Java集合</title>
     <link href="http://yoursite.com/2016/09/22/java%E9%9B%86%E5%90%88/"/>
     <id>http://yoursite.com/2016/09/22/java集合/</id>
@@ -632,42 +853,6 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
   </entry>
   
   <entry>
-    <title>mysql分页优化</title>
-    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T08:58:07.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
-<p>1.基本分页</p>
-<pre><code>select * from Member limit 10, 100;  
-#m表示要显示的页数，n表示显示的记录行数
-</code></pre><p>2.子查询优化</p>
-<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
-</code></pre><p>3.反向查找</p>
-<p>当偏移量大大于一半</p>
-<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
-#时间：2.6493s
-SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
-#1.0035
-</code></pre><p>4.limit限制优化法 </p>
-<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
-<p>5.优化limit和offset </p>
-<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Java类的连接与初始化</title>
     <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
     <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
@@ -762,6 +947,42 @@ Chinese
     </summary>
     
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mysql分页优化</title>
+    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T08:58:07.172Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
+<p>1.基本分页</p>
+<pre><code>select * from Member limit 10, 100;  
+#m表示要显示的页数，n表示显示的记录行数
+</code></pre><p>2.子查询优化</p>
+<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
+</code></pre><p>3.反向查找</p>
+<p>当偏移量大大于一半</p>
+<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
+#时间：2.6493s
+SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
+#1.0035
+</code></pre><p>4.limit限制优化法 </p>
+<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
+<p>5.优化limit和offset </p>
+<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
     
     
   </entry>
@@ -1367,104 +1588,6 @@ array([0, 1, 2, ..., 8, 9, 8])
       <category term="quartz" scheme="http://yoursite.com/tags/quartz/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Calendar</title>
-    <link href="http://yoursite.com/2015/11/24/Calendar/"/>
-    <id>http://yoursite.com/2015/11/24/Calendar/</id>
-    <published>2015-11-24T15:13:04.000Z</published>
-    <updated>2015-12-09T15:36:59.600Z</updated>
-    
-    <content type="html"><![CDATA[<p>java中Calendar的使用方法<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.outofmemory.codes.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Calendar;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalendarDemo</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     Calendar calendar=Calendar.getInstance();</div><div class="line">     calendar.setTime(<span class="keyword">new</span> Date());</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+<span class="keyword">new</span> Date());</div><div class="line">     String year=String.valueOf(calendar.get(Calendar.YEAR));</div><div class="line">     String month=String.valueOf(calendar.get(Calendar.MONTH)+<span class="number">1</span>);</div><div class="line">     String day=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));</div><div class="line">     String week=String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)-<span class="number">1</span>);</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+year+<span class="string">"年"</span>+month+<span class="string">"月"</span>+day+<span class="string">"日，星期"</span>+week);</div><div class="line">     <span class="keyword">long</span> year2009=calendar.getTimeInMillis();</div><div class="line">     calendar.set(<span class="number">1989</span>,<span class="number">9</span>,<span class="number">26</span>);<span class="comment">//这里与真实的月份之间相差1</span></div><div class="line">     <span class="keyword">long</span> year1989=calendar.getTimeInMillis();</div><div class="line">     <span class="keyword">long</span> days=(year2009-year1989)/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</div><div class="line">     System.out.println(<span class="string">"今天和1989年10月26日相隔"</span>+days+<span class="string">"天，"</span>+<span class="string">"也就是说我在这个美丽的星球上已经幸福的生活了"</span>+days+<span class="string">"天。"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Calendar类的静态方法getInstance()可以初始化一个日历对象:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Calendar now = Calendar.getInstance();</div></pre></td></tr></table></figure></p>
-<p>可以使用下面三个方法把日历定到任何一个时间：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute,<span class="keyword">int</span> second)</div></pre></td></tr></table></figure></p>
-<p>如果想获得年份、月份、小时等信息可以使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Now.get(Calendar.Month) <span class="comment">//这样的方法 0表示一月，1表示二月</span></div><div class="line">get(Calendar.DAY_OF_MONTH)<span class="comment">//获得这个月的第几天</span></div><div class="line">get(Calendar.DAY_OF_WEEK)<span class="comment">//获得这个星期的第几天</span></div><div class="line">get(Calendar.DAY_OF_YEAR)<span class="comment">//获得这个年的第几天</span></div><div class="line">getTimeMillis()<span class="comment">//获得当前时间的毫秒表示</span></div></pre></td></tr></table></figure></p>
-<p>如下是Calendar类方法简介</p>
-<pre><code> abstract void add(int field, int amount) 根据日历的规则，为给定的日历字段添加或减去指定的时间量。   
- boolean after(Object when) 判断此 Calendar 表示的时间是否在指定 Object表示的时间之后，返回判断结果。 
- boolean before(Object when)  判断此 Calendar 表示的时间是否在指定 Object表示的时间之前，返回判断结果。 
- void clear() 将此 Calendar的所日历字段值和时间值（从历元至现在的毫秒偏移量）设置成未定义。 
- void clear(int field)  将此 Calendar的给定日历字段值和时间值（从历元至现在的毫秒偏移量）设置成未定义。
- Object clone() 创建并返回此对象的一个副本。 
- int compareTo(Calendar anotherCalendar)  比较两个 Calendar对象表示的时间值（从历元至现在的毫秒偏移量）。 
- protected void complete() 填充日历字段中所有未设置的字段。
- protected abstract void computeFields() 将当前毫秒时间值 time 转换为 fields[]中的日历字段值。
- protected abstract void computeTime() 将 fields[] 中的当前日历字段值转换为毫秒时间值    time。 
- boolean equals(Object obj)  将此 Calendar 与指定 Object 比较。 
- int get(int field)返回给定日历字段的值。 
- int getActualMaximum(int field)给定此 Calendar 的时间值，返回指定日历字段可能拥有的最大值。
- int getActualMinimum(int field)给定此 Calendar 的时间值，返回指定日历字段可能拥有的最小值。 
- static Locale[] getAvailableLocales()返回所有语言环境的数组，此类的 getInstance方法可以为其返回本地化的实例。 
- String getDisplayName(int field, int style, Locale locale) 返回给定 style和locale下的日历 field 值的字符串表示形式。 
- Map&lt;String,Integer&gt; getDisplayNames(int field, int style, Locale locale) 返回给定 style 和 locale 下包含日历 field 所有名称的 Map 及其相应字段值。
-int getFirstDayOfWeek()获取一星期的第一天；例如，在美国，这一天是 SUNDAY，而在法国，这一天是 MONDAY。
-abstract int getGreatestMinimum(int field)返回此 Calendar实例给定日历字段的最高的最小值。 
-static Calendar getInstance() 使用默认时区和语言环境获得一个日历。 
-static Calendar getInstance(Locale aLocale) 使用默认时区和指定语言环境获得一个日历。 
-static Calendar getInstance(TimeZone zone) 使用指定时区和默认语言环境获得一个日历。 
-static Calendar getInstance(TimeZone zone, Locale aLocale)    使用指定时区和语言环境获得一个日历。
-abstract int getLeastMaximum(int field) 返回此Calendar实例给定日历字段的最低的最大值。
-abstract int getMaximum(int field) 返回此 Calendar 实例给定日历字段的最大值。 
-int getMinimalDaysInFirstWeek()获取一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则此方法将返回 1。 
- abstract int getMinimum(int field) 返回此 Calendar 实例给定日历字段的最小值。
-Date getTime()返回一个表示此 Calendar 时间值（从历元至现在的毫秒偏移量）的 Date 对象。
-long getTimeInMillis()返回此 Calendar 的时间值，以毫秒为单位。 
-TimeZone getTimeZone()获得时区。 int hashCode()返回该此日历的哈希码。 
-protected int internalGet(int field)返回给定日历字段的值。 
-boolean isLenient()判断日期/时间的解释是否为宽松的。 
-boolean isSet(int field) 确定给定日历字段是否已经设置了一个值，其中包括因为调用 get方法触发内部字段计算而导致已经设置该值的情况。 
-abstract void roll(int field, boolean up)    在给定的时间字段上添加或减去（上/下）单个时间单元，不更改更大的字段。 
-void roll(int field, int amount) 向指定日历字段添加指定（有符号的）时间量，不更改更大的字段。 
-void set(int field, int value) 将给定的日历字段设置为给定值。
-void set(int year, int month, int date) 设置日历字段 YEAR、MONTH 和 DAY_OF_MONTH 的值。
-void set(int year, int month, int date, int hourOfDay, int minute)设置日历字段 YEAR、MONTH、DAY_OF_MONTH、HOUR_OF_DAY 和 MINUTE 的值。 
-void set(int year, int month, int date, int hourOfDay, int minute, int second) 设置字段 YEAR、MONTH、DAY_OF_MONTH、HOUR、MINUTE 和    SECOND 的值。
-void setFirstDayOfWeek(int value) 设置一星期的第一天是哪一天；例如，在美国，这一天是SUNDAY，而在法国，这一天是 MONDAY。 
-void setLenient(boolean lenient) 指定日期/时间解释是否是宽松的。 
-void setMinimalDaysInFirstWeek(int value)设置一年中第一个星期所需的最少天数，例如，如果定义第一个星期包含一年第一个月的第一天，则使用值 1 调用此方法。 
-void setTime(Date date) 使用给定的 Date 设置此 Calendar 的时间。 
-void setTimeInMillis(long millis) 用给定的 long 值设置此 Calendar 的当前时间值。
-void setTimeZone(TimeZone value) 使用给定的时区值来设置时区。 
-String toString() 返回此日历的字符串表示形式
-</code></pre><h2 id="Calendar的常用方法示例"><a href="#Calendar的常用方法示例" class="headerlink" title="Calendar的常用方法示例"></a>Calendar的常用方法示例</h2><p>1、计算某一月份的最大天数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Calendar time=Calendar.getInstance(); </div><div class="line">time.clear(); </div><div class="line">time.set(Calendar.YEAR,year); </div><div class="line">time.set(Calendar.MONTH,i-<span class="number">1</span>);<span class="comment">//注意,Calendar对象默认一月为0             </span></div><div class="line"><span class="keyword">int</span> day=time.getActualMaximum(Calendar.DAY_OF_MONTH);<span class="comment">//本月份的天数</span></div></pre></td></tr></table></figure></p>
-<p>注：在使用set方法之前，必须先clear一下，否则很多信息会继承自系统当前时间</p>
-<p>2、Calendar和Date的转化</p>
-<p>(1) Calendar转化为Date<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">Date date=cal.getTime();</div></pre></td></tr></table></figure></p>
-<p>(2) Date转化为Calendar<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Date date=<span class="keyword">new</span> Date();</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.setTime(date);</div></pre></td></tr></table></figure></p>
-<p>3、格式化输出日期时间<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Date date=<span class="keyword">new</span> Date();</div><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd hh:mm:ss"</span>);</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
-<p>4、计算一年中的第几星期</p>
-<p>(1)计算某一天是一年中的第几星期<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line"><span class="keyword">int</span> weekno=cal.get(Calendar.WEEK_OF_YEAR);</div></pre></td></tr></table></figure></p>
-<p>(2)计算一年中的第几星期是几号<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.WEEK_OF_YEAR, <span class="number">1</span>);</div><div class="line">cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);</div><div class="line">System.out.println(df.format(cal.getTime()));</div></pre></td></tr></table></figure></p>
-<p>输出:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">01</span>-<span class="number">02</span></div></pre></td></tr></table></figure></p>
-<p>5、add()和roll()的用法</p>
-<p>(1) add()方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat df=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">Calendar cal=Calendar.getInstance();</div><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line">cal.add(Calendar.DATE, -<span class="number">4</span>);</div><div class="line">Date date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div><div class="line">cal.add(Calendar.DATE, <span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">08</span>-<span class="number">30</span></div><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">03</span></div></pre></td></tr></table></figure></p>
-<p>(2)roll方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cal.set(Calendar.YEAR, <span class="number">2006</span>);</div><div class="line">cal.set(Calendar.MONTH, <span class="number">8</span>);</div><div class="line">cal.set(Calendar.DAY_OF_MONTH, <span class="number">3</span>);</div><div class="line">cal.roll(Calendar.DATE, -<span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div><div class="line">cal.roll(Calendar.DATE, <span class="number">4</span>);</div><div class="line">date=cal.getTime();</div><div class="line">System.out.println(df.format(date));</div></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">29</span></div><div class="line"><span class="number">2006</span>-<span class="number">09</span>-<span class="number">03</span></div></pre></td></tr></table></figure></p>
-<p>可见，roll()方法在本月内循环，一般使用add()方法；</p>
-<p>6、计算两个任意时间中间的间隔天数</p>
-<p>(1)传进Calendar对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">/</div><div class="line">**计算两个时间之间相隔天数</div><div class="line"> * <span class="meta">@param</span> startday  开始时间</div><div class="line"> * <span class="meta">@param</span> endday 结束时间</div><div class="line"> * <span class="meta">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIntervalDays</span><span class="params">(Calendar startday,Calendar endday)</span></span>&#123;</div><div class="line">    <span class="comment">//确保startday在endday之前</span></div><div class="line">    <span class="keyword">if</span>(startday.after(endday))&#123;</div><div class="line">        Calendar cal=startday;</div><div class="line">        startday=endday;</div><div class="line">        endday=cal;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//分别得到两个时间的毫秒数</span></div><div class="line">    <span class="keyword">long</span> sl=startday.getTimeInMillis();</div><div class="line">    <span class="keyword">long</span> el=endday.getTimeInMillis();</div><div class="line"></div><div class="line">    <span class="keyword">long</span> ei=el-sl;    </div><div class="line">    <span class="comment">//根据毫秒数计算间隔天数</span></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(ei/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>(2)传进Date对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**计算两个时间之间相隔天数</span></div><div class="line"> * <span class="doctag">@param</span> startday  开始时间</div><div class="line"> * <span class="doctag">@param</span> endday 结束时间</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIntervalDays</span><span class="params">(Date startday,Date endday)</span></span>&#123;</div><div class="line">    <span class="comment">//确保startday在endday之前</span></div><div class="line">    <span class="keyword">if</span>(startday.after(endday))&#123;</div><div class="line">        Date cal=startday;</div><div class="line">        startday=endday;</div><div class="line">        endday=cal;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//分别得到两个时间的毫秒数</span></div><div class="line">    <span class="keyword">long</span> sl=startday.getTime();</div><div class="line">    <span class="keyword">long</span> el=endday.getTime();</div><div class="line"></div><div class="line">    <span class="keyword">long</span> ei=el-sl;    </div><div class="line">    <span class="comment">//根据毫秒数计算间隔天数</span></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(ei/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>同理，可以用相同的方法计算出任意两个时间相隔的小时数，分钟数，秒钟数等</p>
-<p>注：以上方法是完全按时间计算，有时并不能令人满意，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">startday=<span class="string">"2006-10-11 20:00:00"</span> endday=<span class="string">"2006-10-12 8:00:00"</span></div></pre></td></tr></table></figure></p>
-<p>计算结果为0，但是我们也许相让计算结果变为1，此时可以用如下方法实现：</p>
-<p>在传参之前，先设定endday的时间，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">endday.set(Calendar.HOUR_OF_DAY, <span class="number">23</span>);</div><div class="line">endday.set(Calendar.MINUTE, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.SECOND, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.MILLISECOND, <span class="number">59</span>);</div></pre></td></tr></table></figure></p>
-<p>这样再传进去startday,endday，则结果就如我们所愿了。不过，如果嫌以上方法麻烦，可以参考以下方法：</p>
-<p>(3)改进精确计算相隔天数的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDaysBetween</span> <span class="params">(Calendar d1, Calendar d2)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (d1.after(d2)) &#123;  <span class="comment">// swap dates so that d1 is start and d2 is end</span></div><div class="line">        java.util.Calendar swap = d1;</div><div class="line">        d1 = d2;</div><div class="line">        d2 = swap;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> days = d2.get(Calendar.DAY_OF_YEAR) - d1.get(Calendar.DAY_OF_YEAR);</div><div class="line">    <span class="keyword">int</span> y2 = d2.get(Calendar.YEAR);</div><div class="line">    <span class="keyword">if</span> (d1.get(Calendar.YEAR) != y2) &#123;</div><div class="line">        d1 = (Calendar) d1.clone();</div><div class="line">        do &#123;</div><div class="line">            days += d1.getActualMaximum(Calendar.DAY_OF_YEAR);<span class="comment">//得到当年的实际天数</span></div><div class="line">            d1.add(Calendar.YEAR, <span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">while</span> (d1.get(Calendar.YEAR) != y2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> days;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;java中Calendar的使用方法&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
-    
-    
-      <category term="Calendar" scheme="http://yoursite.com/tags/Calendar/"/>
     
   </entry>
   
