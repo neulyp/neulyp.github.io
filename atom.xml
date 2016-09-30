@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-29T14:11:11.276Z</updated>
+  <updated>2016-09-29T14:16:49.908Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习weka（三）</title>
+    <link href="http://yoursite.com/2016/09/29/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0weka%EF%BC%88%E4%B8%89%EF%BC%89/"/>
+    <id>http://yoursite.com/2016/09/29/机器学习weka（三）/</id>
+    <published>2016-09-29T14:12:39.000Z</published>
+    <updated>2016-09-29T14:16:49.908Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>模型序列化/持久化存储和加载</strong></p>
+<p>有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？<br>其实既然模型也是一个Java对象，那我就按照JAVA的序列化和反序列化方法保存模型对象即可。</p>
+<p>以J48为例，进行序列化和存取</p>
+<p>序列化：</p>
+<pre><code>public static void persistModel(J48 model, String ModelPath) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(
+            new FileOutputStream(ModelPath));
+            oos.writeObject(model);
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+</code></pre><p>重新加载：</p>
+<pre><code>public static J48 reloadPersistModel(String ModelPath) {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(
+            new FileInputStream(new File(ModelPath)));
+            J48 model = (J48) ois.readObject();
+            return model;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;模型序列化/持久化存储和加载&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>机器学习weka（二）</title>
@@ -487,62 +535,6 @@ hashCode()
   </entry>
   
   <entry>
-    <title>java泛型</title>
-    <link href="http://yoursite.com/2016/09/23/java%E6%B3%9B%E5%9E%8B/"/>
-    <id>http://yoursite.com/2016/09/23/java泛型/</id>
-    <published>2016-09-23T12:52:12.000Z</published>
-    <updated>2016-09-22T16:03:40.193Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
-<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
-<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
-<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
-<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
-    array[pos] = data;  
-} 
-</code></pre><p>###二、泛型用法<br>1.泛型类</p>
-<p>2.泛型方法</p>
-<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
-<pre><code>List&lt;?&gt; list;存放任意的对象
-List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
-List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
-</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
-<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
-<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
-}
-</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
-<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
-<p>JAVA的容器—List,Map,Set<br>Collection </p>
-<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
-<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
-<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
-<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
-<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
-<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
-<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
-<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
-<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
-<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
-<p>2.HashSet和TreeSet有什么区别？</p>
-<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
-<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;###一、泛型的由来&lt;br&gt;在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。&lt;br&gt;利用泛型，我们可以；&lt;/p&gt;
-&lt;p&gt;1、表示多个可变类型之间的相互关系：HashMap&lt;t,s&gt;表示类型T与S的映
-    
-    </summary>
-    
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>java杂记</title>
     <link href="http://yoursite.com/2016/09/23/java%E6%9D%82%E8%AE%B0/"/>
     <id>http://yoursite.com/2016/09/23/java杂记/</id>
@@ -728,6 +720,62 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
     
       &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;1.ArrayList和LinkedList有什么区别？&lt;br&gt;ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>java泛型</title>
+    <link href="http://yoursite.com/2016/09/23/java%E6%B3%9B%E5%9E%8B/"/>
+    <id>http://yoursite.com/2016/09/23/java泛型/</id>
+    <published>2016-09-23T12:52:12.000Z</published>
+    <updated>2016-09-22T16:03:40.193Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
+<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
+<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
+<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
+<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
+    array[pos] = data;  
+} 
+</code></pre><p>###二、泛型用法<br>1.泛型类</p>
+<p>2.泛型方法</p>
+<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
+<pre><code>List&lt;?&gt; list;存放任意的对象
+List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
+List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
+</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
+<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
+<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
+}
+</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
+<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
+<p>JAVA的容器—List,Map,Set<br>Collection </p>
+<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
+<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
+<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
+<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
+<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
+<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
+<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;###一、泛型的由来&lt;br&gt;在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。&lt;br&gt;利用泛型，我们可以；&lt;/p&gt;
+&lt;p&gt;1、表示多个可变类型之间的相互关系：HashMap&lt;t,s&gt;表示类型T与S的映
     
     </summary>
     
@@ -1537,37 +1585,6 @@ hadoop fs -cat /output/part-r-00000
     
     
       <category term="SQL优化" scheme="http://yoursite.com/tags/SQL%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>quartz in web</title>
-    <link href="http://yoursite.com/2015/11/27/web/"/>
-    <id>http://yoursite.com/2015/11/27/web/</id>
-    <published>2015-11-27T12:39:32.000Z</published>
-    <updated>2015-12-09T15:38:09.300Z</updated>
-    
-    <content type="html"><![CDATA[<p>##quartz在web的配置<br><a id="more"></a><br><strong>1. jar包</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">commons-collections.jar</div><div class="line">commons-logging-<span class="number">1.0</span>.4.jar</div><div class="line">log4j-<span class="number">1.2</span>.15.jar</div><div class="line">quartz-all-<span class="number">1.6</span>.1.jar</div><div class="line">slf4j-api-<span class="number">1.5</span>.6.jar</div><div class="line">slf4j-log4j12-<span class="number">1.5</span>.6.jar</div></pre></td></tr></table></figure>
-<p><strong>2. 配置web.xml</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span>    </div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span> Listener.QuartzSchedulerListener <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>备注：Listener.QuartzSchedulerListener实现 ServletContextListene接口。并实现继承的方法。</p>
-<p><strong>3. java方法（1、SchedulerTask ，2、SchedulerJob，3、QuartzSchedulerListener  ）</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.Job;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzJob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext arg0)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</div><div class="line">		System.out.println(<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>).format(<span class="keyword">new</span> Date())+ <span class="string">"★★★★★★★★★★★"</span>);  </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@Description</span>: </div><div class="line"> *</div><div class="line"> * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line"> * <span class="doctag">@Package</span> com.joyce.quartz</div><div class="line"> * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Comsys-LZP</div><div class="line"> * <span class="doctag">@date</span> 2014-6-26 下午03:15:52</div><div class="line"> * <span class="doctag">@version</span> V2.0</div><div class="line"> */</div><div class="line"><span class="keyword">package</span> com.joyce.quartz;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.CronTrigger;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SchedulerFactory;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@Description</span>: 定时任务管理类</div><div class="line"> * </div><div class="line"> * <span class="doctag">@ClassName</span>: QuartzManager</div><div class="line"> * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> Comsys-LZP</div><div class="line"> * <span class="doctag">@date</span> 2014-6-26 下午03:15:52</div><div class="line"> * <span class="doctag">@version</span> V2.0</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzManager</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> SchedulerFactory gSchedulerFactory = <span class="keyword">new</span> StdSchedulerFactory();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> String JOB_GROUP_NAME = <span class="string">"EXTJWEB_JOBGROUP_NAME"</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> String TRIGGER_GROUP_NAME = <span class="string">"EXTJWEB_TRIGGERGROUP_NAME"</span>;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 添加一个定时任务，使用默认的任务组名，触发器名，触发器组名</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 *            任务名</div><div class="line">	 * <span class="doctag">@param</span> cls</div><div class="line">	 *            任务</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 *            时间设置，参考quartz说明文档</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:47:44</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addJob</span><span class="params">(String jobName, Class cls, String time)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			JobDetail jobDetail = <span class="keyword">new</span> JobDetail(jobName, JOB_GROUP_NAME, cls);<span class="comment">// 任务名，任务组，任务执行类</span></div><div class="line">			<span class="comment">// 触发器</span></div><div class="line">			CronTrigger trigger = <span class="keyword">new</span> CronTrigger(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 触发器名,触发器组</span></div><div class="line">			trigger.setCronExpression(time);<span class="comment">// 触发器时间设定</span></div><div class="line">			sched.scheduleJob(jobDetail, trigger);</div><div class="line">			<span class="comment">// 启动</span></div><div class="line">			<span class="keyword">if</span> (!sched.isShutdown()) &#123;</div><div class="line">				sched.start();</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 添加一个定时任务</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 *            任务名</div><div class="line">	 * <span class="doctag">@param</span> jobGroupName</div><div class="line">	 *            任务组名</div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 *            触发器名</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 *            触发器组名</div><div class="line">	 * <span class="doctag">@param</span> jobClass</div><div class="line">	 *            任务</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 *            时间设置，参考quartz说明文档</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:48:15</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addJob</span><span class="params">(String jobName, String jobGroupName,</span></span></div><div class="line">			String triggerName, String triggerGroupName, Class jobClass,</div><div class="line">			String time) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			JobDetail jobDetail = <span class="keyword">new</span> JobDetail(jobName, jobGroupName, jobClass);<span class="comment">// 任务名，任务组，任务执行类</span></div><div class="line">			<span class="comment">// 触发器</span></div><div class="line">			CronTrigger trigger = <span class="keyword">new</span> CronTrigger(triggerName, triggerGroupName);<span class="comment">// 触发器名,触发器组</span></div><div class="line">			trigger.setCronExpression(time);<span class="comment">// 触发器时间设定</span></div><div class="line">			sched.scheduleJob(jobDetail, trigger);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 修改一个任务的触发时间(使用默认的任务组名，触发器名，触发器组名)</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:21</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyJobTime</span><span class="params">(String jobName, String time)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			CronTrigger trigger = (CronTrigger) sched.getTrigger(jobName,TRIGGER_GROUP_NAME);</div><div class="line">			<span class="keyword">if</span> (trigger == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">			String oldTime = trigger.getCronExpression();</div><div class="line">			<span class="keyword">if</span> (!oldTime.equalsIgnoreCase(time)) &#123;</div><div class="line">				JobDetail jobDetail = sched.getJobDetail(jobName,JOB_GROUP_NAME);</div><div class="line">				Class objJobClass = jobDetail.getJobClass();</div><div class="line">				removeJob(jobName);</div><div class="line">				addJob(jobName, objJobClass, time);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 修改一个任务的触发时间</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 * <span class="doctag">@param</span> time</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:37</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyJobTime</span><span class="params">(String triggerName,</span></span></div><div class="line">			String triggerGroupName, String time) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			CronTrigger trigger = (CronTrigger) sched.getTrigger(triggerName,triggerGroupName);</div><div class="line">			<span class="keyword">if</span> (trigger == <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">			String oldTime = trigger.getCronExpression();</div><div class="line">			<span class="keyword">if</span> (!oldTime.equalsIgnoreCase(time)) &#123;</div><div class="line">				CronTrigger ct = (CronTrigger) trigger;</div><div class="line">				<span class="comment">// 修改时间</span></div><div class="line">				ct.setCronExpression(time);</div><div class="line">				<span class="comment">// 重启触发器</span></div><div class="line">				sched.resumeTrigger(triggerName, triggerGroupName);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 移除一个任务(使用默认的任务组名，触发器名，触发器组名)</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:49:51</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeJob</span><span class="params">(String jobName)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.pauseTrigger(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 停止触发器</span></div><div class="line">			sched.unscheduleJob(jobName, TRIGGER_GROUP_NAME);<span class="comment">// 移除触发器</span></div><div class="line">			sched.deleteJob(jobName, JOB_GROUP_NAME);<span class="comment">// 删除任务</span></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>: 移除一个任务</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> jobName</div><div class="line">	 * <span class="doctag">@param</span> jobGroupName</div><div class="line">	 * <span class="doctag">@param</span> triggerName</div><div class="line">	 * <span class="doctag">@param</span> triggerGroupName</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:01</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeJob</span><span class="params">(String jobName, String jobGroupName,</span></span></div><div class="line">			String triggerName, String triggerGroupName) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.pauseTrigger(triggerName, triggerGroupName);<span class="comment">// 停止触发器</span></div><div class="line">			sched.unscheduleJob(triggerName, triggerGroupName);<span class="comment">// 移除触发器</span></div><div class="line">			sched.deleteJob(jobName, jobGroupName);<span class="comment">// 删除任务</span></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>:启动所有定时任务</div><div class="line">	 * </div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:18</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">startJobs</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			sched.start();</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@Description</span>:关闭所有定时任务</div><div class="line">	 * </div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@Title</span>: QuartzManager.java</div><div class="line">	 * <span class="doctag">@Copyright</span>: Copyright (c) 2014</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@author</span> Comsys-LZP</div><div class="line">	 * <span class="doctag">@date</span> 2014-6-26 下午03:50:26</div><div class="line">	 * <span class="doctag">@version</span> V2.0</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shutdownJobs</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Scheduler sched = gSchedulerFactory.getScheduler();</div><div class="line">			<span class="keyword">if</span> (!sched.isShutdown()) &#123;</div><div class="line">				sched.shutdown();</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.text.ParseException;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletContextEvent;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletContextListener;</div><div class="line"><span class="keyword">import</span> org.quartz.CronTrigger;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SchedulerException;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> Quartz.SchedulerJob;</div><div class="line"><span class="keyword">import</span> Quartz.SchedulerTask;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuartzSchedulerListener</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span></span>&#123; </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent arg0)</span> </span>&#123; </div><div class="line">	<span class="comment">//銷毀任務</span></div><div class="line">	<span class="comment">//調用QuartzManager裡面的方法（一種辦法）</span></div><div class="line">	 &#125; </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent arg0)</span> </span>&#123; </div><div class="line">	<span class="comment">//初始化任務</span></div><div class="line">	</div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##quartz在web的配置&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
-    
-    
-      <category term="quartz" scheme="http://yoursite.com/tags/quartz/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
