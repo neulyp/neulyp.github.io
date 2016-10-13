@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-29T14:16:49.908Z</updated>
+  <updated>2016-10-13T07:55:14.028Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,120 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql中tinyint.smallint.int.bigint区别</title>
+    <link href="http://yoursite.com/2016/10/13/mysql%E4%B8%ADtinyint-smallint-int-bigint%E5%8C%BA%E5%88%AB/"/>
+    <id>http://yoursite.com/2016/10/13/mysql中tinyint-smallint-int-bigint区别/</id>
+    <published>2016-10-13T07:52:49.000Z</published>
+    <updated>2016-10-13T07:55:14.028Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
+</li>
+<li><p>smallint<br>从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小为 2 个字节。<br>unsigned 是从 0 到 65535 的整型数据。<br>所以建表的时候 只能是smallint(5),哪怕你建smallint(100)，他最大还是5位这么多。</p>
+</li>
+<li><p>int<br>从 -2^31 (-2,147,483,648) 到 2^31 - 1 (2,147,483,647) 的整型数据（所有数字）.存储大小为 4 个字节。<br>unsigned 是从 0 到 4294967296 的整型数据。<br>所以建表的时候 只能是int(10),哪怕你建int(100)，他最大还是10位这么多。</p>
+</li>
+<li><p>bigint<br>从 -2^63 (-9,223,372,036,854,775,808) 到 2^63-1 (9,223,372,036,854,775,807) 的整型数据（所有数字）。存储大小为 8 个字节。<br>unsigned 是(自己算吧)</p>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;tinyint&lt;br&gt;从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。&lt;br&gt;unsigned 是从 0 到 255 的整型数据。&lt;br&gt;所以建表的时候 只能是tinyint(3),哪怕你建tinyint(1
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象系统分析与设计</title>
+    <link href="http://yoursite.com/2016/10/06/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/"/>
+    <id>http://yoursite.com/2016/10/06/面向对象系统分析与设计/</id>
+    <published>2016-10-06T09:02:48.000Z</published>
+    <updated>2016-10-06T09:30:40.429Z</updated>
+    
+    <content type="html"><![CDATA[<p>####系统分析设计方法：</p>
+<ul>
+<li>结构化方法</li>
+<li>信息建模法</li>
+<li>面向对象分析设计方法</li>
+</ul>
+<p>面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或概念）。</p>
+<p>面向对象的设计（ Object Oriented Design ，OOD）强调的是定义软件对象以它们是如何协作以实现需求</p>
+<p>####面向对象的优点：</p>
+<ul>
+<li>复用<br>通过继承、关联、封装等手段</li>
+<li>应变<br>弹性应对需求变化</li>
+<li>沟通<br>开发人员、用户、管理人员</li>
+<li>市场<br>应付市场的变化</li>
+<li>士气<br>员工的士气</li>
+</ul>
+<p>使用OMT方法的面向对象开发过程可分为5步：</p>
+<ul>
+<li>分析</li>
+<li>系统设计</li>
+<li>对象设计</li>
+<li>编代码</li>
+<li>测试</li>
+</ul>
+<p>分为下述5个活动 </p>
+<ul>
+<li>编写问题陈述 </li>
+<li>建立对象模型 </li>
+<li>建立动态模型 </li>
+<li>建立功能模型</li>
+<li>细化对象模型、动态模型和功能模型，并建立文档</li>
+</ul>
+<p>系统设计的步骤如下：</p>
+<ul>
+<li>将系统划分为子系统 </li>
+<li>识别并发 </li>
+<li>将子系统和任务分配给处理器 </li>
+<li>选择实现数据存储的策略 </li>
+<li>识别出全局资源，并确定控制访问全局资源的机制 </li>
+<li>选择实现软件控制的方法 </li>
+<li>考虑边界条件 </li>
+<li>建立折衷的优先级</li>
+</ul>
+<p>宏过程包括下述5个活动:</p>
+<p>（1）概念化（Conceptualization）：在这个活动中，建立核心需求。<br>（2）分析（Analysis）：在这个活动中，为所期望的行为建立模型。<br>（3）设计（Design）：在这个活动中，建立体系结构。<br>（4）进化（Evolution）：在这个活动中，形成实现。<br>（5）维护（Maintenance）：在这个活动中，管理软件的交付使用。</p>
+<p>微过程由4个步骤组成：</p>
+<p>（1）在给定的抽象层次上识别出类和对象。<br>（2）识别出这些类和对象的语义。<br>（3）识别出类间和对象间的关系。<br>（4）实现类和对象。</p>
+<p>####软件过程</p>
+<p>软件过程定义了软件开发、部署和维护的步骤</p>
+<ul>
+<li><p>迭代式开发 </p>
+<p> 迭代式开发将软件开发过程分解为一系列小的，固定周期的(比如，4个星期)的小项目，每个小项目称为一个迭代。</p>
+</li>
+<li><p>统一过程 (Unified Process)</p>
+</li>
+</ul>
+<p>一种采用OOA/D方法学开发项目的过程(Ivar Jacobson)。<br>一种流行的构造面向对象系统的迭代开发过程（JBR99）。</p>
+<ul>
+<li>敏捷UP( Agile UP ) </li>
+</ul>
+<p>引入了敏捷概念的UP,是UP的一个简集。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;####系统分析设计方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;结构化方法&lt;/li&gt;
+&lt;li&gt;信息建模法&lt;/li&gt;
+&lt;li&gt;面向对象分析设计方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>机器学习weka（三）</title>
@@ -785,42 +899,6 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
   </entry>
   
   <entry>
-    <title>mysql分页优化</title>
-    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T08:58:07.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
-<p>1.基本分页</p>
-<pre><code>select * from Member limit 10, 100;  
-#m表示要显示的页数，n表示显示的记录行数
-</code></pre><p>2.子查询优化</p>
-<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
-</code></pre><p>3.反向查找</p>
-<p>当偏移量大大于一半</p>
-<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
-#时间：2.6493s
-SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
-#1.0035
-</code></pre><p>4.limit限制优化法 </p>
-<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
-<p>5.优化limit和offset </p>
-<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Java类的连接与初始化</title>
     <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
     <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
@@ -1091,6 +1169,42 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
     </summary>
     
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mysql分页优化</title>
+    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T08:58:07.172Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
+<p>1.基本分页</p>
+<pre><code>select * from Member limit 10, 100;  
+#m表示要显示的页数，n表示显示的记录行数
+</code></pre><p>2.子查询优化</p>
+<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
+</code></pre><p>3.反向查找</p>
+<p>当偏移量大大于一半</p>
+<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
+#时间：2.6493s
+SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
+#1.0035
+</code></pre><p>4.limit限制优化法 </p>
+<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
+<p>5.优化limit和offset </p>
+<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
     
     
   </entry>
@@ -1492,99 +1606,6 @@ hadoop fs -cat /output/part-r-00000
     
       <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>simpleEmail</title>
-    <link href="http://yoursite.com/2015/12/09/simpleEmail/"/>
-    <id>http://yoursite.com/2015/12/09/simpleEmail/</id>
-    <published>2015-12-09T11:36:02.000Z</published>
-    <updated>2015-12-09T15:37:51.439Z</updated>
-    
-    <content type="html"><![CDATA[<p>simpleEmail实现邮件发送<br><a id="more"></a><br>需要的包<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">commons-email-<span class="number">1.4</span></div><div class="line">mail</div></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.mail;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> 吕云鹏</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MailService</span> </span>&#123;</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 发送邮件</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> from</div><div class="line">	 *            发件人</div><div class="line">	 * <span class="doctag">@param</span> to</div><div class="line">	 *            收件人</div><div class="line">	 * <span class="doctag">@param</span> title</div><div class="line">	 *            标题</div><div class="line">	 * <span class="doctag">@param</span> msg</div><div class="line">	 *            正文</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String from, String to, String title, String msg)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.mail;</div><div class="line"><span class="keyword">import</span> org.apache.commons.mail.EmailException;</div><div class="line"><span class="keyword">import</span> org.apache.commons.mail.SimpleEmail;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> 吕云鹏</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailServiceImpl</span> <span class="keyword">implements</span> <span class="title">MailService</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String host = <span class="string">"smtp.163.com"</span>;</div><div class="line">	<span class="keyword">private</span> String username = <span class="string">"****"</span>;</div><div class="line">	<span class="keyword">private</span> String password = <span class="string">"****"</span>;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(String from, String to, String title, String msg)</span></span></div><div class="line">			<span class="keyword">throws</span> EmailException &#123;</div><div class="line">		SimpleEmail email = <span class="keyword">new</span> SimpleEmail();</div><div class="line">		email.setHostName(host); <span class="comment">// 设置邮件服务</span></div><div class="line">		email.setAuthentication(username, password);<span class="comment">// 登陆邮件服务</span></div><div class="line">		email.setCharset(<span class="string">"UTF-8"</span>);</div><div class="line">		<span class="comment">//email.setFrom(from, "ibm_test");</span></div><div class="line">		email.setFrom(from);</div><div class="line">		email.addTo(to);</div><div class="line">		email.setSubject(title);<span class="comment">// 设置标题</span></div><div class="line">		email.setMsg(msg);<span class="comment">// 设置正文</span></div><div class="line">		email.send();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		MailServiceImpl impl = <span class="keyword">new</span> MailServiceImpl();</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			impl.sendMail(<span class="string">"***"</span>, <span class="string">"***"</span>, <span class="string">"about workflow"</span>, <span class="string">"请完成工作任务"</span>);</div><div class="line">			System.out.println(<span class="string">"邮件发送成功"</span>);</div><div class="line">		&#125; <span class="keyword">catch</span> (EmailException e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;simpleEmail实现邮件发送&lt;br&gt;
-    
-    </summary>
-    
-      <category term="JAVA" scheme="http://yoursite.com/categories/JAVA/"/>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-      <category term="邮件服务" scheme="http://yoursite.com/tags/%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据库SQL优化大总结之百万级数据库优化方案</title>
-    <link href="http://yoursite.com/2015/11/30/%E6%95%B0%E6%8D%AE%E5%BA%93SQL%E4%BC%98%E5%8C%96%E5%A4%A7%E6%80%BB%E7%BB%93%E4%B9%8B%E7%99%BE%E4%B8%87%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/"/>
-    <id>http://yoursite.com/2015/11/30/数据库SQL优化大总结之百万级数据库优化方案/</id>
-    <published>2015-11-30T15:52:50.000Z</published>
-    <updated>2015-12-09T15:38:37.071Z</updated>
-    
-    <content type="html"><![CDATA[<p>数据库SQL优化大总结之百万级数据库优化方案<br><a id="more"></a><br>1.对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。</p>
-<p>2.应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num is null</div></pre></td></tr></table></figure></p>
-<p>最好不要给数据库留NULL，尽可能的使用 NOT NULL填充数据库.</p>
-<p>备注、描述、评论之类的可以设置为 NULL，其他的，最好不要使用NULL。</p>
-<p>不要以为 NULL 不需要空间，比如：char(100) 型，在字段建立时，空间就固定了， 不管是否插入值（NULL也包含在内），都是占用 100个字符的空间的，如果是varchar这样的变长字段， null 不占用空间。</p>
-<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 0</div></pre></td></tr></table></figure></p>
-<p>3.应尽量避免在 where 子句中使用 != 或 &lt;&gt; 操作符，否则将引擎放弃使用索引而进行全表扫描。</p>
-<p>4.应尽量避免在 where 子句中使用 or 来连接条件，如果一个字段有索引，一个字段没有索引，将导致引擎放弃使用索引而进行全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num=10 or Name = &apos;admin&apos;</div></pre></td></tr></table></figure></p>
-<p>可以这样查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 10</div><div class="line">union all</div><div class="line">select id from t where Name = &apos;admin&apos;</div></pre></td></tr></table></figure></p>
-<p>5.in 和 not in 也要慎用，否则会导致全表扫描，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num in(1,2,3)</div></pre></td></tr></table></figure></p>
-<p>对于连续的数值，能用 between 就不要用 in 了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num between 1 and 3</div></pre></td></tr></table></figure></p>
-<p>很多时候用 exists 代替 in 是一个好的选择：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select num from a where num in(select num from b)</div></pre></td></tr></table></figure></p>
-<p>用下面的语句替换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select num from a where exists(select 1 from b where num=a.num)</div></pre></td></tr></table></figure></p>
-<p>6.下面的查询也将导致全表扫描：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where name like ‘%abc%’</div></pre></td></tr></table></figure></p>
-<p>若要提高效率，可以考虑全文检索。</p>
-<p>7.如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = @num</div></pre></td></tr></table></figure></p>
-<p>可以改为强制查询使用索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t with(index(索引名)) where num = @num</div></pre></td></tr></table></figure></p>
-<p>.应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num/2 = 100</div></pre></td></tr></table></figure></p>
-<p>应改为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select id from t where num = 100*2</div></pre></td></tr></table></figure></p>
-<p>9.应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select id from t where substring(name,1,3) = ’abc’       -–name以abc开头的id</div><div class="line">select id from t where datediff(day,createdate,’2005-11-30′) = 0    -–‘2005-11-30’    --生成的id</div></pre></td></tr></table></figure></p>
-<p>应改为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select id from t where name like &apos;abc%&apos;</div><div class="line">select id from t where createdate &gt;= &apos;2005-11-30&apos; and createdate &lt; &apos;2005-12-1&apos;</div></pre></td></tr></table></figure></p>
-<p>10.不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
-<p>11.在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使用，并且应尽可能的让字段顺序与索引顺序相一致。</p>
-<p>12.不要写一些没有意义的查询，如需要生成一个空表结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select col1,col2 into #t from t where 1=0</div></pre></td></tr></table></figure></p>
-<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create table #t(…)</div></pre></td></tr></table></figure></p>
-<p>13.Update 语句，如果只更改1、2个字段，不要Update全部字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志。</p>
-<p>14.对于多张大数据量（这里几百条就算大了）的表JOIN，要先分页再JOIN，否则逻辑读会很高，性能很差。</p>
-<p>15.这样不带任何条件的count会引起全表扫描，并且没有任何业务意义，是一定要杜绝的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select count(*) from table；</div></pre></td></tr></table></figure></p>
-<p>16.索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
-<p>17.应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
-<p>18.尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连 接时会逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
-<p>19.尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
-<p>20.任何地方都不要使用 select <em> from t ，用具体的字段列表代替“</em>”，不要返回用不到的任何字段。</p>
-<p>21.尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
-<p>22.避免频繁创建和删除临时表，以减少系统表资源的消耗。临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件， 最好使用导出表。</p>
-<p>23.在新建临时表时，如果一次性插入数据量很大，那么可以使用 select into 代替 create table，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先create table，然后insert。</p>
-<p>24.如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p>
-<p>25.尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
-<p>26.使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
-<p>27.与临时表一样，游标并不是不可使用。对小型数据集使用 FAST_FORWARD 游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
-<p>28.在所有的存储过程和触发器的开始处设置 SET NOCOUNT ON ，在结束时设置 SET NOCOUNT OFF 。无需在执行存储过程和触发器的每个语句后向客户端发送 DONE_IN_PROC 消息。</p>
-<p>29.尽量避免大事务操作，提高系统并发能力。</p>
-<p>30.尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
-<p>实际案例分析：拆分大的 DELETE 或INSERT 语句，批量提交SQL语句<br>    　　如果你需要在一个在线的网站上去执行一个大的 DELETE 或 INSERT         查询，你需要非常小心，要避免你的操作让你的整个网站停止相应。因为这两个操作是会锁表的，表一锁住了，别的操作都进不来了。<br>    　　Apache 会有很多的子进程或线程。所以，其工作起来相当有效率，而我们的服务器也不希望有太多的子进程，线程和数据库链接，这是极大的占服务器资源的事情，尤其是内存。<br>    　　如果你把你的表锁上一段时间，比如30秒钟，那么对于一个有很高访问量的站点来说，这30秒所积累的访问进程/线程，数据库链接，打开的文件数，可能不仅仅会让你的WEB服务崩溃，还可能会让你的整台服务器马上挂了。所以，如果你有一个大的处理，你一定把其拆分，使用 LIMIT oracle(rownum),sqlserver(top)条件是一个好的方法。<br>    　　下面是一个mysql示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">while(1)&#123;</div><div class="line"> 　　//每次只做1000条</div><div class="line">　　 mysql_query(“delete from logs where log_date &lt;= ’2012-11-01’ limit 1000”);</div><div class="line"> 　　if(mysql_affected_rows() == 0)&#123;</div><div class="line">　　 　　//删除完成，退出！</div><div class="line">　　 　　break；</div><div class="line">　　&#125;</div><div class="line">//每次暂停一段时间，释放表让其他进程/线程访问。</div><div class="line">usleep(50000)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;数据库SQL优化大总结之百万级数据库优化方案&lt;br&gt;
-    
-    </summary>
-    
-      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
-    
-    
-      <category term="SQL优化" scheme="http://yoursite.com/tags/SQL%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   
