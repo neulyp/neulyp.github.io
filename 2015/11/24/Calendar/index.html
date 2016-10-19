@@ -1,4 +1,95 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Calendar · lyp's blog</title><meta name="description" content="Calendar - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Calendar</h1><div class="post-info">Nov 24, 2015</div><div class="post-content"><p>java中Calendar的使用方法<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.outofmemory.codes.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Calendar;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalendarDemo</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     Calendar calendar=Calendar.getInstance();</div><div class="line">     calendar.setTime(<span class="keyword">new</span> Date());</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+<span class="keyword">new</span> Date());</div><div class="line">     String year=String.valueOf(calendar.get(Calendar.YEAR));</div><div class="line">     String month=String.valueOf(calendar.get(Calendar.MONTH)+<span class="number">1</span>);</div><div class="line">     String day=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));</div><div class="line">     String week=String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)-<span class="number">1</span>);</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+year+<span class="string">"年"</span>+month+<span class="string">"月"</span>+day+<span class="string">"日，星期"</span>+week);</div><div class="line">     <span class="keyword">long</span> year2009=calendar.getTimeInMillis();</div><div class="line">     calendar.set(<span class="number">1989</span>,<span class="number">9</span>,<span class="number">26</span>);<span class="comment">//这里与真实的月份之间相差1</span></div><div class="line">     <span class="keyword">long</span> year1989=calendar.getTimeInMillis();</div><div class="line">     <span class="keyword">long</span> days=(year2009-year1989)/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</div><div class="line">     System.out.println(<span class="string">"今天和1989年10月26日相隔"</span>+days+<span class="string">"天，"</span>+<span class="string">"也就是说我在这个美丽的星球上已经幸福的生活了"</span>+days+<span class="string">"天。"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Calendar | lyp&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java中Calendar的使用方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Calendar">
+<meta property="og:url" content="http://yoursite.com/2015/11/24/Calendar/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="java中Calendar的使用方法">
+<meta property="og:updated_time" content="2015-12-09T15:36:59.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calendar">
+<meta name="twitter:description" content="java中Calendar的使用方法">
+  
+    <link rel="alternate" href="/atom.xml" title="lyp&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">lyp&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Calendar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/24/Calendar/" class="article-date">
+  <time datetime="2015-11-24T15:13:04.000Z" itemprop="datePublished">2015-11-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Calendar
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java中Calendar的使用方法<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.outofmemory.codes.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Calendar;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalendarDemo</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     Calendar calendar=Calendar.getInstance();</div><div class="line">     calendar.setTime(<span class="keyword">new</span> Date());</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+<span class="keyword">new</span> Date());</div><div class="line">     String year=String.valueOf(calendar.get(Calendar.YEAR));</div><div class="line">     String month=String.valueOf(calendar.get(Calendar.MONTH)+<span class="number">1</span>);</div><div class="line">     String day=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));</div><div class="line">     String week=String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)-<span class="number">1</span>);</div><div class="line">     System.out.println(<span class="string">"现在时间是："</span>+year+<span class="string">"年"</span>+month+<span class="string">"月"</span>+day+<span class="string">"日，星期"</span>+week);</div><div class="line">     <span class="keyword">long</span> year2009=calendar.getTimeInMillis();</div><div class="line">     calendar.set(<span class="number">1989</span>,<span class="number">9</span>,<span class="number">26</span>);<span class="comment">//这里与真实的月份之间相差1</span></div><div class="line">     <span class="keyword">long</span> year1989=calendar.getTimeInMillis();</div><div class="line">     <span class="keyword">long</span> days=(year2009-year1989)/(<span class="number">1000</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</div><div class="line">     System.out.println(<span class="string">"今天和1989年10月26日相隔"</span>+days+<span class="string">"天，"</span>+<span class="string">"也就是说我在这个美丽的星球上已经幸福的生活了"</span>+days+<span class="string">"天。"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>Calendar类的静态方法getInstance()可以初始化一个日历对象:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Calendar now = Calendar.getInstance();</div></pre></td></tr></table></figure></p>
 <p>可以使用下面三个方法把日历定到任何一个时间：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute) </div><div class="line">set(<span class="keyword">int</span> year ,<span class="keyword">int</span> month,<span class="keyword">int</span> date,<span class="keyword">int</span> hour,<span class="keyword">int</span> minute,<span class="keyword">int</span> second)</div></pre></td></tr></table></figure></p>
 <p>如果想获得年份、月份、小时等信息可以使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Now.get(Calendar.Month) <span class="comment">//这样的方法 0表示一月，1表示二月</span></div><div class="line">get(Calendar.DAY_OF_MONTH)<span class="comment">//获得这个月的第几天</span></div><div class="line">get(Calendar.DAY_OF_WEEK)<span class="comment">//获得这个星期的第几天</span></div><div class="line">get(Calendar.DAY_OF_YEAR)<span class="comment">//获得这个年的第几天</span></div><div class="line">getTimeMillis()<span class="comment">//获得当前时间的毫秒表示</span></div></pre></td></tr></table></figure></p>
@@ -74,4 +165,146 @@ String toString() 返回此日历的字符串表示形式
 <p>在传参之前，先设定endday的时间，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">endday.set(Calendar.HOUR_OF_DAY, <span class="number">23</span>);</div><div class="line">endday.set(Calendar.MINUTE, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.SECOND, <span class="number">59</span>);</div><div class="line">endday.set(Calendar.MILLISECOND, <span class="number">59</span>);</div></pre></td></tr></table></figure></p>
 <p>这样再传进去startday,endday，则结果就如我们所愿了。不过，如果嫌以上方法麻烦，可以参考以下方法：</p>
 <p>(3)改进精确计算相隔天数的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDaysBetween</span> <span class="params">(Calendar d1, Calendar d2)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (d1.after(d2)) &#123;  <span class="comment">// swap dates so that d1 is start and d2 is end</span></div><div class="line">        java.util.Calendar swap = d1;</div><div class="line">        d1 = d2;</div><div class="line">        d2 = swap;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> days = d2.get(Calendar.DAY_OF_YEAR) - d1.get(Calendar.DAY_OF_YEAR);</div><div class="line">    <span class="keyword">int</span> y2 = d2.get(Calendar.YEAR);</div><div class="line">    <span class="keyword">if</span> (d1.get(Calendar.YEAR) != y2) &#123;</div><div class="line">        d1 = (Calendar) d1.clone();</div><div class="line">        do &#123;</div><div class="line">            days += d1.getActualMaximum(Calendar.DAY_OF_YEAR);<span class="comment">//得到当年的实际天数</span></div><div class="line">            d1.add(Calendar.YEAR, <span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">while</span> (d1.get(Calendar.YEAR) != y2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> days;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-</div></article></div></section><footer><div class="paginator"><a href="/2015/11/27/Windows下安装scikit-learn/" class="prev">PREV</a><a href="/2015/11/23/JSONObject/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/24/Calendar/" data-id="ciuguddv80001vow0s8nlvazh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Calendar/">Calendar</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/11/27/web/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          quartz in web
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/23/JSONObject/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JSONObject</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hadoop/">Hadoop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JSON/">JSON</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/sql/">sql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Calendar/">Calendar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONObject/">JSONObject</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatis/">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL优化/">SQL优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulate/">accumulate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/element/">element</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pop/">pop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/push/">push</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/put/">put</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/quartz/">quartz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scikit-learn/">scikit-learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shift/">shift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unshift/">unshift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weka/">weka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/邮件服务/">邮件服务</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Calendar/" style="font-size: 10px;">Calendar</a> <a href="/tags/JSONObject/" style="font-size: 10px;">JSONObject</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/SQL优化/" style="font-size: 10px;">SQL优化</a> <a href="/tags/accumulate/" style="font-size: 10px;">accumulate</a> <a href="/tags/element/" style="font-size: 10px;">element</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/pop/" style="font-size: 10px;">pop</a> <a href="/tags/push/" style="font-size: 10px;">push</a> <a href="/tags/put/" style="font-size: 10px;">put</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/scikit-learn/" style="font-size: 10px;">scikit-learn</a> <a href="/tags/shift/" style="font-size: 10px;">shift</a> <a href="/tags/unshift/" style="font-size: 10px;">unshift</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/weka/" style="font-size: 10px;">weka</a> <a href="/tags/邮件服务/" style="font-size: 10px;">邮件服务</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/10/19/深入理解JVM笔记二/">深入理解JVM笔记二---垃圾收集器及内存分配策略</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/18/深入理解JVM笔记一/">深入理解JVM笔记一-java内存区域与内存溢出异常</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/14/Ng机器学习notes1-weka相关算法实现/">Ng机器学习notes1+weka相关算法实现</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/">mysql中tinyint.smallint.int.bigint区别</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/06/面向对象系统分析与设计/">面向对象系统分析与设计</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
