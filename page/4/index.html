@@ -157,7 +157,7 @@
   
     
     <h2 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/21/sql存储过程/">存储过程</a>
+      <a class="archive-article-title" href="/2015/11/21/js百分数/">js百分数</a>
     </h2>
 
 
@@ -168,7 +168,7 @@
 
       </li>
       <li><i class="fa fa-comments"></i>
-        <a href="http://yoursite.com/2015/11/21/sql存储过程/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/2015/11/21/js百分数/#disqus_thread" class="article-comment-link">Comments</a>
       </li>
       <li>
 	<i class="fa fa-tags"></i>
@@ -179,40 +179,19 @@
     <div class="blog-item">
       
 	<a id="more"></a>
-<p>mysql 存储过程，while循环</p>
-<pre><code>--lyp 20160824 begin
-DROP PROCEDURE if EXISTS pp;
-delimiter //
-CREATE PROCEDURE pp ()
-BEGIN
-DECLARE n INT ;
-DECLARE i INT ;
-DECLARE t VARCHAR(255);
-DECLARE s VARCHAR(255);
-SET n = 200 ;
-SET i =1 ;
-WHILE i &lt; n DO
-    BEGIN
-        IF ((select count(*) from information_schema.tables where table_name = CONCAT(&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char))))
-        THEN
-            SET @s=CONCAT(&quot;alter table &quot;,&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char),&quot; add column contract_money double(64,2) COMMENT &apos;合同金额&apos; AFTER loan_AMT&quot;);
-            PREPARE stmt FROM @s ;
-            EXECUTE stmt ;
-            DEALLOCATE PREPARE stmt ;
-        END IF;
-    END;
-    SET i = i + 1 ;
-END WHILE ;
-END ;//
-
-CALL pp();
---lyp 20160824 end
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+Number.prototype.toPercent = function(){
+return (Math.round(this * 10000)/100).toFixed(2) + &apos;%&apos;;
+}
+var A=0.35897, B=0.25554;
+ alert([A, A.toPercent(), B, B.toPercent()].join(&apos;\n&apos;));
+&lt;/script&gt;
 </code></pre>
       
     </div>
     <br>
     <br>
-    <a href="http://yoursite.com/2015/11/21/sql存储过程/" class="more">Read more <i class="icon-angle-right"></i></a>
+    <a href="http://yoursite.com/2015/11/21/js百分数/" class="more">Read more <i class="icon-angle-right"></i></a>
   </div>
 </div>
 <hr class="blog-post-sep">
@@ -414,7 +393,7 @@ body,td,th,input {
   
     
     <h2 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/21/js百分数/">js百分数</a>
+      <a class="archive-article-title" href="/2015/11/21/sql存储过程/">存储过程</a>
     </h2>
 
 
@@ -425,7 +404,7 @@ body,td,th,input {
 
       </li>
       <li><i class="fa fa-comments"></i>
-        <a href="http://yoursite.com/2015/11/21/js百分数/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/2015/11/21/sql存储过程/#disqus_thread" class="article-comment-link">Comments</a>
       </li>
       <li>
 	<i class="fa fa-tags"></i>
@@ -436,19 +415,40 @@ body,td,th,input {
     <div class="blog-item">
       
 	<a id="more"></a>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-Number.prototype.toPercent = function(){
-return (Math.round(this * 10000)/100).toFixed(2) + &apos;%&apos;;
-}
-var A=0.35897, B=0.25554;
- alert([A, A.toPercent(), B, B.toPercent()].join(&apos;\n&apos;));
-&lt;/script&gt;
+<p>mysql 存储过程，while循环</p>
+<pre><code>--lyp 20160824 begin
+DROP PROCEDURE if EXISTS pp;
+delimiter //
+CREATE PROCEDURE pp ()
+BEGIN
+DECLARE n INT ;
+DECLARE i INT ;
+DECLARE t VARCHAR(255);
+DECLARE s VARCHAR(255);
+SET n = 200 ;
+SET i =1 ;
+WHILE i &lt; n DO
+    BEGIN
+        IF ((select count(*) from information_schema.tables where table_name = CONCAT(&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char))))
+        THEN
+            SET @s=CONCAT(&quot;alter table &quot;,&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char),&quot; add column contract_money double(64,2) COMMENT &apos;合同金额&apos; AFTER loan_AMT&quot;);
+            PREPARE stmt FROM @s ;
+            EXECUTE stmt ;
+            DEALLOCATE PREPARE stmt ;
+        END IF;
+    END;
+    SET i = i + 1 ;
+END WHILE ;
+END ;//
+
+CALL pp();
+--lyp 20160824 end
 </code></pre>
       
     </div>
     <br>
     <br>
-    <a href="http://yoursite.com/2015/11/21/js百分数/" class="more">Read more <i class="icon-angle-right"></i></a>
+    <a href="http://yoursite.com/2015/11/21/sql存储过程/" class="more">Read more <i class="icon-angle-right"></i></a>
   </div>
 </div>
 <hr class="blog-post-sep">
