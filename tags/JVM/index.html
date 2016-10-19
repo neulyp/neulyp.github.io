@@ -1,1 +1,377 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> lyp's blog</title><meta name="description" content="A Blog Powered By Hexo"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="archive"><h2 class="archive-year">2016</h2><div class="post-item"><div class="post-info">Oct 19, 2016</div><a href="/2016/10/19/深入理解JVM笔记二/" class="post-title-link">深入理解JVM笔记二---垃圾收集器及内存分配策略</a></div></div></section><footer><div class="paginator"></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tag: JVM | lyp&#39;s blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="lyp's blog">
+<meta property="og:url" content="http://yoursite.com/tags/JVM/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lyp's blog">
+  
+    <link rel="alternative" href="/atom.xml" title="lyp&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+</head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<div class="pre-header">
+  <div class="container">
+    <div class="row">
+      <!-- BEGIN TOP BAR LEFT PART -->
+      <div class="col-md-6 col-sm-6 col-xs-9 additional-shop-info">
+	<ul class="list-unstyled list-inline">
+	  <li><i class="fa fa-phone"></i><span>716-472-4484</span></li>
+	  <li><i class="fa fa-envelope-o"></i><span>ptsteadman@gmail.com</span></li>
+	</ul>
+      </div>
+      <!-- END TOP BAR LEFT PART -->
+      <!-- BEGIN TOP BAR MENU -->
+      <div class="col-md-6 col-sm-6 col-xs-3 additional-nav">
+	<ul class="list-unstyled list-inline pull-right">
+	  <li><a href="/login">Log In</a></li>
+	</ul>
+      </div>
+      <!-- END TOP BAR MENU -->
+    </div>
+  </div>        
+</div>
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">lyp&#39;s blog</a>-->
+
+    <a class="site-logo" href="/">
+      <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd">
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/projects/">Projects</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li class="active">Tagged: JVM</li>
+  </ul>
+<section id="main">
+  <h1>Tagged: JVM</h1>
+  <div class="row">
+
+<div class="col-xs-12 blog-posts">
+
+
+  <section class="archives-wrap">
+    <div class="archives">
+      
+	<div class="row">
+  <div class="col-md-4 col-sm-4">
+    
+  </div>
+  
+    <div class="col-xs-12">
+  
+    
+    <h2 itemprop="name">
+      <a class="archive-article-title" href="/2016/10/19/深入理解JVM笔记二/">深入理解JVM笔记二---垃圾收集器及内存分配策略</a>
+    </h2>
+
+
+    <ul class="blog-info">
+      <li>
+      	<i class="fa fa-calendar"></i> 
+        <time datetime="2016-10-19T02:51:50.000Z" itemprop="datePublished">2016/10/19</time>
+
+      </li>
+      <li><i class="fa fa-comments"></i>
+        <a href="http://yoursite.com/2016/10/19/深入理解JVM笔记二/#disqus_thread" class="article-comment-link">Comments</a>
+      </li>
+      <li>
+	<i class="fa fa-tags"></i>
+	
+  
+    <a href="/tags/JVM/" title="JVM">JVM</a>
+  
+
+
+      </li>
+    </ul>
+    <div class="blog-item">
+      
+	<p>####对象已死么？</p>
+<p>1.引用计数算法</p>
+<p>给对象中添加一个引用计数器，每当有一个地方引用它，计数器值就加1；当引用时效的时候，减一。任何时候计数器为0的对象就是不可能再被引用的。（很难解决对象之间相互循环引用的问题）</p>
+<p>2.可达性分析算法</p>
+<p>这个算法的基本思路就是通过一系列名为”GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain)，当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的，下图对象object5, object6, object7虽然有互相判断，但它们到GC Roots是不可达的，所以它们将会判定为是可回收对象。<br><img src="http://i.imgur.com/XvHdvR5.png" alt=""></p>
+<p>java  GC ROOTS的对象包含以下几种<br>虚拟机栈中引用的对象<br>方法区中类静态属性引用的对象<br>方法区中常量引用的对象<br>本地方法栈种JNI（native方法）引用的对象</p>
+<p>####引用</p>
+<p>1.强引用 一直活着<br>2.软引用 还有用但并非必须的对象 活到第二次回收<br>3.弱引用 非必须对象 活到下一次垃圾收集之前<br>4.虚引用</p>
+<p>####GC算法<br>1.标记清除算法</p>
+<p>分为标记和清除两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。该算法的缺点是效率不高并且会产生不连续的内存碎片。<br><img src="http://i.imgur.com/PTYTd1h.jpg" alt=""></p>
+<p>2.复制算法</p>
+<p>把内存空间划为两个区域，每次只使用其中一个区域。垃圾回收时，遍历当前使用区域，把正在使用中的对象复制到另外一个区域中。次算法每次只处理正在使用中的对象，因此复制成本比较小，同时复制过去以后还能进行相应的内存整理，不会出现“碎片”问题。优点：实现简单，运行高效。缺点：会浪费一定的内存。一般新生代采用这种算法<br><img src="http://i.imgur.com/wXBBEyQ.jpg" alt=""></p>
+<p>3.标记整理算法</p>
+<p>标记阶段与标记清除算法一样。但后续并不是直接对可回收的对象进行清理，而是让所有存活对象都想一端移动，然后清理。优点是不会造成内存碎片<br><img src="http://i.imgur.com/1H8E9sw.jpg" alt=""></p>
+<p>4.分代收集算法<br>只是根据对象存货周期的不用将内存划分为几块。一般是把java堆划分为新生代和老年代。这样就可以根据各个年代的特点采用最适当的手机算法。在新生代中，每次垃圾收集时有大量的对象死亡，只有少量的存在，那就采用复制算法，对于老年代，对象存活率高，没有额外空间对他进行分配担保，就必须使用“标记-清理”或者“标记-整理”算法来进行回收。</p>
+<p>####Java中垃圾回收器的类型<br>Java提供多种类型的垃圾回收器。JVM中的垃圾收集一般都采用“分代收集”，不同的堆内存区域采用不同的收集算法，主要目的就是为了增加吞吐量或降低停顿时间。</p>
+<ul>
+<li>Serial收集器：新生代收集器，使用复制算法，使用一个线程进行GC，串行，其它工作线程暂停。</li>
+<li>ParNew收集器：新生代收集器，使用复制算法，Serial收集器的多线程版，用多个线程进行GC，并行，其它工作线程暂停。使用-XX:+UseParNewGC开关来控制使用ParNew+Serial Old收集器组合收集内存；使用-XX:ParallelGCThreads来设置执行内存回收的线程数。</li>
+<li>Parallel Scavenge 收集器：吞吐量优先的垃圾回收器，作用在新生代，使用复制算法，关注CPU吞吐量，即运行用户代码的时间/总时间。使用-XX:+UseParallelGC开关控制使用Parallel Scavenge+Serial Old收集器组合回收垃圾。</li>
+<li>Serial Old收集器：老年代收集器，单线程收集器，串行，使用标记整理算法，使用单线程进行GC，其它工作线程暂停。</li>
+<li>Parallel Old收集器：吞吐量优先的垃圾回收器，作用在老年代，多线程，并行，多线程机制与Parallel Scavenge差不错，使用标记整理算法，在Parallel Old执行时，仍然需要暂停其它线程。</li>
+<li>CMS（Concurrent Mark Sweep）收集器：老年代收集器，致力于获取最短回收停顿时间（即缩短垃圾回收的时间），使用标记清除算法，多线程，优点是并发收集（用户线程可以和GC线程同时工作），停顿小。使用-XX:+UseConcMarkSweepGC进行ParNew+CMS+Serial Old进行内存回收，优先使用ParNew+CMS（原因见Full GC和并发垃圾回收一节），当用户线程内存不足时，采用备用方案Serial Old收集。</li>
+<li>GI收集器</li>
+</ul>
+<p>####与GC有关的JVM参数<br>做GC调优需要大量的实践，耐心和对项目的分析。我曾经参与过高容量，低延迟的电商系统，在开发中我们需要通过分析造成Full GC的原因来提高系统性能，在这个过程中我发现做GC的调优很大程度上依赖于对系统的分析，系统拥有怎样的对象以及他们的平均生命周期。</p>
+<p>举个例子，如果一个应用大多是短生命周期的对象，那么应该确保Eden区足够大，这样可以减少Minor GC的次数。可以通过-XX:NewRatio来控制新生代和老年代的比例，比如-XX:NewRatio=3代表新生代和老年代的比例为1：3。需要注意的是，扩大新生代的大小会减少老年代的大小，这会导致Major GC执行的更频繁，而Major GC可能会造成用户线程的停顿从而降低系统吞吐量。JVM中可以用NewSize和MaxNewSize参数来指定新生代内存最小和最大值，如果两个参数值一样，那么就相当于固定了新生代的大小。<br>个人建议，在做GC调优之前最好深入理解Java中GC机制，推荐阅读Sun Microsystems提供的有关GC的文档。这个链接可能会对理解GC机制提供一些帮助。下面的图列出了各个区可用的一些JVM参数。<br><img src="http://i.imgur.com/bwvkDEn.png" alt=""></p>
+<p>####总结</p>
+<ul>
+<li>为了分代垃圾回收，Java堆内存分为3代：新生代，老年代和永久代。</li>
+<li>新的对象实例会优先分配在新生代，在经历几次Minor GC后(默认15次)，还存活的会被移至老年代(某些大对象会直接在老年代分配)。</li>
+<li>永久代是否执行GC，取决于采用的JVM。</li>
+<li>Minor GC发生在新生代，当Eden区没有足够空间时，会发起一次Minor GC，将Eden区中的存活对象移至Survivor区。Major GC发生在老年代，当升到老年代的对象大于老年代剩余空间时会发生Major GC。</li>
+<li>发生Major GC时用户线程会暂停，会降低系统性能和吞吐量。</li>
+<li>JVM的参数-Xmx和-Xms用来设置Java堆内存的初始大小和最大值。依据个人经验这个值的比例最好是1:1或者1:1.5。比如，你可以将-Xmx和-Xms都设为1GB，或者-Xmx和-Xms设为1.2GB和1.8GB。</li>
+<li>Java中不能手动触发GC，但可以用不同的引用类来辅助垃圾回收器工作(比如：弱引用或软引用)。</li>
+</ul>
+
+      
+    </div>
+    <br>
+    <br>
+    <a href="http://yoursite.com/2016/10/19/深入理解JVM笔记二/" class="more">Read more <i class="icon-angle-right"></i></a>
+  </div>
+</div>
+<hr class="blog-post-sep">
+
+      
+    </div>
+    
+      <div id="page-nav" class="pagination">
+	<span class="page-number current">1</span>
+      </div>
+    
+  </section>
+
+</div>
+
+</div>
+
+</section>
+</div>
+
+
+    <!-- BEGIN PRE-FOOTER -->
+    <div class="pre-footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN BOTTOM ABOUT BLOCK -->
+          <div class="col-md-4 col-sm-6 pre-footer-col">
+            <h2>About Us</h2>
+            <p>Computer Lab is a software development and marketing company based in Brooklyn, New York. <br><br> Computer Lab was founded in 2015, and is focused on so on and so forth.</p>
+          </div>
+          <!-- END BOTTOM ABOUT BLOCK -->
+
+          <!-- BEGIN BOTTOM CONTACTS -->
+          <div class="col-md-4 col-sm-6 pre-footer-col">
+            <h2>Contact</h2>
+            <address class="margin-bottom-40">
+              140 Metropolitan Avenue<br>
+              5th Floor<br>
+              Brooklyn, NY 11249<br>
+              Phone: 716-472-4484<br>
+              Email: <a href="mailto:ptsteadman@gmail.com">ptsteadman@gmail.com</a><br>
+            </address>
+          </div>
+          <!-- END BOTTOM CONTACTS -->
+
+	
+          <!-- BEGIN TWITTER BLOCK --> 
+          <div class="col-md-4 col-sm-6 pre-footer-col">
+
+	  <a data-tweet-limit="1" class="twitter-timeline"
+	  href="https://twitter.com/computerlab_"
+	  data-widget-id="678830341331820544">Tweets by @computerlab_</a>
+
+	  <script>!function(d,s,id){var
+	  js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+          </div>
+          <!-- END TWITTER BLOCK -->
+	
+        </div>
+      </div>
+    </div>
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2016 lyp&#39;s blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/ptsteadman"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="https://twitter.com/ptsteadman"><i class="fa fa-twitter"></i></a></li>
+    
+      <li><a href="https://www.facebook.com/ptsteadman"><i class="fa fa-facebook"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+      <li><a href="https://linkedin.com/in/ptsteadman"><i class="fa fa-linkedin"></i></a></li>
+    
+      <li><a href="http://stackoverflow.com/users/2480493/patrick-steadman"><i class="fa fa-stackoverflow"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>
