@@ -1,0 +1,87 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Ng机器学习notes1+weka相关算法实现 · lyp's blog</title><meta name="description" content="Ng机器学习notes1+weka相关算法实现 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Ng机器学习notes1+weka相关算法实现</h1><div class="post-info">Oct 14, 2016</div><div class="post-content"><p>Andrew Ng的机器学习课程notes1.</p>
+<p>参考链接：<a href="http://blog.csdn.net/qiao1245/article/details/50886247" target="_blank" rel="external">http://blog.csdn.net/qiao1245/article/details/50886247</a></p>
+<p>主要内容是关于判别学习方法的，涉及到了梯度下降、随机梯度下降、最小二乘法、局部加权回归、极大似然原理、logistic regression、牛顿方法、广义线性模型、指数分布族。</p>
+<p>##Ng机器学习笔记</p>
+<p><strong>1.问题引入：房价预测</strong></p>
+<p><img src="http://i.imgur.com/YVXqMDd.png" alt=""><br>我们可以将变量表示成X1，X2，然后结果表示为Y，那么Y和X之间存在一种映射关系，也就是说，我们可以通过X预测Y，假设二者之间关系是多元线性关系，形式上表述为：</p>
+<p><img src="http://i.imgur.com/WhQcGmc.png" alt=""></p>
+<p>H就是根据X对Y做出的估计，其中的参数θ是我们要求的量。<br>如何求得参数θ呢？我们可以利用损失函数的概念，损失函数表示了预测值与实际值之间的差距：</p>
+<p><img src="http://i.imgur.com/b8rfDs0.png" alt=""></p>
+<p>那么很显然，只要J（θ）最小化，那么θ就是最好的参数。那么我们下面就是使得J（θ）最小化，其中方法之一梯度下降方法。</p>
+<p><strong>2.梯度下降</strong></p>
+<p>什么是梯度？梯度是标量场中某一点上的梯度指向标量场增长最快的方向，梯度的长度是这个最大的变化率。因此，梯度方向是函数变化最快的地方。那么我们可以任意初始化θ，接下来就按照梯度方向进行调整θ只，就可以最快的到达最大值。 </p>
+<p>可以得到更新θ规则，对于一个独立的样本，这种方法就是最小二乘法。 </p>
+<p><img src="http://i.imgur.com/ovVDkP1.png" alt=""></p>
+<p>扩展到M个样本，对J（θ）求偏导数，可以得到最终结果：<br><img src="http://i.imgur.com/aKxdpy0.png" alt=""><br>因此，梯度下降的过程就是不断地θ进行迭代，直到θ达到最大值为止<br><img src="http://i.imgur.com/3wQOxcE.png" alt=""><br>但是这样有一个很大的问题，就是每下降一步，就需要遍历整个数据集，这会导致巨大的计算量。因此，我们可以每次使用一条数据，就迭代一次，过程如下：<br><img src="http://i.imgur.com/tFXT2y1.png" alt=""><br>这样就会使得迭代过程并非一直是正向进行的，也就是可能会有向相反方向迭代的可能，但是总体还是向下的。这样还有一个问题，就是可能算法未必会收敛到最小值，而在最小值附近一直徘徊。但是最大的优点就是，快！</p>
+<p>除了代数方法求得θ，我们还可以使用线性代数的方法直接求得θ参数，具体推导过程不再赘述，可以去看讲义，结果是：<br><img src="http://i.imgur.com/9bpMtTg.png" alt=""></p>
+<p>这样虽然避免了计算，但是对矩阵求逆是比较慢的，而且这个方法要求X是满秩的，若不是满秩矩阵需要做处理。</p>
+<p><strong>3.极大似然估计</strong></p>
+<p>那么为什么采用平方和函数得到的θ就是最佳的呢？这里有对应的概率解释。对于一般的回归问题，我们可以将预测值和真实值之间表示为：<br><img src="http://i.imgur.com/H9SEMY1.png" alt=""></p>
+<p><strong>4.局部加权回归</strong></p>
+<p>有时候可能我们发现变量X和Y之间的关系并不是一种线性关系，但是在很小一段上，X和Y可以近似的看做线性关系，那么如何衡量这种关系呢？我们可以使用局部加权回归来解决这类问题，通过权重函数，我们可以距离目标值越远的点对整体影响越小。 </p>
+<p>那么我们的问题可以化为：<br> <img src="http://i.imgur.com/cPk6OoJ.png" alt=""></p>
+<p>其中，W可以表示为：<br><img src="http://i.imgur.com/7oueKN5.png" alt=""><br>这里面的τ被称为波长，用于控制权值随着距离变化的快慢。<br>那么我们像之前一样对问题进行求解。</p>
+<p><strong>5.logistic回归</strong><br>有时候，我们的预测值并不是连续的，如满足伯努利分布，Y∈{0,1}，那么该怎么进行回归分析呢？<br>我们可以利用函数将连续值映射到0-1之间，一个函数就是： </p>
+<p><img src="http://i.imgur.com/I20ojGR.png" alt=""></p>
+<p><strong>6.牛顿方法</strong></p>
+<p>除了梯度下降，还有一种牛顿方法可以对解空间进行搜索。示意图如下：<br><img src="http://i.imgur.com/NHm6GiT.png" alt=""></p>
+<p>方法是先随机选一个点，求出该点的切线，延长它使之与 x 轴相<br>交，以相交时的 x 的值作为下一次迭代的值。<br>由于最大似然函数的性质，我们可以知道当导数为0时，求得θ最佳，那么我们可以得到更新规则：</p>
+<p><img src="http://i.imgur.com/0ZTqRI2.png" alt=""></p>
+<p>牛顿法的优点是收敛较快，但是有可能达不到最值。</p>
+<p>##weka相关算法实现</p>
+<p><strong>1.线性回归</strong></p>
+<pre><code>weka.classifiers.functions.LinearRegression
+Class for using linear regression for prediction. Uses the Akaike criterion for model selection, and is able to deal with weighted instances. 
+
+ Valid options are: 
+ -S &lt;number of selection method&gt;
+  Set the attribute selection method to use. 1 = None, 2 = Greedy.
+  (default 0 = M5&apos; method)
+
+ -C
+  Do not try to eliminate colinear attributes.
+
+ -R &lt;double&gt;
+  Set ridge parameter (default 1.0e-8).
+
+ -minimal
+  Conserve memory, don&apos;t keep dataset header and means/stdevs.
+  Model cannot be printed out if this option is enabled. (default: keep data)
+
+ -additional-stats
+  Output additional statistics.
+
+ -output-debug-info
+  If set, classifier is run in debug mode and
+  may output additional info to the console
+
+ -do-not-check-capabilities
+  If set, classifier capabilities are not checked before classifier is built
+  (use with caution).
+
+Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (trigg@cs.waikato.ac.nz)
+</code></pre><p><strong>2.逻辑回归</strong></p>
+<p>Valid options are: </p>
+<pre><code>-D
+ Turn on debugging output.
+
+-R &lt;ridge&gt;
+ Set the ridge in the log-likelihood.
+
+-M &lt;number&gt;
+ Set the maximum number of iterations (default -1, until convergence).
+</code></pre><p>参数比较少，其中-R用来调整迭代时θ对整个Cost函数的影响，默认是1E-8，-M是迭代的最大次数，如果指定为-1，则算法运行一直到收敛为止。<br>代码如下：</p>
+<pre><code>class LogisticModel {
+
+    public LogisticModel(Instances data) {
+        String[] options={&quot;-M&quot;,20};
+        Logistic model = new Logistic();
+        try {
+            model.setOptions(options);
+            model.buildClassifier(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2016/10/18/深入理解JVM笔记一/" class="prev">PREV</a><a href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 机器学习weka（三） · lyp's blog</title><meta name="description" content="机器学习weka（三） - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">机器学习weka（三）</h1><div class="post-info">Sep 29, 2016</div><div class="post-content"><p><strong>模型序列化/持久化存储和加载</strong></p>
+<p>有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？<br>其实既然模型也是一个Java对象，那我就按照JAVA的序列化和反序列化方法保存模型对象即可。</p>
+<p>以J48为例，进行序列化和存取</p>
+<p>序列化：</p>
+<pre><code>public static void persistModel(J48 model, String ModelPath) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(
+            new FileOutputStream(ModelPath));
+            oos.writeObject(model);
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+</code></pre><p>重新加载：</p>
+<pre><code>public static J48 reloadPersistModel(String ModelPath) {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(
+            new FileInputStream(new File(ModelPath)));
+            J48 model = (J48) ois.readObject();
+            return model;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2016/10/06/面向对象系统分析与设计/" class="prev">PREV</a><a href="/2016/09/29/weka学习2/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 机器学习weka（二） · lyp's blog</title><meta name="description" content="机器学习weka（二） - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">机器学习weka（二）</h1><div class="post-info">Sep 29, 2016</div><div class="post-content"><p><strong>1.weka分类/回归模型构建与评价</strong></p>
+<p>以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： </p>
+<p><strong>数据准备</strong></p>
+<p>我们要做的就是加载数据，然后使用Filter对数据进行一定的操作，满足特定算法的需求。具体的将在决策树中讲解。</p>
+<p><strong>模型配置</strong></p>
+<p>在模型准备前，要对模型进行适当的配置，Weka中是通过传入Options数组来实现的，然后使用模型的setOptions(options)方法将模型配置信息传入</p>
+<p><strong>模型学习</strong></p>
+<p>模型学习过程就是使用训练数据对模型进行训练，在Weka中只需要调用模型的buildClassifier(data)方法即可。<br>上述三个过程可以用以下代码表示：</p>
+<pre><code>class CARTModel {
+    public CARTModel(Instances data) throws Exception{
+        J48 model = new J48();
+        String[] options = {&quot;-M&quot;,&quot;5&quot;,&quot;-R&quot;};
+        model.setOptions(options);
+        model.buildClassifier(data);
+    }
+}
+</code></pre><p><strong>模型评价</strong></p>
+<p>通过创建Evaluation对象来实现评价，具体代码如下：</p>
+<pre><code>Evaluation eval = new Evaluation(testData);
+ eval.crossValidateModel(model, trainSet, 10, new Random(1));
+ System.out.println(eval.toSummaryString(&quot;\nResult&quot;, false));
+ System.out.println(eval.toClassDetailsString());
+</code></pre><p><strong>2.评价evaluation介绍</strong></p>
+<p><strong>基本指标</strong></p>
+<p>1、 FN：False Negative,被判定为负样本，但事实上是正样本。 </p>
+<p>2、 FP：False Positive,被判定为正样本，但事实上是负样本。 </p>
+<p>3、TN：True Negative,被判定为负样本，事实上也是负样本。 </p>
+<p>4、TP：True Positive,被判定为正样本，事实上也是证样本。</p>
+<p>5、precesion：查准率<br>即在检索后返回的结果中，真正正确的个数占整个结果的比例。precesion = TP/(TP+FP) 。 </p>
+<p>6、 recall：查全率<br>即在检索结果中真正正确的个数 占整个数据集（检索到的和未检索到的）中真正正确个数的比例。recall = TP/(TP+FN)即，检索结果中，你判断为正的样本也确实为正的，以及那些没在检索结果中被你判断为负但是事实上是正的（FN）。</p>
+<p>7、F-Measure<br>是Precision和Recall加权调和平均<br>P和R指标有时候会出现的矛盾的情况，这样就需要综合考虑他们，最常见的方法就是F-Measure（又称为F-Score）。 </p>
+<p>8、MCC 马修斯相关系数<br>衡量不平衡数据集的指标比较好。</p>
+<p><strong>ROC曲线</strong></p>
+<p>ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR）<br>当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。根据每个测试样本属于正样本的概率值从大到小排序，依次将 “Score”值作为阈值threshold，当测试样本属于正样本的概率 大于或等于这个threshold时，认为它为正样本，否则为负样本。 </p>
+<p><strong>PRC曲线</strong></p>
+<p>在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。 </p>
+<p><strong>其他指标</strong></p>
+<p>1、kappa statics Kappa<br>值即内部一致性系数(inter-rater,coefficient of internal consistency)，是作为评价判断的一致性程度的重要指标。取值在0～1之间。Kappa≥0.75两者一致性较好；0.75&gt;Kappa≥0.4两者一致性一般；Kappa&lt;0.4两者一致性较差。</p>
+<p>2、Mean absolute error 和 Root mean squared error<br>平均绝对误差和均方根误差，用来衡量分类器预测值和实际结果的差异，越小越好。</p>
+<p>3、Relative absolute error 和 Root relative squared error<br>相对绝对误差和相对均方根误差，有时绝对误差不能体现误差的真实大小，而相对误差通过体现误差占真值的比重来反映误差大小。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/09/29/机器学习weka（三）/" class="prev">PREV</a><a href="/2016/09/29/weka1/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

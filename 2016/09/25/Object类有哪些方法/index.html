@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Object类有哪些方法 · lyp's blog</title><meta name="description" content="Object类有哪些方法 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Object类有哪些方法</h1><div class="post-info">Sep 25, 2016</div><div class="post-content"><p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
+<pre><code>clone();
+equals();
+finalize();
+getClass();
+notify(),notifyAll();
+hashCode();
+toString();
+wait();
+</code></pre><p>摘要如下：</p>
+<pre><code>protected  Object    clone() //创建并返回此对象的一个副本。
+boolean    equals(Object obj) //指示某个其他对象是否与此对象“相等”。
+protected  void    finalize() //当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。
+Class&lt;? extends Object&gt;    getClass() //返回一个对象的运行时类。
+int    hashCode() //返回该对象的哈希码值。
+void    notify() //唤醒在此对象监视器上等待的单个线程。
+void    notifyAll() //唤醒在此对象监视器上等待的所有线程。
+String    toString()  //返回该对象的字符串表示。
+void    wait() //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法。
+void    wait(long timeout) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量。
+void    wait(long timeout, int nanos) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2016/09/29/weka1/" class="prev">PREV</a><a href="/2016/09/25/java多线程/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

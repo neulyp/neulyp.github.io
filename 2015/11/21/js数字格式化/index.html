@@ -1,0 +1,86 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> js数字格式化 · lyp's blog</title><meta name="description" content="js数字格式化 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">js数字格式化</h1><div class="post-info">Nov 21, 2015</div><div class="post-content"><a id="more"></a>
+<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
+<p>(1).  1111111-&gt;11,111,111.00</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function outputmoney(number) {
+number = number.replace(/\,/g, &quot;&quot;);
+if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
+number = Math.round(number * 100) / 100;
+    if (number &lt; 0)
+        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
+    else
+        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
+} 
+//格式化金额
+function outputdollars(number) {
+    if (number.length &lt;= 3)
+        return (number == &apos;&apos; ? &apos;0&apos; : number);
+    else {
+        var mod = number.length % 3;
+        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
+        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
+            if ((mod == 0) &amp;&amp; (i == 0))
+                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+            else
+                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
+        }
+        return (output);
+    }
+}
+function outputcents(amount) {
+    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
+<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
+&lt;script language=&quot;javascript&quot;&gt;
+function tran(id)
+{
+  var v, j, sj, rv = &quot;&quot;;
+  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
+  j = v[0].length % 3;
+  sj = v[0].substr(j).toString();
+  for (var i = 0; i &lt; sj.length; i++)
+  {
+    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
+  }
+  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
+  if (rvalue.charCodeAt(0) == 44)
+  {
+    rvalue = rvalue.substr(1);
+  }
+  id.value = rvalue;
+}
+function tran2(id)
+{
+  var v;
+  v = id.value.replace(/,/g,&quot;&quot;);
+  alert(v);
+}
+&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+body,td,th,input {
+ font-size: 12px;
+}
+--&gt;
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
+&lt;br/&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2015/11/21/js百分数/" class="prev">PREV</a><a href="/2015/11/21/设计模式/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
