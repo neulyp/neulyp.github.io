@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-21T08:23:29.324Z</updated>
+  <updated>2016-10-23T12:45:30.575Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,13 +16,85 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>兰天震的设计</title>
+    <link href="http://yoursite.com/2016/10/23/%E5%85%B0%E5%A4%A9%E9%9C%87%E7%9A%84%E8%AE%BE%E8%AE%A1/"/>
+    <id>http://yoursite.com/2016/10/23/兰天震的设计/</id>
+    <published>2016-10-23T12:45:12.000Z</published>
+    <updated>2016-10-23T12:45:30.575Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/x94fo9Q.jpg" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/x94fo9Q.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>深入理解JVM笔记四-虚拟机性能监控与故障处理工具</title>
     <link href="http://yoursite.com/2016/10/21/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E5%9B%9B/"/>
     <id>http://yoursite.com/2016/10/21/深入理解JVM笔记四/</id>
     <published>2016-10-21T08:22:24.000Z</published>
-    <updated>2016-10-21T08:23:29.324Z</updated>
+    <updated>2016-10-21T09:29:40.320Z</updated>
+    
+    <content type="html"><![CDATA[<p>###jdk命令行工具</p>
+<p>1.jps<br>虚拟机进程状态工具</p>
+<pre><code>常用的几个参数：
+-l   输出Java应用程序的main class的完整包
+
+-q 仅显示pid，不显示其它任何相关信息
+
+-m 输出传递给main方法的参数
+
+-v 输出传递给JVM的参数。在诊断JVM相关问题的时候，这个参数可以查看JVM相关参数的设置
+</code></pre><p>2.jstat</p>
+<p>虚拟机统计信息监视工具</p>
+<pre><code>C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gcutil 1676
+  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+  0.00 100.00  53.66  80.08  91.20  81.37     72    2.443     0    0.000    2.443
+
+C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
+ S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
+ 0.0   6144.0  0.0   6144.0 83968.0  53248.0   172032.0   137768.9  173184.0 157951.9 23168.0 18851.1     72    2.443   0      0.000    2.443
+</code></pre><blockquote>
+<p>堆内存 = 年轻代 + 年老代 + 永久代</p>
+<p>年轻代 = Eden区 + 两个Survivor区（From和To）</p>
+<p>S0C、S1C、S0U、S1U：Survivor 0/1区容量（Capacity）和使用量（Used）</p>
+<p>EC、EU：Eden区容量和使用量</p>
+<p>OC、OU：年老代容量和使用量</p>
+<p>PC、PU：永久代容量和使用量</p>
+<p>YGC、YGCT：年轻代GC次数和GC耗时</p>
+<p>FGC、FGCT：Full GC次数和Full GC耗时</p>
+<p>GCT：GC总耗时</p>
+</blockquote>
+<p><img src="http://i.imgur.com/uQntEKD.png" alt=""></p>
+<p>###3  jinfo   </p>
+<p>java配置信息工具</p>
+<p>观察运行中的java程序的运行环境参数：参数包括Java System属性和JVM命令行参数</p>
+<p>实例：jinfo 2083</p>
+<p>其中2083就是java进程id号，可以用jps得到这个id号。</p>
+<p>输出内容太多了，不在这里一一列举，大家可以自己尝试这个命令。</p>
+<p>###4 jmap  Java内存映像工具<br> jmap（Memory Map）和  jhat（Java Heap Analysis Tool）<br> jmap用来查看堆内存使用状况，一般结合jhat使用。</p>
+<p>###5.jhat 虚拟机堆转储快照分析工具</p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;###jdk命令行工具&lt;/p&gt;
+&lt;p&gt;1.jps&lt;br&gt;虚拟机进程状态工具&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;常用的几个参数：
+-l   输出Java应用程序的main class的完整包
+
+-q 仅显示pid，不显示其它任何相关信息
+
+-m 输出传递给main方法的参数
+
+-
     
     </summary>
     
@@ -1230,42 +1302,6 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
   </entry>
   
   <entry>
-    <title>mysql分页优化</title>
-    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
-    <published>2016-09-22T12:52:12.000Z</published>
-    <updated>2016-09-22T08:58:07.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
-<p>1.基本分页</p>
-<pre><code>select * from Member limit 10, 100;  
-#m表示要显示的页数，n表示显示的记录行数
-</code></pre><p>2.子查询优化</p>
-<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
-</code></pre><p>3.反向查找</p>
-<p>当偏移量大大于一半</p>
-<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
-#时间：2.6493s
-SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
-#1.0035
-</code></pre><p>4.limit限制优化法 </p>
-<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
-<p>5.优化limit和offset </p>
-<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Java类的连接与初始化</title>
     <link href="http://yoursite.com/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
     <id>http://yoursite.com/2016/09/22/java类的连接和初始化/</id>
@@ -1360,6 +1396,42 @@ Chinese
     </summary>
     
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mysql分页优化</title>
+    <link href="http://yoursite.com/2016/09/22/mysql%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/09/22/mysql分页优化/</id>
+    <published>2016-09-22T12:52:12.000Z</published>
+    <updated>2016-09-22T08:58:07.172Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br><a id="more"></a></p>
+<p>1.基本分页</p>
+<pre><code>select * from Member limit 10, 100;  
+#m表示要显示的页数，n表示显示的记录行数
+</code></pre><p>2.子查询优化</p>
+<pre><code>select * from Member where MemberID &gt;= (select MemberID from Member limit 100000,1) limit 100; 
+</code></pre><p>3.反向查找</p>
+<p>当偏移量大大于一半</p>
+<pre><code>SELECT * FROM `abc` WHERE `BatchID` = 123 LIMIT 1199960, 40  
+#时间：2.6493s
+SELECT * FROM `abc` WHERE `BatchID` = 123 ORDER BY InputDate DESC LIMIT 428775, 40
+#1.0035
+</code></pre><p>4.limit限制优化法 </p>
+<p>把limit偏移量限制低于某个数。。超过这个数等于没数据.<br>ps:…..</p>
+<p>5.优化limit和offset </p>
+<p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>优化前SQL: <code>SELECT * FROM member ORDER BY last_active LIMIT 50,5</code><br>优化后SQL:<code>SELECT * FROM member INNER JOIN (SELECT member_id FROM member ORDER BY last_active LIMIT 50, 5) USING (member_id)</code><br>分别在于，优化前的SQL需要更多I/O浪费，因为先读索引，再读数据，然后抛弃无需的行。而优化后的SQL(子查询那条)只读索引(Cover index)就可以了，然后通过member_id读取需要的列。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
     
     
   </entry>
@@ -1536,33 +1608,6 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
     </summary>
     
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2016/09/21/hello-world/"/>
-    <id>http://yoursite.com/2016/09/21/hello-world/</id>
-    <published>2016-09-21T02:07:00.764Z</published>
-    <updated>2016-09-21T02:07:00.769Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-    
-    </summary>
     
     
   </entry>
