@@ -1,1 +1,1819 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> lyp's blog</title><meta name="description" content="A Blog Powered By Hexo"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="lyp's blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link active">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/neulyp/" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><ul class="home post-list"><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" class="post-title-link">mysql中tinyint.smallint.int.bigint区别</a></h2><div class="post-info">Oct 13, 2016</div><div class="post-content"></div><a href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/10/06/面向对象系统分析与设计/" class="post-title-link">面向对象系统分析与设计</a></h2><div class="post-info">Oct 6, 2016</div><div class="post-content"></div><a href="/2016/10/06/面向对象系统分析与设计/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/29/机器学习weka（三）/" class="post-title-link">机器学习weka（三）</a></h2><div class="post-info">Sep 29, 2016</div><div class="post-content"></div><a href="/2016/09/29/机器学习weka（三）/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/29/weka学习2/" class="post-title-link">机器学习weka（二）</a></h2><div class="post-info">Sep 29, 2016</div><div class="post-content"></div><a href="/2016/09/29/weka学习2/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/29/weka1/" class="post-title-link">机器学习weka（一）</a></h2><div class="post-info">Sep 29, 2016</div><div class="post-content"><p>###机器学习weka（一）<br></div><a href="/2016/09/29/weka1/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/25/Object类有哪些方法/" class="post-title-link">Object类有哪些方法</a></h2><div class="post-info">Sep 25, 2016</div><div class="post-content"></div><a href="/2016/09/25/Object类有哪些方法/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/25/java多线程/" class="post-title-link">java多线程</a></h2><div class="post-info">Sep 25, 2016</div><div class="post-content"></div><a href="/2016/09/25/java多线程/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/25/oracle/" class="post-title-link">oracle</a></h2><div class="post-info">Sep 25, 2016</div><div class="post-content"></div><a href="/2016/09/25/oracle/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/25/k-近邻算法/" class="post-title-link">机器学习</a></h2><div class="post-info">Sep 25, 2016</div><div class="post-content"></div><a href="/2016/09/25/k-近邻算法/" class="read-more">...more</a></article></li><li class="post-list-item"><article class="post-block"><h2 class="post-title"><a href="/2016/09/23/java杂记/" class="post-title-link">java杂记</a></h2><div class="post-info">Sep 23, 2016</div><div class="post-content"></div><a href="/2016/09/23/java杂记/" class="read-more">...more</a></article></li></ul></section><footer><div class="paginator"><a href="/" class="prev">PREV</a><a href="/page/3/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="lyp's blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lyp's blog">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+
+
+  <title> lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" itemprop="url">
+                  mysql中tinyint.smallint.int.bigint区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
+              2016-10-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
+</li>
+<li><p>smallint<br>从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小为 2 个字节。<br>unsigned 是从 0 到 65535 的整型数据。<br>所以建表的时候 只能是smallint(5),哪怕你建smallint(100)，他最大还是5位这么多。</p>
+</li>
+<li><p>int<br>从 -2^31 (-2,147,483,648) 到 2^31 - 1 (2,147,483,647) 的整型数据（所有数字）.存储大小为 4 个字节。<br>unsigned 是从 0 到 4294967296 的整型数据。<br>所以建表的时候 只能是int(10),哪怕你建int(100)，他最大还是10位这么多。</p>
+</li>
+<li><p>bigint<br>从 -2^63 (-9,223,372,036,854,775,808) 到 2^63-1 (9,223,372,036,854,775,807) 的整型数据（所有数字）。存储大小为 8 个字节。<br>unsigned 是(自己算吧)</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/06/面向对象系统分析与设计/" itemprop="url">
+                  面向对象系统分析与设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
+              2016-10-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####系统分析设计方法：</p>
+<ul>
+<li>结构化方法</li>
+<li>信息建模法</li>
+<li>面向对象分析设计方法</li>
+</ul>
+<p>面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或概念）。</p>
+<p>面向对象的设计（ Object Oriented Design ，OOD）强调的是定义软件对象以它们是如何协作以实现需求</p>
+<p>####面向对象的优点：</p>
+<ul>
+<li>复用<br>通过继承、关联、封装等手段</li>
+<li>应变<br>弹性应对需求变化</li>
+<li>沟通<br>开发人员、用户、管理人员</li>
+<li>市场<br>应付市场的变化</li>
+<li>士气<br>员工的士气</li>
+</ul>
+<p>使用OMT方法的面向对象开发过程可分为5步：</p>
+<ul>
+<li>分析</li>
+<li>系统设计</li>
+<li>对象设计</li>
+<li>编代码</li>
+<li>测试</li>
+</ul>
+<p>分为下述5个活动 </p>
+<ul>
+<li>编写问题陈述 </li>
+<li>建立对象模型 </li>
+<li>建立动态模型 </li>
+<li>建立功能模型</li>
+<li>细化对象模型、动态模型和功能模型，并建立文档</li>
+</ul>
+<p>系统设计的步骤如下：</p>
+<ul>
+<li>将系统划分为子系统 </li>
+<li>识别并发 </li>
+<li>将子系统和任务分配给处理器 </li>
+<li>选择实现数据存储的策略 </li>
+<li>识别出全局资源，并确定控制访问全局资源的机制 </li>
+<li>选择实现软件控制的方法 </li>
+<li>考虑边界条件 </li>
+<li>建立折衷的优先级</li>
+</ul>
+<p>宏过程包括下述5个活动:</p>
+<p>（1）概念化（Conceptualization）：在这个活动中，建立核心需求。<br>（2）分析（Analysis）：在这个活动中，为所期望的行为建立模型。<br>（3）设计（Design）：在这个活动中，建立体系结构。<br>（4）进化（Evolution）：在这个活动中，形成实现。<br>（5）维护（Maintenance）：在这个活动中，管理软件的交付使用。</p>
+<p>微过程由4个步骤组成：</p>
+<p>（1）在给定的抽象层次上识别出类和对象。<br>（2）识别出这些类和对象的语义。<br>（3）识别出类间和对象间的关系。<br>（4）实现类和对象。</p>
+<p>####软件过程</p>
+<p>软件过程定义了软件开发、部署和维护的步骤</p>
+<ul>
+<li><p>迭代式开发 </p>
+<p> 迭代式开发将软件开发过程分解为一系列小的，固定周期的(比如，4个星期)的小项目，每个小项目称为一个迭代。</p>
+</li>
+<li><p>统一过程 (Unified Process)</p>
+</li>
+</ul>
+<p>一种采用OOA/D方法学开发项目的过程(Ivar Jacobson)。<br>一种流行的构造面向对象系统的迭代开发过程（JBR99）。</p>
+<ul>
+<li>敏捷UP( Agile UP ) </li>
+</ul>
+<p>引入了敏捷概念的UP,是UP的一个简集。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/29/机器学习weka（三）/" itemprop="url">
+                  机器学习weka（三）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
+              2016-09-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>模型序列化/持久化存储和加载</strong></p>
+<p>有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？<br>其实既然模型也是一个Java对象，那我就按照JAVA的序列化和反序列化方法保存模型对象即可。</p>
+<p>以J48为例，进行序列化和存取</p>
+<p>序列化：</p>
+<pre><code>public static void persistModel(J48 model, String ModelPath) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(
+            new FileOutputStream(ModelPath));
+            oos.writeObject(model);
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+</code></pre><p>重新加载：</p>
+<pre><code>public static J48 reloadPersistModel(String ModelPath) {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(
+            new FileInputStream(new File(ModelPath)));
+            J48 model = (J48) ois.readObject();
+            return model;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/29/weka学习2/" itemprop="url">
+                  机器学习weka（二）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
+              2016-09-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>1.weka分类/回归模型构建与评价</strong></p>
+<p>以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： </p>
+<p><strong>数据准备</strong></p>
+<p>我们要做的就是加载数据，然后使用Filter对数据进行一定的操作，满足特定算法的需求。具体的将在决策树中讲解。</p>
+<p><strong>模型配置</strong></p>
+<p>在模型准备前，要对模型进行适当的配置，Weka中是通过传入Options数组来实现的，然后使用模型的setOptions(options)方法将模型配置信息传入</p>
+<p><strong>模型学习</strong></p>
+<p>模型学习过程就是使用训练数据对模型进行训练，在Weka中只需要调用模型的buildClassifier(data)方法即可。<br>上述三个过程可以用以下代码表示：</p>
+<pre><code>class CARTModel {
+    public CARTModel(Instances data) throws Exception{
+        J48 model = new J48();
+        String[] options = {&quot;-M&quot;,&quot;5&quot;,&quot;-R&quot;};
+        model.setOptions(options);
+        model.buildClassifier(data);
+    }
+}
+</code></pre><p><strong>模型评价</strong></p>
+<p>通过创建Evaluation对象来实现评价，具体代码如下：</p>
+<pre><code>Evaluation eval = new Evaluation(testData);
+ eval.crossValidateModel(model, trainSet, 10, new Random(1));
+ System.out.println(eval.toSummaryString(&quot;\nResult&quot;, false));
+ System.out.println(eval.toClassDetailsString());
+</code></pre><p><strong>2.评价evaluation介绍</strong></p>
+<p><strong>基本指标</strong></p>
+<p>1、 FN：False Negative,被判定为负样本，但事实上是正样本。 </p>
+<p>2、 FP：False Positive,被判定为正样本，但事实上是负样本。 </p>
+<p>3、TN：True Negative,被判定为负样本，事实上也是负样本。 </p>
+<p>4、TP：True Positive,被判定为正样本，事实上也是证样本。</p>
+<p>5、precesion：查准率<br>即在检索后返回的结果中，真正正确的个数占整个结果的比例。precesion = TP/(TP+FP) 。 </p>
+<p>6、 recall：查全率<br>即在检索结果中真正正确的个数 占整个数据集（检索到的和未检索到的）中真正正确个数的比例。recall = TP/(TP+FN)即，检索结果中，你判断为正的样本也确实为正的，以及那些没在检索结果中被你判断为负但是事实上是正的（FN）。</p>
+<p>7、F-Measure<br>是Precision和Recall加权调和平均<br>P和R指标有时候会出现的矛盾的情况，这样就需要综合考虑他们，最常见的方法就是F-Measure（又称为F-Score）。 </p>
+<p>8、MCC 马修斯相关系数<br>衡量不平衡数据集的指标比较好。</p>
+<p><strong>ROC曲线</strong></p>
+<p>ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR）<br>当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。根据每个测试样本属于正样本的概率值从大到小排序，依次将 “Score”值作为阈值threshold，当测试样本属于正样本的概率 大于或等于这个threshold时，认为它为正样本，否则为负样本。 </p>
+<p><strong>PRC曲线</strong></p>
+<p>在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。 </p>
+<p><strong>其他指标</strong></p>
+<p>1、kappa statics Kappa<br>值即内部一致性系数(inter-rater,coefficient of internal consistency)，是作为评价判断的一致性程度的重要指标。取值在0～1之间。Kappa≥0.75两者一致性较好；0.75&gt;Kappa≥0.4两者一致性一般；Kappa&lt;0.4两者一致性较差。</p>
+<p>2、Mean absolute error 和 Root mean squared error<br>平均绝对误差和均方根误差，用来衡量分类器预测值和实际结果的差异，越小越好。</p>
+<p>3、Relative absolute error 和 Root relative squared error<br>相对绝对误差和相对均方根误差，有时绝对误差不能体现误差的真实大小，而相对误差通过体现误差占真值的比重来反映误差大小。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/29/weka1/" itemprop="url">
+                  机器学习weka（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-29T20:39:32+08:00" content="2016-09-29">
+              2016-09-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>###机器学习weka（一）<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/29/weka1/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/25/Object类有哪些方法/" itemprop="url">
+                  Object类有哪些方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T23:52:26+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
+<pre><code>clone();
+equals();
+finalize();
+getClass();
+notify(),notifyAll();
+hashCode();
+toString();
+wait();
+</code></pre><p>摘要如下：</p>
+<pre><code>protected  Object    clone() //创建并返回此对象的一个副本。
+boolean    equals(Object obj) //指示某个其他对象是否与此对象“相等”。
+protected  void    finalize() //当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。
+Class&lt;? extends Object&gt;    getClass() //返回一个对象的运行时类。
+int    hashCode() //返回该对象的哈希码值。
+void    notify() //唤醒在此对象监视器上等待的单个线程。
+void    notifyAll() //唤醒在此对象监视器上等待的所有线程。
+String    toString()  //返回该对象的字符串表示。
+void    wait() //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法。
+void    wait(long timeout) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量。
+void    wait(long timeout, int nanos) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/25/java多线程/" itemprop="url">
+                  java多线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>线程和进程有什么区别？</p>
+<p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<p>如何在Java中实现线程？</p>
+<p>答：<br>创建线程有两种方式：</p>
+<ol>
+<li>一、继承 Thread 类，扩展线程。</li>
+<li>二、实现 Runnable 接口。</li>
+</ol>
+<p>启动一个线程是调用run()还是start()方法？</p>
+<p>答：启动一个线程是调用start()方法，使线程所代表的虚拟处理机处于可运行状态，这意味着它可以由JVM 调度并执行，这并不意味着线程就会立即运行。run()方法是线程启动后要进行回调（callback）的方法。</p>
+<p>Thread类的sleep()方法和对象的wait()方法都可以让线程暂停执行，它们有什么区别?</p>
+<ul>
+<li>sleep()方法（休眠）是线程类（Thread）的静态方法，调用此方法会让当前线程暂停执行指定的时间，将执行机会（CPU）让给其他线程，但是对象的锁依然保持，因此休眠时间结束后会自动恢复（线程回到就绪状态，请参考第66题中的线程状态转换图）。</li>
+<li>wait()是Object类的方法，调用对象的wait()方法导致当前线程放弃对象的锁（线程暂停执行），进入对象的等待池（wait pool），只有调用对象的notify()方法（或notifyAll()方法）时才能唤醒等待池中的线程进入等锁池（lock pool），如果线程重新获得对象的锁就可以进入就绪状态。</li>
+</ul>
+<p>线程的sleep()方法和yield()方法有什么区别？</p>
+<p>答：</p>
+<ul>
+<li>① sleep()方法给其他线程运行机会时不考虑线程的优先级，因此会给低优先级的线程以运行的机会；yield()方法只会给相同优先级或更高优先级的线程以运行的机会；</li>
+<li>② 线程执行sleep()方法后转入阻塞（blocked）状态，而执行yield()方法后转入就绪（ready）状态；</li>
+<li>③ sleep()方法声明抛出InterruptedException，而yield()方法没有声明任何异常；</li>
+<li>④ sleep()方法比yield()方法（跟操作系统CPU调度相关）具有更好的可移植性。</li>
+</ul>
+<p>请说出与线程同步以及线程调度相关的方法。<br>答：</p>
+<ul>
+<li>wait()：使一个线程处于等待（阻塞）状态，并且释放所持有的对象的锁；</li>
+<li>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理InterruptedException异常；</li>
+<li>notify()：唤醒一个处于等待状态的线程，当然在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由JVM确定唤醒哪个线程，而且与优先级无关；</li>
+<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/25/oracle/" itemprop="url">
+                  oracle
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>很少使用oracle，记录两个问题。</p>
+<p>###1.在Maven仓库中添加Oracle JDBC驱动</p>
+<p>由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</p>
+<p>1.获取oracle jdbc driver</p>
+<ol>
+<li>通过Oracle官方网站下载相应版本： <a href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html" target="_blank" rel="external">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</a></li>
+<li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc14.jar</li>
+</ol>
+<p>2.安装到本地仓库</p>
+<pre><code>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=D:\Document_x64\Downloads\ojdbc14.jar
+</code></pre><p>3.pom文件中添加引用</p>
+<pre><code>&lt;dependency&gt;
+&lt;groupId&gt;com.oracle&lt;/groupId&gt;
+&lt;artifactId&gt;ojdbc7&lt;/artifactId&gt;
+&lt;version&gt;12.1.0.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>###2. “ORA-00942: 表或视图不存在 “的原因和解决方法</p>
+<p>产生的原因：<br>Oracle 是大小写敏感的，我们创自己写Sql脚本创建表的时候Oracle会自动将我们的表名，字段名转成大写,</p>
+<pre><code>create table T_WindRadar  (
+   wr_id                VARCHAR2(64)                    not null,
+   wr_reciveTime        DATE,
+   wr_image             BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>但是 Oracle 同样支持”” 语法，将表名或字段名加上””后，Oracle不会将其转换成大写。</p>
+<pre><code>create table &quot;T_WindRadar&quot;  (
+   &quot;wr_id&quot;                VARCHAR2(64)                    not null,
+   &quot;wr_reciveTime&quot;        DATE,
+   &quot;wr_image &quot;            BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>如果加上了””,那么我们采用一般的SQL语句查询则会产生“ORA-00942: 表或视图不存在 ”，因此SQL脚本中需要将表名也加上””。</p>
+<pre><code>select * from  &quot;T_WindRadar&quot;;
+</code></pre><p>这种情况在我们手写SQL的时候一般不会发生，但是我们使用powerdesigner设计数据库的时候，由于不注意会经常出现此类问题，因为Powerdesigner生成的SQL文件默认是加””的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/25/k-近邻算法/" itemprop="url">
+                  机器学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>##k-近邻算法</p>
+<p>####1.工作原理<br>存在一个样本数据集合，也成为训练样本集，并且样本集中每个数据都存在标签。加我们知道样本集中荷每一条数据玉所属分类之间的关系，输入没有标签的数据，将新数据的每个特征和样本数据进行比较然后算法提取出样本集中特征醉相思的数据的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据。最后，选择开个醉相思数据中出现次数最多的分类，作为新数据的分类。</p>
+<p>####2.伪代码</p>
+<ol>
+<li>计算已知类别数据器中点与当前点之间的距离；</li>
+<li>按照距离递增次序排序</li>
+<li>选择与当前距离最小的k个点</li>
+<li>确定前k个点所在类别的出现频率</li>
+<li>返回前k个点出现的频率最高的类别作为当前点的预测分类</li>
+</ol>
+<p>##决策树</p>
+<p>####1.优缺点</p>
+<ul>
+<li>优点：计算复杂度不高，对中间值的确实不敏感。可以处理不想管特征数据。</li>
+<li>缺点：过度匹配问题</li>
+</ul>
+<p>##基于概率论的分类方法：朴素贝叶斯</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/23/java杂记/" itemprop="url">
+                  java杂记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.Comparable和Comparator接口是干什么的？列出它们的区别。</p>
+<p>Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。</p>
+<p>Java提供了包含compare()和equals()两个方法的Comparator接口。compare()方法用来给两个输入参数排序，返回负数，0，正数表明第一个参数是小于，等于，大于第二个参数。equals()方法需要一个对象作为参数，它用来决定输入参数是否和comparator相等。只有当输入参数也是一个comparator并且输入参数和当前comparator的排序结果是相同的时候，这个方法才返回true。</p>
+<p>3.Enumeration接口和Iterator接口的区别有哪些？</p>
+<p>Enumeration速度是Iterator的2倍，同时占用更少的内存。但是，Iterator远远比Enumeration安全，因为其他线程不能够修改正在被iterator遍历的集合里面的对象。同时，Iterator允许调用者删除底层集合里面的元素，这对Enumeration来说是不可能的。</p>
+<p>4.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+<p>###JDBC</p>
+<p>8.什么是JDBC？</p>
+<p>JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。</p>
+<p>9.PreparedStatement比Statement有什么优势？</p>
+<p>PreparedStatements是预编译的，因此，性能会更好。同时，不同的查询参数值，PreparedStatement可以重用。</p>
+<p>10.什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？</p>
+<p>CallableStatement用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。准备一个CallableStatement的方法是：</p>
+<pre><code>CallableStament.prepareCall();
+</code></pre><hr>
+<p>##一.GC<br>Java中的垃圾回收机制</p>
+<p>####GC针对什么对象？<br>了解GC机制的第一步就是理解什么样的对象会被回收。当一个对象通过一系列根对象(比如：静态属性引用的常量)都不可达时就会被回收。简而言之，当一个对象的所有引用都为null。循环依赖不算做引用，如果对象A有一个指向对象B的引用，对象B也有一个指向对象A的引用，除此之外，它们没有其他引用，那么对象A和对象B都、需要被回收(如下图,ObjA和ObjB需要被回收)。</p>
+<p>####堆内存是如何划分的？</p>
+<p>Java中对象都在堆上创建。为了GC，堆内存分为三个部分，也可以说三代，分别称为新生代，老年代和永久代。其中新生代又进一步分为Eden区，Survivor 1区和Survivor 2区(如下图)。新创建的对象会分配在Eden区,在经历一次Minor GC后会被移到Survivor 1区，再经历一次Minor GC后会被移到Survivor 2区，直到升至老年代,需要注意的是，一些大对象(长字符串或数组)可能会直接存放到老年代。</p>
+<p><img src="http://i.imgur.com/KU1IyMG.png" alt=""></p>
+<hr>
+<p>##二.hashmap</p>
+<p>原文链接：<a href="http://yemengying.com/2016/05/07/threadsafe-hashmap/" target="_blank" rel="external">http://yemengying.com/2016/05/07/threadsafe-hashmap/</a></p>
+<p>####hashmap的自动扩容机制<br>HashMap 内部的 Node 数组默认的大小是16，假设有100万个元素，那么最好的情况下每个 hash 桶里都有62500个元素😱，这时get(),put(),remove()等方法效率都会降低。为了解决这个问题，HashMap 提供了自动扩容机制，当元素个数达到数组大小 loadFactor 后会扩大数组的大小，在默认情况下，数组大小为16，loadFactor 为0.75，也就是说当 HashMap 中的元素超过16\0.75=12时，会把数组大小扩展为2*16=32，并且重新计算每个元素在新数组中的位置。</p>
+<p>####为什么线程不安全<br>个人觉得 HashMap 在并发时可能出现的问题主要是两方面,首先如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的数据被覆盖。第二就是如果多个线程同时检测到元素个数超过数组大小* loadFactor ，这样就会发生多个线程同时对 Node 数组进行扩容，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失。</p>
+<p>关于 HashMap 线程不安全这一点，《Java并发编程的艺术》一书中是这样说的：</p>
+<blockquote>
+<p>HashMap 在并发执行 put 操作时会引起死循环，导致 CPU 利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。死循环并不是发生在 put 操作时，而是发生在扩容时。</p>
+</blockquote>
+<p>####如何安全的使用hashmap</p>
+<ul>
+<li>Hashtable</li>
+<li>ConcurrentHashMap</li>
+<li>Synchronized Map</li>
+</ul>
+<pre><code>//Hashtable
+Map&lt;String, String&gt; hashtable = new Hashtable&lt;&gt;();
+
+//synchronizedMap
+Map&lt;String, String&gt; synchronizedHashMap = Collections.synchronizedMap(new HashMap&lt;String, String&gt;());
+
+//ConcurrentHashMap
+Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
+</code></pre><p>hashtable通过使用 <em>synchronized</em>来保证线程安全。</p>
+<p>concurrenthashmap：</p>
+<ul>
+<li>CHM允许并发的读和线程安全的更新操作</li>
+<li>在执行写操作时，CHM只锁住部分的Map</li>
+<li>并发的更新是通过内部根据并发级别将Map分割成小部分实现的</li>
+<li>高的并发级别会造成时间和空间的浪费，低的并发级别在写线程多时会引起线程间的竞争</li>
+<li>CHM的所有操作都是线程安全</li>
+<li>CHM返回的迭代器是弱一致性，fail-safe并且不会抛出ConcurrentModificationException异常</li>
+<li>CHM不允许null的键值</li>
+<li>可以使用CHM代替HashTable，但要记住CHM不会锁住整个Map</li>
+</ul>
+<p>Synchronized Map：<br>从源码中可以看出调用 synchronizedMap() 方法后会返回一个 SynchronizedMap 类的对象，而在 SynchronizedMap 类中使用了 synchronized 同步关键字来保证对 Map 的操作是线程安全的。</p>
+<p>####hashmap如何解决冲突<br>其实就是链接法，将索引值相同的元素存放到一个单链表里。但为了解决在频繁冲突时HashMap性能降低的问题，Java 8中做了一个小优化，在冲突的元素个数超过设定的值(默认为8)时，会使用平衡树来替代链表存储冲突的元素。</p>
+<hr>
+<p>##三.java创建对象有哪几种</p>
+<ul>
+<li>new</li>
+<li>工厂模式</li>
+<li>反射</li>
+<li>克隆</li>
+</ul>
+<p>#四.java反射详解<br>原文链接：<a href="http://www.jianshu.com/p/53eb4e16d00e" target="_blank" rel="external">http://www.jianshu.com/p/53eb4e16d00e</a></p>
+<p>####什么是反射</p>
+<p> 主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。<br> 反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是反射使用不当会成本很高！<br>反射（Reflection）能够让运行于 JVM 中的程序检测和修改运行时的行为</p>
+<p>反射机制的作用：</p>
+<ol>
+<li>反编译：.class–&gt;.java</li>
+<li><p>通过反射机制访问java对象的属性，方法，构造方法等；</p>
+<pre><code>String s = &quot;java.util.Date&quot;;
+   Object m = Class.forName(s).newInstance();
+</code></pre><p>####为什么需要反射<br>通过反射，我们能够</p>
+</li>
+</ol>
+<ul>
+<li>在运行时检测对象的类型；</li>
+<li>动态构造某个类的对象；</li>
+<li>检测类的属性和方法；</li>
+<li>任意调用对象的方法；</li>
+<li>修改构造函数、方法、属性的可见性。</li>
+</ul>
+<p>JUnit通过反射来遍历包含 @Test 注解的方法，并在运行单元测试时调用它们。</p>
+<p>Web框架<br>开发人员可以在配置文件中定义对各种接口和类的实现。通过反射机制，框架能够快速地动态初始化所需要的类。</p>
+<p>Spring框架使用如下的配置文件：</p>
+<pre><code>&lt;bean id=&quot;someID&quot; class=&quot;com.programcreek.Foo&quot;&gt;
+    &lt;property name=&quot;someField&quot; value=&quot;someValue&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>当Spring容器处理 bean 元素时，会使用Class.forName(“com.programcreek.Foo”)来初始化这个类，并再次使用反射获取 property 元素对应的setter方法，为对象的属性赋值。</p>
+<hr>
+<p>##五.异常<br>5.throw和throws有什么区别？</p>
+<p>throw关键字用来在程序中明确的抛出异常，相反，throws语句用来表明方法不能处理的异常。每一个方法都必须要指定哪些异常不能处理，所以方法的调用者才能够确保处理可能发生的异常，多个异常是用逗号分隔的。</p>
+<p>6.Java中Exception和Error有什么区别？</p>
+<p>Exception和Error都是Throwable的子类。Exception用于用户程序可以捕获的异常情况。Error定义了不期望被用户程序捕获的异常。</p>
+<p>7.Java中的两种异常类型是什么？他们有什么区别？</p>
+<p>Java中有两种异常：受检查的(checked)异常和不受检查的(unchecked)异常。不受检查的异常不需要在方法或者是构造函数上声明，就算方法或者是构造函数的执行可能会抛出这样的异常，并且不受检查的异常可以传播到方法或者是构造函数的外面。相反，受检查的异常必须要用throws语句在方法或者是构造函数上声明。<br><img src="http://i.imgur.com/hUwjIXa.jpg" alt=""></p>
+<p>##六.spring相关</p>
+<p>spring的核心 ioc和aop</p>
+<p>Spring Bean的生命周期（非常详细）<a href="http://www.cnblogs.com/zrtqsk/p/3735273.html" target="_blank" rel="external">http://www.cnblogs.com/zrtqsk/p/3735273.html</a></p>
+<p>####spring中用到的设计模式<br>工厂模式:IOC容器<br>代理模式:AOP<br>策略模式:在spring采取动态代理时，根据代理的类有无实现接口有JDK和CGLIB两种代理方式，就是采用策略模式实现的<br>单例模式:默认情况下spring中的bean只存在一个实例<br>只知道这四个。。。。</p>
+<p>####讲一讲Spring IoC和AOP<br>IoC的核心是依赖反转，将创建对象和对象之间的依赖管理交给IoC容器来做，完成对象之间的解耦。<br>AOP主要是利用代理模式，把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>权限，日志，处理异常，事务等等，个人理解就是把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>####Spring中编码统一要如何做<br>配置一个拦截器</p>
+<pre><code>&lt;filter&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;encoding&lt;/param-name&gt;  
+           &lt;param-value&gt;UTF-8&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;forceEncoding&lt;/param-name&gt;  
+           &lt;param-value&gt;true&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+   &lt;/filter&gt;  
+   &lt;filter-mapping&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
+   &lt;/filter-mapping&gt;
+</code></pre><hr>
+<p>##七.数据库相关</p>
+<p>###mysql索引原理</p>
+<p>来源：美团点评技术团队<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="external">http://tech.meituan.com/mysql-index.html</a></p>
+<p>####详解b+树</p>
+<p><img src="http://i.imgur.com/iFzh0Ub.jpg" alt=""></p>
+<p>如上图，是一颗b+树，关于b+树的定义可以参见B+树，这里只说一些重点，浅蓝色的块我们称之为一个磁盘块，可以看到每个磁盘块包含几个数据项（深蓝色所示）和指针（黄色所示），如磁盘块1包含数据项17和35，包含指针P1、P2、P3，P1表示小于17的磁盘块，P2表示在17和35之间的磁盘块，P3表示大于35的磁盘块。真实的数据存在于叶子节点即3、5、9、10、13、15、28、29、36、60、75、79、90、99。非叶子节点只不存储真实的数据，只存储指引搜索方向的数据项，如17、35并不真实存在于数据表中。</p>
+<p>####b+树的查找过程<br>如图所示，如果要查找数据项29，那么首先会把磁盘块1由磁盘加载到内存，此时发生一次IO，在内存中用二分查找确定29在17和35之间，锁定磁盘块1的P2指针，内存时间因为非常短（相比磁盘的IO）可以忽略不计，通过磁盘块1的P2指针的磁盘地址把磁盘块3由磁盘加载到内存，发生第二次IO，29在26和30之间，锁定磁盘块3的P2指针，通过指针加载磁盘块8到内存，发生第三次IO，同时内存中做二分查找找到29，结束查询，总计三次IO。真实的情况是，3层的b+树可以表示上百万的数据，如果上百万的数据查找只需要三次IO，性能提高将是巨大的，如果没有索引，每个数据项都要发生一次IO，那么总共需要百万次的IO，显然成本非常非常高。</p>
+<p>####b+树性质<br>1.通过上面的分析，我们知道IO次数取决于b+数的高度h，假设当前数据表的数据为N，每个磁盘块的数据项的数量是m，则有h=㏒(m+1)N，当数据量N一定的情况下，m越大，h越小；而m = 磁盘块的大小 / 数据项的大小，磁盘块的大小也就是一个数据页的大小，是固定的，如果数据项占的空间越小，数据项的数量越多，树的高度越低。这就是为什么每个数据项，即索引字段要尽量的小，比如int占4字节，要比bigint8字节少一半。这也是为什么b+树要求把真实的数据放到叶子节点而不是内层节点，一旦放到内层节点，磁盘块的数据项会大幅度下降，导致树增高。当数据项等于1时将会退化成线性表。</p>
+<p>2.当b+树的数据项是复合的数据结构，比如(name,age,sex)的时候，b+数是按照从左到右的顺序来建立搜索树的，比如当(张三,20,F)这样的数据来检索的时候，b+树会优先比较name来确定下一步的所搜方向，如果name相同再依次比较age和sex，最后得到检索的数据；但当(20,F)这样的没有name的数据来的时候，b+树就不知道下一步该查哪个节点，因为建立搜索树的时候name就是第一个比较因子，必须要先根据name来搜索才能知道下一步去哪里查询。比如当(张三,F)这样的数据来检索时，b+树可以用name来指定搜索方向，但下一个字段age的缺失，所以只能把名字等于张三的数据都找到，然后再匹配性别是F的数据了， 这个是非常重要的性质，即索引的最左匹配特性。</p>
+<p>####建索引的几大原则</p>
+<ol>
+<li>最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
+<li>尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录</li>
+<li>索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);</li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
+</ol>
+<p>####mysql分页优化<br>ps：吐槽下，饿了么面试问我，但是呢。我压根没优化过…<br>参考另一个。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
