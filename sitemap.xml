@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2015/11/24/Calendar/</loc>
+    
+    <lastmod>2016-11-02T18:00:03.347Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2015/12/09/simpleEmail/</loc>
     
     <lastmod>2016-11-02T17:52:44.018Z</lastmod>
@@ -131,13 +138,6 @@
     <loc>http://yoursite.com/2016/07/22/eclipse%E4%B8%ADhadoop2-7-2%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2016-11-02T17:50:03.794Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/11/24/Calendar/</loc>
-    
-    <lastmod>2016-11-02T17:49:54.093Z</lastmod>
     
   </url>
   
