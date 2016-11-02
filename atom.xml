@@ -1393,7 +1393,7 @@ public static final int _1MB =1024*1024;
     <link href="http://yoursite.com/2016/10/14/Ng%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0notes1-weka%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
     <id>http://yoursite.com/2016/10/14/Ng机器学习notes1-weka相关算法实现/</id>
     <published>2016-10-14T04:30:14.000Z</published>
-    <updated>2016-11-02T17:22:06.217Z</updated>
+    <updated>2016-11-02T17:52:16.942Z</updated>
     
     <content type="html"><![CDATA[<p>Andrew Ng的机器学习课程notes1.</p>
 <p>参考链接：<a href="http://blog.csdn.net/qiao1245/article/details/50886247" target="_blank" rel="external">http://blog.csdn.net/qiao1245/article/details/50886247</a></p>
@@ -1490,8 +1490,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     </summary>
     
-      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
     
       <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
@@ -1502,7 +1500,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     <link href="http://yoursite.com/2016/10/13/mysql%E4%B8%ADtinyint-smallint-int-bigint%E5%8C%BA%E5%88%AB/"/>
     <id>http://yoursite.com/2016/10/13/mysql中tinyint-smallint-int-bigint区别/</id>
     <published>2016-10-13T07:52:49.000Z</published>
-    <updated>2016-11-02T17:21:54.339Z</updated>
+    <updated>2016-11-02T17:52:10.056Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
@@ -1522,8 +1520,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
 &lt;li&gt;&lt;p&gt;tinyint&lt;br&gt;从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。&lt;br&gt;unsigned 是从 0 到 255 的整型数据。&lt;br&gt;所以建表的时候 只能是tinyint(3),哪怕你建tinyint(1
     
     </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
     
     
       <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
@@ -1961,7 +1957,7 @@ Version:$Revision: 11310 $Author:Len Trigg (len@reeltwo.com)FracPete (fracpete a
     <link href="http://yoursite.com/2016/09/25/Object%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95/"/>
     <id>http://yoursite.com/2016/09/25/Object类有哪些方法/</id>
     <published>2016-09-25T15:52:26.000Z</published>
-    <updated>2016-11-02T17:22:23.073Z</updated>
+    <updated>2016-11-02T17:52:23.519Z</updated>
     
     <content type="html"><![CDATA[<p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
 <pre><code>clone();
@@ -1998,8 +1994,6 @@ hashCode()
     
     </summary>
     
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
     
       <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
@@ -2010,7 +2004,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     <id>http://yoursite.com/2016/09/25/java多线程/</id>
     <published>2016-09-25T15:43:30.000Z</published>
-    <updated>2016-11-02T17:19:46.585Z</updated>
+    <updated>2016-11-02T17:50:25.318Z</updated>
     
     <content type="html"><![CDATA[<p>线程和进程有什么区别？</p>
 <p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
@@ -2051,8 +2045,6 @@ hashCode()
     
     </summary>
     
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
     
       <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
@@ -2063,7 +2055,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/oracle/"/>
     <id>http://yoursite.com/2016/09/25/oracle/</id>
     <published>2016-09-25T14:14:27.000Z</published>
-    <updated>2016-11-02T17:22:38.866Z</updated>
+    <updated>2016-11-02T17:52:30.764Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <p>很少使用oracle，记录两个问题。</p>
@@ -2111,8 +2103,6 @@ hashCode()
     
     </summary>
     
-      <category term="oracle" scheme="http://yoursite.com/categories/oracle/"/>
-    
     
       <category term="oracle" scheme="http://yoursite.com/tags/oracle/"/>
     
@@ -2123,7 +2113,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/"/>
     <id>http://yoursite.com/2016/09/25/k-近邻算法/</id>
     <published>2016-09-25T05:39:12.000Z</published>
-    <updated>2016-11-02T17:21:25.220Z</updated>
+    <updated>2016-11-02T17:51:49.129Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <p>##k-近邻算法</p>
@@ -2152,8 +2142,6 @@ hashCode()
 &lt;p&gt;####1.工作原理&lt;br&gt;存在一个样本数据集合，也成为训练样本集，并且样本集中每个数据都存在标签。加我们知道样本集中荷每一条数据玉所属分类之间的关系，输入没有标签的数据，将新数据的每个特征和样本数据进行比
     
     </summary>
-    
-      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
