@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-02T17:23:07.461Z</updated>
+  <updated>2016-11-02T17:30:46.646Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,97 +20,16 @@
     <link href="http://yoursite.com/2016/11/03/Spring-AOP%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2016/11/03/Spring-AOP源码分析/</id>
     <published>2016-11-02T17:15:11.000Z</published>
-    <updated>2016-11-02T17:23:07.461Z</updated>
+    <updated>2016-11-02T17:30:46.646Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Spring-AOP-源码分析"><a href="#Spring-AOP-源码分析" class="headerlink" title="Spring AOP 源码分析"></a>Spring AOP 源码分析</h1><p>##零.Spring aop的使用##<br>想要分析aop源码。总要先知道spring aop怎么使用吧。要不然，分析个orz…</p>
 <p>使用Spring AOP可以基于两种方式，一种是比较方便和强大的注解方式，另一种则是中规中矩的xml配置方式。</p>
 <p>###0.1 基于注解的使用###</p>
 <p>第一步xml配置：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
-    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
-    xsi:schemaLocation=&quot;http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;
-
-    &lt;!-- 激活组件扫描功能,在包cn.ysh.studio.spring.aop及其子包下面自动扫描通过注解配置的组件 --&gt;
-    &lt;context:component-scan base-package=&quot;cn.ysh.studio.spring.aop&quot;/&gt;
-    &lt;!-- 激活自动代理功能 --&gt;
-    &lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot;/&gt;
-
-    &lt;!-- 用户服务对象 --&gt;
-    &lt;bean id=&quot;userService&quot; class=&quot;cn.ysh.studio.spring.aop.service.UserService&quot; /&gt;
-
-&lt;/beans&gt;
-</code></pre><p>第二步是为Aspect切面类添加注解：</p>
-<pre><code>@Component
-//声明这是一个切面Bean
-@Aspect
-public class ServiceAspect {
-
-    private final static Log log = LogFactory.getLog(ServiceAspect.class);
-
-    //配置切入点,该方法无方法体,主要为方便同类中其他方法使用此处配置的切入点
-    @Pointcut(&quot;execution(* cn.ysh.studio.spring.aop.service..*(..))&quot;)
-    public void aspect(){    }
-
-    /*
-     * 配置前置通知,使用在方法aspect()上注册的切入点
-     * 同时接受JoinPoint切入点对象,可以没有该参数
-     */
-    @Before(&quot;aspect()&quot;)
-    public void before(JoinPoint joinPoint){
-        if(log.isInfoEnabled()){
-            log.info(&quot;before &quot; + joinPoint);
-        }
-    }
-
-    //配置后置通知,使用在方法aspect()上注册的切入点
-    @After(&quot;aspect()&quot;)
-    public void after(JoinPoint joinPoint){
-        if(log.isInfoEnabled()){
-            log.info(&quot;after &quot; + joinPoint);
-        }
-    }
-
-    //配置环绕通知,使用在方法aspect()上注册的切入点
-    @Around(&quot;aspect()&quot;)
-    public void around(JoinPoint joinPoint){
-        long start = System.currentTimeMillis();
-        try {
-            ((ProceedingJoinPoint) joinPoint).proceed();
-            long end = System.currentTimeMillis();
-            if(log.isInfoEnabled()){
-                log.info(&quot;around &quot; + joinPoint + &quot;\tUse time : &quot; + (end - start) + &quot; ms!&quot;);
-            }
-        } catch (Throwable e) {
-            long end = System.currentTimeMillis();
-            if(log.isInfoEnabled()){
-                log.info(&quot;around &quot; + joinPoint + &quot;\tUse time : &quot; + (end - start) + &quot; ms with exception : &quot; + e.getMessage());
-            }
-        }
-    }
-
-    //配置后置返回通知,使用在方法aspect()上注册的切入点
-    @AfterReturning(&quot;aspect()&quot;)
-    public void afterReturn(JoinPoint joinPoint){
-        if(log.isInfoEnabled()){
-            log.info(&quot;afterReturn &quot; + joinPoint);
-        }
-    }
-
-    //配置抛出异常后通知,使用在方法aspect()上注册的切入点
-    @AfterThrowing(pointcut=&quot;aspect()&quot;, throwing=&quot;ex&quot;)
-    public void afterThrow(JoinPoint joinPoint, Exception ex){
-        if(log.isInfoEnabled()){
-            log.info(&quot;afterThrow &quot; + joinPoint + &quot;\t&quot; + ex.getMessage());
-        }
-    }
-
-}
-</code></pre><p>第三步测试：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line">&lt;beans xmlns="http://www.springframework.org/schema/beans"</div><div class="line">	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</div><div class="line">	xmlns:context="http://www.springframework.org/schema/context"</div><div class="line">	xmlns:aop="http://www.springframework.org/schema/aop"</div><div class="line">	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd</div><div class="line">		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"&gt;</div><div class="line"></div><div class="line">	&lt;!-- 激活组件扫描功能,在包cn.ysh.studio.spring.aop及其子包下面自动扫描通过注解配置的组件 --&gt;</div><div class="line">	&lt;context:component-scan base-package="cn.ysh.studio.spring.aop"/&gt;</div><div class="line">	&lt;!-- 激活自动代理功能 --&gt;</div><div class="line">	&lt;aop:aspectj-autoproxy proxy-target-class="true"/&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 用户服务对象 --&gt;</div><div class="line">	&lt;bean id="userService" class="cn.ysh.studio.spring.aop.service.UserService" /&gt;</div><div class="line"></div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<p>第二步是为Aspect切面类添加注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="comment">//声明这是一个切面Bean</span></div><div class="line"><span class="meta">@Aspect</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceAspect</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Log log = LogFactory.getLog(ServiceAspect.class);</div><div class="line">	</div><div class="line">	<span class="comment">//配置切入点,该方法无方法体,主要为方便同类中其他方法使用此处配置的切入点</span></div><div class="line">	<span class="meta">@Pointcut</span>(<span class="string">"execution(* cn.ysh.studio.spring.aop.service..*(..))"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aspect</span><span class="params">()</span></span>&#123;	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/*</span></div><div class="line">	 * 配置前置通知,使用在方法aspect()上注册的切入点</div><div class="line">	 * 同时接受JoinPoint切入点对象,可以没有该参数</div><div class="line">	 */</div><div class="line">	<span class="meta">@Before</span>(<span class="string">"aspect()"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">			log.info(<span class="string">"before "</span> + joinPoint);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//配置后置通知,使用在方法aspect()上注册的切入点</span></div><div class="line">	<span class="meta">@After</span>(<span class="string">"aspect()"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">			log.info(<span class="string">"after "</span> + joinPoint);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//配置环绕通知,使用在方法aspect()上注册的切入点</span></div><div class="line">	<span class="meta">@Around</span>(<span class="string">"aspect()"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">around</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			((ProceedingJoinPoint) joinPoint).proceed();</div><div class="line">			<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">			<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">				log.info(<span class="string">"around "</span> + joinPoint + <span class="string">"\tUse time : "</span> + (end - start) + <span class="string">" ms!"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">			<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">			<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">				log.info(<span class="string">"around "</span> + joinPoint + <span class="string">"\tUse time : "</span> + (end - start) + <span class="string">" ms with exception : "</span> + e.getMessage());</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//配置后置返回通知,使用在方法aspect()上注册的切入点</span></div><div class="line">	<span class="meta">@AfterReturning</span>(<span class="string">"aspect()"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterReturn</span><span class="params">(JoinPoint joinPoint)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">			log.info(<span class="string">"afterReturn "</span> + joinPoint);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//配置抛出异常后通知,使用在方法aspect()上注册的切入点</span></div><div class="line">	<span class="meta">@AfterThrowing</span>(pointcut=<span class="string">"aspect()"</span>, throwing=<span class="string">"ex"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterThrow</span><span class="params">(JoinPoint joinPoint, Exception ex)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(log.isInfoEnabled())&#123;</div><div class="line">			log.info(<span class="string">"afterThrow "</span> + joinPoint + <span class="string">"\t"</span> + ex.getMessage());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第三步测试：</p>
 <pre><code>public class Tester {
 
     private final static Log log = LogFactory.getLog(Tester.class);
