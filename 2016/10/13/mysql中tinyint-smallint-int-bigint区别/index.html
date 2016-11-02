@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -96,7 +96,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
 <meta property="og:description" content="tinyint从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。unsigned 是从 0 到 255 的整型数据。所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。
 
 smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小为 2 个字节。un">
-<meta property="og:updated_time" content="2016-10-13T07:55:14.028Z">
+<meta property="og:updated_time" content="2016-11-02T17:21:54.339Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql中tinyint.smallint.int.bigint区别">
 <meta name="twitter:description" content="tinyint从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。unsigned 是从 0 到 255 的整型数据。所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。
@@ -181,7 +181,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -189,7 +189,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -197,7 +197,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -258,12 +258,31 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
               2016-10-13
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -316,6 +335,12 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag">#mysql</a>
+          
+        </div>
       
 
       
@@ -381,10 +406,10 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -401,15 +426,15 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">14</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -417,8 +442,8 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -453,7 +478,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
               
             
             
-              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>
@@ -480,7 +505,7 @@ smallint从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

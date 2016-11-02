@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-02T17:17:58.984Z</updated>
+  <updated>2016-11-02T17:23:07.461Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/11/03/Spring-AOP%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2016/11/03/Spring-AOP源码分析/</id>
     <published>2016-11-02T17:15:11.000Z</published>
-    <updated>2016-11-02T17:17:58.984Z</updated>
+    <updated>2016-11-02T17:23:07.461Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Spring-AOP-源码分析"><a href="#Spring-AOP-源码分析" class="headerlink" title="Spring AOP 源码分析"></a>Spring AOP 源码分析</h1><p>##零.Spring aop的使用##<br>想要分析aop源码。总要先知道spring aop怎么使用吧。要不然，分析个orz…</p>
 <p>使用Spring AOP可以基于两种方式，一种是比较方便和强大的注解方式，另一种则是中规中矩的xml配置方式。</p>
@@ -840,7 +840,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
     
     </summary>
     
-      <category term="JS" scheme="http://yoursite.com/categories/JS/"/>
+      <category term="Spring" scheme="http://yoursite.com/categories/Spring/"/>
     
     
       <category term="Spring" scheme="http://yoursite.com/tags/Spring/"/>
@@ -854,7 +854,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
     <link href="http://yoursite.com/2016/10/28/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%89%E7%A7%8D%E5%8F%98%E5%8C%96%E7%B1%BB%E5%9E%8B/"/>
     <id>http://yoursite.com/2016/10/28/数据仓库三种变化类型/</id>
     <published>2016-10-28T03:50:06.000Z</published>
-    <updated>2016-10-29T03:14:56.471Z</updated>
+    <updated>2016-11-02T17:26:00.248Z</updated>
     
     <content type="html"><![CDATA[<p>类型1：对于数据元素的历史记录不重要的时候使用，当一个数据源变化的时候，对应的维度属性将会被覆盖，</p>
 <p>类型2：当变化的数据元素历史记录也很重要的时候采用，源数据的元素变化的时候，会在维度表中插入新的一行来满足需求。</p>
@@ -872,6 +872,8 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 &lt;p&gt;类型3：当所有分析伴随新值或者旧
     
     </summary>
+    
+      <category term="数据仓库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
     
     
       <category term="数据仓库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
@@ -972,7 +974,7 @@ false
     <link href="http://yoursite.com/2016/10/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E5%85%AD-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"/>
     <id>http://yoursite.com/2016/10/24/深入理解JVM六-类文件结构/</id>
     <published>2016-10-24T08:36:18.000Z</published>
-    <updated>2016-10-24T10:58:33.317Z</updated>
+    <updated>2016-11-02T17:25:38.764Z</updated>
     
     <content type="html"><![CDATA[<p>class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
 <p>###class文件结构介绍：</p>
@@ -1015,6 +1017,8 @@ false
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
@@ -1025,7 +1029,7 @@ false
     <link href="http://yoursite.com/2016/10/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E4%BA%94/"/>
     <id>http://yoursite.com/2016/10/24/深入理解JVM笔记五/</id>
     <published>2016-10-24T07:00:22.000Z</published>
-    <updated>2016-10-24T08:34:56.308Z</updated>
+    <updated>2016-11-02T17:25:25.153Z</updated>
     
     <content type="html"><![CDATA[<p>高性能硬件上部署程序，目前主要有两种方式：</p>
 <ul>
@@ -1051,6 +1055,8 @@ false
 &lt;
     
     </summary>
+    
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
     
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
@@ -1082,7 +1088,7 @@ false
     <link href="http://yoursite.com/2016/10/21/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E5%9B%9B/"/>
     <id>http://yoursite.com/2016/10/21/深入理解JVM笔记四/</id>
     <published>2016-10-21T08:22:24.000Z</published>
-    <updated>2016-10-21T09:29:40.320Z</updated>
+    <updated>2016-11-02T17:25:20.069Z</updated>
     
     <content type="html"><![CDATA[<p>###jdk命令行工具</p>
 <p>1.jps<br>虚拟机进程状态工具</p>
@@ -1140,6 +1146,8 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
@@ -1150,7 +1158,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
     <link href="http://yoursite.com/2016/10/21/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E4%B8%89/"/>
     <id>http://yoursite.com/2016/10/21/深入理解JVM笔记三/</id>
     <published>2016-10-21T06:30:38.000Z</published>
-    <updated>2016-10-21T08:22:39.676Z</updated>
+    <updated>2016-11-02T17:25:14.576Z</updated>
     
     <content type="html"><![CDATA[<p>内存分配策略</p>
 <p>###1.对象有现在eden区分配。</p>
@@ -1213,6 +1221,8 @@ public static final int _1MB =1024*1024;
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
@@ -1223,7 +1233,7 @@ public static final int _1MB =1024*1024;
     <link href="http://yoursite.com/2016/10/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E4%BA%8C/"/>
     <id>http://yoursite.com/2016/10/19/深入理解JVM笔记二/</id>
     <published>2016-10-19T02:51:50.000Z</published>
-    <updated>2016-10-19T09:47:01.156Z</updated>
+    <updated>2016-11-02T17:25:05.958Z</updated>
     
     <content type="html"><![CDATA[<p>####对象已死么？</p>
 <p>1.引用计数算法</p>
@@ -1273,6 +1283,8 @@ public static final int _1MB =1024*1024;
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
@@ -1283,7 +1295,7 @@ public static final int _1MB =1024*1024;
     <link href="http://yoursite.com/2016/10/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E4%B8%80/"/>
     <id>http://yoursite.com/2016/10/18/深入理解JVM笔记一/</id>
     <published>2016-10-18T07:03:57.000Z</published>
-    <updated>2016-10-18T12:50:15.916Z</updated>
+    <updated>2016-11-02T17:25:31.949Z</updated>
     
     <content type="html"><![CDATA[<p>#自动内存管理机制</p>
 <p>##java内存区域与内存溢出异常</p>
@@ -1377,6 +1389,10 @@ public static final int _1MB =1024*1024;
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
+    
+      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
   </entry>
   
@@ -1385,7 +1401,7 @@ public static final int _1MB =1024*1024;
     <link href="http://yoursite.com/2016/10/14/Ng%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0notes1-weka%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
     <id>http://yoursite.com/2016/10/14/Ng机器学习notes1-weka相关算法实现/</id>
     <published>2016-10-14T04:30:14.000Z</published>
-    <updated>2016-10-14T04:59:08.082Z</updated>
+    <updated>2016-11-02T17:22:06.217Z</updated>
     
     <content type="html"><![CDATA[<p>Andrew Ng的机器学习课程notes1.</p>
 <p>参考链接：<a href="http://blog.csdn.net/qiao1245/article/details/50886247" target="_blank" rel="external">http://blog.csdn.net/qiao1245/article/details/50886247</a></p>
@@ -1485,6 +1501,8 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
       <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
   </entry>
   
   <entry>
@@ -1492,7 +1510,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     <link href="http://yoursite.com/2016/10/13/mysql%E4%B8%ADtinyint-smallint-int-bigint%E5%8C%BA%E5%88%AB/"/>
     <id>http://yoursite.com/2016/10/13/mysql中tinyint-smallint-int-bigint区别/</id>
     <published>2016-10-13T07:52:49.000Z</published>
-    <updated>2016-10-13T07:55:14.028Z</updated>
+    <updated>2016-11-02T17:21:54.339Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
@@ -1513,6 +1531,10 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     </summary>
     
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
     
   </entry>
   
@@ -1606,7 +1628,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     <link href="http://yoursite.com/2016/09/29/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0weka%EF%BC%88%E4%B8%89%EF%BC%89/"/>
     <id>http://yoursite.com/2016/09/29/机器学习weka（三）/</id>
     <published>2016-09-29T14:12:39.000Z</published>
-    <updated>2016-09-29T14:16:49.908Z</updated>
+    <updated>2016-11-02T17:24:27.425Z</updated>
     
     <content type="html"><![CDATA[<p><strong>模型序列化/持久化存储和加载</strong></p>
 <p>有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？<br>其实既然模型也是一个Java对象，那我就按照JAVA的序列化和反序列化方法保存模型对象即可。</p>
@@ -1646,6 +1668,12 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     </summary>
     
+      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
     
   </entry>
   
@@ -1654,7 +1682,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     <link href="http://yoursite.com/2016/09/29/weka%E5%AD%A6%E4%B9%A02/"/>
     <id>http://yoursite.com/2016/09/29/weka学习2/</id>
     <published>2016-09-29T14:04:00.000Z</published>
-    <updated>2016-09-29T14:11:11.276Z</updated>
+    <updated>2016-11-02T17:24:08.887Z</updated>
     
     <content type="html"><![CDATA[<p><strong>1.weka分类/回归模型构建与评价</strong></p>
 <p>以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： </p>
@@ -1706,6 +1734,12 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     </summary>
     
+      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
     
   </entry>
   
@@ -1714,7 +1748,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     <link href="http://yoursite.com/2016/09/29/weka1/"/>
     <id>http://yoursite.com/2016/09/29/weka1/</id>
     <published>2016-09-29T12:39:32.000Z</published>
-    <updated>2016-09-29T12:00:05.559Z</updated>
+    <updated>2016-11-02T17:23:59.960Z</updated>
     
     <content type="html"><![CDATA[<p>###机器学习weka（一）<br><a id="more"></a></p>
 <p>##1.Instances</p>
@@ -1921,7 +1955,7 @@ Version:$Revision: 11310 $Author:Len Trigg (len@reeltwo.com)FracPete (fracpete a
     
     </summary>
     
-      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
     
     
       <category term="java" scheme="http://yoursite.com/tags/java/"/>
@@ -1935,7 +1969,7 @@ Version:$Revision: 11310 $Author:Len Trigg (len@reeltwo.com)FracPete (fracpete a
     <link href="http://yoursite.com/2016/09/25/Object%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95/"/>
     <id>http://yoursite.com/2016/09/25/Object类有哪些方法/</id>
     <published>2016-09-25T15:52:26.000Z</published>
-    <updated>2016-09-25T15:56:27.683Z</updated>
+    <updated>2016-11-02T17:22:23.073Z</updated>
     
     <content type="html"><![CDATA[<p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
 <pre><code>clone();
@@ -1972,6 +2006,10 @@ hashCode()
     
     </summary>
     
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
   </entry>
   
@@ -1980,7 +2018,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     <id>http://yoursite.com/2016/09/25/java多线程/</id>
     <published>2016-09-25T15:43:30.000Z</published>
-    <updated>2016-09-25T15:46:03.440Z</updated>
+    <updated>2016-11-02T17:19:46.585Z</updated>
     
     <content type="html"><![CDATA[<p>线程和进程有什么区别？</p>
 <p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
@@ -2021,6 +2059,10 @@ hashCode()
     
     </summary>
     
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
   </entry>
   
@@ -2029,7 +2071,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/oracle/"/>
     <id>http://yoursite.com/2016/09/25/oracle/</id>
     <published>2016-09-25T14:14:27.000Z</published>
-    <updated>2016-09-25T14:28:12.599Z</updated>
+    <updated>2016-11-02T17:22:38.866Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <p>很少使用oracle，记录两个问题。</p>
@@ -2077,6 +2119,10 @@ hashCode()
     
     </summary>
     
+      <category term="oracle" scheme="http://yoursite.com/categories/oracle/"/>
+    
+    
+      <category term="oracle" scheme="http://yoursite.com/tags/oracle/"/>
     
   </entry>
   
@@ -2085,7 +2131,7 @@ hashCode()
     <link href="http://yoursite.com/2016/09/25/k-%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/"/>
     <id>http://yoursite.com/2016/09/25/k-近邻算法/</id>
     <published>2016-09-25T05:39:12.000Z</published>
-    <updated>2016-09-25T16:01:44.907Z</updated>
+    <updated>2016-11-02T17:21:25.220Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <p>##k-近邻算法</p>
@@ -2117,6 +2163,8 @@ hashCode()
     
       <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   

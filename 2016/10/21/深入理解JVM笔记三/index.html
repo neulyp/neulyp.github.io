@@ -100,7 +100,7 @@ public class aa{
 大多数情况下，对象在新生代eden区中分配，当Eden区没有足够的空间分配，虚拟机将发起一次minor GC。虚拟机提供-XX：+PrintGCDetails这个日志参数，告诉虚拟机在发生垃圾收集行为时打印内存回收日志，并在进程退出的时候输出当前的内存各区域分配的情况。
 public class aa{
         /**">
-<meta property="og:updated_time" content="2016-10-21T08:22:39.676Z">
+<meta property="og:updated_time" content="2016-11-02T17:25:14.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解JVM笔记三">
 <meta name="twitter:description" content="内存分配策略
@@ -187,7 +187,7 @@ public class aa{
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -195,7 +195,7 @@ public class aa{
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -203,7 +203,7 @@ public class aa{
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -264,12 +264,31 @@ public class aa{
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-21T14:30:38+08:00" content="2016-10-21">
               2016-10-21
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -434,10 +453,10 @@ public static final int _1MB =1024*1024;
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -454,15 +473,15 @@ public static final int _1MB =1024*1024;
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">14</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -470,8 +489,8 @@ public static final int _1MB =1024*1024;
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -506,7 +525,7 @@ public static final int _1MB =1024*1024;
               
             
             
-              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>
@@ -533,7 +552,7 @@ public static final int _1MB =1024*1024;
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
