@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JVM," />
 
 
 
@@ -114,7 +114,7 @@
 
 1.遇到new getstatic putstatic invokestatic
 2.使用java.lang.reflect">
-<meta property="og:updated_time" content="2016-10-26T10:14:41.753Z">
+<meta property="og:updated_time" content="2016-10-31T11:38:29.004Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解JVM七-虚拟机类加载机制">
 <meta name="twitter:description" content="类从被加载到卸载，整个生命周期如下：
@@ -331,7 +331,53 @@
 <li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
 </ul>
 <p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
-<p>###类加载器</p>
+<p>###类加载器###</p>
+<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
+<pre><code>package jvm;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+
+/**
+ * 
+ * @author neuly
+ *
+ */
+public class ClassLoaderTest {
+    public static void main(String[] args) throws Exception{
+        ClassLoader myloader= new ClassLoader() {
+                @Override
+                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
+                    try {
+                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
+                        InputStream is= getClass().getResourceAsStream(fileName);
+                        if(is==null){
+                            return super.loadClass(name);
+                        }
+                        byte[] b = new byte[is.available()];
+                        is.read(b);
+                        return defineClass(name, b, 0,b.length);
+                    } catch (IOException e) {;; 
+                        // TODO: handle exception
+                        throw new ClassNotFoundException(name);
+                    }
+
+                }
+            };
+            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
+            System.out.println(obj.getClass());
+            System.out.println(obj instanceof jvm.ClassLoaderTest);
+    }
+}
+</code></pre><p>结果 </p>
+<pre><code>class jvm.ClassLoaderTest
+false
+</code></pre><p>代码加载与自己同一路径下的class文件。</p>
+<p>###2.双亲委派模型###</p>
+<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
+<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
+<p>###2.破坏双亲委派模型###</p>
 
       
     </div>
@@ -351,6 +397,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag">#JVM</a>
+          
+        </div>
       
 
       
@@ -435,7 +487,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
@@ -452,7 +504,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>
