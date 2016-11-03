@@ -244,8 +244,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/23/java泛型/" itemprop="url">
-                  java泛型
+                <a class="post-title-link" href="/2016/09/25/k-近邻算法/" itemprop="url">
+                  机器学习
                 </a>
               
             
@@ -258,8 +258,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
-              2016-09-23
+            <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
+              2016-09-25
             </time>
           </span>
 
@@ -289,39 +289,23 @@
         
           
             <a id="more"></a>
-<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
-<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
-<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
-<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
-<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
-    array[pos] = data;  
-} 
-</code></pre><p>###二、泛型用法<br>1.泛型类</p>
-<p>2.泛型方法</p>
-<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
-<pre><code>List&lt;?&gt; list;存放任意的对象
-List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
-List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
-</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
-<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
-<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
-}
-</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
-<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
-<p>JAVA的容器—List,Map,Set<br>Collection </p>
-<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
-<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
-<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
-<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
-<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
-<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
-<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
-<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
-<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
-<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
-<p>2.HashSet和TreeSet有什么区别？</p>
-<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
-<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+<p>##k-近邻算法</p>
+<p>####1.工作原理<br>存在一个样本数据集合，也成为训练样本集，并且样本集中每个数据都存在标签。加我们知道样本集中荷每一条数据玉所属分类之间的关系，输入没有标签的数据，将新数据的每个特征和样本数据进行比较然后算法提取出样本集中特征醉相思的数据的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据。最后，选择开个醉相思数据中出现次数最多的分类，作为新数据的分类。</p>
+<p>####2.伪代码</p>
+<ol>
+<li>计算已知类别数据器中点与当前点之间的距离；</li>
+<li>按照距离递增次序排序</li>
+<li>选择与当前距离最小的k个点</li>
+<li>确定前k个点所在类别的出现频率</li>
+<li>返回前k个点出现的频率最高的类别作为当前点的预测分类</li>
+</ol>
+<p>##决策树</p>
+<p>####1.优缺点</p>
+<ul>
+<li>优点：计算复杂度不高，对中间值的确实不敏感。可以处理不想管特征数据。</li>
+<li>缺点：过度匹配问题</li>
+</ul>
+<p>##基于概率论的分类方法：朴素贝叶斯</p>
 
           
         
@@ -610,8 +594,8 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
             
               
                 
-                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
-                  mysql分页优化
+                <a class="post-title-link" href="/2016/09/23/java泛型/" itemprop="url">
+                  java泛型
                 </a>
               
             
@@ -624,8 +608,8 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
-              2016-09-22
+            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
+              2016-09-23
             </time>
           </span>
 
@@ -653,12 +637,43 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
 
       
         
-          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
+          
+            <a id="more"></a>
+<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
+<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
+<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
+<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
+<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
+    array[pos] = data;  
+} 
+</code></pre><p>###二、泛型用法<br>1.泛型类</p>
+<p>2.泛型方法</p>
+<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
+<pre><code>List&lt;?&gt; list;存放任意的对象
+List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
+List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
+</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
+<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
+<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
+}
+</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
+<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
+<p>JAVA的容器—List,Map,Set<br>Collection </p>
+<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
+<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
+<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
+<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
+<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
+<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
+<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+
+          
         
       
     </div>
@@ -829,6 +844,102 @@ Chinese
 <p>类的初始化会从祖先类到子类、按出现顺序，对类变量的初始化语句、静态初始化语句块依次进行初始化。而对类实例的初始化也类似，会从祖先类到子类、按出现顺序，对类成员的初始化语句、实例初始化块、构造方法依次进行初始化。</p>
 
           
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
+                  mysql分页优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1607,102 +1718,6 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/31/Java中OutOfMemoryError/" itemprop="url">
-                  Java中OutOfMemoryError
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2015-12-31T00:30:12+08:00" content="2015-12-31">
-              2015-12-31
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>OutOfMemoryError<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/12/31/Java中OutOfMemoryError/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1748,7 +1763,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
