@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -257,7 +257,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-03T01:15:11+08:00" content="2016-11-03">
               2016-11-03
             </time>
@@ -269,7 +269,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Spring/" itemprop="url" rel="index">
@@ -329,6 +329,7 @@
 
 &lt;/beans&gt;
 </code></pre><p>第二步是为Aspect切面类添加注解：</p>
+<!--lang: java--> 
 <pre><code>@Component
 //声明这是一个切面Bean
 @Aspect
@@ -394,40 +395,46 @@ public class ServiceAspect {
     }
 
 }
-</code></pre><p>第三步测试：</p>
-<pre><code>public class Tester {
+</code></pre><!---> 
 
-    private final static Log log = LogFactory.getLog(Tester.class);
+第三步测试：
 
-    public static void main(String[] args) {
-        //启动Spring容器
-        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-        //获取service组件
-        UserService service = (UserService) context.getBean(&quot;userService&quot;);
-        //以普通的方式调用UserService对象的三个方法
-        User user = service.get(1L);
-        service.save(user);
-        try {
-            service.delete(1L);
-        } catch (Exception e) {
-            if(log.isWarnEnabled()){
-                log.warn(&quot;Delete user : &quot; + e.getMessage());
+    public class Tester {
+
+        private final static Log log = LogFactory.getLog(Tester.class);
+
+        public static void main(String[] args) {
+            //启动Spring容器
+            ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+            //获取service组件
+            UserService service = (UserService) context.getBean("userService");
+            //以普通的方式调用UserService对象的三个方法
+            User user = service.get(1L);
+            service.save(user);
+            try {
+                service.delete(1L);
+            } catch (Exception e) {
+                if(log.isWarnEnabled()){
+                    log.warn("Delete user : " + e.getMessage());
+                }
             }
         }
     }
-}
-</code></pre><h3 id="0-2-xml配置"><a href="#0-2-xml配置" class="headerlink" title="0.2 xml配置"></a>0.2 xml配置</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
-    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;
-    xsi:schemaLocation=&quot;http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;
+
+### 0.2 xml配置 ###
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
-    &lt;!-- 系统服务组件的切面Bean --&gt;
-    &lt;bean id=&quot;serviceAspect&quot; class=&quot;cn.ysh.studio.spring.aop.aspect.ServiceAspect&quot;/&gt;
+        <!-- 系统服务组件的切面Bean -->
+<pre><code>    &lt;bean id=&quot;serviceAspect&quot; class=&quot;cn.ysh.studio.spring.aop.aspect.ServiceAspect&quot;/&gt;
     &lt;!-- AOP配置 --&gt;
     &lt;aop:config&gt;
         &lt;!-- 声明一个切面,并注入切面Bean,相当于@Aspect --&gt;
@@ -1171,7 +1178,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-28T11:50:06+08:00" content="2016-10-28">
               2016-10-28
             </time>
@@ -1183,7 +1190,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/数据仓库/" itemprop="url" rel="index">
@@ -1290,7 +1297,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -1447,7 +1454,7 @@ false
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -1459,7 +1466,7 @@ false
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1592,7 +1599,7 @@ false
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T15:00:22+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -1604,7 +1611,7 @@ false
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1714,7 +1721,7 @@ false
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-23T20:45:12+08:00" content="2016-10-23">
               2016-10-23
             </time>
@@ -1808,7 +1815,7 @@ false
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T16:22:24+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -1820,7 +1827,7 @@ false
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1959,7 +1966,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T14:30:38+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -1971,7 +1978,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -2122,7 +2129,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-19T10:51:50+08:00" content="2016-10-19">
               2016-10-19
             </time>
@@ -2134,7 +2141,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -2271,7 +2278,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-18T15:03:57+08:00" content="2016-10-18">
               2016-10-18
             </time>
@@ -2283,7 +2290,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -2474,7 +2481,7 @@ public static final int _1MB =1024*1024;
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -2482,7 +2489,7 @@ public static final int _1MB =1024*1024;
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2491,7 +2498,7 @@ public static final int _1MB =1024*1024;
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2542,7 +2549,7 @@ public static final int _1MB =1024*1024;
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
