@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/11/10/effective-java-1/</loc>
+    
+    <lastmod>2016-11-12T08:45:02.028Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/11/03/spring/</loc>
     
     <lastmod>2016-11-03T05:47:04.317Z</lastmod>

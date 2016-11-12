@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,155 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/19/深入理解JVM笔记二/" itemprop="url">
+                  深入理解JVM笔记二---垃圾收集器及内存分配策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-19T10:51:50+08:00" content="2016-10-19">
+              2016-10-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####对象已死么？</p>
+<p>1.引用计数算法</p>
+<p>给对象中添加一个引用计数器，每当有一个地方引用它，计数器值就加1；当引用时效的时候，减一。任何时候计数器为0的对象就是不可能再被引用的。（很难解决对象之间相互循环引用的问题）</p>
+<p>2.可达性分析算法</p>
+<p>这个算法的基本思路就是通过一系列名为”GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain)，当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的，下图对象object5, object6, object7虽然有互相判断，但它们到GC Roots是不可达的，所以它们将会判定为是可回收对象。<br><img src="http://i.imgur.com/XvHdvR5.png" alt=""></p>
+<p>java  GC ROOTS的对象包含以下几种<br>虚拟机栈中引用的对象<br>方法区中类静态属性引用的对象<br>方法区中常量引用的对象<br>本地方法栈种JNI（native方法）引用的对象</p>
+<p>####引用</p>
+<p>1.强引用 一直活着<br>2.软引用 还有用但并非必须的对象 活到第二次回收<br>3.弱引用 非必须对象 活到下一次垃圾收集之前<br>4.虚引用</p>
+<p>####GC算法<br>1.标记清除算法</p>
+<p>分为标记和清除两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。该算法的缺点是效率不高并且会产生不连续的内存碎片。<br><img src="http://i.imgur.com/PTYTd1h.jpg" alt=""></p>
+<p>2.复制算法</p>
+<p>把内存空间划为两个区域，每次只使用其中一个区域。垃圾回收时，遍历当前使用区域，把正在使用中的对象复制到另外一个区域中。次算法每次只处理正在使用中的对象，因此复制成本比较小，同时复制过去以后还能进行相应的内存整理，不会出现“碎片”问题。优点：实现简单，运行高效。缺点：会浪费一定的内存。一般新生代采用这种算法<br><img src="http://i.imgur.com/wXBBEyQ.jpg" alt=""></p>
+<p>3.标记整理算法</p>
+<p>标记阶段与标记清除算法一样。但后续并不是直接对可回收的对象进行清理，而是让所有存活对象都想一端移动，然后清理。优点是不会造成内存碎片<br><img src="http://i.imgur.com/1H8E9sw.jpg" alt=""></p>
+<p>4.分代收集算法<br>只是根据对象存货周期的不用将内存划分为几块。一般是把java堆划分为新生代和老年代。这样就可以根据各个年代的特点采用最适当的手机算法。在新生代中，每次垃圾收集时有大量的对象死亡，只有少量的存在，那就采用复制算法，对于老年代，对象存活率高，没有额外空间对他进行分配担保，就必须使用“标记-清理”或者“标记-整理”算法来进行回收。</p>
+<p>####Java中垃圾回收器的类型<br>Java提供多种类型的垃圾回收器。JVM中的垃圾收集一般都采用“分代收集”，不同的堆内存区域采用不同的收集算法，主要目的就是为了增加吞吐量或降低停顿时间。</p>
+<ul>
+<li>Serial收集器：新生代收集器，使用复制算法，使用一个线程进行GC，串行，其它工作线程暂停。</li>
+<li>ParNew收集器：新生代收集器，使用复制算法，Serial收集器的多线程版，用多个线程进行GC，并行，其它工作线程暂停。使用-XX:+UseParNewGC开关来控制使用ParNew+Serial Old收集器组合收集内存；使用-XX:ParallelGCThreads来设置执行内存回收的线程数。</li>
+<li>Parallel Scavenge 收集器：吞吐量优先的垃圾回收器，作用在新生代，使用复制算法，关注CPU吞吐量，即运行用户代码的时间/总时间。使用-XX:+UseParallelGC开关控制使用Parallel Scavenge+Serial Old收集器组合回收垃圾。</li>
+<li>Serial Old收集器：老年代收集器，单线程收集器，串行，使用标记整理算法，使用单线程进行GC，其它工作线程暂停。</li>
+<li>Parallel Old收集器：吞吐量优先的垃圾回收器，作用在老年代，多线程，并行，多线程机制与Parallel Scavenge差不错，使用标记整理算法，在Parallel Old执行时，仍然需要暂停其它线程。</li>
+<li>CMS（Concurrent Mark Sweep）收集器：老年代收集器，致力于获取最短回收停顿时间（即缩短垃圾回收的时间），使用标记清除算法，多线程，优点是并发收集（用户线程可以和GC线程同时工作），停顿小。使用-XX:+UseConcMarkSweepGC进行ParNew+CMS+Serial Old进行内存回收，优先使用ParNew+CMS（原因见Full GC和并发垃圾回收一节），当用户线程内存不足时，采用备用方案Serial Old收集。</li>
+<li>GI收集器</li>
+</ul>
+<p>####与GC有关的JVM参数<br>做GC调优需要大量的实践，耐心和对项目的分析。我曾经参与过高容量，低延迟的电商系统，在开发中我们需要通过分析造成Full GC的原因来提高系统性能，在这个过程中我发现做GC的调优很大程度上依赖于对系统的分析，系统拥有怎样的对象以及他们的平均生命周期。</p>
+<p>举个例子，如果一个应用大多是短生命周期的对象，那么应该确保Eden区足够大，这样可以减少Minor GC的次数。可以通过-XX:NewRatio来控制新生代和老年代的比例，比如-XX:NewRatio=3代表新生代和老年代的比例为1：3。需要注意的是，扩大新生代的大小会减少老年代的大小，这会导致Major GC执行的更频繁，而Major GC可能会造成用户线程的停顿从而降低系统吞吐量。JVM中可以用NewSize和MaxNewSize参数来指定新生代内存最小和最大值，如果两个参数值一样，那么就相当于固定了新生代的大小。<br>个人建议，在做GC调优之前最好深入理解Java中GC机制，推荐阅读Sun Microsystems提供的有关GC的文档。这个链接可能会对理解GC机制提供一些帮助。下面的图列出了各个区可用的一些JVM参数。<br><img src="http://i.imgur.com/bwvkDEn.png" alt=""></p>
+<p>####总结</p>
+<ul>
+<li>为了分代垃圾回收，Java堆内存分为3代：新生代，老年代和永久代。</li>
+<li>新的对象实例会优先分配在新生代，在经历几次Minor GC后(默认15次)，还存活的会被移至老年代(某些大对象会直接在老年代分配)。</li>
+<li>永久代是否执行GC，取决于采用的JVM。</li>
+<li>Minor GC发生在新生代，当Eden区没有足够空间时，会发起一次Minor GC，将Eden区中的存活对象移至Survivor区。Major GC发生在老年代，当升到老年代的对象大于老年代剩余空间时会发生Major GC。</li>
+<li>发生Major GC时用户线程会暂停，会降低系统性能和吞吐量。</li>
+<li>JVM的参数-Xmx和-Xms用来设置Java堆内存的初始大小和最大值。依据个人经验这个值的比例最好是1:1或者1:1.5。比如，你可以将-Xmx和-Xms都设为1GB，或者-Xmx和-Xms设为1.2GB和1.8GB。</li>
+<li>Java中不能手动触发GC，但可以用不同的引用类来辅助垃圾回收器工作(比如：弱引用或软引用)。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/18/深入理解JVM笔记一/" itemprop="url">
                   深入理解JVM笔记一-java内存区域与内存溢出异常
                 </a>
@@ -257,7 +406,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-18T15:03:57+08:00" content="2016-10-18">
               2016-10-18
             </time>
@@ -269,7 +418,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -448,7 +597,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-14T12:30:14+08:00" content="2016-10-14">
               2016-10-14
             </time>
@@ -627,7 +776,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
               2016-10-13
             </time>
@@ -730,7 +879,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
               2016-10-06
             </time>
@@ -884,7 +1033,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -896,7 +1045,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1025,7 +1174,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1037,7 +1186,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1177,7 +1326,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T20:39:32+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1189,7 +1338,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1229,7 +1378,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
           <p>###机器学习weka（一）<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/29/weka1/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
         
@@ -1292,7 +1441,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:52:26+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1406,7 +1555,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1495,134 +1644,6 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/25/oracle/" itemprop="url">
-                  oracle
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
-              2016-09-25
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>很少使用oracle，记录两个问题。</p>
-<p>###1.在Maven仓库中添加Oracle JDBC驱动</p>
-<p>由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</p>
-<p>1.获取oracle jdbc driver</p>
-<ol>
-<li>通过Oracle官方网站下载相应版本： <a href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html" target="_blank" rel="external">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</a></li>
-<li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc14.jar</li>
-</ol>
-<p>2.安装到本地仓库</p>
-<pre><code>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=D:\Document_x64\Downloads\ojdbc14.jar
-</code></pre><p>3.pom文件中添加引用</p>
-<pre><code>&lt;dependency&gt;
-&lt;groupId&gt;com.oracle&lt;/groupId&gt;
-&lt;artifactId&gt;ojdbc7&lt;/artifactId&gt;
-&lt;version&gt;12.1.0.2&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>###2. “ORA-00942: 表或视图不存在 “的原因和解决方法</p>
-<p>产生的原因：<br>Oracle 是大小写敏感的，我们创自己写Sql脚本创建表的时候Oracle会自动将我们的表名，字段名转成大写,</p>
-<pre><code>create table T_WindRadar  (
-   wr_id                VARCHAR2(64)                    not null,
-   wr_reciveTime        DATE,
-   wr_image             BLOB,
-   constraint PK_T_WINDRADAR primary key (wr_id)
-);
-</code></pre><p>但是 Oracle 同样支持”” 语法，将表名或字段名加上””后，Oracle不会将其转换成大写。</p>
-<pre><code>create table &quot;T_WindRadar&quot;  (
-   &quot;wr_id&quot;                VARCHAR2(64)                    not null,
-   &quot;wr_reciveTime&quot;        DATE,
-   &quot;wr_image &quot;            BLOB,
-   constraint PK_T_WINDRADAR primary key (wr_id)
-);
-</code></pre><p>如果加上了””,那么我们采用一般的SQL语句查询则会产生“ORA-00942: 表或视图不存在 ”，因此SQL脚本中需要将表名也加上””。</p>
-<pre><code>select * from  &quot;T_WindRadar&quot;;
-</code></pre><p>这种情况在我们手写SQL的时候一般不会发生，但是我们使用powerdesigner设计数据库的时候，由于不注意会经常出现此类问题，因为Powerdesigner生成的SQL文件默认是加””的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1668,8 +1689,8 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">44</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1677,7 +1698,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1685,8 +1706,8 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1737,7 +1758,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

@@ -1,0 +1,909 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="effectivejava," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="第0.0条：java unitjavac hello.javajava hello
+A unit test tests the methods ina single class
+ A test case tests (insofar aspossible) a single method
+ You can have multiple testcases for a single method">
+<meta property="og:type" content="article">
+<meta property="og:title" content="effective-java-1">
+<meta property="og:url" content="http://yoursite.com/2016/11/10/effective-java-1/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="第0.0条：java unitjavac hello.javajava hello
+A unit test tests the methods ina single class
+ A test case tests (insofar aspossible) a single method
+ You can have multiple testcases for a single method">
+<meta property="og:updated_time" content="2016-11-12T08:45:02.028Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="effective-java-1">
+<meta name="twitter:description" content="第0.0条：java unitjavac hello.javajava hello
+A unit test tests the methods ina single class
+ A test case tests (insofar aspossible) a single method
+ You can have multiple testcases for a single method">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/10/effective-java-1/"/>
+
+
+  <title> effective-java-1 | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                effective-java-1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-10T09:51:23+08:00" content="2016-11-10">
+              2016-11-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="第0-0条：java-unit"><a href="#第0-0条：java-unit" class="headerlink" title="第0.0条：java unit"></a>第0.0条：java unit</h3><p>javac hello.java<br>java hello</p>
+<p>A unit test tests the methods in<br>a single class</p>
+<p> A test case tests (insofar as<br>possible) a single method</p>
+<p> You can have multiple test<br>cases for a single method</p>
+<p> A test suite combines unit tests</p>
+<p> The test fixture provides<br>software support for all this</p>
+<p> The test runner runs unit tests<br>or an entire test suite</p>
+<p> Integration testing (testing that<br>it all works together) is not well<br>supported by JUnit</p>
+<p>static void assertFalse(boolean test)<br>static void assertFalse(String message, boolean test)</p>
+<p>assertEquals(expected, actual)<br>assertEquals(String message, expected, actual)</p>
+<p>assertSame(Object expected, Object actual)<br>assertSame(String message, Object expected, Object actual)</p>
+<p>assertNotSame(Object expected, Object actual)<br>assertNotSame(String message, Object expected, Object actual)</p>
+<p>assertNull(Object object)<br>assertNull(String message, Object object)</p>
+<p>fail()<br>fail(String message)</p>
+<p>@BeforeClass</p>
+<p>@AfterClass</p>
+<p>@Test (timeout=10)</p>
+<p>@Test (expected=IllegalArgumentException.class)</p>
+<p>创建一个 TestSuite.java，打包运行多个 JUnit 测试类</p>
+<pre><code>@RunWith(Suite.class)
+@SuiteClasses({XXTest.class, XXTest.class})
+public class TestSuite{
+}
+</code></pre><p>junit实验手册：</p>
+<p>1.测试驱动开发。<br>2.hamcrest(hamcrest可以用来增强junit中assert功能)<br>3.cobertura 单元测试覆盖率<br>mvn compile/test/cobertura:cobertura</p>
+<h3 id="第0-1条：maven"><a href="#第0-1条：maven" class="headerlink" title="第0.1条：maven"></a>第0.1条：maven</h3><p>maven compile</p>
+<p>maven test</p>
+<p>mvn clean</p>
+<p>mvn package</p>
+<p>mvn install</p>
+<h3 id="第0-2条：svn"><a href="#第0-2条：svn" class="headerlink" title="第0.2条：svn"></a>第0.2条：svn</h3><p>repository:<br>project code is stored in a server in a data store referred to as a “repository”;</p>
+<p>check out:<br>Developers “check out” copies of the project code into<br>their local environments. These copies are referred to<br>as “working copies.”</p>
+<p>commits:<br>After making changes to a working copy, the<br>developer “commits” changes to the repository.</p>
+<p>updating:<br>Other developers get these changes by “updating”<br>their working copies.</p>
+<h3 id="第0-3条：git"><a href="#第0-3条：git" class="headerlink" title="第0.3条：git"></a>第0.3条：git</h3><ul>
+<li>git config –global user.name “ss”</li>
+<li>git config –global user.mail “ss@mail.com”</li>
+<li>git clone</li>
+<li>git init  //创建版本库</li>
+<li>git add file.java //文件添加到版本库</li>
+<li>git commit -m “initial project version” //提交到本地</li>
+<li>git status (-s) //查看仓库当前状态</li>
+<li>git diff a.txt //比较文件修改变化</li>
+<li>git help</li>
+<li>git pull</li>
+<li>git push</li>
+<li>git log //查看历史修改记录</li>
+<li>git log –oneline</li>
+<li>git log -5</li>
+<li>git pull origin master</li>
+<li>git push origin master</li>
+<li>git branch experimental//创建分支</li>
+<li>git branch //查看当前分支</li>
+<li>git checkout -b experimental //创建并切换分支，-b标识创建并且换</li>
+<li>git checkout master //切换到某个分支</li>
+<li>git merge experimental //合并分支到master</li>
+<li>git branch -d dev //删除分支</li>
+<li>git log –graph</li>
+<li>git reset –hard HEAD^ //回退到上一个版本</li>
+<li>git reset –hard HEAD^^ //回退到上两个版本</li>
+<li>git reset –hard 3628164 //回退到指定版本</li>
+<li>git rm a.txt //删除</li>
+<li>git tag v1.0</li>
+<li>git tag</li>
+<li>git tag v0.9 6224937</li>
+<li>git show v0.9</li>
+</ul>
+<p>svn：<br>中央存储库方法，主仓库是真正的source，只有主仓库有完成的文件历史。<br>用户检出当前版本的本地副本。</p>
+<p>git：<br>分布式存储库方法：每次检出的存储库都是一个完成的存储库，有完整的历史。更多的荣誉和速度，分支和合并库更频繁使用。</p>
+<p>主要区别：<br>1.git是分布式的，svn不是。<br>2.git把内容按照元数据方式存储，svn是按照文件。<br>3.git没有全局版本号，svn有<br>4.git的内容完整性优于svn，git的内容存储用的是sha-1哈希算法，这能确保代码内容的完整性。<br>5.git离线可以看所有的log，svn不可以。</p>
+<h3 id="第0-4条：logging-vs-debugging"><a href="#第0-4条：logging-vs-debugging" class="headerlink" title="第0.4条：logging vs debugging"></a>第0.4条：logging vs debugging</h3><p>Logging is faster than using a debugger<br>• Logging can be used to diagnose problems<br>in the production stage as well as during<br>development<br>• Logging is easier than debugging in a<br>distributed computing environment<br>• To use logging as debugging tool we need<br>to record lots of events</p>
+<p>log4j:reliability, speed and flexibility.</p>
+<p>优先级：DEBUG, INFO, WARN, ERROR, FATAL</p>
+<pre><code>import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.FileAppender;
+public class simpandfile {
+   static Logger logger = Logger.getLogger(simpandfile.class);
+   public static void main(String args[]) {
+      SimpleLayout layout = new SimpleLayout();
+
+      FileAppender appender = null;
+      try {
+         appender = new FileAppender(layout,&quot;output1.txt&quot;,false);
+      } catch(Exception e) {}
+
+      logger.addAppender(appender);
+      logger.setLevel((Level) Level.DEBUG);
+
+      logger.debug(&quot;Here is some DEBUG&quot;);
+      logger.info(&quot;Here is some INFO&quot;);
+      logger.warn(&quot;Here is some WARN&quot;);
+      logger.error(&quot;Here is some ERROR&quot;);
+      logger.fatal(&quot;Here is some FATAL&quot;);
+   }
+}
+</code></pre><h3 id="第0-5条：wildcards"><a href="#第0-5条：wildcards" class="headerlink" title="第0.5条：wildcards"></a>第0.5条：wildcards</h3><pre><code>public &lt;T extends Animal&gt; void takeThing(ArrayList&lt;T&gt; list)
+
+public void takeThing(ArrayList&lt;? extends Animal&gt; list)
+</code></pre><hr>
+<h3 id="第9条：覆盖equals总要覆盖hashcode"><a href="#第9条：覆盖equals总要覆盖hashcode" class="headerlink" title="第9条：覆盖equals总要覆盖hashcode"></a>第9条：覆盖equals总要覆盖hashcode</h3><p>object规范：</p>
+<ul>
+<li><p>在应用程序执行期间，只要对象的equals方法的比较操作所用到的 信息没有被修改，那么对于着同一个对象调用多次，hashcode必须始终如意的返回同一个证书。在同一个应用程序的多次执行过程中，每次执行所返回的整数可以不一致。</p>
+</li>
+<li><p>如果两个对象根据equals（object）方法比较是相等的，那么调用这两个对象任意一个对象的hashcode都必须能产生相同的整数结果。</p>
+</li>
+<li><p>度过两个对象根据equals（object）比较不相等，那么hashcode不一定不相等。</p>
+</li>
+</ul>
+<h3 id="第10条：始终要覆盖tostring"><a href="#第10条：始终要覆盖tostring" class="headerlink" title="第10条：始终要覆盖tostring"></a>第10条：始终要覆盖tostring</h3><p>默认实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> getClass().getName()+<span class="string">'@'</span>+Integer.toHexString(hashCode))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="第11条：谨慎的覆盖clone"><a href="#第11条：谨慎的覆盖clone" class="headerlink" title="第11条：谨慎的覆盖clone"></a>第11条：谨慎的覆盖clone</h3><p>约定（弱的）</p>
+<ul>
+<li>Create a copy such that x.clone() != x</li>
+<li>x.clone().getClass() == x.getClass()</li>
+<li>Should have x.clone().equals(x)</li>
+<li>No constructors are called</li>
+</ul>
+<p>拷贝构造器</p>
+<p>拷贝工厂</p>
+<h3 id="第12条：考虑实现Comparable接口"><a href="#第12条：考虑实现Comparable接口" class="headerlink" title="第12条：考虑实现Comparable接口"></a>第12条：考虑实现Comparable接口</h3><p>约定：</p>
+<ul>
+<li>1) Returns negative, zero, or positive depending on order<br>of this and specified object</li>
+<li>2) sgn(x.compareTo(y) == -sgn(y.compareTo(x))</li>
+<li>3) compareTo() must be transitive（可传递的）</li>
+<li>4) If x.compareTo(y) == 0, x and y must consistently<br>compare to all values z.<br>(ps:x.compareTo(y)==0暗示着所有z都满足sgn(x,compareTo(z))=sgn(y.compareTo(z)))</li>
+<li>5) Recommended that x.compareTo(y) == 0 iff<br>x.equals(y)</li>
+<li>6) Note that compareTo() can throw<br>ClassCastExceptions</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//This is horrible!</span></div><div class="line">Object x = <span class="keyword">new</span> BigDecimal(“<span class="number">1.0</span>”);</div><div class="line">Object y = <span class="keyword">new</span> BigDecimal(“<span class="number">1.00</span>”);</div><div class="line"><span class="comment">// !x.equals(y), but x.compareTo(y) == 0</span></div><div class="line">Set s = <span class="keyword">new</span> HashSet();</div><div class="line">Set t = <span class="keyword">new</span> TreeSet();</div><div class="line">s.add(x); s.add(y);</div><div class="line"><span class="comment">// HashSet uses equals, so s has 2 elements</span></div><div class="line">t.add(x); t.add(y);</div><div class="line"><span class="comment">// TreeSet uses compareTo, so t has 1 element</span></div></pre></td></tr></table></figure>
+<h3 id="第13条：使类和成员的可访问性最小化"><a href="#第13条：使类和成员的可访问性最小化" class="headerlink" title="第13条：使类和成员的可访问性最小化"></a>第13条：使类和成员的可访问性最小化</h3><p>Standard list of accessibility levels</p>
+<ul>
+<li> private</li>
+<li> package-private (aka package friendly)</li>
+<li> protected</li>
+<li> public</li>
+</ul>
+<p>Huge difference between 2nd and 3rd</p>
+<ul>
+<li> package-private: part of implementation</li>
+<li> protected: part of public AP</li>
+</ul>
+<h3 id="第14条：在共有类中使用访问方法而非公有域"><a href="#第14条：在共有类中使用访问方法而非公有域" class="headerlink" title="第14条：在共有类中使用访问方法而非公有域"></a>第14条：在共有类中使用访问方法而非公有域</h3><p>1.公有类永远不应该暴露可变的域</p>
+<p>2.让公有类暴露不可变的域危害较小</p>
+<blockquote>
+<p>  危害：</p>
+<pre><code>Wrong – Potential Security Hole:
+public static final Type[] VALUES = {…};
+ Problem:
+ VALUES is final; entries in VALUES are not!
+</code></pre><p>  解决方案：</p>
+<pre><code>private static final Type[] PRIVATE_VALUES = {…};
+public static final List VALUES =
+Collections.unmodifiableList(Arrays.asList
+(PRIVATE_VALUES));
+ Also Correct:
+private static final Type[] PRIVATE_VALUES = {…};
+public static final Type[] values() {
+return (Type[]) PRIVATE_VALUES.clone();
+}
+</code></pre></blockquote>
+<h3 id="第15条：使可变性最小化"><a href="#第15条：使可变性最小化" class="headerlink" title="第15条：使可变性最小化"></a>第15条：使可变性最小化</h3><p>不可变类：一个对象被考虑是不可变的，如果他的状态不能改变在他被创建以后。</p>
+<blockquote>
+<p>An object is considered immutable if its state<br>cannot change after it is constructed.</p>
+<p> e.g String, Integer, BigInteger, BigDecimal</p>
+</blockquote>
+<p>使一个类成为不可变类的原因：</p>
+<ol>
+<li>Thread safe inherently</li>
+<li>Can be shared freely</li>
+<li>No need to make defensive copy</li>
+<li>Its internals can also be shared</li>
+<li><p>Great building blocks for other object</p>
+<p>  Great to be map keys and set elements</p>
+</li>
+</ol>
+<p>定义不可变类的策略</p>
+<ul>
+<li>1) Don’t provide any mutators（增变因子） (“setter” methods)</li>
+<li>2) Make all fields final and private</li>
+<li>3) Don’t allow subclasses to override methods.</li>
+<li>4) If the instance fields include references to<br>mutable objects, don’t allow those objects to<br>be changed:<ul>
+<li> Don’t provide methods that modify the mutable<br>objects.</li>
+<li> Don’t share references to the mutable objects. </li>
+</ul>
+</li>
+</ul>
+<p>性能问题：</p>
+<p>Example in Java Library:</p>
+<ul>
+<li> String (Immutable)</li>
+<li> StringBuilder (Companion Mutable Class)</li>
+<li> StringBuffer (Deprecated Companion Mutable Class)</li>
+</ul>
+<h3 id="第16条：复合优先于集成"><a href="#第16条：复合优先于集成" class="headerlink" title="第16条：复合优先于集成"></a>第16条：复合优先于集成</h3><p>hashset内部中addall方法是基于他的add方法实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstrumentedSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Set</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Set&lt;E&gt; s;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> addCount = <span class="number">0</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">InstrumentedSet</span> <span class="params">(Set&lt;E&gt; s)</span> </span>&#123; <span class="keyword">this</span>.s = s&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E o)</span> </span>&#123;</div><div class="line">		addCount++; <span class="keyword">return</span> s.add(o); &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span> <span class="params">(Collection&lt;? extends E&gt; c)</span></span>&#123;</div><div class="line">		addCount += c.size();</div><div class="line">		<span class="keyword">return</span> s.addAll(c);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// forwarded methods from Set interface</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="第17条：要么为集成而设计，并提供文档说明，要么就禁止继承"><a href="#第17条：要么为集成而设计，并提供文档说明，要么就禁止继承" class="headerlink" title="第17条：要么为集成而设计，并提供文档说明，要么就禁止继承"></a>第17条：要么为集成而设计，并提供文档说明，要么就禁止继承</h3><ul>
+<li>对于为了继承而设计的类，唯一的测试方法就是编写子类。</li>
+<li>构造器决不能调用可被覆盖的方法。</li>
+</ul>
+<h3 id="第18条：接口优于抽象类"><a href="#第18条：接口优于抽象类" class="headerlink" title="第18条：接口优于抽象类"></a>第18条：接口优于抽象类</h3><p>区别：<br>1.抽象类包含某些方法的实现。接口不允许<br>2.java单继承，所以抽象类收到了极大的限制，</p>
+<p>接口优点：</p>
+<ul>
+<li>现有的类可以很容易被更新，以实现新的接口。</li>
+<li>接口是定义mixin（混合类型）的理想选择。</li>
+<li>接口允许我们构建非层次结构的类型框架。</li>
+</ul>
+<p>接口缺点：</p>
+<ul>
+<li>Sometimes too tedious to use</li>
+<li>You have to implement a dozen methods before you can create an object </li>
+</ul>
+<p>抽象类优点：</p>
+<ul>
+<li>It is far easier to evolve an abstract<br>class than an interface<ul>
+<li> It is relatively easy to add a new method<br>to an abstract class</li>
+<li> But almost impossible to add a method to<br>a public interface</li>
+<li> Should be very carefully to design public<br>interfaces</li>
+</ul>
+</li>
+</ul>
+<h3 id="第19条：接口只用于定义类型"><a href="#第19条：接口只用于定义类型" class="headerlink" title="第19条：接口只用于定义类型"></a>第19条：接口只用于定义类型</h3><p>使用枚举类型 工具类，不要使用常量接口</p>
+<h3 id="第20条：类层次优于标签类"><a href="#第20条：类层次优于标签类" class="headerlink" title="第20条：类层次优于标签类"></a>第20条：类层次优于标签类</h3><p>对于标签类，好的方法是使用继承</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Class hierarchy replacement for a tagged class</span></div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Figure</span> </span>&#123; <span class="comment">// Note: NOT instantiable!</span></div><div class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">area</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">extends</span> <span class="title">Figure</span> </span>&#123;</div><div class="line"><span class="keyword">final</span> <span class="keyword">double</span> radius;</div><div class="line">Circle(<span class="keyword">double</span> rad) &#123; radius = rad; &#125;</div><div class="line"><span class="function"><span class="keyword">double</span> <span class="title">area</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="keyword">return</span> Math.PI * (radius * radius);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">extends</span> <span class="title">Figure</span> </span>&#123;</div><div class="line"><span class="keyword">final</span> <span class="keyword">double</span> length; <span class="keyword">final</span> <span class="keyword">double</span> width;</div><div class="line">Rectangle (<span class="keyword">double</span> len; <span class="keyword">double</span> wid)</div><div class="line">&#123; length = len; width = wid; &#125;</div><div class="line"><span class="function"><span class="keyword">double</span> <span class="title">area</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="keyword">return</span> length * width;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="第21条：用函数对象表示策略"><a href="#第21条：用函数对象表示策略" class="headerlink" title="第21条：用函数对象表示策略"></a>第21条：用函数对象表示策略</h3><h3 id="第22条：优先考虑静态成员类"><a href="#第22条：优先考虑静态成员类" class="headerlink" title="第22条：优先考虑静态成员类"></a>第22条：优先考虑静态成员类</h3><p>四种嵌套类（nested class）：</p>
+<ul>
+<li>静态成员类 （不是内部类，其余三个是）</li>
+<li>非静态成员类</li>
+<li>匿名类 anonymous class</li>
+<li>局部类</li>
+</ul>
+<p>匿名类的常见用法：</p>
+<ul>
+<li>动态的创建函数对象。</li>
+<li>创建过程对象： runnable thread timertask等</li>
+</ul>
+<h3 id="第30条：用enum代替int常量"><a href="#第30条：用enum代替int常量" class="headerlink" title="第30条：用enum代替int常量"></a>第30条：用enum代替int常量</h3><p>java枚举本质是int值。==！！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Planet &#123;</div><div class="line"> <span class="comment">// Enum type with data and behavior</span></div><div class="line">	MERCURY (<span class="number">3.302e+23</span>, <span class="number">2.439e6</span>);</div><div class="line">	VENUS (<span class="number">4.869e+24</span>, <span class="number">6.052e6</span>);</div><div class="line">	EARTH (<span class="number">5.975e+24</span>, <span class="number">6.378e6</span>); <span class="comment">// plus MARS, JUPITER,etc.</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> mass;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> radius;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> surfaceGravity;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> G = <span class="number">6.67300e-11</span>; </div><div class="line"><span class="comment">//Universal G</span></div><div class="line">Planet (<span class="keyword">double</span> mass, <span class="keyword">double</span> radius) &#123; <span class="comment">// Constructor</span></div><div class="line">	<span class="keyword">this</span>.mass = mass; <span class="keyword">this</span>.radius = radius;</div><div class="line">	surfaceGravity = G* mass / (radius * radius);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">mass</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> mass; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">radious</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> radius; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceGravity</span><span class="params">()</span> </span>&#123; </div><div class="line">	<span class="keyword">return</span> 	surfaceGravity; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceWeight</span> <span class="params">(<span class="keyword">double</span> mass)</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> mass * surfaceGravity; &#125; <span class="comment">// F = ma</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>test</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightTable</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</div><div class="line"><span class="keyword">double</span> earthWeight = Double.parseDouble (args[<span class="number">0</span>]);</div><div class="line"><span class="keyword">double</span> mass = earthWeight / Planet.EARTH.surfaceGravity();</div><div class="line"><span class="comment">// All Enums have a static values() method</span></div><div class="line"><span class="comment">// All Enums have a sensible (and Overridable) toString()</span></div><div class="line"><span class="keyword">for</span> (Planet p : Planet.values())</div><div class="line">System.out.printf (“Weight on %s is %f%n”,</div><div class="line">p, p.surfaceWeight(mass));</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Output:</span></div><div class="line">Weight on MERCURY is <span class="number">66.133672</span></div><div class="line">Weight on VENUS is <span class="number">158.383926</span></div><div class="line">Weight on EARTH is <span class="number">175.000000</span></div></pre></td></tr></table></figure>
+<pre><code>// Enum type with constant-specific class bodies and data
+public enum Operation {
+PLUS(“+”) {
+double apply (double x, double y) { return x + y; } };
+MINUS(“-”) {
+double apply (double x, double y) { return x - y; } };
+TIMES(“*”) {
+double apply (double x, double y) { return x * y; } };
+DIVIDE(“/”) {
+double apply (double x, double y) { return x / y; } };
+private final String symbol;
+Operation (String symbol) { this.symbol = symbol; }
+@Override public String toString() { return symbol; }
+// abstract apply() ensures each constant provide definition
+abstract double apply(double x, double y);
+}
+</code></pre><p>方法：</p>
+<ul>
+<li>static E valueOf(s): converts a string into an enum value</li>
+<li>static E[] values() :an array of all values of your enumeration</li>
+</ul>
+<h3 id="第31条：用实例域代替序数"><a href="#第31条：用实例域代替序数" class="headerlink" title="第31条：用实例域代替序数"></a>第31条：用实例域代替序数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Abuse of ordinal to derive an associated value – DON’T DO THIS</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Ensemble &#123;</div><div class="line">SOLO, DUET, TRIO, QUARTET, QUINTET,</div><div class="line">SEXTET, SEPTET, OCTET, NONET, DECTET;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfMusicians</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> ordinal() + <span class="number">1</span>; &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// What if: you add a DOUBLE_QUARTET? You rearrange the constants?</span></div><div class="line"><span class="comment">// Good Solution: Use instance fields instead</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Ensemble &#123;</div><div class="line">SOLO(<span class="number">1</span>), DUET(<span class="number">2</span>), TRIO(<span class="number">3</span>), QUARTET(<span class="number">4</span>), QUINTET(<span class="number">5</span>), SEXTET(<span class="number">6</span>),</div><div class="line">SEPTET(<span class="number">7</span>), OCTET(<span class="number">8</span>), DOUBLE_QUARTET(<span class="number">8</span>), TRIPLE_QUARTET(<span class="number">12</span>);</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> numberOfMusicians;</div><div class="line">Ensemble(<span class="keyword">int</span> size) &#123; <span class="keyword">this</span>.numberOfMusicians = size; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfMusicians</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> numberOfMusisians; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="第32条：用EnumSet代替位域"><a href="#第32条：用EnumSet代替位域" class="headerlink" title="第32条：用EnumSet代替位域"></a>第32条：用EnumSet代替位域</h3><h3 id="第33条：用EnumMap代替序数索引"><a href="#第33条：用EnumMap代替序数索引" class="headerlink" title="第33条：用EnumMap代替序数索引"></a>第33条：用EnumMap代替序数索引</h3><h3 id="第33条：用EnumMap代替序数索引-1"><a href="#第33条：用EnumMap代替序数索引-1" class="headerlink" title="第33条：用EnumMap代替序数索引"></a>第33条：用EnumMap代替序数索引</h3><h3 id="第35条：注解优先于命名模式"><a href="#第35条：注解优先于命名模式" class="headerlink" title="第35条：注解优先于命名模式"></a>第35条：注解优先于命名模式</h3><p>注解annotations</p>
+<p>Common uses for annotations:</p>
+<ul>
+<li> To detect problems or errors in code</li>
+<li> To suppress compiler warnings</li>
+<li> For unit tests, e.g. JUnit</li>
+</ul>
+<p>An annotation can be placed on:</p>
+<ul>
+<li> a class</li>
+<li> a method</li>
+<li> a field</li>
+<li> a local variable, …</li>
+</ul>
+<h3 id="第36条：坚持使用override注解"><a href="#第36条：坚持使用override注解" class="headerlink" title="第36条：坚持使用override注解"></a>第36条：坚持使用override注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bigram</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> first;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> second;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Bigram</span><span class="params">(<span class="keyword">char</span> first, <span class="keyword">char</span> second)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.first = first;</div><div class="line">		<span class="keyword">this</span>.second = second;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Bigram b)</span> </span>&#123;</div><div class="line">	 <span class="keyword">return</span> b.first == first &amp;&amp; b.second == second;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	 <span class="meta">@Override</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">	 Bigram b = (Bigram)o;</div><div class="line">	 <span class="keyword">return</span> b.first == first &amp;&amp; b.second == second;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">31</span> * first + second;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"><span class="comment">//		System.out.println(new Bigram('a', 'z') == new Bigram('a', 'z'));</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		Object obj = new Bigram('a', 'z');</span></div><div class="line"><span class="comment">//		System.out.println(obj.equals(new Bigram('a', 'z')));</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		System.out.println(new Bigram('a', 'z').equals(obj));</span></div><div class="line"></div><div class="line">		Set&lt;Bigram&gt; s = <span class="keyword">new</span> HashSet&lt;Bigram&gt;();</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">char</span> ch = <span class="string">'a'</span>; ch &lt;= <span class="string">'z'</span>; ch++)</div><div class="line">				s.add(<span class="keyword">new</span> Bigram(ch, ch));</div><div class="line"></div><div class="line">		System.out.println(s.size());</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果是260.<br>解释：bigram类的创建者想要覆盖equals方法，同事还覆盖了hashcode。但是结果是没有覆盖，将他重载了。为了覆盖object.equals方法，必须定义一个参数为object类型的equals方法。</p>
+<p>幸运的是当你加上@override注解时，编译器会报错告诉你哪里错了。</p>
+<h3 id="第38条：检查参数的有效性"><a href="#第38条：检查参数的有效性" class="headerlink" title="第38条：检查参数的有效性"></a>第38条：检查参数的有效性</h3><h3 id="第39条：必要时进行保护性拷贝"><a href="#第39条：必要时进行保护性拷贝" class="headerlink" title="第39条：必要时进行保护性拷贝"></a>第39条：必要时进行保护性拷贝</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Broken “immutable” time period class</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Period</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Date start;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Date end;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Period</span> <span class="params">(Date start, Date end)</span> </span>&#123;</div><div class="line"><span class="keyword">if</span> (start.compareTo(end) &gt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IAE(…);</div><div class="line"><span class="keyword">this</span>.start = start; <span class="keyword">this</span>.end = end; <span class="comment">//oops – should make defensive copies</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">start</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> start;&#125; <span class="comment">// oops again!</span></div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">end</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> end;&#125; <span class="comment">// oops yet again!</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// Attack code</span></div><div class="line">Date start = <span class="keyword">new</span> Date();</div><div class="line">Date end = <span class="keyword">new</span> Date();</div><div class="line">Period p = <span class="keyword">new</span> Period(start, end);</div><div class="line">end.setYear(<span class="number">78</span>); <span class="comment">// Attack 1: Modify internals of p via passed reference</span></div><div class="line">p.end().setYear(<span class="number">78</span>); <span class="comment">// Attack 2: Modify internals of p via returned state</span></div></pre></td></tr></table></figure>
+<pre><code>// Repaired constructor and getters – now Period really is immutable
+public Period (Date start, Date end) {
+// Note: clone() *not* used to make defensive copy
+// Reason: Date class not final; hence return type may not be java.util.Date
+this.start = new Date(start.getTime()); // Defensive copy
+this.end = new Date(end.getTime()); // Defensive copy
+// Defensive copies made *before* exception check to avoid TOCTOU attack
+if (this.start.compareTo(end) &gt; 0) throw new IAE(…);
+}
+// clone also safe here, but constructors or static factories better (Item 11)
+public Date start() { return new Date(start.getTime()); }
+public Date end() { return new Date(end.getTime());}
+}
+</code></pre><h3 id="第40条：谨慎设计方法签名"><a href="#第40条：谨慎设计方法签名" class="headerlink" title="第40条：谨慎设计方法签名"></a>第40条：谨慎设计方法签名</h3><h3 id="第41条：慎用重载"><a href="#第41条：慎用重载" class="headerlink" title="第41条：慎用重载"></a>第41条：慎用重载</h3><p>Overriding</p>
+<ul>
+<li> Normal OO Pattern</li>
+<li> Dynamically determined by runtime system</li>
+</ul>
+<p>Overloading</p>
+<ul>
+<li> Exceptional OO Pattern</li>
+<li> Statically determined by compiler</li>
+</ul>
+<p>Set.java ：boolean remove(Object o);<br>List.java：E remove(int index);boolean remove(Object o);</p>
+<h3 id="第42条：慎用可变参数"><a href="#第42条：慎用可变参数" class="headerlink" title="第42条：慎用可变参数"></a>第42条：慎用可变参数</h3><h3 id="第43条：返回零长度的数据或者集合，而不是null"><a href="#第43条：返回零长度的数据或者集合，而不是null" class="headerlink" title="第43条：返回零长度的数据或者集合，而不是null"></a>第43条：返回零长度的数据或者集合，而不是null</h3><h3 id="第44条：为所有导出的api元素编写文档注释"><a href="#第44条：为所有导出的api元素编写文档注释" class="headerlink" title="第44条：为所有导出的api元素编写文档注释"></a>第44条：为所有导出的api元素编写文档注释</h3><h3 id="第45条：将局部变量的作用于最小化"><a href="#第45条：将局部变量的作用于最小化" class="headerlink" title="第45条：将局部变量的作用于最小化"></a>第45条：将局部变量的作用于最小化</h3><p>要使局部变量的作用于最小化，最有力的方法就是在第一次使用它的地方声明，</p>
+<p>几乎每个局部变量的声明都应该包含一个初始化表达式，</p>
+<h3 id="第46条：foreach循环优先于传统for循环"><a href="#第46条：foreach循环优先于传统for循环" class="headerlink" title="第46条：foreach循环优先于传统for循环"></a>第46条：foreach循环优先于传统for循环</h3><h3 id="第47条：了解和实用类库"><a href="#第47条：了解和实用类库" class="headerlink" title="第47条：了解和实用类库"></a>第47条：了解和实用类库</h3><h3 id="第48条：如果需要准确的答案，请避免实用float和double"><a href="#第48条：如果需要准确的答案，请避免实用float和double" class="headerlink" title="第48条：如果需要准确的答案，请避免实用float和double"></a>第48条：如果需要准确的答案，请避免实用float和double</h3><p>BigDecimal</p>
+<h3 id="第49条：自动拆箱和装箱"><a href="#第49条：自动拆箱和装箱" class="headerlink" title="第49条：自动拆箱和装箱"></a>第49条：自动拆箱和装箱</h3><pre><code>// Broken comparator – can you spot the flaw?
+Comparator &lt; Integer&gt; naturalOrder =
+new Comparator&lt;Integer&gt;() { // Anonymous type
+public int compare (Integer first, Integer second) {
+return first &lt; second ? -1 ://自动拆箱
+(first == second//没有自动拆箱
+? 0 : 1);
+}
+};
+ Sample uses:
+ naturalOrder.compare(new Integer(41), new Integer(42));
+ naturalOrder.compare(new Integer(42), new Integer(42));
+ naturalOrder.compare(new Integer(43), new Integer(42));
+</code></pre><h3 id="第50条：如果其他类型更适合，则尽量避免实用string"><a href="#第50条：如果其他类型更适合，则尽量避免实用string" class="headerlink" title="第50条：如果其他类型更适合，则尽量避免实用string"></a>第50条：如果其他类型更适合，则尽量避免实用string</h3><h3 id="第51条：当心字符串连接的性能"><a href="#第51条：当心字符串连接的性能" class="headerlink" title="第51条：当心字符串连接的性能"></a>第51条：当心字符串连接的性能</h3><h3 id="第52条：通过接口引用对象"><a href="#第52条：通过接口引用对象" class="headerlink" title="第52条：通过接口引用对象"></a>第52条：通过接口引用对象</h3><h3 id="第53条：接口优先于反射机制"><a href="#第53条：接口优先于反射机制" class="headerlink" title="第53条：接口优先于反射机制"></a>第53条：接口优先于反射机制</h3><h3 id="第54条：谨慎的使用本地方法"><a href="#第54条：谨慎的使用本地方法" class="headerlink" title="第54条：谨慎的使用本地方法"></a>第54条：谨慎的使用本地方法</h3><h3 id="第55条：谨慎的进行优化"><a href="#第55条：谨慎的进行优化" class="headerlink" title="第55条：谨慎的进行优化"></a>第55条：谨慎的进行优化</h3><h3 id="第57条：只针对异常的情况实用异常"><a href="#第57条：只针对异常的情况实用异常" class="headerlink" title="第57条：只针对异常的情况实用异常"></a>第57条：只针对异常的情况实用异常</h3><h3 id="第61条：抛出与抽象相对应的异常"><a href="#第61条：抛出与抽象相对应的异常" class="headerlink" title="第61条：抛出与抽象相对应的异常"></a>第61条：抛出与抽象相对应的异常</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/effectivejava/" rel="tag">#effectivejava</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/03/spring/" rel="next" title="spring">
+                <i class="fa fa-chevron-left"></i> spring
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-0条：java-unit"><span class="nav-number">1.</span> <span class="nav-text">第0.0条：java unit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-1条：maven"><span class="nav-number">2.</span> <span class="nav-text">第0.1条：maven</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-2条：svn"><span class="nav-number">3.</span> <span class="nav-text">第0.2条：svn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-3条：git"><span class="nav-number">4.</span> <span class="nav-text">第0.3条：git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-4条：logging-vs-debugging"><span class="nav-number">5.</span> <span class="nav-text">第0.4条：logging vs debugging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第0-5条：wildcards"><span class="nav-number">6.</span> <span class="nav-text">第0.5条：wildcards</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第9条：覆盖equals总要覆盖hashcode"><span class="nav-number">7.</span> <span class="nav-text">第9条：覆盖equals总要覆盖hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第10条：始终要覆盖tostring"><span class="nav-number">8.</span> <span class="nav-text">第10条：始终要覆盖tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第11条：谨慎的覆盖clone"><span class="nav-number">9.</span> <span class="nav-text">第11条：谨慎的覆盖clone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第12条：考虑实现Comparable接口"><span class="nav-number">10.</span> <span class="nav-text">第12条：考虑实现Comparable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第13条：使类和成员的可访问性最小化"><span class="nav-number">11.</span> <span class="nav-text">第13条：使类和成员的可访问性最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第14条：在共有类中使用访问方法而非公有域"><span class="nav-number">12.</span> <span class="nav-text">第14条：在共有类中使用访问方法而非公有域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第15条：使可变性最小化"><span class="nav-number">13.</span> <span class="nav-text">第15条：使可变性最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第16条：复合优先于集成"><span class="nav-number">14.</span> <span class="nav-text">第16条：复合优先于集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第17条：要么为集成而设计，并提供文档说明，要么就禁止继承"><span class="nav-number">15.</span> <span class="nav-text">第17条：要么为集成而设计，并提供文档说明，要么就禁止继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第18条：接口优于抽象类"><span class="nav-number">16.</span> <span class="nav-text">第18条：接口优于抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第19条：接口只用于定义类型"><span class="nav-number">17.</span> <span class="nav-text">第19条：接口只用于定义类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第20条：类层次优于标签类"><span class="nav-number">18.</span> <span class="nav-text">第20条：类层次优于标签类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第21条：用函数对象表示策略"><span class="nav-number">19.</span> <span class="nav-text">第21条：用函数对象表示策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第22条：优先考虑静态成员类"><span class="nav-number">20.</span> <span class="nav-text">第22条：优先考虑静态成员类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第30条：用enum代替int常量"><span class="nav-number">21.</span> <span class="nav-text">第30条：用enum代替int常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第31条：用实例域代替序数"><span class="nav-number">22.</span> <span class="nav-text">第31条：用实例域代替序数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第32条：用EnumSet代替位域"><span class="nav-number">23.</span> <span class="nav-text">第32条：用EnumSet代替位域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第33条：用EnumMap代替序数索引"><span class="nav-number">24.</span> <span class="nav-text">第33条：用EnumMap代替序数索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第33条：用EnumMap代替序数索引-1"><span class="nav-number">25.</span> <span class="nav-text">第33条：用EnumMap代替序数索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第35条：注解优先于命名模式"><span class="nav-number">26.</span> <span class="nav-text">第35条：注解优先于命名模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第36条：坚持使用override注解"><span class="nav-number">27.</span> <span class="nav-text">第36条：坚持使用override注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第38条：检查参数的有效性"><span class="nav-number">28.</span> <span class="nav-text">第38条：检查参数的有效性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第39条：必要时进行保护性拷贝"><span class="nav-number">29.</span> <span class="nav-text">第39条：必要时进行保护性拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第40条：谨慎设计方法签名"><span class="nav-number">30.</span> <span class="nav-text">第40条：谨慎设计方法签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第41条：慎用重载"><span class="nav-number">31.</span> <span class="nav-text">第41条：慎用重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第42条：慎用可变参数"><span class="nav-number">32.</span> <span class="nav-text">第42条：慎用可变参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第43条：返回零长度的数据或者集合，而不是null"><span class="nav-number">33.</span> <span class="nav-text">第43条：返回零长度的数据或者集合，而不是null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第44条：为所有导出的api元素编写文档注释"><span class="nav-number">34.</span> <span class="nav-text">第44条：为所有导出的api元素编写文档注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第45条：将局部变量的作用于最小化"><span class="nav-number">35.</span> <span class="nav-text">第45条：将局部变量的作用于最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第46条：foreach循环优先于传统for循环"><span class="nav-number">36.</span> <span class="nav-text">第46条：foreach循环优先于传统for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第47条：了解和实用类库"><span class="nav-number">37.</span> <span class="nav-text">第47条：了解和实用类库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第48条：如果需要准确的答案，请避免实用float和double"><span class="nav-number">38.</span> <span class="nav-text">第48条：如果需要准确的答案，请避免实用float和double</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第49条：自动拆箱和装箱"><span class="nav-number">39.</span> <span class="nav-text">第49条：自动拆箱和装箱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第50条：如果其他类型更适合，则尽量避免实用string"><span class="nav-number">40.</span> <span class="nav-text">第50条：如果其他类型更适合，则尽量避免实用string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第51条：当心字符串连接的性能"><span class="nav-number">41.</span> <span class="nav-text">第51条：当心字符串连接的性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第52条：通过接口引用对象"><span class="nav-number">42.</span> <span class="nav-text">第52条：通过接口引用对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第53条：接口优先于反射机制"><span class="nav-number">43.</span> <span class="nav-text">第53条：接口优先于反射机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第54条：谨慎的使用本地方法"><span class="nav-number">44.</span> <span class="nav-text">第54条：谨慎的使用本地方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第55条：谨慎的进行优化"><span class="nav-number">45.</span> <span class="nav-text">第55条：谨慎的进行优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第57条：只针对异常的情况实用异常"><span class="nav-number">46.</span> <span class="nav-text">第57条：只针对异常的情况实用异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第61条：抛出与抽象相对应的异常"><span class="nav-number">47.</span> <span class="nav-text">第61条：抛出与抽象相对应的异常</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

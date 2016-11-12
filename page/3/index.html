@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,134 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/25/oracle/" itemprop="url">
+                  oracle
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>很少使用oracle，记录两个问题。</p>
+<p>###1.在Maven仓库中添加Oracle JDBC驱动</p>
+<p>由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</p>
+<p>1.获取oracle jdbc driver</p>
+<ol>
+<li>通过Oracle官方网站下载相应版本： <a href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html" target="_blank" rel="external">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</a></li>
+<li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc14.jar</li>
+</ol>
+<p>2.安装到本地仓库</p>
+<pre><code>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=D:\Document_x64\Downloads\ojdbc14.jar
+</code></pre><p>3.pom文件中添加引用</p>
+<pre><code>&lt;dependency&gt;
+&lt;groupId&gt;com.oracle&lt;/groupId&gt;
+&lt;artifactId&gt;ojdbc7&lt;/artifactId&gt;
+&lt;version&gt;12.1.0.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>###2. “ORA-00942: 表或视图不存在 “的原因和解决方法</p>
+<p>产生的原因：<br>Oracle 是大小写敏感的，我们创自己写Sql脚本创建表的时候Oracle会自动将我们的表名，字段名转成大写,</p>
+<pre><code>create table T_WindRadar  (
+   wr_id                VARCHAR2(64)                    not null,
+   wr_reciveTime        DATE,
+   wr_image             BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>但是 Oracle 同样支持”” 语法，将表名或字段名加上””后，Oracle不会将其转换成大写。</p>
+<pre><code>create table &quot;T_WindRadar&quot;  (
+   &quot;wr_id&quot;                VARCHAR2(64)                    not null,
+   &quot;wr_reciveTime&quot;        DATE,
+   &quot;wr_image &quot;            BLOB,
+   constraint PK_T_WINDRADAR primary key (wr_id)
+);
+</code></pre><p>如果加上了””,那么我们采用一般的SQL语句查询则会产生“ORA-00942: 表或视图不存在 ”，因此SQL脚本中需要将表名也加上””。</p>
+<pre><code>select * from  &quot;T_WindRadar&quot;;
+</code></pre><p>这种情况在我们手写SQL的时候一般不会发生，但是我们使用powerdesigner设计数据库的时候，由于不注意会经常出现此类问题，因为Powerdesigner生成的SQL文件默认是加””的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/25/k-近邻算法/" itemprop="url">
                   机器学习
                 </a>
@@ -257,7 +385,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -368,7 +496,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
               2016-09-23
             </time>
@@ -607,7 +735,7 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
               2016-09-23
             </time>
@@ -734,7 +862,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -767,7 +895,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
           <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
         
@@ -830,7 +958,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -1077,7 +1205,7 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -1247,7 +1375,7 @@ Chinese
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-21T10:07:00+08:00" content="2016-09-21">
               2016-09-21
             </time>
@@ -1349,7 +1477,7 @@ Chinese
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-07-22T20:52:12+08:00" content="2016-07-22">
               2016-07-22
             </time>
@@ -1560,7 +1688,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-07-13T22:40:58+08:00" content="2016-07-13">
               2016-07-13
             </time>
@@ -1593,103 +1721,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
           <p>在centos7环境下部署hadoop2.7.2<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/13/hadoop配置/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/25/mybatis/" itemprop="url">
-                  mybatis
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-02-25T22:26:18+08:00" content="2016-02-25">
-              2016-02-25
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>MyBatis<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/02/25/mybatis/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
         
@@ -1763,8 +1795,8 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">44</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1772,7 +1804,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1780,8 +1812,8 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">28</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1832,7 +1864,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
