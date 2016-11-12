@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,169 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/21/深入理解JVM笔记三/" itemprop="url">
+                  深入理解JVM笔记三
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T14:30:38+08:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>内存分配策略</p>
+<p>###1.对象有现在eden区分配。</p>
+<p>大多数情况下，对象在新生代eden区中分配，当Eden区没有足够的空间分配，虚拟机将发起一次minor GC。<br>虚拟机提供<code>-XX：+PrintGCDetails</code>这个日志参数，告诉虚拟机在发生垃圾收集行为时打印内存回收日志，并在进程退出的时候输出当前的内存各区域分配的情况。</p>
+<pre><code>public class aa{
+        /**
+         * -verbose:gc -Xms20M -Xms20M -Xmn10M -XX:+PrintGCDetails 
+         * -XX:SurvivorRatio=8
+         * 
+         */
+public static final int _1MB =1024*1024;
+        public static void main(String[] args) {
+
+            byte[] allocation1,allocation2,allocation3,allocation4;
+            allocation1= new byte[2*_1MB];
+            allocation2= new byte[2*_1MB];
+            allocation3= new byte[2*_1MB];
+            allocation4= new byte[3*_1MB];
+        }
+}
+[GC (Allocation Failure) [PSYoungGen: 7128K-&gt;648K(9216K)] 7128K-&gt;6800K(19456K), 0.0030424 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[Full GC (Ergonomics) [PSYoungGen: 648K-&gt;0K(9216K)] [ParOldGen: 6152K-&gt;6673K(27648K)] 6800K-&gt;6673K(36864K), [Metaspace: 2654K-&gt;2654K(1056768K)], 0.0070118 secs] [Times: user=0.06 sys=0.00, real=0.01 secs] 
+Heap
+ PSYoungGen      total 9216K, used 3154K [0x00000000ff600000, 0x0000000100000000, 0x0000000100000000)
+  eden space 8192K, 38% used [0x00000000ff600000,0x00000000ff914930,0x00000000ffe00000)
+  from space 1024K, 0% used [0x00000000ffe00000,0x00000000ffe00000,0x00000000fff00000)
+  to   space 1024K, 0% used [0x00000000fff00000,0x00000000fff00000,0x0000000100000000)
+ ParOldGen       total 27648K, used 6673K [0x0000000081c00000, 0x0000000083700000, 0x00000000ff600000)
+  object space 27648K, 24% used [0x0000000081c00000,0x0000000082284408,0x0000000083700000)
+ Metaspace       used 2660K, capacity 4486K, committed 4864K, reserved 1056768K
+  class space    used 288K, capacity 386K, committed 512K, reserved 1048576K
+</code></pre><p>###2.对象直接进入老年代</p>
+<p>虚拟机提供一个-XX:pertenureSizeThreshold参数，令大于这个设置值的对象直接在老年代分配。这样做的目的是避免在eden取以及两个survivor区之间发生大量的内存复制。（新生代采用复制算法收集内存）</p>
+<pre><code>public class aa{
+        /**
+         * -verbose:gc -Xms20M -Xms20M -Xmn10M -XX:+PrintGCDetails -XX:PertenureSizeThreshold=3145728
+         * -XX:SurvivorRatio=8
+         * 
+         */
+public static final int _1MB =1024*1024;
+        public static void main(String[] args) {
+
+            byte[] allocation4;
+            allocation4= new byte[4*_1MB];
+        }
+}
+</code></pre><p>###3.长期存活的对象将直接进入老年代</p>
+<p>虚拟机给每个对象定义了一个age年龄计数器。如果对象在eden出生并经历了第一次minor gc仍然活着的话，并且能够被survivor容纳，警备移动大survivor空间，并且对象的年龄设为1.对于survivor中没熬过一次minor gc，年龄就增加1.当她的年龄增加到一定程度，默认是15，就会被净胜到老年代。对象净胜到老年代的年龄阈值通过参数-XX:MaxTenuringThreshold设置。</p>
+<p>###4.动态对象年龄判定</p>
+<p>为了更好地适应不同程序的内存状况，虚拟机并不是永远的要求对象的年龄必须达到阈值才能够到老年代，瑞国survivor中相同年龄所有对象的大小纸盒大于survivor空间的一般，年龄大于或等于改年龄的对象就可以进入老年代了。</p>
+<p>###5.空间分配担保</p>
+<p>在发生minor gc之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。如果这个条件成立，那么minor gc可以确保是安全的。如果不成立，虚拟机会查看handlepromotionfailure设置值食肉允许担保失败，如果允许，那么就会继续检查老年代中最大可用连续空间时都大于历次净胜到老年代对象的平均大小。如果大于，将尝试着进行一次minor gc，尽管这次minor gc是有风险的。如果小于，或者handlepromotionfailure设置不允许毛线，那么就要改为进行一次full gc。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/19/深入理解JVM笔记二/" itemprop="url">
                   深入理解JVM笔记二---垃圾收集器及内存分配策略
                 </a>
@@ -257,7 +420,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-19T10:51:50+08:00" content="2016-10-19">
               2016-10-19
             </time>
@@ -269,7 +432,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -406,7 +569,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-18T15:03:57+08:00" content="2016-10-18">
               2016-10-18
             </time>
@@ -418,7 +581,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -597,7 +760,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-14T12:30:14+08:00" content="2016-10-14">
               2016-10-14
             </time>
@@ -776,7 +939,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
               2016-10-13
             </time>
@@ -879,7 +1042,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
               2016-10-06
             </time>
@@ -1033,7 +1196,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1045,7 +1208,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1174,7 +1337,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1186,7 +1349,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1326,7 +1489,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T20:39:32+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1338,7 +1501,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1378,7 +1541,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
           <p>###机器学习weka（一）<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/29/weka1/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -1441,7 +1604,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:52:26+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1521,129 +1684,6 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/25/java多线程/" itemprop="url">
-                  java多线程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
-              2016-09-25
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>线程和进程有什么区别？</p>
-<p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
-<p>如何在Java中实现线程？</p>
-<p>答：<br>创建线程有两种方式：</p>
-<ol>
-<li>一、继承 Thread 类，扩展线程。</li>
-<li>二、实现 Runnable 接口。</li>
-</ol>
-<p>启动一个线程是调用run()还是start()方法？</p>
-<p>答：启动一个线程是调用start()方法，使线程所代表的虚拟处理机处于可运行状态，这意味着它可以由JVM 调度并执行，这并不意味着线程就会立即运行。run()方法是线程启动后要进行回调（callback）的方法。</p>
-<p>Thread类的sleep()方法和对象的wait()方法都可以让线程暂停执行，它们有什么区别?</p>
-<ul>
-<li>sleep()方法（休眠）是线程类（Thread）的静态方法，调用此方法会让当前线程暂停执行指定的时间，将执行机会（CPU）让给其他线程，但是对象的锁依然保持，因此休眠时间结束后会自动恢复（线程回到就绪状态，请参考第66题中的线程状态转换图）。</li>
-<li>wait()是Object类的方法，调用对象的wait()方法导致当前线程放弃对象的锁（线程暂停执行），进入对象的等待池（wait pool），只有调用对象的notify()方法（或notifyAll()方法）时才能唤醒等待池中的线程进入等锁池（lock pool），如果线程重新获得对象的锁就可以进入就绪状态。</li>
-</ul>
-<p>线程的sleep()方法和yield()方法有什么区别？</p>
-<p>答：</p>
-<ul>
-<li>① sleep()方法给其他线程运行机会时不考虑线程的优先级，因此会给低优先级的线程以运行的机会；yield()方法只会给相同优先级或更高优先级的线程以运行的机会；</li>
-<li>② 线程执行sleep()方法后转入阻塞（blocked）状态，而执行yield()方法后转入就绪（ready）状态；</li>
-<li>③ sleep()方法声明抛出InterruptedException，而yield()方法没有声明任何异常；</li>
-<li>④ sleep()方法比yield()方法（跟操作系统CPU调度相关）具有更好的可移植性。</li>
-</ul>
-<p>请说出与线程同步以及线程调度相关的方法。<br>答：</p>
-<ul>
-<li>wait()：使一个线程处于等待（阻塞）状态，并且释放所持有的对象的锁；</li>
-<li>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理InterruptedException异常；</li>
-<li>notify()：唤醒一个处于等待状态的线程，当然在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由JVM确定唤醒哪个线程，而且与优先级无关；</li>
-<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1689,8 +1729,8 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1698,7 +1738,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1707,7 +1747,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">29</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1758,7 +1798,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
