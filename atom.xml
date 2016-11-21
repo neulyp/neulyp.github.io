@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-21T05:27:37.436Z</updated>
+  <updated>2016-11-21T06:03:49.803Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>算法总结2-希尔排序</title>
+    <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
+    <id>http://yoursite.com/2016/11/21/算法总结之希尔排序/</id>
+    <published>2016-11-21T05:50:31.000Z</published>
+    <updated>2016-11-21T06:03:49.803Z</updated>
+    
+    <content type="html"><![CDATA[<p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6668714" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6668714</a></p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>该方法的基本思想是：先将整个待排元素序列分割成若干个子序列（由相隔某个“增量”的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序。因为直接插入排序在元素基本有序的情况下（接近最好情况），效率是很高的，因此希尔排序在时间效率上比前两种方法有较大提高</p>
+<p><img src="http://i.imgur.com/FPSyyTw.png" alt=""></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//希尔排序</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">shellsort</span><span class="params">(T[] a)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> gap=a.length/<span class="number">2</span>;gap&gt;<span class="number">0</span>;gap/=<span class="number">2</span>)&#123;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=gap;i&lt;a.length;i++)&#123;</div><div class="line">				T tmp=a[i];</div><div class="line">				<span class="keyword">for</span>(j=i;j&gt;=gap&amp;&amp;tmp.compareTo(a[j-gap])&lt;<span class="number">0</span>;j-=gap)&#123;</div><div class="line">					a[j]=a[j-gap];</div><div class="line">				&#125;</div><div class="line">				a[j]=tmp;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;参考：&lt;a href=&quot;http://blog.csdn.net/morewindows/article/details/6668714&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/morewindows/art
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>算法总结1-插入排序</title>
@@ -2309,91 +2332,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     
       <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面向对象系统分析与设计</title>
-    <link href="http://yoursite.com/2016/10/06/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1/"/>
-    <id>http://yoursite.com/2016/10/06/面向对象系统分析与设计/</id>
-    <published>2016-10-06T09:02:48.000Z</published>
-    <updated>2016-10-06T09:30:40.429Z</updated>
-    
-    <content type="html"><![CDATA[<p>####系统分析设计方法：</p>
-<ul>
-<li>结构化方法</li>
-<li>信息建模法</li>
-<li>面向对象分析设计方法</li>
-</ul>
-<p>面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或概念）。</p>
-<p>面向对象的设计（ Object Oriented Design ，OOD）强调的是定义软件对象以它们是如何协作以实现需求</p>
-<p>####面向对象的优点：</p>
-<ul>
-<li>复用<br>通过继承、关联、封装等手段</li>
-<li>应变<br>弹性应对需求变化</li>
-<li>沟通<br>开发人员、用户、管理人员</li>
-<li>市场<br>应付市场的变化</li>
-<li>士气<br>员工的士气</li>
-</ul>
-<p>使用OMT方法的面向对象开发过程可分为5步：</p>
-<ul>
-<li>分析</li>
-<li>系统设计</li>
-<li>对象设计</li>
-<li>编代码</li>
-<li>测试</li>
-</ul>
-<p>分为下述5个活动 </p>
-<ul>
-<li>编写问题陈述 </li>
-<li>建立对象模型 </li>
-<li>建立动态模型 </li>
-<li>建立功能模型</li>
-<li>细化对象模型、动态模型和功能模型，并建立文档</li>
-</ul>
-<p>系统设计的步骤如下：</p>
-<ul>
-<li>将系统划分为子系统 </li>
-<li>识别并发 </li>
-<li>将子系统和任务分配给处理器 </li>
-<li>选择实现数据存储的策略 </li>
-<li>识别出全局资源，并确定控制访问全局资源的机制 </li>
-<li>选择实现软件控制的方法 </li>
-<li>考虑边界条件 </li>
-<li>建立折衷的优先级</li>
-</ul>
-<p>宏过程包括下述5个活动:</p>
-<p>（1）概念化（Conceptualization）：在这个活动中，建立核心需求。<br>（2）分析（Analysis）：在这个活动中，为所期望的行为建立模型。<br>（3）设计（Design）：在这个活动中，建立体系结构。<br>（4）进化（Evolution）：在这个活动中，形成实现。<br>（5）维护（Maintenance）：在这个活动中，管理软件的交付使用。</p>
-<p>微过程由4个步骤组成：</p>
-<p>（1）在给定的抽象层次上识别出类和对象。<br>（2）识别出这些类和对象的语义。<br>（3）识别出类间和对象间的关系。<br>（4）实现类和对象。</p>
-<p>####软件过程</p>
-<p>软件过程定义了软件开发、部署和维护的步骤</p>
-<ul>
-<li><p>迭代式开发 </p>
-<p> 迭代式开发将软件开发过程分解为一系列小的，固定周期的(比如，4个星期)的小项目，每个小项目称为一个迭代。</p>
-</li>
-<li><p>统一过程 (Unified Process)</p>
-</li>
-</ul>
-<p>一种采用OOA/D方法学开发项目的过程(Ivar Jacobson)。<br>一种流行的构造面向对象系统的迭代开发过程（JBR99）。</p>
-<ul>
-<li>敏捷UP( Agile UP ) </li>
-</ul>
-<p>引入了敏捷概念的UP,是UP的一个简集。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;####系统分析设计方法：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;结构化方法&lt;/li&gt;
-&lt;li&gt;信息建模法&lt;/li&gt;
-&lt;li&gt;面向对象分析设计方法&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或
-    
-    </summary>
-    
     
   </entry>
   
