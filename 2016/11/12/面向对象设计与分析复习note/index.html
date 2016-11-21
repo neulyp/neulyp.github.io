@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://i.imgur.com/XlKHtHM.png">
 <meta property="og:image" content="http://i.imgur.com/vZ0NiPF.png">
 <meta property="og:image" content="http://i.imgur.com/EYjjYlR.png">
-<meta property="og:updated_time" content="2016-11-12T12:06:58.253Z">
+<meta property="og:updated_time" content="2016-11-14T08:32:56.553Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面向对象设计与分析复习note">
 <meta name="twitter:description" content="概念1面向对象分析：在问题域内发现和描述对象。
@@ -222,7 +222,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -230,7 +230,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -238,7 +238,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -299,7 +299,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-12T18:28:24+08:00" content="2016-11-12">
               2016-11-12
             </time>
@@ -346,13 +346,19 @@
 <li>系统顺序图是操作契约（第11章）和（最重要的）对象设计的输入。</li>
 </ul>
 <h3 id="2-基于用例图、类图、顺序图的分析与设计"><a href="#2-基于用例图、类图、顺序图的分析与设计" class="headerlink" title="2.基于用例图、类图、顺序图的分析与设计"></a>2.基于用例图、类图、顺序图的分析与设计</h3><p><strong>用例图：</strong></p>
-<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物</p>
-<p>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
-<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance</p>
-<p>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
-<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。</p>
-<p>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
+<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物<br>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
+<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance<br>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
+<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。<br>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
+<p>三种关系：</p>
+<ul>
+<li>包含：提取公共交互，提高复用</li>
+<li>扩展：“冻结”基础用例以保持稳定</li>
+<li>泛化：同一业务目的的不同技术实现</li>
+</ul>
+<p>ps：使用包含关系来处理用例之间的关系是首要原则</p>
 <p><strong>顺序图：</strong></p>
+<p>显示一组对象为了实现某种功能，而彼此发送和接收的一串消息，这组对象可能是类、接口、构件、节点和系统的具体的或原型化的实例。<br>强调消息时间顺序</p>
+<p>note:<br>刺形箭头消息表示异步调用，实心箭头消息表示同步调用</p>
 <ul>
 <li>消息的传入：类对象所具有的操作－－责任（行为）</li>
 <li>消息的传出：类对象完成操作所需合作者－－协作</li>
@@ -373,6 +379,15 @@
 <p>分析类图-域模型<br><img src="http://i.imgur.com/XlKHtHM.png" alt=""></p>
 <p>类之间的关系</p>
 <p><img src="http://i.imgur.com/vZ0NiPF.png" alt=""></p>
+<p>依赖关系表示的是类之间的调用关系，即用一个类去调用另外一个类，被调用的类表现为调用类的局部变量、方法的参数，调用类调用被调用类的静态方法。–&gt;</p>
+<p><strong>依赖vs关联</strong></p>
+<ul>
+<li>从类之间关系的时间角度来分，关联表示类之间的“持久、静态”关系，一般需要“持久化”的，或者说需要保存到数据库中的，是一种重要的业务之间的关系。另外，依赖表示类之间的是一种“短暂、动态”关系，这种关系是不需要保存的。</li>
+<li>从类之间关系的强弱程度来分，关联表示类之间的很强的关系；依赖表示类之间的较弱的关系。</li>
+<li>设计类之间的关系遵循的原则：首先判断是否是一种“关联”关系，若不是再判断是否是“依赖关系”，一般情况下若不是关联，就是依赖关系</li>
+<li>依赖关系（Dependency relationship ）：是类与类之间的连接，依赖总是单向的。</li>
+<li>关联关系（Association relationship）：是一种结构关系，是指一个类的对象与另一个类的对象之间的关系（具有多重性）。关联可以有方向，即导航。一般不作说明的时候，导航是双向的，不需要在线上标出箭头。关联在代码中一般表示为属性（成员变量）</li>
+</ul>
 <h3 id="3-鲁棒性分析"><a href="#3-鲁棒性分析" class="headerlink" title="3.鲁棒性分析"></a>3.鲁棒性分析</h3><p>定义：</p>
 <ul>
 <li>一种方法<ul>
@@ -389,7 +404,26 @@
 <blockquote>
 <p>(1) 参与者只能与边界对象交谈<br>(2) 边界对象只能与控制体和参与者交流<br>(3) 实体对象也只能与控制体交谈<br>(4) 控制体既能与边界对象交谈，也能与控制体交谈，但不能与参与者交谈</p>
 </blockquote>
-<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><ul>
+<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><p>好的设计：</p>
+<ul>
+<li>容易理解</li>
+<li>容易修改和扩展</li>
+<li>容易复用</li>
+<li>容易实现与应用</li>
+<li>简单、紧凑、经济适用</li>
+</ul>
+<p>坏的设计：</p>
+<ul>
+<li>僵化性（Rigidity）：刚性，难以修改，牵一发而动全身</li>
+<li>脆弱性（Fragility）：易碎，牵一发而肝胆俱裂</li>
+<li>牢固性（Immobility）：无法分解成可移植的组件</li>
+<li>粘滞性（Viscosity），修改设计代价高昂</li>
+<li>不必要的复杂性（Needless Complexity）,预测需求，处理潜在变化代码</li>
+<li>不必要的重复（ Needless Repetition ）</li>
+<li>晦涩性（Opacity）：不透明，很难看清设计者的真实意图</li>
+</ul>
+<p>原则：</p>
+<ul>
 <li>LSP：Liskov替换原则<br>The Liskov Substitution Principle</li>
 <li>OCP：开放-封闭原则<br>The Open-Close Principle</li>
 <li>SRP：单一职责原则<br>The Single Responsibility Principle</li>
@@ -409,9 +443,17 @@
 <li>间接性（Indirection）</li>
 <li>防止变异（Protected Variations）</li>
 </ul>
-<p>举例说明：</p>
+<p>信息专家：将职责分配给具有完成该职责所需信息的那个类</p>
+<p>低耦合：分配职责，使耦合尽可能低。利用这一原则来评估可选方案。</p>
+<p>高内聚度：不要给一个类分派太多的职责，在履行职责时尽量将部分职责分派给有能力完成的其它类去完成。不相关的职责不要分派给同一个类。</p>
+<p>控制器：正常情况下，控制器应当把需要完成的工作委派给其它对象。控制器只是协调或控制这些活动，本身并不完成大量工作。</p>
+<p>多态：当相关的或行为随类型（类）有所不同时，使用“多态操作”为变化的行为类型分配职责 。</p>
+<p>纯虚构：分配这组高度内聚的职责给一个人造类。人造类不代表问题领域的任何事物，只是为了支持高内聚、低耦合和可重用而虚构的一个类。</p>
 <p>适配器与某些grasp核心原则的关系<br><img src="http://i.imgur.com/EYjjYlR.png" alt=""></p>
-<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3>
+<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3><p>creational </p>
+<p>behavioral</p>
+<p>structural</p>
+
       
     </div>
 
@@ -443,6 +485,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/16/深入理解jvm十-早期（编译期）优化/" rel="prev" title="深入理解jvm十-早期（编译期）优化">
+                深入理解jvm十-早期（编译期）优化 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -491,10 +537,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -510,8 +556,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">46</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -519,7 +565,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">10</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -527,8 +573,8 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -590,7 +636,7 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

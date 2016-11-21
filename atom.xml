@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-12T12:06:58.253Z</updated>
+  <updated>2016-11-21T04:34:44.654Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,117 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>算法总结4-快速排序</title>
+    <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
+    <id>http://yoursite.com/2016/11/21/算法总结之快速排序/</id>
+    <published>2016-11-21T04:24:37.000Z</published>
+    <updated>2016-11-21T04:34:44.654Z</updated>
+    
+    <content type="html"><![CDATA[<p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6684558</a></p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</p>
+<p>该方法的基本思想是：</p>
+<p>1．先从数列中取出一个数作为基准数。</p>
+<p>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。</p>
+<p>3．再对左右区间重复第二步，直到各区间只有一个数</p>
+<p>虽然快速排序称为分治法，但分治法这三个字显然无法很好的概括快速排序的全部步骤。因此我的对快速排序作了进一步的说明：<strong>挖坑填数+分治法</strong>：</p>
+<p><img src="http://i.imgur.com/lXST5qW.png" alt=""></p>
+<p><img src="http://i.imgur.com/6GAncK6.png" alt=""></p>
+<p>对挖坑填数进行总结</p>
+<p>1．i =L; j = R; 将基准数挖出形成第一个坑a[i]。</p>
+<p>2．j–由后向前找比它小的数，找到后挖出此数填前一个坑a[i]中。</p>
+<p>3．i++由前向后找比它大的数，找到后也挖出此数填到前一个坑a[j]中。</p>
+<p>4．再重复执行2，3二步，直到i==j，将基准数填入a[i]中。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sort;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 快排</div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] swap(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)&#123;</div><div class="line">		<span class="comment">//将中间的数和第一个数进行交换</span></div><div class="line">		<span class="keyword">int</span> tmp=s[l];</div><div class="line">		s[l]=s[(r-l)/<span class="number">2</span>];</div><div class="line">		s[(r-l)/<span class="number">2</span>]=tmp;</div><div class="line">		<span class="keyword">return</span> s;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(l&lt;r)&#123;	</div><div class="line">			<span class="keyword">int</span> i=l,j=r,x=s[l];</div><div class="line">			<span class="keyword">while</span>(i&lt;j)&#123;</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[j]&gt;=x) j--;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[i++]=s[j];</div><div class="line">				</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[i]&lt;=x) i++;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[j--]=s[i];</div><div class="line">			&#125;</div><div class="line">			s[i]=x;</div><div class="line">			quickSort(s, l, i-<span class="number">1</span>);</div><div class="line">			quickSort(s, i+<span class="number">1</span>, r);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;参考：&lt;a href=&quot;http://blog.csdn.net/morewindows/article/details/6684558&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/morewindows/art
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>datastructs</title>
+    <link href="http://yoursite.com/2016/11/20/datastructs/"/>
+    <id>http://yoursite.com/2016/11/20/datastructs/</id>
+    <published>2016-11-20T05:10:58.000Z</published>
+    <updated>2016-11-20T05:33:55.914Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>1.数组实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> default_capacity=<span class="number">16</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> T[] items;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyArrayList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		ensureCapacity(default_capacity);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span></span>&#123;</div><div class="line">		ensureCapacity(size());</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> items[idx];</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		T old =items[idx];</div><div class="line">		items[idx]=newVal;</div><div class="line">		<span class="keyword">return</span> old;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(items.length==size())&#123;</div><div class="line">			ensureCapacity(size()*<span class="number">2</span>+<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=size;i&gt;idx;i--)&#123;</div><div class="line">			items[i]=items[i-<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		items[idx]=x;</div><div class="line">		size++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span> <span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		T removedItem=items[idx];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=idx;i&lt;size()-<span class="number">1</span>;i++)&#123;</div><div class="line">			items[i]=items[i+<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		size--;</div><div class="line">		<span class="keyword">return</span> removedItem;		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(newCapacity&lt;size) <span class="keyword">return</span>;</div><div class="line">		T[] old=items;</div><div class="line">		items= (T[]) <span class="keyword">new</span> Object[newCapacity];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size();i++)&#123;</div><div class="line">			items[i]=old[i];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ArrayListIterator();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> current=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> current&lt;size();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(!hasNext())</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			<span class="keyword">return</span> items[current++];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			MyArrayList.<span class="keyword">this</span>.remove(--current);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.node实现linkedlist</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ConcurrentModificationException;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLinkedList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> modCount=<span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; beginMarker;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; endMarker;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">		<span class="keyword">public</span> T data;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; prev;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; next;		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T d,Node&lt;T&gt; p, Node&lt;T&gt; n)</span></span>&#123;</div><div class="line">			data=d;</div><div class="line">			prev=p;</div><div class="line">			next=n;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span>  <span class="title">MyLinkedList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		beginMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">		endMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, beginMarker, <span class="keyword">null</span>);</div><div class="line">		beginMarker.next=endMarker;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		modCount++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		addBefore(getNode(idx),x);		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> getNode(idx).data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =getNode(idx);</div><div class="line">		T oldVal=p.data;</div><div class="line">		p.data=newVal;</div><div class="line">		<span class="keyword">return</span> oldVal;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> remove(getNode(idx));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =beginMarker.next;</div><div class="line">		<span class="keyword">while</span>(p!=endMarker&amp;&amp;!(p.data.equals(x)))&#123;</div><div class="line">			p=p.next;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p!=endMarker;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addBefore</span><span class="params">(Node&lt;T&gt; p, T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; newNode= <span class="keyword">new</span> Node&lt;T&gt;(x, p.prev, p);</div><div class="line">		newNode.prev.next=newNode;		</div><div class="line">		p.prev=newNode;</div><div class="line">		size++;</div><div class="line">		modCount++;			</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> T <span class="title">remove</span><span class="params">(Node&lt;T&gt; p)</span></span>&#123;</div><div class="line">		p.prev.next=p.next;</div><div class="line">		p.next.prev=p.prev;</div><div class="line">		size--;</div><div class="line">		modCount++;</div><div class="line">		<span class="keyword">return</span> p.data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">private</span> Node&lt;T&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;size()) <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</div><div class="line">		<span class="keyword">if</span>(idx&lt;size()/<span class="number">2</span>)&#123;</div><div class="line">			p=beginMarker.next;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;idx;i++) p=p.next;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			p=endMarker;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=size();i&gt;idx;i--) p=p.prev;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> linkedListIterator();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">linkedListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> Node&lt;T&gt; current =beginMarker.next;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> exceptedModCount=modCount;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">boolean</span> okToRemove=<span class="keyword">false</span>;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;			</div><div class="line">			<span class="keyword">return</span> current!=endMarker;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!hasNext()) <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			T nextItem =current.data;</div><div class="line">			current=current.next;</div><div class="line">			okToRemove=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">return</span> nextItem;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!okToRemove) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">			MyLinkedList.<span class="keyword">this</span>.remove(current.prev);</div><div class="line">			okToRemove=<span class="keyword">false</span>;</div><div class="line">			exceptedModCount++;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><h3 id="散列"><a href="#散列" class="headerlink" title="散列"></a>散列</h3><h3 id="优先队列（堆）"><a href="#优先队列（堆）" class="headerlink" title="优先队列（堆）"></a>优先队列（堆）</h3><p>堆是一棵完全被填满的二叉树。<br>一棵高位h的完全二叉树有2^k到2^（k+1）-1个节点。</p>
+<p>完全二叉树可以用一个数组表示。</p>
+<p>对于数组中i位置上的元素，做儿子在2i，右儿子在2i+1，父亲在[i/2]</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;链表&quot;&gt;&lt;a href=&quot;#链表&quot; class=&quot;headerlink&quot; title=&quot;链表&quot;&gt;&lt;/a&gt;链表&lt;/h3&gt;&lt;p&gt;1.数组实现&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
+    
+    </summary>
+    
+    
+      <category term="datastructure" scheme="http://yoursite.com/tags/datastructure/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入理解jvm十-早期（编译期）优化</title>
+    <link href="http://yoursite.com/2016/11/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm%E5%8D%81-%E6%97%A9%E6%9C%9F%EF%BC%88%E7%BC%96%E8%AF%91%E6%9C%9F%EF%BC%89%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2016/11/16/深入理解jvm十-早期（编译期）优化/</id>
+    <published>2016-11-16T05:37:45.000Z</published>
+    <updated>2016-11-16T07:06:49.762Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
+<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
+<li>sun的javac eclipsejdt中的ecj</li>
+</ul>
+</li>
+<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
+<li>hotspot vm 中的 c1 c2编译器</li>
+</ul>
+</li>
+<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
+<li>gun compiler for java</li>
+</ul>
+</li>
+</ul>
+<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
+<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
+<ul>
+<li>解析与填充符号表过程。</li>
+<li>插入式注解处理器的注解处理过程。</li>
+<li>分析与字节码生成过程。</li>
+</ul>
+<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-编译期&quot;&gt;&lt;a href=&quot;#1-编译期&quot; class=&quot;headerlink&quot; title=&quot;1.编译期&quot;&gt;&lt;/a&gt;1.编译期&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;前端编译器：把&lt;em&gt;java转换成&lt;/em&gt;.class文件的过程。 &lt;ul&gt;
+&lt;li&gt;sun的jav
+    
+    </summary>
+    
+    
+      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>面向对象设计与分析复习note</title>
     <link href="http://yoursite.com/2016/11/12/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90%E5%A4%8D%E4%B9%A0note/"/>
     <id>http://yoursite.com/2016/11/12/面向对象设计与分析复习note/</id>
     <published>2016-11-12T10:28:24.000Z</published>
-    <updated>2016-11-12T12:06:58.253Z</updated>
+    <updated>2016-11-14T08:32:56.553Z</updated>
     
     <content type="html"><![CDATA[<h3 id="概念1"><a href="#概念1" class="headerlink" title="概念1"></a>概念1</h3><p>面向对象分析：<br>在<strong>问题域内</strong>发现和描述<strong>对象</strong>。</p>
 <p>面向对象设计：<br>强调的是定义<strong>软件对象</strong>以他们是如何<strong>协作</strong>以实现<strong>需求</strong>。</p>
@@ -40,13 +146,19 @@
 <li>系统顺序图是操作契约（第11章）和（最重要的）对象设计的输入。</li>
 </ul>
 <h3 id="2-基于用例图、类图、顺序图的分析与设计"><a href="#2-基于用例图、类图、顺序图的分析与设计" class="headerlink" title="2.基于用例图、类图、顺序图的分析与设计"></a>2.基于用例图、类图、顺序图的分析与设计</h3><p><strong>用例图：</strong></p>
-<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物</p>
-<p>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
-<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance</p>
-<p>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
-<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。</p>
-<p>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
+<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物<br>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
+<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance<br>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
+<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。<br>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
+<p>三种关系：</p>
+<ul>
+<li>包含：提取公共交互，提高复用</li>
+<li>扩展：“冻结”基础用例以保持稳定</li>
+<li>泛化：同一业务目的的不同技术实现</li>
+</ul>
+<p>ps：使用包含关系来处理用例之间的关系是首要原则</p>
 <p><strong>顺序图：</strong></p>
+<p>显示一组对象为了实现某种功能，而彼此发送和接收的一串消息，这组对象可能是类、接口、构件、节点和系统的具体的或原型化的实例。<br>强调消息时间顺序</p>
+<p>note:<br>刺形箭头消息表示异步调用，实心箭头消息表示同步调用</p>
 <ul>
 <li>消息的传入：类对象所具有的操作－－责任（行为）</li>
 <li>消息的传出：类对象完成操作所需合作者－－协作</li>
@@ -67,6 +179,15 @@
 <p>分析类图-域模型<br><img src="http://i.imgur.com/XlKHtHM.png" alt=""></p>
 <p>类之间的关系</p>
 <p><img src="http://i.imgur.com/vZ0NiPF.png" alt=""></p>
+<p>依赖关系表示的是类之间的调用关系，即用一个类去调用另外一个类，被调用的类表现为调用类的局部变量、方法的参数，调用类调用被调用类的静态方法。–&gt;</p>
+<p><strong>依赖vs关联</strong></p>
+<ul>
+<li>从类之间关系的时间角度来分，关联表示类之间的“持久、静态”关系，一般需要“持久化”的，或者说需要保存到数据库中的，是一种重要的业务之间的关系。另外，依赖表示类之间的是一种“短暂、动态”关系，这种关系是不需要保存的。</li>
+<li>从类之间关系的强弱程度来分，关联表示类之间的很强的关系；依赖表示类之间的较弱的关系。</li>
+<li>设计类之间的关系遵循的原则：首先判断是否是一种“关联”关系，若不是再判断是否是“依赖关系”，一般情况下若不是关联，就是依赖关系</li>
+<li>依赖关系（Dependency relationship ）：是类与类之间的连接，依赖总是单向的。</li>
+<li>关联关系（Association relationship）：是一种结构关系，是指一个类的对象与另一个类的对象之间的关系（具有多重性）。关联可以有方向，即导航。一般不作说明的时候，导航是双向的，不需要在线上标出箭头。关联在代码中一般表示为属性（成员变量）</li>
+</ul>
 <h3 id="3-鲁棒性分析"><a href="#3-鲁棒性分析" class="headerlink" title="3.鲁棒性分析"></a>3.鲁棒性分析</h3><p>定义：</p>
 <ul>
 <li>一种方法<ul>
@@ -83,7 +204,26 @@
 <blockquote>
 <p>(1) 参与者只能与边界对象交谈<br>(2) 边界对象只能与控制体和参与者交流<br>(3) 实体对象也只能与控制体交谈<br>(4) 控制体既能与边界对象交谈，也能与控制体交谈，但不能与参与者交谈</p>
 </blockquote>
-<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><ul>
+<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><p>好的设计：</p>
+<ul>
+<li>容易理解</li>
+<li>容易修改和扩展</li>
+<li>容易复用</li>
+<li>容易实现与应用</li>
+<li>简单、紧凑、经济适用</li>
+</ul>
+<p>坏的设计：</p>
+<ul>
+<li>僵化性（Rigidity）：刚性，难以修改，牵一发而动全身</li>
+<li>脆弱性（Fragility）：易碎，牵一发而肝胆俱裂</li>
+<li>牢固性（Immobility）：无法分解成可移植的组件</li>
+<li>粘滞性（Viscosity），修改设计代价高昂</li>
+<li>不必要的复杂性（Needless Complexity）,预测需求，处理潜在变化代码</li>
+<li>不必要的重复（ Needless Repetition ）</li>
+<li>晦涩性（Opacity）：不透明，很难看清设计者的真实意图</li>
+</ul>
+<p>原则：</p>
+<ul>
 <li>LSP：Liskov替换原则<br>The Liskov Substitution Principle</li>
 <li>OCP：开放-封闭原则<br>The Open-Close Principle</li>
 <li>SRP：单一职责原则<br>The Single Responsibility Principle</li>
@@ -103,9 +243,17 @@
 <li>间接性（Indirection）</li>
 <li>防止变异（Protected Variations）</li>
 </ul>
-<p>举例说明：</p>
+<p>信息专家：将职责分配给具有完成该职责所需信息的那个类</p>
+<p>低耦合：分配职责，使耦合尽可能低。利用这一原则来评估可选方案。</p>
+<p>高内聚度：不要给一个类分派太多的职责，在履行职责时尽量将部分职责分派给有能力完成的其它类去完成。不相关的职责不要分派给同一个类。</p>
+<p>控制器：正常情况下，控制器应当把需要完成的工作委派给其它对象。控制器只是协调或控制这些活动，本身并不完成大量工作。</p>
+<p>多态：当相关的或行为随类型（类）有所不同时，使用“多态操作”为变化的行为类型分配职责 。</p>
+<p>纯虚构：分配这组高度内聚的职责给一个人造类。人造类不代表问题领域的任何事物，只是为了支持高内聚、低耦合和可重用而虚构的一个类。</p>
 <p>适配器与某些grasp核心原则的关系<br><img src="http://i.imgur.com/EYjjYlR.png" alt=""></p>
-<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3>]]></content>
+<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3><p>creational </p>
+<p>behavioral</p>
+<p>structural</p>
+]]></content>
     
     <summary type="html">
     
@@ -2269,340 +2417,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
       <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
       <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习weka（二）</title>
-    <link href="http://yoursite.com/2016/09/29/weka%E5%AD%A6%E4%B9%A02/"/>
-    <id>http://yoursite.com/2016/09/29/weka学习2/</id>
-    <published>2016-09-29T14:04:00.000Z</published>
-    <updated>2016-11-02T17:24:08.887Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>1.weka分类/回归模型构建与评价</strong></p>
-<p>以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： </p>
-<p><strong>数据准备</strong></p>
-<p>我们要做的就是加载数据，然后使用Filter对数据进行一定的操作，满足特定算法的需求。具体的将在决策树中讲解。</p>
-<p><strong>模型配置</strong></p>
-<p>在模型准备前，要对模型进行适当的配置，Weka中是通过传入Options数组来实现的，然后使用模型的setOptions(options)方法将模型配置信息传入</p>
-<p><strong>模型学习</strong></p>
-<p>模型学习过程就是使用训练数据对模型进行训练，在Weka中只需要调用模型的buildClassifier(data)方法即可。<br>上述三个过程可以用以下代码表示：</p>
-<pre><code>class CARTModel {
-    public CARTModel(Instances data) throws Exception{
-        J48 model = new J48();
-        String[] options = {&quot;-M&quot;,&quot;5&quot;,&quot;-R&quot;};
-        model.setOptions(options);
-        model.buildClassifier(data);
-    }
-}
-</code></pre><p><strong>模型评价</strong></p>
-<p>通过创建Evaluation对象来实现评价，具体代码如下：</p>
-<pre><code>Evaluation eval = new Evaluation(testData);
- eval.crossValidateModel(model, trainSet, 10, new Random(1));
- System.out.println(eval.toSummaryString(&quot;\nResult&quot;, false));
- System.out.println(eval.toClassDetailsString());
-</code></pre><p><strong>2.评价evaluation介绍</strong></p>
-<p><strong>基本指标</strong></p>
-<p>1、 FN：False Negative,被判定为负样本，但事实上是正样本。 </p>
-<p>2、 FP：False Positive,被判定为正样本，但事实上是负样本。 </p>
-<p>3、TN：True Negative,被判定为负样本，事实上也是负样本。 </p>
-<p>4、TP：True Positive,被判定为正样本，事实上也是证样本。</p>
-<p>5、precesion：查准率<br>即在检索后返回的结果中，真正正确的个数占整个结果的比例。precesion = TP/(TP+FP) 。 </p>
-<p>6、 recall：查全率<br>即在检索结果中真正正确的个数 占整个数据集（检索到的和未检索到的）中真正正确个数的比例。recall = TP/(TP+FN)即，检索结果中，你判断为正的样本也确实为正的，以及那些没在检索结果中被你判断为负但是事实上是正的（FN）。</p>
-<p>7、F-Measure<br>是Precision和Recall加权调和平均<br>P和R指标有时候会出现的矛盾的情况，这样就需要综合考虑他们，最常见的方法就是F-Measure（又称为F-Score）。 </p>
-<p>8、MCC 马修斯相关系数<br>衡量不平衡数据集的指标比较好。</p>
-<p><strong>ROC曲线</strong></p>
-<p>ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR）<br>当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。根据每个测试样本属于正样本的概率值从大到小排序，依次将 “Score”值作为阈值threshold，当测试样本属于正样本的概率 大于或等于这个threshold时，认为它为正样本，否则为负样本。 </p>
-<p><strong>PRC曲线</strong></p>
-<p>在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。 </p>
-<p><strong>其他指标</strong></p>
-<p>1、kappa statics Kappa<br>值即内部一致性系数(inter-rater,coefficient of internal consistency)，是作为评价判断的一致性程度的重要指标。取值在0～1之间。Kappa≥0.75两者一致性较好；0.75&gt;Kappa≥0.4两者一致性一般；Kappa&lt;0.4两者一致性较差。</p>
-<p>2、Mean absolute error 和 Root mean squared error<br>平均绝对误差和均方根误差，用来衡量分类器预测值和实际结果的差异，越小越好。</p>
-<p>3、Relative absolute error 和 Root relative squared error<br>相对绝对误差和相对均方根误差，有时绝对误差不能体现误差的真实大小，而相对误差通过体现误差占真值的比重来反映误差大小。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;1.weka分类/回归模型构建与评价&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： &lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;数据准备&lt;/s
-    
-    </summary>
-    
-      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习weka（一）</title>
-    <link href="http://yoursite.com/2016/09/29/weka1/"/>
-    <id>http://yoursite.com/2016/09/29/weka1/</id>
-    <published>2016-09-29T12:39:32.000Z</published>
-    <updated>2016-11-02T17:23:59.960Z</updated>
-    
-    <content type="html"><![CDATA[<p>###机器学习weka（一）<br><a id="more"></a></p>
-<p>##1.Instances</p>
-<p>Instances对象实例化后，就存储了所有数据，同时也附带了很多数据属性，简单来说，你可以认为Instances就像一个电子表格，存储了你所加载的数据。 </p>
-<p>Instances实例化有很多方式，在这里我介绍三种方式：<br>1.通过文件加载</p>
-<pre><code>Instances(java.io.Reader reader) 
-Reads an ARFF file from a reader, and assigns a weight of one to each instance.
-
-Instances(java.io.Reader reader, int capacity) 
-Deprecated. instead of using this method in conjunction with the readInstance(Reader) method, one should use the ArffLoader or DataSource class instead.
-
-Instances data = new Instances( new BufferedReader(new FileReader(&quot;/Path/data.arff&quot;)));
-</code></pre><p>2.使用DataSource从文件中加载数据 </p>
-<pre><code>DataSource source = new DataSource(&quot;/some/where/data.arff&quot;);
-Instances data = source.getDataSet();
-</code></pre><p>3.从数据库实例化Instances对象</p>
-<pre><code>InstanceQuery query= new InstanceQuery();
-query.setDebug(true);
-query.setUsername(&quot;C##TEST&quot;);
-query.setPassword(&quot;test&quot;);
-query.setDatabaseURL(&quot;jdbc:oracle:thin:@127.0.0.1:1521:ORCL&quot;);
-String sql=&quot;SELECT * FROM (SELECT MDI_READING , MDI_TS from M_FS_DB_INTERVAL where  CST_ID= 5695 ) where rownum &lt; 10000&quot;;
-query.setQuery(sql);
-Instances train=query.retrieveInstances();
-</code></pre><p>4.自己构造一个instances</p>
-<pre><code>Creates an empty set of instances. Uses the given attribute information. Sets the capacity of the set of instances to 0 if its negative. Given attribute information must not be changed after this constructor has been used.Parameters:name the name of the relationattInfo the attribute informationcapacity the capacity of the setThrows:IllegalArgumentException - if attribute names are not unique
-
-Instances(java.lang.String name, java.util.ArrayList&lt;Attribute&gt; attInfo, int capacity) 
-Creates an empty set of instances.
-</code></pre><p>根据构造方法我们需要创建一个attInfo对象。</p>
-<pre><code>ArrayList&lt;Attribute&gt; atts = new ArrayList&lt;Attribute&gt;();
-Attribute attribute1 = new Attribute(&quot;ID&quot;);
-Attribute attribute2 = new Attribute(&quot;District&quot;);
-Attribute attribute3 = new Attribute(&quot;CountryCode&quot;);
-Attribute attribute4 = new Attribute(&quot;Population&quot;);
-atts.add(attribute1);
-atts.add(attribute2);
-atts.add(attribute3);
-atts.add(attribute4);
-</code></pre><p>构建instances对象</p>
-<pre><code>Instances df = new Instances(&quot;Data&quot;, atts, 0);
-</code></pre><p>构建instance对象</p>
-<pre><code>Create empty instance with three attribute values 
-Instance inst = new DenseInstance(3); 
-// Set instance&apos;s values for the attributes &quot;length&quot;, &quot;weight&quot;, and &quot;position&quot;
-inst.setValue(length, 5.3); 
-inst.setValue(weight, 300); 
-inst.setValue(position, &quot;first&quot;); 
-// Set instance&apos;s dataset to be the dataset &quot;race&quot; 
-inst.setDataset(instances); 
-</code></pre><p>instances对象添加instance值</p>
-<pre><code>instances.add(inst);
-</code></pre><p>##2.Attribute</p>
-<p>1.介绍</p>
-<p>attribute指的是Weka中数据的属性，一般就是表明数据集信息，数据每一列的性质等。之前讲过的Weka数据格式ARFF其实头信息包含的就是数据的Attribute信息。之前讲的Weka的数据存储方式Instances也有Attribute属性。<br>Attribute属性主要分以下几类:</p>
-<pre><code>numeric: This type of attribute represents a floating-point number. 
-         就是代表连续的，浮点数变量，如气温。
-nominal: This type of attribute represents a fixed set of nominal values. 
-         指的是离散的，刻意被划分为几类的变量，如户口类型。
-string: This type of attribute represents a dynamically expanding set of nominal values. Usually used in text classification. 
-         指的该列内容是文本，一般用于文本挖掘。
-date: This type of attribute represents a date, internally represented as floating-point number storing the milliseconds since January 1, 1970, 00:00:00 GMT. The string representation of the date must be ISO-8601 compliant, the default is yyyy-MM-dd&apos;T&apos;HH:mm:ss. 
-         指的该列数据代表日期，要按照规范格式写。
-relational: This type of attribute can contain other attributes and is, e.g., used for representing Multi-Instance data. (Multi-Instance data consists of a nominal attribute containing the bag-id, then a relational attribute with all the attributes of the bag, and finally the class attribute.) 
-    用来实现其他类型的数据。
-</code></pre><p>2.attribute的创建</p>
-<pre><code>// Create numeric attributes &quot;length&quot; and &quot;weight&quot; 
-Attribute length = new Attribute(&quot;length&quot;); 
-Attribute weight = new Attribute(&quot;weight&quot;); 
-// Create list to hold nominal values &quot;first&quot;, &quot;second&quot;, &quot;third&quot; 
-List my_nominal_values = new ArrayList(3); 
-my_nominal_values.add(&quot;first&quot;); 
-my_nominal_values.add(&quot;second&quot;); 
-my_nominal_values.add(&quot;third&quot;); 
-// Create nominal attribute &quot;position&quot; 
-Attribute position = new Attribute(&quot;position&quot;, my_nominal_values);
-</code></pre><p>##3.Filter（数据预处理）</p>
-<p>1.什么是数据预处理？</p>
-<p>加载完毕数据集后，还是不能直接进行数据挖掘模型的训练和学习，必须要进行数据预处理，数据预处理一般指的是以下四个方面：数据清理，数据集成，数据变换，数据归约等。</p>
-<ul>
-<li><p>①数据清理<br>数据清理例程通过填写缺失的值、光滑噪声数据、识别或删除离群点并解决不一致性来“清理”数据。主要是达到如下目标：格式标准化，异常数据清除，错误纠正，重复数据的清除。 </p>
-</li>
-<li><p>②数据集成<br>数据集成例程将多个数据源中的数据结合起来并统一存储，建立数据仓库的过程实际上就是数据集成。 </p>
-</li>
-<li><p>③数据变换<br>通过平滑聚集，数据概化，规范化等方式将数据转换成适用于数据挖掘的形式。 </p>
-</li>
-<li><p>④数据归约<br>数据挖掘时往往数据量非常大，在少量数据上进行挖掘分析需要很长的时间，数据归约技术可以用来得到数据集的归约表示，它小得多，但仍然接近于保持原数据的完整性，并结果与归约前结果相同或几乎相同。<br>这些预处理都可以使用Weka的Filter来实现。Weka的Filter作用是将一个Instances输入后，通过特定的数据清洗过程，将清洗好的Instances输出，也就是说，Filter处理的维度是在Instances层面上进行的。你也可以通过Filter的组合来实现复杂的数据处理。</p>
-</li>
-</ul>
-<p>Filter提供的功能<br>FIlter功能还是比较强大的，但是Filter分为非监督学习和监督学习两种过滤器，分别属于weka.filters.unsupervised.attribute和weka.filters.unsupervised.attribute，至于监督学习和非监督学习，简单理解就是看输入数据是否有标签（label）。输入数据有标签，则为有监督学习，没标签则为无监督学习。这两种方式下的过滤器是不一样的，使用时一定要注意。<br>非监督学习包下的方法比较多，先讲解一下&gt; weka.filters.unsupervised.attribute主要方法的含义： </p>
-<blockquote>
-<p>1.Add<br>为数据库添加一个新的属性，新的属性将会包含所有缺失值。</p>
-<p>2.AddExpression<br>新增一个属性，该属性由现有属性通过设定的表达式计算得出。支持+, -, *, /, ^, log, abs, cos, exp, sqrt, floor, ceil, rint, tan, sin。现有属性由a+索引值构成。 </p>
-<p>3.AddNoise<br>只对名义属性有效，依照一定比例修改值。 </p>
-<p>4.Center<br>将数值化属性的平均化为0。 </p>
-<p>5.ChangeDateFormat<br>修改数据格式 </p>
-<p>6.Discretize<br>简单划分的离散化处理。参数： </p>
-<p>7.MathExpression<br>功能和AddExpression类似，不过支持的运算更多，特别是MAX和MIN的支持特别有用。所有支持运算符如下：+, -, *, /, pow, log,abs, cos, exp, sqrt, tan, sin, ceil, floor, rint, (, ),A,MEAN, MAX, MIN, SD, COUNT, SUM, SUMSQUARED, ifelse </p>
-<p>8.Reorder<br>重新排列属性，输入2-last，1可以让第一项排到最后，如果输入1,3,5的话…其他项就没有了 </p>
-<p>9.Standardize<br>这个和Center功能大致相同，多了一个标准化单位变异数 </p>
-<p>10.StringToNominal<br>将String型转化为Nominal型</p>
-</blockquote>
-<p>然后再讲一下weka.filters.unsupervised.instance包下的主要方法和含义： </p>
-<ul>
-<li>1.NonSparseToSparse 将所有输入转为稀疏格式 </li>
-<li>2.Normalize 规范化整个实例集 </li>
-<li>3.RemoveFolds 交叉验证，不支持分层，如果需要的话使用监督学习中的方法 </li>
-<li>4.RemoveRange  移除制定范围的实例，化为NaN </li>
-<li>5.Resample  随机抽样，从现有样本产生新的小样本 </li>
-<li>6.SubsetByExpression 根据规则进行过滤，支持逻辑运算，向上取值，取绝对值等等</li>
-</ul>
-<p>监督学习下虽然方法比较少，但是思路有所不同，主要是在有标签的情况下，很多方法诸如抽样就必须考虑不同数据分类的比例</p>
-<pre><code>//假设已经有一个数据集tempData
-Normalize normalize = new Normalize();
-String[] normalOptions = new String[]{&quot;-S&quot;,&quot;2.0&quot;,&quot;-T&quot;,&quot;-1.0&quot;};
-normalize.setOptions(normalOptions);
-normalize.setInputFormat(tempData);
-newData = Filter.useFilter(tempData,normalize);
-</code></pre><p>2.采样</p>
-<p>数据预处理中，有一个原理很简单但是非常重要的部分：采样。良好的采样可以让数据集变得平衡，会大大的提高预测和分类的效果。<br>采样是很复杂的一个领域，背后涉及到数据的分布/数据的性质等很多内容。常见的采样有： </p>
-<ul>
-<li>Simple Random Sampling(简单随机采样)， </li>
-<li>OfflineSampling(离线等可能K采样)， </li>
-<li>Online Sampling(在线等可能K采样)， </li>
-<li>Ratio-based Sampling(等比例随机采样)， </li>
-<li>Acceptance-RejectionSampling(接受-拒绝采样)， </li>
-<li>Importance Sampling(重要性采样)， </li>
-<li>MCMC(MarkovChain Monte Carlo 马尔科夫蒙特卡罗采样算法)。</li>
-</ul>
-<p>Filter支持多种采样方式，其中有监督的采样比较复杂，因此主要讲解有监督学习采样方法。Filter中的Resample采样就是简单的有放回抽样。</p>
-<pre><code>Resample
-
-  Open Declaration   weka.filters.supervised.instance.Resample
-
-
-Produces a random subsample of a dataset using either sampling with replacement or without replacement.
- The original dataset must fit entirely in memory. The number of instances in the generated dataset may be specified. The dataset must have a nominal class attribute. If not, use the unsupervised version. The filter can be made to maintain the class distribution in the subsample, or to bias the class distribution toward a uniform distribution. When used in batch mode (i.e. in the FilteredClassifier), subsequent batches are NOT resampled. 
-
- Valid options are: 
-
-
- -S &lt;num&gt;
-  Specify the random number seed (default 1)
-  指定随机数种子，随机数种子相同，则采样结果相同。
-
- -Z &lt;num&gt;
-  The size of the output dataset, as a percentage of
-  the input dataset (default 100)
-  指定采样数据占整个数据的比例。
-
- -B &lt;num&gt;
-  Bias factor towards uniform class distribution.
-  0 = distribution in input data -- 1 = uniform distribution.
-  (default 0)
- 是否按照原来数据类别的分布分层抽样
-
- -no-replacement
-  Disables replacement of instances
-  (default: with replacement)
-
- -V
-  Inverts the selection - only available with &apos;-no-replacement&apos;.
-
-Version:$Revision: 11310 $Author:Len Trigg (len@reeltwo.com)FracPete (fracpete at waikato dot ac dot nz)Eibe Frank
-</code></pre><p>使用Resample进行采样是比较简单的，下面是一个例子：</p>
-<pre><code>public static Instances BoostrapSample(Instances data) {
-        String[] options = {&quot;-S&quot;,1};
-        Resample convert = new Resample();
-        try {
-            convert.setOptions(options);
-            convert.setInputFormat(data);
-            data = Filter.useFilter(data, convert);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-</code></pre><p>SMOTE采样<br>随机采样比较简单，其实Weka还支持一种附加的采样方法，在Weka3.6版本以下，这个功能嵌入在Weka包里，Weka3.7版本开始，这个功能需要额外的第三方包的支持，这种采样就是SMOTE采样。<br>SMOTE算法的思想是合成新的少数类样本，合成的策略是对每个少数类样本a，从它的最近邻中随机选一个样本b，然后在a、b之间的连线上随机选一点作为新合成的少数类样本。 这是一种过采样方法，通过制造更多模拟的少数类样本来实现各个样本之间的平衡。</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;nz.ac.waikato.cms.weka&lt;/groupId&gt;
-    &lt;artifactId&gt;SMOTE&lt;/artifactId&gt;
-    &lt;version&gt;1.0.3&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>SMOTE采样实现代码如下：</p>
-<pre><code>public static Instances SMOTESample(Instances data,int normalElemFlag) {
-        SMOTE convert = new SMOTE();
-        int seed = (int) (Math.random() * 10);
-        String[] options = {&quot;-S&quot;, String.valueOf(seed), &quot;-P&quot;, &quot;100.0&quot;, &quot;-K&quot;, &quot;5&quot;};
-        Instances SmoteInstances = null;
-        try {
-            convert.setOptions(options);
-            convert.setInputFormat(data);
-            SmoteInstances = Filter.useFilter(data, convert);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return SmoteInstances;
-    }
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;###机器学习weka（一）&lt;br&gt;
-    
-    </summary>
-    
-      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Object类有哪些方法</title>
-    <link href="http://yoursite.com/2016/09/25/Object%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95/"/>
-    <id>http://yoursite.com/2016/09/25/Object类有哪些方法/</id>
-    <published>2016-09-25T15:52:26.000Z</published>
-    <updated>2016-11-02T17:52:23.519Z</updated>
-    
-    <content type="html"><![CDATA[<p>ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。</p>
-<pre><code>clone();
-equals();
-finalize();
-getClass();
-notify(),notifyAll();
-hashCode();
-toString();
-wait();
-</code></pre><p>摘要如下：</p>
-<pre><code>protected  Object    clone() //创建并返回此对象的一个副本。
-boolean    equals(Object obj) //指示某个其他对象是否与此对象“相等”。
-protected  void    finalize() //当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。
-Class&lt;? extends Object&gt;    getClass() //返回一个对象的运行时类。
-int    hashCode() //返回该对象的哈希码值。
-void    notify() //唤醒在此对象监视器上等待的单个线程。
-void    notifyAll() //唤醒在此对象监视器上等待的所有线程。
-String    toString()  //返回该对象的字符串表示。
-void    wait() //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法。
-void    wait(long timeout) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量。
-void    wait(long timeout, int nanos) //导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ps：上周面试中科院，被问到object类有哪些方法。当时一脸懵逼没有反应过来，做以下记录。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;clone();
-equals();
-finalize();
-getClass();
-notify(),notifyAll();
-hashCode()
-    
-    </summary>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
   </entry>
   
