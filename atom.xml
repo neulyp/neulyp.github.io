@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-21T04:34:44.654Z</updated>
+  <updated>2016-11-21T05:27:37.436Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>算法总结1-插入排序</title>
+    <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
+    <id>http://yoursite.com/2016/11/21/算法总结之插入排序/</id>
+    <published>2016-11-21T05:20:54.000Z</published>
+    <updated>2016-11-21T05:27:37.436Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>直接插入排序(Insertion Sort)的基本思想是：每次将一个待排序的记录，按其关键字大小插入到前面已经排好序的子序列中的适当位置，直到全部记录插入完成为止。</p>
+<p>设数组为a[0…n-1]。</p>
+<ol>
+<li><p>初始时，a[0]自成1个有序区，无序区为a[1..n-1]。令i=1</p>
+</li>
+<li><p>将a[i]并入当前的有序区a[0…i-1]中形成a[0…i]的有序区间。</p>
+</li>
+<li><p>i++并重复第二步直到i==n-1。排序完成。</p>
+</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//插入排序</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(T[] a)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;a.length;i++)&#123;</div><div class="line">			T tmp=a[i];</div><div class="line">			<span class="keyword">for</span>(j=i;j&gt;<span class="number">0</span>&amp;&amp;tmp.compareTo(a[j-<span class="number">1</span>])&lt;<span class="number">0</span>;j--)&#123;</div><div class="line">				a[j]=a[j-<span class="number">1</span>];</div><div class="line">			&#125;</div><div class="line">			a[j]=tmp;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;思想&quot;&gt;&lt;a href=&quot;#思想&quot; class=&quot;headerlink&quot; title=&quot;思想&quot;&gt;&lt;/a&gt;思想&lt;/h3&gt;&lt;p&gt;直接插入排序(Insertion Sort)的基本思想是：每次将一个待排序的记录，按其关键字大小插入到前面已经排好序的子序列中的适当位置，直
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>算法总结4-快速排序</title>
@@ -2363,60 +2394,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习weka（三）</title>
-    <link href="http://yoursite.com/2016/09/29/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0weka%EF%BC%88%E4%B8%89%EF%BC%89/"/>
-    <id>http://yoursite.com/2016/09/29/机器学习weka（三）/</id>
-    <published>2016-09-29T14:12:39.000Z</published>
-    <updated>2016-11-02T17:24:27.425Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>模型序列化/持久化存储和加载</strong></p>
-<p>有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？<br>其实既然模型也是一个Java对象，那我就按照JAVA的序列化和反序列化方法保存模型对象即可。</p>
-<p>以J48为例，进行序列化和存取</p>
-<p>序列化：</p>
-<pre><code>public static void persistModel(J48 model, String ModelPath) {
-        ObjectOutputStream oos = null;
-        try {
-            oos = new ObjectOutputStream(
-            new FileOutputStream(ModelPath));
-            oos.writeObject(model);
-            oos.flush();
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-</code></pre><p>重新加载：</p>
-<pre><code>public static J48 reloadPersistModel(String ModelPath) {
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(
-            new FileInputStream(new File(ModelPath)));
-            J48 model = (J48) ois.readObject();
-            return model;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;模型序列化/持久化存储和加载&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;有很多时候，你在构建了一个模型并完成调优后，你很可能会想把这个模型存入到磁盘中，免得下次再重新训练。尤其是神经网络、SVM等模型训练时间非常长，重新训练非常浪费时间。那么怎么持久化模型呢？&lt;br&gt;
-    
-    </summary>
-    
-      <category term="weka" scheme="http://yoursite.com/categories/weka/"/>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-      <category term="weka" scheme="http://yoursite.com/tags/weka/"/>
     
   </entry>
   
