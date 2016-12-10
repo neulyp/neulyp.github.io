@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-10T15:55:37.910Z</updated>
+  <updated>2016-12-10T16:06:22.572Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/12/10/javaee7/"/>
     <id>http://yoursite.com/2016/12/10/javaee7/</id>
     <published>2016-12-10T08:47:25.000Z</published>
-    <updated>2016-12-10T15:55:37.910Z</updated>
+    <updated>2016-12-10T16:06:22.572Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>
 <p>##分析要求##</p>
@@ -429,7 +429,7 @@ forward()
     <link href="http://yoursite.com/2016/12/06/hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%A6%E8%A7%A3/"/>
     <id>http://yoursite.com/2016/12/06/hadoop分布式文件系统详解/</id>
     <published>2016-12-06T13:11:33.000Z</published>
-    <updated>2016-12-07T14:20:48.380Z</updated>
+    <updated>2016-12-10T16:08:09.342Z</updated>
     
     <content type="html"><![CDATA[<p>###1.大数据概念 ###</p>
 <blockquote>
@@ -563,7 +563,7 @@ forward()
     <link href="http://yoursite.com/2016/11/24/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/"/>
     <id>http://yoursite.com/2016/11/24/哈夫曼编码/</id>
     <published>2016-11-24T12:13:15.226Z</published>
-    <updated>2016-11-24T12:12:08.550Z</updated>
+    <updated>2016-12-10T16:12:15.407Z</updated>
     
     <content type="html"><![CDATA[<h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>前几章的例子：dijkstra，prim，kruskal算法等</p>
 <p>1.哈夫曼编码</p>
@@ -583,6 +583,8 @@ forward()
     
     </summary>
     
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
@@ -593,7 +595,7 @@ forward()
     <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
     <id>http://yoursite.com/2016/11/21/算法总结之希尔排序/</id>
     <published>2016-11-21T05:50:31.000Z</published>
-    <updated>2016-11-21T06:03:49.803Z</updated>
+    <updated>2016-12-10T16:14:27.086Z</updated>
     
     <content type="html"><![CDATA[<p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6668714" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6668714</a></p>
 <h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>该方法的基本思想是：先将整个待排元素序列分割成若干个子序列（由相隔某个“增量”的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序。因为直接插入排序在元素基本有序的情况下（接近最好情况），效率是很高的，因此希尔排序在时间效率上比前两种方法有较大提高</p>
@@ -606,6 +608,8 @@ forward()
     
     </summary>
     
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
@@ -616,7 +620,7 @@ forward()
     <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
     <id>http://yoursite.com/2016/11/21/算法总结之插入排序/</id>
     <published>2016-11-21T05:20:54.000Z</published>
-    <updated>2016-11-21T05:27:37.436Z</updated>
+    <updated>2016-12-10T16:14:10.996Z</updated>
     
     <content type="html"><![CDATA[<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>直接插入排序(Insertion Sort)的基本思想是：每次将一个待排序的记录，按其关键字大小插入到前面已经排好序的子序列中的适当位置，直到全部记录插入完成为止。</p>
 <p>设数组为a[0…n-1]。</p>
@@ -637,6 +641,8 @@ forward()
     
     </summary>
     
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
@@ -647,7 +653,7 @@ forward()
     <link href="http://yoursite.com/2016/11/21/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
     <id>http://yoursite.com/2016/11/21/算法总结之快速排序/</id>
     <published>2016-11-21T04:24:37.000Z</published>
-    <updated>2016-11-21T04:34:44.654Z</updated>
+    <updated>2016-12-10T16:14:19.077Z</updated>
     
     <content type="html"><![CDATA[<p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6684558</a></p>
 <h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</p>
@@ -671,6 +677,8 @@ forward()
     
     </summary>
     
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
@@ -681,7 +689,7 @@ forward()
     <link href="http://yoursite.com/2016/11/20/datastructs/"/>
     <id>http://yoursite.com/2016/11/20/datastructs/</id>
     <published>2016-11-20T05:10:58.000Z</published>
-    <updated>2016-11-20T05:33:55.914Z</updated>
+    <updated>2016-12-10T16:07:40.716Z</updated>
     
     <content type="html"><![CDATA[<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>1.数组实现</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> default_capacity=<span class="number">16</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> T[] items;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyArrayList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		ensureCapacity(default_capacity);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span></span>&#123;</div><div class="line">		ensureCapacity(size());</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> items[idx];</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		T old =items[idx];</div><div class="line">		items[idx]=newVal;</div><div class="line">		<span class="keyword">return</span> old;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(items.length==size())&#123;</div><div class="line">			ensureCapacity(size()*<span class="number">2</span>+<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=size;i&gt;idx;i--)&#123;</div><div class="line">			items[i]=items[i-<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		items[idx]=x;</div><div class="line">		size++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span> <span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		T removedItem=items[idx];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=idx;i&lt;size()-<span class="number">1</span>;i++)&#123;</div><div class="line">			items[i]=items[i+<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		size--;</div><div class="line">		<span class="keyword">return</span> removedItem;		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(newCapacity&lt;size) <span class="keyword">return</span>;</div><div class="line">		T[] old=items;</div><div class="line">		items= (T[]) <span class="keyword">new</span> Object[newCapacity];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size();i++)&#123;</div><div class="line">			items[i]=old[i];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ArrayListIterator();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> current=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> current&lt;size();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(!hasNext())</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			<span class="keyword">return</span> items[current++];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			MyArrayList.<span class="keyword">this</span>.remove(--current);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -699,6 +707,8 @@ forward()
     
     </summary>
     
+      <category term="datastructure" scheme="http://yoursite.com/categories/datastructure/"/>
+    
     
       <category term="datastructure" scheme="http://yoursite.com/tags/datastructure/"/>
     
@@ -709,7 +719,7 @@ forward()
     <link href="http://yoursite.com/2016/11/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm%E5%8D%81-%E6%97%A9%E6%9C%9F%EF%BC%88%E7%BC%96%E8%AF%91%E6%9C%9F%EF%BC%89%E4%BC%98%E5%8C%96/"/>
     <id>http://yoursite.com/2016/11/16/深入理解jvm十-早期（编译期）优化/</id>
     <published>2016-11-16T05:37:45.000Z</published>
-    <updated>2016-11-16T07:06:49.762Z</updated>
+    <updated>2016-12-10T16:13:51.791Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
 <li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
@@ -743,6 +753,8 @@ forward()
     
     </summary>
     
+      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
+    
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
@@ -753,7 +765,7 @@ forward()
     <link href="http://yoursite.com/2016/11/12/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90%E5%A4%8D%E4%B9%A0note/"/>
     <id>http://yoursite.com/2016/11/12/面向对象设计与分析复习note/</id>
     <published>2016-11-12T10:28:24.000Z</published>
-    <updated>2016-11-14T08:32:56.553Z</updated>
+    <updated>2016-12-10T16:12:37.420Z</updated>
     
     <content type="html"><![CDATA[<h3 id="概念1"><a href="#概念1" class="headerlink" title="概念1"></a>概念1</h3><p>面向对象分析：<br>在<strong>问题域内</strong>发现和描述<strong>对象</strong>。</p>
 <p>面向对象设计：<br>强调的是定义<strong>软件对象</strong>以他们是如何<strong>协作</strong>以实现<strong>需求</strong>。</p>
@@ -889,6 +901,8 @@ forward()
     
     </summary>
     
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
     
   </entry>
   
@@ -897,7 +911,7 @@ forward()
     <link href="http://yoursite.com/2016/11/10/effective-java-1/"/>
     <id>http://yoursite.com/2016/11/10/effective-java-1/</id>
     <published>2016-11-10T01:51:23.000Z</published>
-    <updated>2016-11-12T08:45:02.028Z</updated>
+    <updated>2016-12-10T16:08:00.367Z</updated>
     
     <content type="html"><![CDATA[<h3 id="第0-0条：java-unit"><a href="#第0-0条：java-unit" class="headerlink" title="第0.0条：java unit"></a>第0.0条：java unit</h3><p>javac hello.java<br>java hello</p>
 <p>A unit test tests the methods in<br>a single class</p>
@@ -2259,7 +2273,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
     <link href="http://yoursite.com/2016/10/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B8%83-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
     <id>http://yoursite.com/2016/10/24/深入理解JVM七-虚拟机类加载机制/</id>
     <published>2016-10-24T10:59:48.000Z</published>
-    <updated>2016-10-31T11:38:29.004Z</updated>
+    <updated>2016-12-10T16:13:35.638Z</updated>
     
     <content type="html"><![CDATA[<p>类从被加载到卸载，整个生命周期如下：</p>
 <ul>
