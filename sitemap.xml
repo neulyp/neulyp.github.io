@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/archives/index.html</loc>
+    
+    <lastmod>2016-12-15T05:35:04.709Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/categories/index.html</loc>
+    
+    <lastmod>2016-12-15T05:33:21.554Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/tags.html</loc>
+    
+    <lastmod>2016-12-15T05:31:49.219Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/12/13/hive/</loc>
     
     <lastmod>2016-12-15T05:24:43.748Z</lastmod>
@@ -383,20 +404,6 @@
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2016-10-31T08:20:44.318Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
-    
-    <lastmod>2016-10-31T08:16:49.536Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/index.html</loc>
-    
-    <lastmod>2016-10-31T08:15:20.028Z</lastmod>
     
   </url>
   
