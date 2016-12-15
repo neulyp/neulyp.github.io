@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-14T15:41:55.543Z</updated>
+  <updated>2016-12-15T05:21:17.459Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,17 +20,17 @@
     <link href="http://yoursite.com/2016/12/13/hive/"/>
     <id>http://yoursite.com/2016/12/13/hive/</id>
     <published>2016-12-13T07:44:16.000Z</published>
-    <updated>2016-12-14T15:41:55.543Z</updated>
+    <updated>2016-12-15T05:21:17.459Z</updated>
     
-    <content type="html"><![CDATA[<p>####1.hive介绍####<br>hive是基于hadoop的一个数据仓库工具。</p>
+    <content type="html"><![CDATA[<h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
 <p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
 <p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
 <p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
 <p>特点：</p>
 <ul>
-<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几<br>乎没有门槛。</li>
-<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转<br>换，大大减少开发人员学习和应用MapReduce<br>成本。</li>
-<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外<br>Hive还支持用户自定义函数。</li>
+<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几乎没有门槛。</li>
+<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转换，大大减少开发人员学习和应用MapReduce成本。</li>
+<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外Hive还支持用户自定义函数。</li>
 <li>良好的容错性：<br>当Hive节点出现问题，SQL仍可继续无中断执行</li>
 </ul>
 <p>hive数据类型：</p>
@@ -50,7 +50,7 @@
 <li>执行延迟：由于查询数据的时候没有索引，所以需要扫描整个表，因此延迟较高。另一个导致hive执行延迟高的银锁是mapreduce框架。</li>
 <li>可扩展性，hive建立在hadoop上，扩展性和hadoop一致</li>
 </ol>
-<p>####2.centos7，hive安装####<br>Hive原则上可以安装在集群上的任何一台机器上面.</p>
+<h4 id="2-centos7，hive安装"><a href="#2-centos7，hive安装" class="headerlink" title="2.centos7，hive安装"></a>2.centos7，hive安装</h4><p>Hive原则上可以安装在集群上的任何一台机器上面.</p>
 <ol>
 <li>准备工作-创建配置数据存储位置（非必须？）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoopfs-mkdir/tmp</div><div class="line">hadoopfs-mkdir/user/hive/warehouse</div><div class="line">hadoopfs-chmodg+w/tmp</div><div class="line">hadoopfs-chmodg+w/user/hive/warehouse</div></pre></td></tr></table></figure>
 </li>
@@ -85,8 +85,7 @@
 <li>初始化数据库<br> <code>schematool -initSchema -dbType mysql</code></li>
 <li>启动hive <code>bin/hive</code></li>
 </ol>
-<p>####3.hive架构####</p>
-<p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
+<h4 id="3-hive架构"><a href="#3-hive架构" class="headerlink" title="3.hive架构"></a>3.hive架构</h4><p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
 <p>hive的架构可以分为四个部分：</p>
 <ul>
 <li>用户接口</li>
@@ -137,15 +136,14 @@
 <li>逻辑策略生成器</li>
 <li>优化器</li>
 </ul>
-<p>####4.hive文件格式####</p>
-<p>四种：textfile sequencefile rcfile 自定义</p>
+<h4 id="4-hive文件格式"><a href="#4-hive文件格式" class="headerlink" title="4.hive文件格式"></a>4.hive文件格式</h4><p>四种：textfile sequencefile rcfile 自定义</p>
 <p>1.textfile格式</p>
 <p>textfile为默认个事，数据不做压缩，磁盘开销大，数据解析开销大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create table text(str STRING)</div><div class="line">STORED AS TEXTFILE;</div><div class="line">load data local &apos;/data/test.txt&apos; into table text</div></pre></td></tr></table></figure></p>
 <p>2.sequencefile格式</p>
 <p>sequencefile格式是hadoop api提供的二进制文件支持。其具有使用方便，可分割，可压缩的特点。一般建议使用block压缩。</p>
-<p>3.RCfile格式<br>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
-<p>####5.hive操作####</p>
-<ol>
+<p>3.RCfile格式</p>
+<p>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
+<h4 id="5-hive操作"><a href="#5-hive操作" class="headerlink" title="5.hive操作"></a>5.hive操作</h4><ol>
 <li>表操作：感觉类似sql。不做介绍了</li>
 <li>视图操作</li>
 <li>分区操作</li>
@@ -169,24 +167,23 @@
 <li>hive函数与自定义函数</li>
 <li>hive权限控制</li>
 </ol>
-<p>####5.hive优劣分析####</p>
-<p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
+<h4 id="5-hive优劣分析"><a href="#5-hive优劣分析" class="headerlink" title="5.hive优劣分析"></a>5.hive优劣分析</h4><p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
 <ul>
-<li>存储灵活性：<br>Hive的元数据存储在<br>RDBMS中，所有其它数<br>据都基于HDFS存储。<br>Hive没有专门的数据存储<br>格式，也没有为数据建立<br>索引。 Hive默认支持多种<br>文件格式，也支持用户自<br>定义格式。基于Hive的分<br>析过程支持从不同数据源<br>装载数据</li>
-<li>执行效率：Hive基于MapReduce，<br>因此Sort和Groupby等都<br>依赖MapReduce。<br>MapReduce可以理解为<br>固化了的执行算子。此外<br>Hive对Join算子的支持不<br>够全面。在特定应用场景<br>下，内存拷贝和数据预处<br>理同样可能影响Hive的执<br>行效率</li>
-<li>可扩展性：Hive的数据处理量是PB级<br>的，因此它具备非常好的<br>水平可扩展性，支持集群<br>部署，支持通过简单地增<br>加资源以支持更大的数据<br>量和负载</li>
-<li>可视化：Hive的可视化界面基本属<br>于字符终端，对用户的技<br>术水平要求比较高。提供<br>个性化的可视化展现<br>（GUI），是Hive改进的<br>重要方向。</li>
-<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实现的数据仓库可<br>以部署在普通机器构建的分布式集群之上。</li>
+<li>存储灵活性：<br>Hive的元数据存储在RDBMS中，所有其它数据都基于HDFS存储。Hive没有专门的数据存储格式也没有为数据建立索引。 Hive默认支持多种文件格式，也支持用户自定义格式。基于Hive的分析过程支持从不同数据源<br>装载数据</li>
+<li>执行效率：Hive基于MapReduce，因此Sort和Groupby等都依赖MapReduce。MapReduce可以理解为固化了的执行算子。此外Hive对Join算子的支持不够全面。在特定应用场景下，内存拷贝和数据预处理同样可能影响Hive的执行效率</li>
+<li>可扩展性：Hive的数据处理量是PB级的，因此它具备非常好的水平可扩展性，支持集群部署，支持通过简单地增加资源以支持更大的数据量和负载</li>
+<li>可视化：Hive的可视化界面基本属于字符终端，对用户的技术水平要求比较高。提供个性化的可视化展现<br>（GUI），是Hive改进的重要方向。</li>
+<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实的数据仓库可以部署在普通机器构建的分布式集群之上。</li>
 </ul>
-<p>####5.hive vs hbase####</p>
-<p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口，Hive和<br>HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不支持类SQL<br>语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
-<p>Hive与HBase的整合实现是利用<br>两者对外的API接口互相进行通信<br>的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。<br>在将HBase和Hive集成的过程中<br>注意确保hbase jar包的一致性。<br>Hive集成HBase需要在Hive表和<br>HBase表之间建立映射关系，也<br>就是Hive表的列和列类型与<br>HBase表的列族及列限定词建立<br>关联。每一个在Hive表中的列都<br>存在于HBase中，但反过来在<br>Hive表中则不需要包含所有的<br>HBase中的列</p>
+<h4 id="6-hive-vs-hbase"><a href="#6-hive-vs-hbase" class="headerlink" title="6.hive vs hbase"></a>6.hive vs hbase</h4><p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口Hive和HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不持类SQL语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
+<p>Hive与HBase的整合实现是利用两者对外的API接口互相进行通信的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。在将HBase和Hive集成的过程中注意确保hbase jar包的一致性。</p>
+<p>Hive集成HBase需要在Hive表和HBase表之间建立映射关系，也就是Hive表的列和列类型与HBase表的列族及列限定词建立关联。每一个在Hive表中的列都存在于HBase中，但反过来在Hive表中则不需要包含所有的HBase中的列</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;####1.hive介绍####&lt;br&gt;hive是基于hadoop的一个数据仓库工具。&lt;/p&gt;
-&lt;p&gt;Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的&lt;br&gt;数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数
+      &lt;h4 id=&quot;1-hive介绍&quot;&gt;&lt;a href=&quot;#1-hive介绍&quot; class=&quot;headerlink&quot; title=&quot;1.hive介绍&quot;&gt;&lt;/a&gt;1.hive介绍&lt;/h4&gt;&lt;p&gt;hive是基于hadoop的一个数据仓库工具。&lt;/p&gt;
+&lt;p&gt;Hive由Facebook实现
     
     </summary>
     
