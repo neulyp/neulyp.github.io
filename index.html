@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,411 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/13/hive/" itemprop="url">
+                  hive
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T15:44:16+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####1.hive介绍####<br>hive是基于hadoop的一个数据仓库工具。</p>
+<p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
+<p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
+<p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
+<p>特点：</p>
+<ul>
+<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几<br>乎没有门槛。</li>
+<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转<br>换，大大减少开发人员学习和应用MapReduce<br>成本。</li>
+<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外<br>Hive还支持用户自定义函数。</li>
+<li>良好的容错性：<br>当Hive节点出现问题，SQL仍可继续无中断执行</li>
+</ul>
+<p>hive数据类型：</p>
+<ul>
+<li>基本数据类型</li>
+<li>复杂数据类型</li>
+</ul>
+<p><img src="http://i.imgur.com/T2N79nW.png" alt=""></p>
+<p>hive和关系型数据库对比：<br><img src="http://i.imgur.com/8yl4sPC.png" alt=""><br>针对比较的部分解释：</p>
+<ol>
+<li>查询语言：由于sql被广泛的应用在数据仓库中，专门针对hive的特性设计了类sql的查询语句。HQL。</li>
+<li>数据存储位置：hive建立在hadoop之上，所有hive的数据都存储在hdfs中，而数据库则将数据保存在块设备或者本地文件系统中。</li>
+<li>数据格式：hive中没有专门定义的数据结构，数据格式由用户指定，用户定义数据格式需要指定三个属性：列分割符（通常是空格 ‘\t’ ‘\x001’）行分割符（\n）以及读文件的方法（hive默认有三个文件格式textfile sequencefile rcfile）。hive在加载过程中不会对数据本身进行修改，只是将数据内容复制或者移动到相应的hdfs目录中。</li>
+<li>数据更新：hive是针对数据仓库应用设计的，而数据仓库内容读多写少，因此hive不支持对数据的改写和添加。</li>
+<li>索引：由于不需要对数据进行处理加载的时候，所以不用对数据中的某些key建立索引</li>
+<li>执行： 通过hadoop的mapreduce执行</li>
+<li>执行延迟：由于查询数据的时候没有索引，所以需要扫描整个表，因此延迟较高。另一个导致hive执行延迟高的银锁是mapreduce框架。</li>
+<li>可扩展性，hive建立在hadoop上，扩展性和hadoop一致</li>
+</ol>
+<p>####2.centos7，hive安装####<br>Hive原则上可以安装在集群上的任何一台机器上面.</p>
+<ol>
+<li>准备工作-创建配置数据存储位置（非必须？）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoopfs-mkdir/tmp</div><div class="line">hadoopfs-mkdir/user/hive/warehouse</div><div class="line">hadoopfs-chmodg+w/tmp</div><div class="line">hadoopfs-chmodg+w/user/hive/warehouse</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果进行这一步的话，在hive-site.xml中配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive.metastore.warehouse.dir</div><div class="line">/user/hive/warehouse</div><div class="line">locationofdefaultdatabaseforthewarehouse</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>安装mysql作为元数据存储</p>
+<p> CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。</p>
+<ul>
+<li>下载mysql的repo源<br><code>wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql-community-release-el7-5.noarch.rpm包<br><code>sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql<br><code>sudo yum install mysql-server</code></li>
+<li>重启mysql<br><code>sudo systemctl restart mysqld.service</code></li>
+<li>设置远程登录<br><code>grant all privileges on *.* to root@&quot;%&quot; identified by &quot;password&quot; with grant option;</code><br><code>flush privileges;</code></li>
+<li>为hive设置单独的账户密码登录（我认为可选吧，懒省事直接用root，反正是虚拟机实验）<br><code>create user &#39;hive&#39; identified by &#39;mysql&#39;</code><br><code>grant all privileges on *.* to &#39;hive&#39;@&#39;%&#39; with grant option</code></li>
+</ul>
+</li>
+<li><p>hive下载，针对hadoop2.7.2 hbase1.2.4，选择版本hive2.1.1进行安装。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget &quot;http://mirrors.cnnic.cn/apache/hive/hive-2.0.0/apache-hive-2.0.0-bin.tar.gz&quot;</div><div class="line">tar -xzvf apache-hive-2.0.0-bin.tar.gz</div></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>拷贝mysql驱动文件<br>下载地址：<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">http://dev.mysql.com/downloads/connector/j/</a> ，解压后拷贝其中的mysql-connector-Java-5.1.38-bin.jar到hive的lib文件夹下。</p>
+</li>
+<li><p>配置环境变量</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/profile</div><div class="line">export HIVE_HOME=/usr/hive/apache-hive-2.1.1-bin</div><div class="line">export PATH=$PATH:$HIVE_HOME/bin</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ol>
+<p>hive-site.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</div><div class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://127.0.0.1:3306/hive?createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>JDBC connect string for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Local scratch space for Hive jobs<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/resources<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Temporary local directory for added resources in the remote file system.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.querylog.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Location of Hive run time structured log file<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.logging.operation.log.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/operation_logs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Top level directory where operation logs are stored if logging functionality is enabled<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改hive-en.sh：添加jdk和hadoop根目录路径（可选）</p>
+<ol>
+<li>初始化数据库<br> <code>schematool -initSchema -dbType mysql</code></li>
+<li>启动hive <code>bin/hive</code></li>
+</ol>
+<p>####3.hive架构####</p>
+<p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
+<p>hive的架构可以分为四个部分：</p>
+<ul>
+<li>用户接口</li>
+<li>元数据存储</li>
+<li>解释器、编译器、优化器</li>
+<li>数据存储</li>
+</ul>
+<p>以下分别详细介绍;</p>
+<p>1.hive用户接口</p>
+<p>hive对外提供三种服务模式，命令行模式（CLI）hive的web模式（WUI）、hive的远程服务（client）</p>
+<ul>
+<li><p>hive命令行模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./hive</div><div class="line"> hive --service cli</div></pre></td></tr></table></figure>
+</li>
+<li><p>hive web模式 <code>hive --service hwi</code> 默认端口是9999</p>
+</li>
+<li>hive远程服务 <code>nohup hive --service hiveserver &amp;</code>（默认端口10000）</li>
+</ul>
+<p>2.hive元数据库</p>
+<p>hive将源数据存储在rdbms中，一般常用mysql和derby。hive默认存储元数据信息在derby。我们已经将其更改为mysql。</p>
+<p>理由如下：</p>
+<ul>
+<li>hive源数据保存在内嵌的derby数据库中么只允许一个会话连接，只适合简单的测试。实际生产环境中不合适，</li>
+<li>为了支持多会话，则需要一个独立的元数据库，使用mysql作为元数据库，hive内部对mysql提供了很好的支持。具体配置 参照上面hive安装</li>
+</ul>
+<p>3.hive的数据存储</p>
+<ul>
+<li>hive没有专门的数据格式，也没有为数据建立索引。</li>
+<li>hive所有的数据存储在hdfs中</li>
+<li>hive的数据模型包括（table,external, partition,bucket）</li>
+</ul>
+<p>部分详细介绍：</p>
+<p>table：每一个table在hive中都有一个相应的目录存储数据，例如一个表mytest，他在hdfs中的目录为/user/hive/warehouse/mytest 其中warehouse是在hive-site.xml中<code>hive.metastore.warehouse.dir</code>配置的。所有的table（不包括external table）包含在该目录下</p>
+<p>partition:对应于数据库中partition列的密集索引，在，hive中，表中一个partition对应于表下的一个目录，所有的partition的数据都存在对应的目录中，例如mytest表中优name和no两个partition，</p>
+<ul>
+<li>name=asd,no=4854的hdfs子目录为：<code>/warehouse/mytest/name=asd/no=4854</code></li>
+</ul>
+<p>buckets对指定列计算hash，根据hash切分数据，目的是并行，每一个bucket对应一个文件，将user列分先至32个bucket，首先对user列计算hash，对应：</p>
+<ul>
+<li>hash为0的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00000</code></li>
+<li>hash为20的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00020</code></li>
+</ul>
+<p><img src="http://i.imgur.com/f3ne7LT.png" alt=""></p>
+<p>4.hive解释器</p>
+<ul>
+<li>解析器</li>
+<li>语义分析器</li>
+<li>逻辑策略生成器</li>
+<li>优化器</li>
+</ul>
+<p>####4.hive文件格式####</p>
+<p>四种：textfile sequencefile rcfile 自定义</p>
+<p>1.textfile格式</p>
+<p>textfile为默认个事，数据不做压缩，磁盘开销大，数据解析开销大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create table text(str STRING)</div><div class="line">STORED AS TEXTFILE;</div><div class="line">load data local &apos;/data/test.txt&apos; into table text</div></pre></td></tr></table></figure></p>
+<p>2.sequencefile格式</p>
+<p>sequencefile格式是hadoop api提供的二进制文件支持。其具有使用方便，可分割，可压缩的特点。一般建议使用block压缩。</p>
+<p>3.RCfile格式<br>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
+<p>####5.hive操作####</p>
+<ol>
+<li>表操作：感觉类似sql。不做介绍了</li>
+<li>视图操作</li>
+<li>分区操作</li>
+<li>桶操作</li>
+<li>struct类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="keyword">struct</span>&lt;<span class="keyword">name</span>:<span class="keyword">String</span>,age <span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,liu：30<br>2,zhang:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>array类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="built_in">array</span>&lt;<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,1:2:3<br>2,20:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>map类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(<span class="keyword">id</span> <span class="keyword">String</span>,info <span class="keyword">map</span>&lt;<span class="keyword">STRING</span>,<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1    job:80,team:60<br>2    job:30,team:60,person:100<br>执行<br><code>load data local inpath &#39;/test&#39; into table test</code></p>
+<ol>
+<li>join操作</li>
+<li>hive函数与自定义函数</li>
+<li>hive权限控制</li>
+</ol>
+<p>####5.hive优劣分析####</p>
+<p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
+<ul>
+<li>存储灵活性：<br>Hive的元数据存储在<br>RDBMS中，所有其它数<br>据都基于HDFS存储。<br>Hive没有专门的数据存储<br>格式，也没有为数据建立<br>索引。 Hive默认支持多种<br>文件格式，也支持用户自<br>定义格式。基于Hive的分<br>析过程支持从不同数据源<br>装载数据</li>
+<li>执行效率：Hive基于MapReduce，<br>因此Sort和Groupby等都<br>依赖MapReduce。<br>MapReduce可以理解为<br>固化了的执行算子。此外<br>Hive对Join算子的支持不<br>够全面。在特定应用场景<br>下，内存拷贝和数据预处<br>理同样可能影响Hive的执<br>行效率</li>
+<li>可扩展性：Hive的数据处理量是PB级<br>的，因此它具备非常好的<br>水平可扩展性，支持集群<br>部署，支持通过简单地增<br>加资源以支持更大的数据<br>量和负载</li>
+<li>可视化：Hive的可视化界面基本属<br>于字符终端，对用户的技<br>术水平要求比较高。提供<br>个性化的可视化展现<br>（GUI），是Hive改进的<br>重要方向。</li>
+<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实现的数据仓库可<br>以部署在普通机器构建的分布式集群之上。</li>
+</ul>
+<p>####5.hive vs hbase####</p>
+<p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口，Hive和<br>HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不支持类SQL<br>语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
+<p>Hive与HBase的整合实现是利用<br>两者对外的API接口互相进行通信<br>的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。<br>在将HBase和Hive集成的过程中<br>注意确保hbase jar包的一致性。<br>Hive集成HBase需要在Hive表和<br>HBase表之间建立映射关系，也<br>就是Hive表的列和列类型与<br>HBase表的列族及列限定词建立<br>关联。每一个在Hive表中的列都<br>存在于HBase中，但反过来在<br>Hive表中则不需要包含所有的<br>HBase中的列</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/13/java并发编程实战-线程安全性/" itemprop="url">
+                  java并发编程实战-线程安全性
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T13:01:13+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>无状态对象是线程安全的。</p>
+<p>###1.线程安全###</p>
+<p>竞态条件：当某个计算的正确性取决于多个线程的交替执行时序时，那么就会发生竞态条件。</p>
+<ul>
+<li>先检查后执行–星巴克见面的例子</li>
+<li>读取修改写入操作–计数器的例子</li>
+</ul>
+<p>怎么解决竞态条件呢？如果一些列符合操作是原子的话，就可以解决。我们可以采用加锁机制或者使用线程安全类来解决。</p>
+<p><code>java.util.concurrrent.atomic</code>包中包含一些原子变量类。</p>
+<p>内置锁：intrinsic lock， 线程在进入同步代码块之前会自动获取锁，并且在退出同步代码块的时候自动释放锁。是一种互斥锁。</p>
+<p>重入：为每一个锁关联一个获取计数器和一个所有者线程。当计数器为0时，这个锁被认为是没有人持有的。当一个线程请求一个未被持有的锁，jvm会记录下锁的持有者，并且将获取计数器置为1.如果同一个线程再次获取该锁。计数器将递增。而当线程退出同步代码块时，计数器会相应的递减。当计数值为0时，这个锁将会被释放。</p>
+<p>###2.对象的共享###</p>
+<p>同步：</p>
+<ul>
+<li>实现原子性或者确定临界区</li>
+<li>内存可见性，希望却摆一个线程修改了对象状态后，其他线程能够看到状态发生的变化。</li>
+</ul>
+<p>失效数据；<br>非原子的64位操作：jvm允许将64位的读操作和写操作分解为两个32位的操作。</p>
+<p>volatile变量：当吧变量声明成volatile类型后，编译期和运行时都会注意到这个变量是共享的，因此不会将该变量上的 操作和其他内存操作一起重排序。volatile变量不会缓存在寄存器或者对其他处理器不可见的地方，因此在读取volatile类型的变量时总会返回最新写入的值。</p>
+<p>发布：发布一个对象的意思是指使对象能够在当前作用于之外的代码中使用。</p>
+<p>溢出：当某个不该发布的对象被发布。</p>
+<p>不变性：不变的对象一定是线程安全的</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/10/javaee7/" itemprop="url">
                   Java EE 7 Tutorial分析
                 </a>
@@ -257,7 +662,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-10T16:47:25+08:00" content="2016-12-10">
               2016-12-10
             </time>
@@ -736,7 +1141,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-06T21:11:33+08:00" content="2016-12-06">
               2016-12-06
             </time>
@@ -906,7 +1311,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-30T12:55:50+08:00" content="2016-11-30">
               2016-11-30
             </time>
@@ -1013,7 +1418,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-24T20:13:15+08:00" content="2016-11-24">
               2016-11-24
             </time>
@@ -1025,7 +1430,7 @@ forward()
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/算法/" itemprop="url" rel="index">
@@ -1133,7 +1538,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-21T13:50:31+08:00" content="2016-11-21">
               2016-11-21
             </time>
@@ -1145,7 +1550,7 @@ forward()
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/算法/" itemprop="url" rel="index">
@@ -1248,7 +1653,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-21T13:20:54+08:00" content="2016-11-21">
               2016-11-21
             </time>
@@ -1260,7 +1665,7 @@ forward()
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/算法/" itemprop="url" rel="index">
@@ -1371,7 +1776,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-21T12:24:37+08:00" content="2016-11-21">
               2016-11-21
             </time>
@@ -1383,7 +1788,7 @@ forward()
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/算法/" itemprop="url" rel="index">
@@ -1497,7 +1902,7 @@ forward()
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-20T13:10:58+08:00" content="2016-11-20">
               2016-11-20
             </time>
@@ -1509,7 +1914,7 @@ forward()
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/datastructure/" itemprop="url" rel="index">
@@ -1554,377 +1959,6 @@ forward()
 <h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><h3 id="散列"><a href="#散列" class="headerlink" title="散列"></a>散列</h3><h3 id="优先队列（堆）"><a href="#优先队列（堆）" class="headerlink" title="优先队列（堆）"></a>优先队列（堆）</h3><p>堆是一棵完全被填满的二叉树。<br>一棵高位h的完全二叉树有2^k到2^（k+1）-1个节点。</p>
 <p>完全二叉树可以用一个数组表示。</p>
 <p>对于数组中i位置上的元素，做儿子在2i，右儿子在2i+1，父亲在[i/2]</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/16/深入理解jvm十-早期（编译期）优化/" itemprop="url">
-                  深入理解jvm十-早期（编译期）优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
-              2016-11-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
-<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
-<li>sun的javac eclipsejdt中的ecj</li>
-</ul>
-</li>
-<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
-<li>hotspot vm 中的 c1 c2编译器</li>
-</ul>
-</li>
-<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
-<li>gun compiler for java</li>
-</ul>
-</li>
-</ul>
-<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
-<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
-<ul>
-<li>解析与填充符号表过程。</li>
-<li>插入式注解处理器的注解处理过程。</li>
-<li>分析与字节码生成过程。</li>
-</ul>
-<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/12/面向对象设计与分析复习note/" itemprop="url">
-                  面向对象设计与分析复习note
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-11-12T18:28:24+08:00" content="2016-11-12">
-              2016-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="概念1"><a href="#概念1" class="headerlink" title="概念1"></a>概念1</h3><p>面向对象分析：<br>在<strong>问题域内</strong>发现和描述<strong>对象</strong>。</p>
-<p>面向对象设计：<br>强调的是定义<strong>软件对象</strong>以他们是如何<strong>协作</strong>以实现<strong>需求</strong>。</p>
-<p>面向对象的优点:</p>
-<ul>
-<li>复用<br>通过继承、关联、封装等手段</li>
-<li>应变<br>弹性应对需求变化</li>
-<li>沟通<br>开发人员、用户、管理人员</li>
-<li>市场<br>应付市场的变化</li>
-<li>士气<br>员工的士气</li>
-</ul>
-<p>系统顺序图(SSD):</p>
-<ul>
-<li>系统顺序图(SSD)是阐述与<strong>所讨论系统</strong>相关的输入和输出事件而快速、简单创建的制品（顺序图）。 </li>
-<li>对于用例的一个特定场景，SSD展示了直接与系统交互的<strong>外部参与者</strong>对<strong>系统</strong>（作为黑盒）发起的<strong>系统事件</strong>以及其（系统事件）<strong>顺序</strong>。</li>
-<li>系统被视为<strong>黑盒</strong>，该图强调的是从参与者到系统的跨越系统边界的事件。</li>
-<li>系统顺序图是操作契约（第11章）和（最重要的）对象设计的输入。</li>
-</ul>
-<h3 id="2-基于用例图、类图、顺序图的分析与设计"><a href="#2-基于用例图、类图、顺序图的分析与设计" class="headerlink" title="2.基于用例图、类图、顺序图的分析与设计"></a>2.基于用例图、类图、顺序图的分析与设计</h3><p><strong>用例图：</strong></p>
-<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物<br>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
-<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance<br>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
-<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。<br>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
-<p>三种关系：</p>
-<ul>
-<li>包含：提取公共交互，提高复用</li>
-<li>扩展：“冻结”基础用例以保持稳定</li>
-<li>泛化：同一业务目的的不同技术实现</li>
-</ul>
-<p>ps：使用包含关系来处理用例之间的关系是首要原则</p>
-<p><strong>顺序图：</strong></p>
-<p>显示一组对象为了实现某种功能，而彼此发送和接收的一串消息，这组对象可能是类、接口、构件、节点和系统的具体的或原型化的实例。<br>强调消息时间顺序</p>
-<p>note:<br>刺形箭头消息表示异步调用，实心箭头消息表示同步调用</p>
-<ul>
-<li>消息的传入：类对象所具有的操作－－责任（行为）</li>
-<li>消息的传出：类对象完成操作所需合作者－－协作</li>
-</ul>
-<p>bce模式</p>
-<p><strong>类图：</strong></p>
-<ul>
-<li>分析类——域模型<ul>
-<li>关键抽象，CRC较验</li>
-<li>类图，关键确定类之间关系</li>
-</ul>
-</li>
-<li>设计类——<ul>
-<li>设计类是系统实施中一个或多个对象的抽象；设计类所对应的对象取决于采用的系统框架、设计模式、实现语言。 </li>
-</ul>
-</li>
-</ul>
-<p>分析类图-域模型<br><img src="http://i.imgur.com/XlKHtHM.png" alt=""></p>
-<p>类之间的关系</p>
-<p><img src="http://i.imgur.com/vZ0NiPF.png" alt=""></p>
-<p>依赖关系表示的是类之间的调用关系，即用一个类去调用另外一个类，被调用的类表现为调用类的局部变量、方法的参数，调用类调用被调用类的静态方法。–&gt;</p>
-<p><strong>依赖vs关联</strong></p>
-<ul>
-<li>从类之间关系的时间角度来分，关联表示类之间的“持久、静态”关系，一般需要“持久化”的，或者说需要保存到数据库中的，是一种重要的业务之间的关系。另外，依赖表示类之间的是一种“短暂、动态”关系，这种关系是不需要保存的。</li>
-<li>从类之间关系的强弱程度来分，关联表示类之间的很强的关系；依赖表示类之间的较弱的关系。</li>
-<li>设计类之间的关系遵循的原则：首先判断是否是一种“关联”关系，若不是再判断是否是“依赖关系”，一般情况下若不是关联，就是依赖关系</li>
-<li>依赖关系（Dependency relationship ）：是类与类之间的连接，依赖总是单向的。</li>
-<li>关联关系（Association relationship）：是一种结构关系，是指一个类的对象与另一个类的对象之间的关系（具有多重性）。关联可以有方向，即导航。一般不作说明的时候，导航是双向的，不需要在线上标出箭头。关联在代码中一般表示为属性（成员变量）</li>
-</ul>
-<h3 id="3-鲁棒性分析"><a href="#3-鲁棒性分析" class="headerlink" title="3.鲁棒性分析"></a>3.鲁棒性分析</h3><p>定义：</p>
-<ul>
-<li>一种方法<ul>
-<li>通过分析用例规约中的事件流，识别出实现用例规定的功能所需的主要对象及其职责，形成以职责模型为主的初步设计。——由Ivar Jacobson提出。</li>
-</ul>
-</li>
-<li>一个过程<ul>
-<li>它引导我们从用例转换为支持用例的模型。</li>
-</ul>
-</li>
-</ul>
-<p>鲁棒图：<br>包含三种元素：边界对象，控制对象，实体对象。</p>
-<p>建模原则：</p>
-<blockquote>
-<p>(1) 参与者只能与边界对象交谈<br>(2) 边界对象只能与控制体和参与者交流<br>(3) 实体对象也只能与控制体交谈<br>(4) 控制体既能与边界对象交谈，也能与控制体交谈，但不能与参与者交谈</p>
-</blockquote>
-<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><p>好的设计：</p>
-<ul>
-<li>容易理解</li>
-<li>容易修改和扩展</li>
-<li>容易复用</li>
-<li>容易实现与应用</li>
-<li>简单、紧凑、经济适用</li>
-</ul>
-<p>坏的设计：</p>
-<ul>
-<li>僵化性（Rigidity）：刚性，难以修改，牵一发而动全身</li>
-<li>脆弱性（Fragility）：易碎，牵一发而肝胆俱裂</li>
-<li>牢固性（Immobility）：无法分解成可移植的组件</li>
-<li>粘滞性（Viscosity），修改设计代价高昂</li>
-<li>不必要的复杂性（Needless Complexity）,预测需求，处理潜在变化代码</li>
-<li>不必要的重复（ Needless Repetition ）</li>
-<li>晦涩性（Opacity）：不透明，很难看清设计者的真实意图</li>
-</ul>
-<p>原则：</p>
-<ul>
-<li>LSP：Liskov替换原则<br>The Liskov Substitution Principle</li>
-<li>OCP：开放-封闭原则<br>The Open-Close Principle</li>
-<li>SRP：单一职责原则<br>The Single Responsibility Principle</li>
-<li>ISP：接口隔离原则<br>The Interface Segregation Principle </li>
-<li>DIP：依赖倒置原则<br>The Dependency Inversion Principle</li>
-</ul>
-<h3 id="5-GRASP：通用职责分配软件模式"><a href="#5-GRASP：通用职责分配软件模式" class="headerlink" title="5.GRASP：通用职责分配软件模式"></a>5.GRASP：通用职责分配软件模式</h3><p>General Responsibility Assignment Software Pattern:     GRASP 作为设计模式来描述对象设计和职责分配的基本原则。</p>
-<p>GRASP模式：</p>
-<ul>
-<li>创建者(Creator)</li>
-<li>信息专家(Information Expert)</li>
-<li>低耦合(Low Coupling)</li>
-<li>控制器(Controller)</li>
-<li>高内聚(High Cohesion)</li>
-<li>多态（Polymorphism）</li>
-<li>纯虚构（Pure Fabrication）</li>
-<li>间接性（Indirection）</li>
-<li>防止变异（Protected Variations）</li>
-</ul>
-<p>信息专家：将职责分配给具有完成该职责所需信息的那个类</p>
-<p>低耦合：分配职责，使耦合尽可能低。利用这一原则来评估可选方案。</p>
-<p>高内聚度：不要给一个类分派太多的职责，在履行职责时尽量将部分职责分派给有能力完成的其它类去完成。不相关的职责不要分派给同一个类。</p>
-<p>控制器：正常情况下，控制器应当把需要完成的工作委派给其它对象。控制器只是协调或控制这些活动，本身并不完成大量工作。</p>
-<p>多态：当相关的或行为随类型（类）有所不同时，使用“多态操作”为变化的行为类型分配职责 。</p>
-<p>纯虚构：分配这组高度内聚的职责给一个人造类。人造类不代表问题领域的任何事物，只是为了支持高内聚、低耦合和可重用而虚构的一个类。</p>
-<p>适配器与某些grasp核心原则的关系<br><img src="http://i.imgur.com/EYjjYlR.png" alt=""></p>
-<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3><p>creational </p>
-<p>behavioral</p>
-<p>structural</p>
 
           
         
@@ -1998,16 +2032,16 @@ forward()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">55</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">57</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">13</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -2015,8 +2049,8 @@ forward()
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -2067,7 +2101,7 @@ forward()
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-10T16:06:22.572Z</updated>
+  <updated>2016-12-14T15:41:55.543Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,237 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hive</title>
+    <link href="http://yoursite.com/2016/12/13/hive/"/>
+    <id>http://yoursite.com/2016/12/13/hive/</id>
+    <published>2016-12-13T07:44:16.000Z</published>
+    <updated>2016-12-14T15:41:55.543Z</updated>
+    
+    <content type="html"><![CDATA[<p>####1.hive介绍####<br>hive是基于hadoop的一个数据仓库工具。</p>
+<p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
+<p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
+<p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
+<p>特点：</p>
+<ul>
+<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几<br>乎没有门槛。</li>
+<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转<br>换，大大减少开发人员学习和应用MapReduce<br>成本。</li>
+<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外<br>Hive还支持用户自定义函数。</li>
+<li>良好的容错性：<br>当Hive节点出现问题，SQL仍可继续无中断执行</li>
+</ul>
+<p>hive数据类型：</p>
+<ul>
+<li>基本数据类型</li>
+<li>复杂数据类型</li>
+</ul>
+<p><img src="http://i.imgur.com/T2N79nW.png" alt=""></p>
+<p>hive和关系型数据库对比：<br><img src="http://i.imgur.com/8yl4sPC.png" alt=""><br>针对比较的部分解释：</p>
+<ol>
+<li>查询语言：由于sql被广泛的应用在数据仓库中，专门针对hive的特性设计了类sql的查询语句。HQL。</li>
+<li>数据存储位置：hive建立在hadoop之上，所有hive的数据都存储在hdfs中，而数据库则将数据保存在块设备或者本地文件系统中。</li>
+<li>数据格式：hive中没有专门定义的数据结构，数据格式由用户指定，用户定义数据格式需要指定三个属性：列分割符（通常是空格 ‘\t’ ‘\x001’）行分割符（\n）以及读文件的方法（hive默认有三个文件格式textfile sequencefile rcfile）。hive在加载过程中不会对数据本身进行修改，只是将数据内容复制或者移动到相应的hdfs目录中。</li>
+<li>数据更新：hive是针对数据仓库应用设计的，而数据仓库内容读多写少，因此hive不支持对数据的改写和添加。</li>
+<li>索引：由于不需要对数据进行处理加载的时候，所以不用对数据中的某些key建立索引</li>
+<li>执行： 通过hadoop的mapreduce执行</li>
+<li>执行延迟：由于查询数据的时候没有索引，所以需要扫描整个表，因此延迟较高。另一个导致hive执行延迟高的银锁是mapreduce框架。</li>
+<li>可扩展性，hive建立在hadoop上，扩展性和hadoop一致</li>
+</ol>
+<p>####2.centos7，hive安装####<br>Hive原则上可以安装在集群上的任何一台机器上面.</p>
+<ol>
+<li>准备工作-创建配置数据存储位置（非必须？）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoopfs-mkdir/tmp</div><div class="line">hadoopfs-mkdir/user/hive/warehouse</div><div class="line">hadoopfs-chmodg+w/tmp</div><div class="line">hadoopfs-chmodg+w/user/hive/warehouse</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果进行这一步的话，在hive-site.xml中配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive.metastore.warehouse.dir</div><div class="line">/user/hive/warehouse</div><div class="line">locationofdefaultdatabaseforthewarehouse</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>安装mysql作为元数据存储</p>
+<p> CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。</p>
+<ul>
+<li>下载mysql的repo源<br><code>wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql-community-release-el7-5.noarch.rpm包<br><code>sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql<br><code>sudo yum install mysql-server</code></li>
+<li>重启mysql<br><code>sudo systemctl restart mysqld.service</code></li>
+<li>设置远程登录<br><code>grant all privileges on *.* to root@&quot;%&quot; identified by &quot;password&quot; with grant option;</code><br><code>flush privileges;</code></li>
+<li>为hive设置单独的账户密码登录（我认为可选吧，懒省事直接用root，反正是虚拟机实验）<br><code>create user &#39;hive&#39; identified by &#39;mysql&#39;</code><br><code>grant all privileges on *.* to &#39;hive&#39;@&#39;%&#39; with grant option</code></li>
+</ul>
+</li>
+<li><p>hive下载，针对hadoop2.7.2 hbase1.2.4，选择版本hive2.1.1进行安装。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget &quot;http://mirrors.cnnic.cn/apache/hive/hive-2.0.0/apache-hive-2.0.0-bin.tar.gz&quot;</div><div class="line">tar -xzvf apache-hive-2.0.0-bin.tar.gz</div></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>拷贝mysql驱动文件<br>下载地址：<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">http://dev.mysql.com/downloads/connector/j/</a> ，解压后拷贝其中的mysql-connector-Java-5.1.38-bin.jar到hive的lib文件夹下。</p>
+</li>
+<li><p>配置环境变量</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/profile</div><div class="line">export HIVE_HOME=/usr/hive/apache-hive-2.1.1-bin</div><div class="line">export PATH=$PATH:$HIVE_HOME/bin</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ol>
+<p>hive-site.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</div><div class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://127.0.0.1:3306/hive?createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>JDBC connect string for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Local scratch space for Hive jobs<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/resources<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Temporary local directory for added resources in the remote file system.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.querylog.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Location of Hive run time structured log file<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.logging.operation.log.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/operation_logs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Top level directory where operation logs are stored if logging functionality is enabled<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改hive-en.sh：添加jdk和hadoop根目录路径（可选）</p>
+<ol>
+<li>初始化数据库<br> <code>schematool -initSchema -dbType mysql</code></li>
+<li>启动hive <code>bin/hive</code></li>
+</ol>
+<p>####3.hive架构####</p>
+<p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
+<p>hive的架构可以分为四个部分：</p>
+<ul>
+<li>用户接口</li>
+<li>元数据存储</li>
+<li>解释器、编译器、优化器</li>
+<li>数据存储</li>
+</ul>
+<p>以下分别详细介绍;</p>
+<p>1.hive用户接口</p>
+<p>hive对外提供三种服务模式，命令行模式（CLI）hive的web模式（WUI）、hive的远程服务（client）</p>
+<ul>
+<li><p>hive命令行模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./hive</div><div class="line"> hive --service cli</div></pre></td></tr></table></figure>
+</li>
+<li><p>hive web模式 <code>hive --service hwi</code> 默认端口是9999</p>
+</li>
+<li>hive远程服务 <code>nohup hive --service hiveserver &amp;</code>（默认端口10000）</li>
+</ul>
+<p>2.hive元数据库</p>
+<p>hive将源数据存储在rdbms中，一般常用mysql和derby。hive默认存储元数据信息在derby。我们已经将其更改为mysql。</p>
+<p>理由如下：</p>
+<ul>
+<li>hive源数据保存在内嵌的derby数据库中么只允许一个会话连接，只适合简单的测试。实际生产环境中不合适，</li>
+<li>为了支持多会话，则需要一个独立的元数据库，使用mysql作为元数据库，hive内部对mysql提供了很好的支持。具体配置 参照上面hive安装</li>
+</ul>
+<p>3.hive的数据存储</p>
+<ul>
+<li>hive没有专门的数据格式，也没有为数据建立索引。</li>
+<li>hive所有的数据存储在hdfs中</li>
+<li>hive的数据模型包括（table,external, partition,bucket）</li>
+</ul>
+<p>部分详细介绍：</p>
+<p>table：每一个table在hive中都有一个相应的目录存储数据，例如一个表mytest，他在hdfs中的目录为/user/hive/warehouse/mytest 其中warehouse是在hive-site.xml中<code>hive.metastore.warehouse.dir</code>配置的。所有的table（不包括external table）包含在该目录下</p>
+<p>partition:对应于数据库中partition列的密集索引，在，hive中，表中一个partition对应于表下的一个目录，所有的partition的数据都存在对应的目录中，例如mytest表中优name和no两个partition，</p>
+<ul>
+<li>name=asd,no=4854的hdfs子目录为：<code>/warehouse/mytest/name=asd/no=4854</code></li>
+</ul>
+<p>buckets对指定列计算hash，根据hash切分数据，目的是并行，每一个bucket对应一个文件，将user列分先至32个bucket，首先对user列计算hash，对应：</p>
+<ul>
+<li>hash为0的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00000</code></li>
+<li>hash为20的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00020</code></li>
+</ul>
+<p><img src="http://i.imgur.com/f3ne7LT.png" alt=""></p>
+<p>4.hive解释器</p>
+<ul>
+<li>解析器</li>
+<li>语义分析器</li>
+<li>逻辑策略生成器</li>
+<li>优化器</li>
+</ul>
+<p>####4.hive文件格式####</p>
+<p>四种：textfile sequencefile rcfile 自定义</p>
+<p>1.textfile格式</p>
+<p>textfile为默认个事，数据不做压缩，磁盘开销大，数据解析开销大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create table text(str STRING)</div><div class="line">STORED AS TEXTFILE;</div><div class="line">load data local &apos;/data/test.txt&apos; into table text</div></pre></td></tr></table></figure></p>
+<p>2.sequencefile格式</p>
+<p>sequencefile格式是hadoop api提供的二进制文件支持。其具有使用方便，可分割，可压缩的特点。一般建议使用block压缩。</p>
+<p>3.RCfile格式<br>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
+<p>####5.hive操作####</p>
+<ol>
+<li>表操作：感觉类似sql。不做介绍了</li>
+<li>视图操作</li>
+<li>分区操作</li>
+<li>桶操作</li>
+<li>struct类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="keyword">struct</span>&lt;<span class="keyword">name</span>:<span class="keyword">String</span>,age <span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,liu：30<br>2,zhang:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>array类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="built_in">array</span>&lt;<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,1:2:3<br>2,20:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>map类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(<span class="keyword">id</span> <span class="keyword">String</span>,info <span class="keyword">map</span>&lt;<span class="keyword">STRING</span>,<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1    job:80,team:60<br>2    job:30,team:60,person:100<br>执行<br><code>load data local inpath &#39;/test&#39; into table test</code></p>
+<ol>
+<li>join操作</li>
+<li>hive函数与自定义函数</li>
+<li>hive权限控制</li>
+</ol>
+<p>####5.hive优劣分析####</p>
+<p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
+<ul>
+<li>存储灵活性：<br>Hive的元数据存储在<br>RDBMS中，所有其它数<br>据都基于HDFS存储。<br>Hive没有专门的数据存储<br>格式，也没有为数据建立<br>索引。 Hive默认支持多种<br>文件格式，也支持用户自<br>定义格式。基于Hive的分<br>析过程支持从不同数据源<br>装载数据</li>
+<li>执行效率：Hive基于MapReduce，<br>因此Sort和Groupby等都<br>依赖MapReduce。<br>MapReduce可以理解为<br>固化了的执行算子。此外<br>Hive对Join算子的支持不<br>够全面。在特定应用场景<br>下，内存拷贝和数据预处<br>理同样可能影响Hive的执<br>行效率</li>
+<li>可扩展性：Hive的数据处理量是PB级<br>的，因此它具备非常好的<br>水平可扩展性，支持集群<br>部署，支持通过简单地增<br>加资源以支持更大的数据<br>量和负载</li>
+<li>可视化：Hive的可视化界面基本属<br>于字符终端，对用户的技<br>术水平要求比较高。提供<br>个性化的可视化展现<br>（GUI），是Hive改进的<br>重要方向。</li>
+<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实现的数据仓库可<br>以部署在普通机器构建的分布式集群之上。</li>
+</ul>
+<p>####5.hive vs hbase####</p>
+<p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口，Hive和<br>HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不支持类SQL<br>语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
+<p>Hive与HBase的整合实现是利用<br>两者对外的API接口互相进行通信<br>的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。<br>在将HBase和Hive集成的过程中<br>注意确保hbase jar包的一致性。<br>Hive集成HBase需要在Hive表和<br>HBase表之间建立映射关系，也<br>就是Hive表的列和列类型与<br>HBase表的列族及列限定词建立<br>关联。每一个在Hive表中的列都<br>存在于HBase中，但反过来在<br>Hive表中则不需要包含所有的<br>HBase中的列</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;####1.hive介绍####&lt;br&gt;hive是基于hadoop的一个数据仓库工具。&lt;/p&gt;
+&lt;p&gt;Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的&lt;br&gt;数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数
+    
+    </summary>
+    
+      <category term="Hadoop" scheme="http://yoursite.com/categories/Hadoop/"/>
+    
+    
+      <category term="Hadoop" scheme="http://yoursite.com/tags/Hadoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java并发编程实战-线程安全性</title>
+    <link href="http://yoursite.com/2016/12/13/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/"/>
+    <id>http://yoursite.com/2016/12/13/java并发编程实战-线程安全性/</id>
+    <published>2016-12-13T05:01:13.000Z</published>
+    <updated>2016-12-13T07:36:38.980Z</updated>
+    
+    <content type="html"><![CDATA[<p>无状态对象是线程安全的。</p>
+<p>###1.线程安全###</p>
+<p>竞态条件：当某个计算的正确性取决于多个线程的交替执行时序时，那么就会发生竞态条件。</p>
+<ul>
+<li>先检查后执行–星巴克见面的例子</li>
+<li>读取修改写入操作–计数器的例子</li>
+</ul>
+<p>怎么解决竞态条件呢？如果一些列符合操作是原子的话，就可以解决。我们可以采用加锁机制或者使用线程安全类来解决。</p>
+<p><code>java.util.concurrrent.atomic</code>包中包含一些原子变量类。</p>
+<p>内置锁：intrinsic lock， 线程在进入同步代码块之前会自动获取锁，并且在退出同步代码块的时候自动释放锁。是一种互斥锁。</p>
+<p>重入：为每一个锁关联一个获取计数器和一个所有者线程。当计数器为0时，这个锁被认为是没有人持有的。当一个线程请求一个未被持有的锁，jvm会记录下锁的持有者，并且将获取计数器置为1.如果同一个线程再次获取该锁。计数器将递增。而当线程退出同步代码块时，计数器会相应的递减。当计数值为0时，这个锁将会被释放。</p>
+<p>###2.对象的共享###</p>
+<p>同步：</p>
+<ul>
+<li>实现原子性或者确定临界区</li>
+<li>内存可见性，希望却摆一个线程修改了对象状态后，其他线程能够看到状态发生的变化。</li>
+</ul>
+<p>失效数据；<br>非原子的64位操作：jvm允许将64位的读操作和写操作分解为两个32位的操作。</p>
+<p>volatile变量：当吧变量声明成volatile类型后，编译期和运行时都会注意到这个变量是共享的，因此不会将该变量上的 操作和其他内存操作一起重排序。volatile变量不会缓存在寄存器或者对其他处理器不可见的地方，因此在读取volatile类型的变量时总会返回最新写入的值。</p>
+<p>发布：发布一个对象的意思是指使对象能够在当前作用于之外的代码中使用。</p>
+<p>溢出：当某个不该发布的对象被发布。</p>
+<p>不变性：不变的对象一定是线程安全的</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;无状态对象是线程安全的。&lt;/p&gt;
+&lt;p&gt;###1.线程安全###&lt;/p&gt;
+&lt;p&gt;竞态条件：当某个计算的正确性取决于多个线程的交替执行时序时，那么就会发生竞态条件。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先检查后执行–星巴克见面的例子&lt;/li&gt;
+&lt;li&gt;读取修改写入操作–计数器的例子&lt;/
+    
+    </summary>
+    
+      <category term="并发编程" scheme="http://yoursite.com/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>Java EE 7 Tutorial分析</title>
@@ -2468,151 +2699,6 @@ false
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解JVM笔记四-虚拟机性能监控与故障处理工具</title>
-    <link href="http://yoursite.com/2016/10/21/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E5%9B%9B/"/>
-    <id>http://yoursite.com/2016/10/21/深入理解JVM笔记四/</id>
-    <published>2016-10-21T08:22:24.000Z</published>
-    <updated>2016-11-02T17:25:20.069Z</updated>
-    
-    <content type="html"><![CDATA[<p>###jdk命令行工具</p>
-<p>1.jps<br>虚拟机进程状态工具</p>
-<pre><code>常用的几个参数：
--l   输出Java应用程序的main class的完整包
-
--q 仅显示pid，不显示其它任何相关信息
-
--m 输出传递给main方法的参数
-
--v 输出传递给JVM的参数。在诊断JVM相关问题的时候，这个参数可以查看JVM相关参数的设置
-</code></pre><p>2.jstat</p>
-<p>虚拟机统计信息监视工具</p>
-<pre><code>C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gcutil 1676
-  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
-  0.00 100.00  53.66  80.08  91.20  81.37     72    2.443     0    0.000    2.443
-
-C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
- S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
- 0.0   6144.0  0.0   6144.0 83968.0  53248.0   172032.0   137768.9  173184.0 157951.9 23168.0 18851.1     72    2.443   0      0.000    2.443
-</code></pre><blockquote>
-<p>堆内存 = 年轻代 + 年老代 + 永久代</p>
-<p>年轻代 = Eden区 + 两个Survivor区（From和To）</p>
-<p>S0C、S1C、S0U、S1U：Survivor 0/1区容量（Capacity）和使用量（Used）</p>
-<p>EC、EU：Eden区容量和使用量</p>
-<p>OC、OU：年老代容量和使用量</p>
-<p>PC、PU：永久代容量和使用量</p>
-<p>YGC、YGCT：年轻代GC次数和GC耗时</p>
-<p>FGC、FGCT：Full GC次数和Full GC耗时</p>
-<p>GCT：GC总耗时</p>
-</blockquote>
-<p><img src="http://i.imgur.com/uQntEKD.png" alt=""></p>
-<p>###3  jinfo   </p>
-<p>java配置信息工具</p>
-<p>观察运行中的java程序的运行环境参数：参数包括Java System属性和JVM命令行参数</p>
-<p>实例：jinfo 2083</p>
-<p>其中2083就是java进程id号，可以用jps得到这个id号。</p>
-<p>输出内容太多了，不在这里一一列举，大家可以自己尝试这个命令。</p>
-<p>###4 jmap  Java内存映像工具<br> jmap（Memory Map）和  jhat（Java Heap Analysis Tool）<br> jmap用来查看堆内存使用状况，一般结合jhat使用。</p>
-<p>###5.jhat 虚拟机堆转储快照分析工具</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;###jdk命令行工具&lt;/p&gt;
-&lt;p&gt;1.jps&lt;br&gt;虚拟机进程状态工具&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;常用的几个参数：
--l   输出Java应用程序的main class的完整包
-
--q 仅显示pid，不显示其它任何相关信息
-
--m 输出传递给main方法的参数
-
--
-    
-    </summary>
-    
-      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解JVM笔记三</title>
-    <link href="http://yoursite.com/2016/10/21/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E7%AC%94%E8%AE%B0%E4%B8%89/"/>
-    <id>http://yoursite.com/2016/10/21/深入理解JVM笔记三/</id>
-    <published>2016-10-21T06:30:38.000Z</published>
-    <updated>2016-11-02T17:25:14.576Z</updated>
-    
-    <content type="html"><![CDATA[<p>内存分配策略</p>
-<p>###1.对象有现在eden区分配。</p>
-<p>大多数情况下，对象在新生代eden区中分配，当Eden区没有足够的空间分配，虚拟机将发起一次minor GC。<br>虚拟机提供<code>-XX：+PrintGCDetails</code>这个日志参数，告诉虚拟机在发生垃圾收集行为时打印内存回收日志，并在进程退出的时候输出当前的内存各区域分配的情况。</p>
-<pre><code>public class aa{
-        /**
-         * -verbose:gc -Xms20M -Xms20M -Xmn10M -XX:+PrintGCDetails 
-         * -XX:SurvivorRatio=8
-         * 
-         */
-public static final int _1MB =1024*1024;
-        public static void main(String[] args) {
-
-            byte[] allocation1,allocation2,allocation3,allocation4;
-            allocation1= new byte[2*_1MB];
-            allocation2= new byte[2*_1MB];
-            allocation3= new byte[2*_1MB];
-            allocation4= new byte[3*_1MB];
-        }
-}
-[GC (Allocation Failure) [PSYoungGen: 7128K-&gt;648K(9216K)] 7128K-&gt;6800K(19456K), 0.0030424 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
-[Full GC (Ergonomics) [PSYoungGen: 648K-&gt;0K(9216K)] [ParOldGen: 6152K-&gt;6673K(27648K)] 6800K-&gt;6673K(36864K), [Metaspace: 2654K-&gt;2654K(1056768K)], 0.0070118 secs] [Times: user=0.06 sys=0.00, real=0.01 secs] 
-Heap
- PSYoungGen      total 9216K, used 3154K [0x00000000ff600000, 0x0000000100000000, 0x0000000100000000)
-  eden space 8192K, 38% used [0x00000000ff600000,0x00000000ff914930,0x00000000ffe00000)
-  from space 1024K, 0% used [0x00000000ffe00000,0x00000000ffe00000,0x00000000fff00000)
-  to   space 1024K, 0% used [0x00000000fff00000,0x00000000fff00000,0x0000000100000000)
- ParOldGen       total 27648K, used 6673K [0x0000000081c00000, 0x0000000083700000, 0x00000000ff600000)
-  object space 27648K, 24% used [0x0000000081c00000,0x0000000082284408,0x0000000083700000)
- Metaspace       used 2660K, capacity 4486K, committed 4864K, reserved 1056768K
-  class space    used 288K, capacity 386K, committed 512K, reserved 1048576K
-</code></pre><p>###2.对象直接进入老年代</p>
-<p>虚拟机提供一个-XX:pertenureSizeThreshold参数，令大于这个设置值的对象直接在老年代分配。这样做的目的是避免在eden取以及两个survivor区之间发生大量的内存复制。（新生代采用复制算法收集内存）</p>
-<pre><code>public class aa{
-        /**
-         * -verbose:gc -Xms20M -Xms20M -Xmn10M -XX:+PrintGCDetails -XX:PertenureSizeThreshold=3145728
-         * -XX:SurvivorRatio=8
-         * 
-         */
-public static final int _1MB =1024*1024;
-        public static void main(String[] args) {
-
-            byte[] allocation4;
-            allocation4= new byte[4*_1MB];
-        }
-}
-</code></pre><p>###3.长期存活的对象将直接进入老年代</p>
-<p>虚拟机给每个对象定义了一个age年龄计数器。如果对象在eden出生并经历了第一次minor gc仍然活着的话，并且能够被survivor容纳，警备移动大survivor空间，并且对象的年龄设为1.对于survivor中没熬过一次minor gc，年龄就增加1.当她的年龄增加到一定程度，默认是15，就会被净胜到老年代。对象净胜到老年代的年龄阈值通过参数-XX:MaxTenuringThreshold设置。</p>
-<p>###4.动态对象年龄判定</p>
-<p>为了更好地适应不同程序的内存状况，虚拟机并不是永远的要求对象的年龄必须达到阈值才能够到老年代，瑞国survivor中相同年龄所有对象的大小纸盒大于survivor空间的一般，年龄大于或等于改年龄的对象就可以进入老年代了。</p>
-<p>###5.空间分配担保</p>
-<p>在发生minor gc之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。如果这个条件成立，那么minor gc可以确保是安全的。如果不成立，虚拟机会查看handlepromotionfailure设置值食肉允许担保失败，如果允许，那么就会继续检查老年代中最大可用连续空间时都大于历次净胜到老年代对象的平均大小。如果大于，将尝试着进行一次minor gc，尽管这次minor gc是有风险的。如果小于，或者handlepromotionfailure设置不允许毛线，那么就要改为进行一次full gc。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;内存分配策略&lt;/p&gt;
-&lt;p&gt;###1.对象有现在eden区分配。&lt;/p&gt;
-&lt;p&gt;大多数情况下，对象在新生代eden区中分配，当Eden区没有足够的空间分配，虚拟机将发起一次minor GC。&lt;br&gt;虚拟机提供&lt;code&gt;-XX：+PrintGCDetails&lt;/code&gt;这
-    
-    </summary>
-    
-      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
   </entry>
   
