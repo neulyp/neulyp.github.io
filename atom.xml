@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-15T05:21:17.459Z</updated>
+  <updated>2016-12-15T05:22:02.718Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,25 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>hbase</title>
+    <link href="http://yoursite.com/2016/12/15/hbase/"/>
+    <id>http://yoursite.com/2016/12/15/hbase/</id>
+    <published>2016-12-15T05:22:02.000Z</published>
+    <updated>2016-12-15T05:22:02.718Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>hive</title>
     <link href="http://yoursite.com/2016/12/13/hive/"/>
     <id>http://yoursite.com/2016/12/13/hive/</id>
     <published>2016-12-13T07:44:16.000Z</published>
-    <updated>2016-12-15T05:21:17.459Z</updated>
+    <updated>2016-12-15T05:24:43.748Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
 <p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
@@ -187,10 +201,10 @@
     
     </summary>
     
-      <category term="Hadoop" scheme="http://yoursite.com/categories/Hadoop/"/>
+      <category term="hadoop" scheme="http://yoursite.com/categories/hadoop/"/>
     
     
-      <category term="Hadoop" scheme="http://yoursite.com/tags/Hadoop/"/>
+      <category term="hadoop" scheme="http://yoursite.com/tags/hadoop/"/>
     
   </entry>
   
@@ -2676,26 +2690,6 @@ false
     
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>兰天震的设计</title>
-    <link href="http://yoursite.com/2016/10/23/%E5%85%B0%E5%A4%A9%E9%9C%87%E7%9A%84%E8%AE%BE%E8%AE%A1/"/>
-    <id>http://yoursite.com/2016/10/23/兰天震的设计/</id>
-    <published>2016-10-23T12:45:12.000Z</published>
-    <updated>2016-10-23T12:45:30.575Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/x94fo9Q.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/x94fo9Q.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-
-    
-    </summary>
-    
     
   </entry>
   
