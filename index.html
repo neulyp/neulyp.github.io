@@ -244,6 +244,151 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/18/hadoop笔记-备考/" itemprop="url">
+                  hadoop笔记-备考
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-18T21:10:31+08:00" content="2016-12-18">
+              2016-12-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2-2"><a href="#2-2" class="headerlink" title="2.2"></a>2.2</h3><p>hadoop安装模式:</p>
+<ul>
+<li>单机模式</li>
+<li>伪分布式</li>
+<li>完全分布式</li>
+</ul>
+<p>namenode datanode jobtracker tasktracker secondaryNamenode</p>
+<h3 id="2-3"><a href="#2-3" class="headerlink" title="2.3"></a>2.3</h3><p>1.命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hadoop namenode -format</div><div class="line">sbin/start-all.sh</div><div class="line">sbin/stop-all.sh</div></pre></td></tr></table></figure></p>
+<p>2.配置文件（考点）</p>
+<p><img src="http://i.imgur.com/xm8ivA9.png" alt=""></p>
+<h3 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h3><p>编写mapreduce函数：</p>
+<ul>
+<li>mapper类 </li>
+<li>reducer类</li>
+<li>main类</li>
+</ul>
+<p>详情见wordcount例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> wordcount;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.StringTokenizer;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.IntWritable;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.LongWritable;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Job;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Mapper;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Reducer;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.TextInputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCount</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountMap</span> <span class="keyword">extends</span></span></div><div class="line">			<span class="title">Mapper</span>&lt;<span class="title">LongWritable</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; &#123;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">final</span> IntWritable one = <span class="keyword">new</span> IntWritable(<span class="number">1</span>);</div><div class="line">		<span class="keyword">private</span> Text word = <span class="keyword">new</span> Text();</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(LongWritable key, Text value, Context context)</span></span></div><div class="line">				<span class="keyword">throws</span> IOException, InterruptedException &#123;</div><div class="line">			String line = value.toString();</div><div class="line">			StringTokenizer token = <span class="keyword">new</span> StringTokenizer(line);</div><div class="line">			<span class="keyword">while</span> (token.hasMoreTokens()) &#123;</div><div class="line">				word.set(token.nextToken());</div><div class="line">				context.write(word, one);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountReduce</span> <span class="keyword">extends</span></span></div><div class="line">			<span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; &#123;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values,</span></span></div><div class="line">				Context context) <span class="keyword">throws</span> IOException, InterruptedException &#123;</div><div class="line">			<span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">			<span class="keyword">for</span> (IntWritable val : values) &#123;</div><div class="line">				sum += val.get();</div><div class="line">			&#125;</div><div class="line">			context.write(key, <span class="keyword">new</span> IntWritable(sum));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</div><div class="line">		Job job = <span class="keyword">new</span> Job(conf);</div><div class="line">		job.setJarByClass(WordCount.class);</div><div class="line">		job.setJobName(<span class="string">"wordcount"</span>);</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(IntWritable.class);</div><div class="line">		job.setMapperClass(WordCountMap.class);</div><div class="line">		job.setReducerClass(WordCountReduce.class);</div><div class="line">		job.setInputFormatClass(TextInputFormat.class);</div><div class="line">		job.setOutputFormatClass(TextOutputFormat.class);</div><div class="line">		FileInputFormat.addInputPath(job, <span class="keyword">new</span> Path(args[<span class="number">0</span>]));</div><div class="line">		FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(args[<span class="number">1</span>]));</div><div class="line">		job.waitForCompletion(<span class="keyword">true</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>configuration类：怼佢hadoop的配置文件</li>
+<li>job类： 表示一个mapreduce任务</li>
+</ul>
+<h3 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h3><ul>
+<li>打包：<code>wordcount -&gt;export-&gt;jar file</code> 把jar放在$hadoop_home 下</li>
+<li>部署和运行： <code>hadoop fs -put /file1 /input/</code></li>
+<li>运行： <code>hadoop jar wordcount.jar wordcount.WordMain /file1 /output</code></li>
+<li>测试结果：_success _logs part-r-00000</li>
+</ul>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>hdfs的特点？</p>
+<p>hdfs架构？（主从结构，一个namenode节点，多个datanode节点）</p>
+<p>hadoop的rpc机制？</p>
+<p>hadoop文件系统的访问/</p>
+<p>```<br>hadoop fs -ls /<br>hadoop fs -mkdir /input<br>hadoop fs -put file1 /input<br>hadoop fs -text /input/file1<br>hadoop fs -get /input/file1 //复制到本地<br>hadoop fs -rm /input/file1<br>hadoop namenode -format<br>hadoop secondarynamenode<br>hadoop dfsadmin<br>hadoop job<br>hadoop version</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/15/hbase/" itemprop="url">
                   hbase
                 </a>
@@ -288,7 +433,67 @@
       
         
           
-            
+            <h4 id="1-hbase"><a href="#1-hbase" class="headerlink" title="1.hbase"></a>1.hbase</h4><p>hbase是一个<strong>高可靠、高性能、面向列、可伸缩</strong>的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。</p>
+<p>hbase的特点：</p>
+<ul>
+<li>大</li>
+<li>面向列</li>
+<li>稀疏</li>
+</ul>
+<p>hbase访问接口：</p>
+<ul>
+<li>native java api</li>
+<li>hbase shell</li>
+<li>thrift gateway</li>
+<li>rest gateway</li>
+<li>pig</li>
+<li>hive</li>
+</ul>
+<h4 id="2-hbase存储结构"><a href="#2-hbase存储结构" class="headerlink" title="2.hbase存储结构"></a>2.hbase存储结构</h4><p><img src="http://i.imgur.com/nzZrDc1.png" alt=""></p>
+<ol>
+<li><p>client<br>管理类操作：client与hmaster进行rpc操作。<br>数据读写类操作：client与hregionserver进行rpc操作。</p>
+</li>
+<li><p>zookeeper<br>zookeeper quorum中，除了存储-root-表的地址和hmaster的地址，hregion-server也会以ephemeral方式把自己注册到zookeeper中，使得hmaster可以随时的感知各个HRegionServer的健康状态。zookeeper的master election机制保证总有一个master运行</p>
+</li>
+<li><p>hmaster<br>hmaster主要负责table和region的管理工作。具体包含以下功能：</p>
+<ul>
+<li>管理用户对table的增删改查操作</li>
+<li>管理hregionserver的负载均衡，调整region分布</li>
+<li>在region split后，负责新region的分配</li>
+<li>在hregionserver停机后，负责失效hregionserver上region迁移</li>
+</ul>
+</li>
+<li><p>hregionserver<br>hregionserver主要负责响应用户i/o请求。向hdfs文件系统中读写数据。是hbase中最核心的模块。<br><img src="http://i.imgur.com/HsVM38Z.png" alt=""><br>hregionserver内部管理了一系列hregion对象，每个hregion对应table中的一个region，</p>
+</li>
+<li><p>hstore<br>hstore存储是hbase存储的核心，其中有两部分组成，一部分是memstore，一部分是storefile。用户写入的数据首先会放入memstore中，当memstore满了以后，会执行一个flush操作，变成一个storefile。当storefile增加到一定的阈值。会出发compact合并操作将多个storefile合并成一个storefile，合并过程中进行版本合并和数据删除。</p>
+</li>
+<li><p>hlog<br>每个hregionserver都有一个hlog对象，hlog是一个实现write ahead log的类，每次用户写入memstore同时，也会写一份数据到hlog中，hlog文件会定期回滚出新的，并删除old的文件（已经持久化到memstore）。当hregionserver意外终止的时候，hmaster汇通过zookeeper感知到，hmaster会首先处理遗留下来的hlog。将其中不同region的log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配。领取这些region的hregionserver在load region的过程中，会发现有历史hlog需要处理。因此会重新加载hlog中的数据到memstore中，然后保存到哦storefile，完成数据恢复。</p>
+</li>
+</ol>
+<h4 id="3-hbase存储格式"><a href="#3-hbase存储格式" class="headerlink" title="3.hbase存储格式"></a>3.hbase存储格式</h4><ul>
+<li>hfile</li>
+<li>hlog file</li>
+</ul>
+<p>1.hfile<br><img src="http://i.imgur.com/Lqn3NUh.png" alt=""></p>
+<p>2.hlogfile</p>
+<p><img src="http://i.imgur.com/PYr0eFk.png" alt=""></p>
+<h4 id="4-数据模型"><a href="#4-数据模型" class="headerlink" title="4.数据模型"></a>4.数据模型</h4><p><img src="http://i.imgur.com/jEb1inN.png" alt=""></p>
+<ul>
+<li>row key</li>
+<li>列族</li>
+<li>时间戳</li>
+<li>cell</li>
+</ul>
+<p><img src="http://i.imgur.com/dmLyotO.png" alt=""></p>
+<p>hbase中有两张特殊的表，-root- .meta</p>
+<p>.meta. 记录用户表的region信息，可以有多个region<br>-root- 记录.meta.表的region信息，只能有一个region</p>
+<p>zookeper中记录-root-表的location </p>
+<p><img src="http://i.imgur.com/vBzRFlR.png" alt=""></p>
+<h4 id="4-hbase红的算法和流程"><a href="#4-hbase红的算法和流程" class="headerlink" title="4.hbase红的算法和流程"></a>4.hbase红的算法和流程</h4><p>region 定位<br><img src="http://i.imgur.com/FBfy26s.png" alt=""></p>
+<p>region 分配</p>
+<p>region server上线和下线</p>
+<p>master上线和下线</p>
+
           
         
       
@@ -1832,132 +2037,6 @@ forward()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/21/算法总结之快速排序/" itemprop="url">
-                  算法总结4-快速排序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-21T12:24:37+08:00" content="2016-11-21">
-              2016-11-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6684558</a></p>
-<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</p>
-<p>该方法的基本思想是：</p>
-<p>1．先从数列中取出一个数作为基准数。</p>
-<p>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。</p>
-<p>3．再对左右区间重复第二步，直到各区间只有一个数</p>
-<p>虽然快速排序称为分治法，但分治法这三个字显然无法很好的概括快速排序的全部步骤。因此我的对快速排序作了进一步的说明：<strong>挖坑填数+分治法</strong>：</p>
-<p><img src="http://i.imgur.com/lXST5qW.png" alt=""></p>
-<p><img src="http://i.imgur.com/6GAncK6.png" alt=""></p>
-<p>对挖坑填数进行总结</p>
-<p>1．i =L; j = R; 将基准数挖出形成第一个坑a[i]。</p>
-<p>2．j–由后向前找比它小的数，找到后挖出此数填前一个坑a[i]中。</p>
-<p>3．i++由前向后找比它大的数，找到后也挖出此数填到前一个坑a[j]中。</p>
-<p>4．再重复执行2，3二步，直到i==j，将基准数填入a[i]中。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sort;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 快排</div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] swap(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)&#123;</div><div class="line">		<span class="comment">//将中间的数和第一个数进行交换</span></div><div class="line">		<span class="keyword">int</span> tmp=s[l];</div><div class="line">		s[l]=s[(r-l)/<span class="number">2</span>];</div><div class="line">		s[(r-l)/<span class="number">2</span>]=tmp;</div><div class="line">		<span class="keyword">return</span> s;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(l&lt;r)&#123;	</div><div class="line">			<span class="keyword">int</span> i=l,j=r,x=s[l];</div><div class="line">			<span class="keyword">while</span>(i&lt;j)&#123;</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[j]&gt;=x) j--;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[i++]=s[j];</div><div class="line">				</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[i]&lt;=x) i++;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[j--]=s[i];</div><div class="line">			&#125;</div><div class="line">			s[i]=x;</div><div class="line">			quickSort(s, l, i-<span class="number">1</span>);</div><div class="line">			quickSort(s, i+<span class="number">1</span>, r);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2003,7 +2082,7 @@ forward()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">58</span>
+              <span class="site-state-item-count">59</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

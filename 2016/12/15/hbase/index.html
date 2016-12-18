@@ -90,13 +90,79 @@
 
 
 
+<meta name="description" content="1.hbasehbase是一个高可靠、高性能、面向列、可伸缩的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。
+hbase的特点：
+
+大
+面向列
+稀疏
+
+hbase访问接口：
+
+native java api
+hbase shell
+thrift gateway
+rest gateway
+pig
+hive
+
+2.hbase存储结构
+
+client管理类操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hbase">
 <meta property="og:url" content="http://yoursite.com/2016/12/15/hbase/index.html">
 <meta property="og:site_name" content="lyp's blog">
-<meta property="og:updated_time" content="2016-12-15T05:22:02.718Z">
+<meta property="og:description" content="1.hbasehbase是一个高可靠、高性能、面向列、可伸缩的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。
+hbase的特点：
+
+大
+面向列
+稀疏
+
+hbase访问接口：
+
+native java api
+hbase shell
+thrift gateway
+rest gateway
+pig
+hive
+
+2.hbase存储结构
+
+client管理类操作">
+<meta property="og:image" content="http://i.imgur.com/nzZrDc1.png">
+<meta property="og:image" content="http://i.imgur.com/HsVM38Z.png">
+<meta property="og:image" content="http://i.imgur.com/Lqn3NUh.png">
+<meta property="og:image" content="http://i.imgur.com/PYr0eFk.png">
+<meta property="og:image" content="http://i.imgur.com/jEb1inN.png">
+<meta property="og:image" content="http://i.imgur.com/dmLyotO.png">
+<meta property="og:image" content="http://i.imgur.com/vBzRFlR.png">
+<meta property="og:image" content="http://i.imgur.com/FBfy26s.png">
+<meta property="og:updated_time" content="2016-12-18T13:01:41.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hbase">
+<meta name="twitter:description" content="1.hbasehbase是一个高可靠、高性能、面向列、可伸缩的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。
+hbase的特点：
+
+大
+面向列
+稀疏
+
+hbase访问接口：
+
+native java api
+hbase shell
+thrift gateway
+rest gateway
+pig
+hive
+
+2.hbase存储结构
+
+client管理类操作">
+<meta name="twitter:image" content="http://i.imgur.com/nzZrDc1.png">
 
 
 
@@ -282,7 +348,67 @@
       
 
       
-        
+        <h4 id="1-hbase"><a href="#1-hbase" class="headerlink" title="1.hbase"></a>1.hbase</h4><p>hbase是一个<strong>高可靠、高性能、面向列、可伸缩</strong>的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。</p>
+<p>hbase的特点：</p>
+<ul>
+<li>大</li>
+<li>面向列</li>
+<li>稀疏</li>
+</ul>
+<p>hbase访问接口：</p>
+<ul>
+<li>native java api</li>
+<li>hbase shell</li>
+<li>thrift gateway</li>
+<li>rest gateway</li>
+<li>pig</li>
+<li>hive</li>
+</ul>
+<h4 id="2-hbase存储结构"><a href="#2-hbase存储结构" class="headerlink" title="2.hbase存储结构"></a>2.hbase存储结构</h4><p><img src="http://i.imgur.com/nzZrDc1.png" alt=""></p>
+<ol>
+<li><p>client<br>管理类操作：client与hmaster进行rpc操作。<br>数据读写类操作：client与hregionserver进行rpc操作。</p>
+</li>
+<li><p>zookeeper<br>zookeeper quorum中，除了存储-root-表的地址和hmaster的地址，hregion-server也会以ephemeral方式把自己注册到zookeeper中，使得hmaster可以随时的感知各个HRegionServer的健康状态。zookeeper的master election机制保证总有一个master运行</p>
+</li>
+<li><p>hmaster<br>hmaster主要负责table和region的管理工作。具体包含以下功能：</p>
+<ul>
+<li>管理用户对table的增删改查操作</li>
+<li>管理hregionserver的负载均衡，调整region分布</li>
+<li>在region split后，负责新region的分配</li>
+<li>在hregionserver停机后，负责失效hregionserver上region迁移</li>
+</ul>
+</li>
+<li><p>hregionserver<br>hregionserver主要负责响应用户i/o请求。向hdfs文件系统中读写数据。是hbase中最核心的模块。<br><img src="http://i.imgur.com/HsVM38Z.png" alt=""><br>hregionserver内部管理了一系列hregion对象，每个hregion对应table中的一个region，</p>
+</li>
+<li><p>hstore<br>hstore存储是hbase存储的核心，其中有两部分组成，一部分是memstore，一部分是storefile。用户写入的数据首先会放入memstore中，当memstore满了以后，会执行一个flush操作，变成一个storefile。当storefile增加到一定的阈值。会出发compact合并操作将多个storefile合并成一个storefile，合并过程中进行版本合并和数据删除。</p>
+</li>
+<li><p>hlog<br>每个hregionserver都有一个hlog对象，hlog是一个实现write ahead log的类，每次用户写入memstore同时，也会写一份数据到hlog中，hlog文件会定期回滚出新的，并删除old的文件（已经持久化到memstore）。当hregionserver意外终止的时候，hmaster汇通过zookeeper感知到，hmaster会首先处理遗留下来的hlog。将其中不同region的log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配。领取这些region的hregionserver在load region的过程中，会发现有历史hlog需要处理。因此会重新加载hlog中的数据到memstore中，然后保存到哦storefile，完成数据恢复。</p>
+</li>
+</ol>
+<h4 id="3-hbase存储格式"><a href="#3-hbase存储格式" class="headerlink" title="3.hbase存储格式"></a>3.hbase存储格式</h4><ul>
+<li>hfile</li>
+<li>hlog file</li>
+</ul>
+<p>1.hfile<br><img src="http://i.imgur.com/Lqn3NUh.png" alt=""></p>
+<p>2.hlogfile</p>
+<p><img src="http://i.imgur.com/PYr0eFk.png" alt=""></p>
+<h4 id="4-数据模型"><a href="#4-数据模型" class="headerlink" title="4.数据模型"></a>4.数据模型</h4><p><img src="http://i.imgur.com/jEb1inN.png" alt=""></p>
+<ul>
+<li>row key</li>
+<li>列族</li>
+<li>时间戳</li>
+<li>cell</li>
+</ul>
+<p><img src="http://i.imgur.com/dmLyotO.png" alt=""></p>
+<p>hbase中有两张特殊的表，-root- .meta</p>
+<p>.meta. 记录用户表的region信息，可以有多个region<br>-root- 记录.meta.表的region信息，只能有一个region</p>
+<p>zookeper中记录-root-表的location </p>
+<p><img src="http://i.imgur.com/vBzRFlR.png" alt=""></p>
+<h4 id="4-hbase红的算法和流程"><a href="#4-hbase红的算法和流程" class="headerlink" title="4.hbase红的算法和流程"></a>4.hbase红的算法和流程</h4><p>region 定位<br><img src="http://i.imgur.com/FBfy26s.png" alt=""></p>
+<p>region 分配</p>
+<p>region server上线和下线</p>
+<p>master上线和下线</p>
+
       
     </div>
 
@@ -314,6 +440,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/18/hadoop笔记-备考/" rel="prev" title="hadoop笔记-备考">
+                hadoop笔记-备考 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -381,7 +511,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">58</span>
+              <span class="site-state-item-count">59</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -434,7 +564,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-hbase"><span class="nav-number">1.</span> <span class="nav-text">1.hbase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-hbase存储结构"><span class="nav-number">2.</span> <span class="nav-text">2.hbase存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-hbase存储格式"><span class="nav-number">3.</span> <span class="nav-text">3.hbase存储格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-数据模型"><span class="nav-number">4.</span> <span class="nav-text">4.数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-hbase红的算法和流程"><span class="nav-number">5.</span> <span class="nav-text">4.hbase红的算法和流程</span></a></li></ol></div>
             
           </div>
         </section>
