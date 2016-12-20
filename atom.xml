@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-18T14:05:23.221Z</updated>
+  <updated>2016-12-20T05:34:59.030Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pat1003</title>
+    <link href="http://yoursite.com/2016/12/20/pat1003/"/>
+    <id>http://yoursite.com/2016/12/20/pat1003/</id>
+    <published>2016-12-20T05:31:09.000Z</published>
+    <updated>2016-12-20T05:34:59.030Z</updated>
+    
+    <content type="html"><![CDATA[<p>As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.</p>
+<p>Input</p>
+<p>Each input file contains one test case. For each test case, the first line contains 4 positive integers: N (&lt;= 500) - the number of cities (and the cities are numbered from 0 to N-1), M - the number of roads, C1 and C2 - the cities that you are currently in and that you must save, respectively. The next line contains N integers, where the i-th integer is the number of rescue teams in the i-th city. Then M lines follow, each describes a road with three integers c1, c2 and L, which are the pair of cities connected by a road and the length of that road, respectively. It is guaranteed that there exists at least one path from C1 to C2.</p>
+<p>Output</p>
+<p>For each test case, print in one line two numbers: the number of different shortest paths between C1 and C2, and the maximum amount of rescue teams you can possibly gather.<br>All the numbers in a line must be separated by exactly one space, and there is no extra space allowed at the end of a line.</p>
+<p>Sample Input<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">5 6 0 2</div><div class="line">1 2 1 5 3</div><div class="line">0 1 1</div><div class="line">0 2 2</div><div class="line">0 3 1</div><div class="line">1 2 1</div><div class="line">2 4 1</div><div class="line">3 4 1</div></pre></td></tr></table></figure></p>
+<p>Sample Output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2 4</div></pre></td></tr></table></figure>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3_2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n,m,c1,c2;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] teams;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] mtx;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> inf=Integer.MAX_VALUE;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		m=sc.nextInt();</div><div class="line">		c1=sc.nextInt();</div><div class="line">		c2=sc.nextInt();</div><div class="line">		teams=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		mtx=<span class="keyword">new</span> <span class="keyword">int</span>[n][n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			teams[i]=sc.nextInt();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) Arrays.fill(mtx[i], -<span class="number">1</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</div><div class="line">			<span class="keyword">int</span> c1=sc.nextInt(),c2=sc.nextInt(),l=sc.nextInt();</div><div class="line">			mtx[c1][c2]=mtx[c2][c1]=l;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		djk(c1,c2);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">djk</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">		<span class="keyword">boolean</span>[] visted=<span class="keyword">new</span> <span class="keyword">boolean</span>[n]; </div><div class="line">		Arrays.fill(visted, <span class="keyword">false</span>);</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentDist=<span class="keyword">new</span> <span class="keyword">int</span>[n]; </div><div class="line">		Arrays.fill(currentDist, inf);</div><div class="line">		currentDist[start]=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentTeam=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		currentTeam=teams.clone();</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] path= <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		Arrays.fill(path, <span class="number">0</span>);</div><div class="line">		path[start]=<span class="number">1</span>;</div><div class="line">		</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> min=<span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span>(min!=end)&#123;</div><div class="line">			min=-<span class="number">1</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[i])&#123;</div><div class="line">					<span class="keyword">if</span>(min==-<span class="number">1</span>) min=i;</div><div class="line">					<span class="keyword">if</span>(currentDist[i]&lt;currentDist[min]) min=i;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			visted[min]=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[j]&amp;&amp; mtx[min][j]!=-<span class="number">1</span>)&#123;</div><div class="line">					<span class="keyword">if</span>(currentDist[min]+mtx[min][j]&lt;currentDist[j])&#123;</div><div class="line">						currentDist[j]=currentDist[min]+mtx[min][j];</div><div class="line">						currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						path[j]=path[min];</div><div class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span>(currentDist[min]+mtx[min][j]==currentDist[j])&#123;</div><div class="line">						path[j]+=path[min];</div><div class="line">						<span class="keyword">if</span>(currentTeam[min]+teams[j]&gt;currentTeam[j])&#123;</div><div class="line">							currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;	</div><div class="line">		&#125;</div><div class="line">		System.out.println(path[end]+<span class="string">" "</span>+currentTeam[end]);	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connect
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
   
   <entry>
     <title>hadoop笔记-备考</title>
@@ -80,7 +109,7 @@
     <link href="http://yoursite.com/2016/12/15/hbase/"/>
     <id>http://yoursite.com/2016/12/15/hbase/</id>
     <published>2016-12-15T05:22:02.000Z</published>
-    <updated>2016-12-18T13:01:41.550Z</updated>
+    <updated>2016-12-18T14:12:39.594Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-hbase"><a href="#1-hbase" class="headerlink" title="1.hbase"></a>1.hbase</h4><p>hbase是一个<strong>高可靠、高性能、面向列、可伸缩</strong>的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。</p>
 <p>hbase的特点：</p>
@@ -150,6 +179,10 @@
     
     </summary>
     
+      <category term="hadoop" scheme="http://yoursite.com/categories/hadoop/"/>
+    
+    
+      <category term="hadoop" scheme="http://yoursite.com/tags/hadoop/"/>
     
   </entry>
   
@@ -2717,61 +2750,6 @@ false
 &lt;li&gt;
     
     </summary>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解JVM六-类文件结构</title>
-    <link href="http://yoursite.com/2016/10/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E5%85%AD-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"/>
-    <id>http://yoursite.com/2016/10/24/深入理解JVM六-类文件结构/</id>
-    <published>2016-10-24T08:36:18.000Z</published>
-    <updated>2016-11-02T17:25:38.764Z</updated>
-    
-    <content type="html"><![CDATA[<p>class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
-<p>###class文件结构介绍：</p>
-<p>根据java虚拟机规范的规定，class文件格式采用一种类似c语言结构体的伪结构来存储，这种伪结构中只有两种数据类型：无符号数和表。</p>
-<p>无符号数：无符号数属于基本的数据类型，以u1,u2,u4,u8来分别代表1个字节，2个字节，4个字节和8个字节的无符号数，无符号数可以用来描述数字、索引引用、数量值，或者按照utf-8编码构成字符串值。</p>
-<p>表：表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性地以“_info“结尾。表用于描述有层次关系的复合结构的数据，整个class文件本质上就是一张表，它由下列数据项构成：</p>
-<pre><code>ClassFile {  
-    u4 magic;//魔数(0xCAFEBABE)  
-    u2 minor_version;//次版本号  
-    u2 major_version;//主版本号  
-    u2 constant_pool_count;//常量池容量计数值  
-    cp_info constant_pool[constant_pool_count-1];//常量池  
-    u2 access_flags;//访问标志  
-    u2 this_class;//类索引  
-    u2 super_class;//父类索引  
-    u2 interfaces_count;//接口计数器  
-    u2 interfaces[interfaces_count];//接口索引集合  
-    u2 fields_count;//字段计数器  
-    field_info fields[fields_count];//字段表  
-    u2 methods_count;//方法计数器  
-    method_info methods[methods_count];//方法表  
-    u2 attributes_count;//属性表计数器  
-    attribute_info attributes[attributes_count];//属性表集合  
-}  
-</code></pre><p>无论是无符号数还是表，当需要描述的同一类型但是数量不定的多个数据时，经常会使用一个前置的容量计数器加若干个连续的数据项的形式（比如说一个类可能实现了多个接口，这时候需要一个计数器来指定接口的数量），这时候称这一系列连续的某一类型的数据为某一类型的集合。上面的文件格式是固定的，每个数据项的顺序，占用字节数都是被严格限定的，不允许改变。</p>
-<p>1.魔数：class文件头四个字节代表魔数，它的作用是用于确定该文件是一个能被虚拟机接受的class文件,其值为0xCAFEBABE.</p>
-<p>2.版本：魔数后四个字节代表class文件的版本号，其中前两个字节代表次版本号，后两个字节代表主版本号。高版本的jdk能向下兼容以前版本的class文件，但不能运行以后版本的class文件。</p>
-<p>3.常量池：主版本之后的是常量池入口，常量池是class文件结构中与其他项目关联最多的数据类型，也是占用class文件空间最大的数据项目之一，同时还是在class文件中第一个出现的表类型的数据项目。因为常量池中常量数量不固定，所以在常量池入口前需要放置一个计数器，占用两个字节。比如如果该位置的值为0x0016,那就代表常量池中有21项常量（从1开始），第0项空出来是为了满足后面某些指向常量池的索引值的数据在特定情况下需要表达”不引用任何一个常量池项目“的意思，这种情况就可以把索引置为0来表示。class文件结构只有常量池的容量计数器是从1开始的，其他集合类型都是从0开始的。<br>    常量池中主要存放两类数据：字面量和符号引用；<br>（1）字面量：比如文本字符串，被声明为final的常量值等。<br>（2）符号引用：包括类和接口的权限定名，字段的名称和描述符，方法的名称和描述符。</p>
-<p>4.访问标志（access_flags）：常量池之后，紧接着的两个字节代表访问标志，这个标志用于识别一些类或者接口层次的访问信息（比如这个class是否是public是否是final等等)。</p>
-<p>5.类索引，父类索引，接口索引：类索引和父类索引都是一个u2类型的数据，而接口索引集合时一组u2类型的数据的集合，class文件中由这三项数据来确定这个类的继承关系。类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名（除了kava.lang.Object以外所有类的父类索引均不为0）。接口索引集合用来描述这个类实现了哪些接口。<br>    类索引和父类索引用两个u2类型的索引值表示，它们各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过CONSTANT_Class_info类型的常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
-<p>6.字段表集合：字段表集合用于描述接口或者类中声明的变量。字段包括了类级变量或者实例级变量，但是不包括方法内部声明的变量。</p>
-<p>7.方法表集合：内容跟属性表集合基本一致</p>
-<p>8.属性表集合：在class文件、字段表、方法表中都可以携带字节的属性表集合，用于描述某些场景专有的信息。属性表中的数据项目不需要有严格的顺序，java虚拟机在运行时会自动的忽略掉不认识的属性，其中系统预定义了9种虚拟机应该识别的属性，</p>
-<p>连接：<br><a href="http://blog.csdn.net/kobejayandy/article/details/39620833" target="_blank" rel="external">http://blog.csdn.net/kobejayandy/article/details/39620833</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割
-    
-    </summary>
-    
-      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
     
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
