@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JVM," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -90,40 +90,12 @@
 
 
 
-<meta name="description" content="高性能硬件上部署程序，目前主要有两种方式：
-
-使用64位JDK来使用大内存
-使用若干个32位虚拟机建立逻辑集群来利用硬件资源
-
-集群间同步导致的内存溢出；
-堆外内存导致的溢出错误：
-direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。
-线程堆栈：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="深入理解JVM笔记五-调优案例分析与实战">
-<meta property="og:url" content="http://yoursite.com/2016/10/24/深入理解JVM笔记五/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="lyp's blog">
+<meta property="og:url" content="http://yoursite.com/page/7/index.html">
 <meta property="og:site_name" content="lyp's blog">
-<meta property="og:description" content="高性能硬件上部署程序，目前主要有两种方式：
-
-使用64位JDK来使用大内存
-使用若干个32位虚拟机建立逻辑集群来利用硬件资源
-
-集群间同步导致的内存溢出；
-堆外内存导致的溢出错误：
-direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。
-线程堆栈：">
-<meta property="og:updated_time" content="2016-11-02T17:25:25.153Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解JVM笔记五-调优案例分析与实战">
-<meta name="twitter:description" content="高性能硬件上部署程序，目前主要有两种方式：
-
-使用64位JDK来使用大内存
-使用若干个32位虚拟机建立逻辑集群来利用硬件资源
-
-集群间同步导致的内存溢出；
-堆外内存导致的溢出错误：
-direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。
-线程堆栈：">
+<meta name="twitter:title" content="lyp's blog">
 
 
 
@@ -144,10 +116,10 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/24/深入理解JVM笔记五/"/>
+  <link rel="canonical" href="http://yoursite.com/page/7/"/>
 
 
-  <title> 深入理解JVM笔记五-调优案例分析与实战 | lyp's blog </title>
+  <title> lyp's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -168,7 +140,9 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -247,9 +221,9 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -269,7 +243,10 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
             
             
               
-                深入理解JVM笔记五-调优案例分析与实战
+                
+                <a class="post-title-link" href="/2015/11/21/如何声明数组及push-pop-shift-unshift操作/" itemprop="url">
+                  如何声明数组及push,pop,shift,unshift操作
+                </a>
               
             
           </h1>
@@ -281,8 +258,8 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T15:00:22+08:00" content="2016-10-24">
-              2016-10-24
+            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
+              2015-11-21
             </time>
           </span>
 
@@ -295,8 +272,8 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
               <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -328,74 +305,161 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
       
 
       
-        <p>高性能硬件上部署程序，目前主要有两种方式：</p>
-<ul>
-<li>使用64位JDK来使用大内存</li>
-<li>使用若干个32位虚拟机建立逻辑集群来利用硬件资源</li>
-</ul>
-<p>集群间同步导致的内存溢出；</p>
-<p>堆外内存导致的溢出错误：</p>
-<p>direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。</p>
-<p>线程堆栈：通过-Xss调整大小。不足抛出stackoverflowerror。</p>
-<p>eclipse性能调优参考深入理解jvm第5章</p>
-
+        
+          <p>#如何声明数组及push,pop,shift,unshift操作<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/11/21/如何声明数组及push-pop-shift-unshift操作/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/JVM/" rel="tag">#JVM</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/10/23/兰天震的设计/" rel="next" title="兰天震的设计">
-                <i class="fa fa-chevron-left"></i> 兰天震的设计
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/24/深入理解JVM六-类文件结构/" rel="prev" title="深入理解JVM六-类文件结构">
-                深入理解JVM六-类文件结构 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+      
 
-    <div class="post-spread">
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/19/北京的夜/" itemprop="url">
+                  北京的夜
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2015-11-19T02:21:53+08:00" content="2015-11-19">
+              2015-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/生活/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>随笔<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/11/19/北京的夜/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
       
     </div>
-  </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+  </nav>
+
 
 
           </div>
@@ -403,10 +467,6 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -426,17 +486,8 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -493,17 +544,6 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -600,10 +640,6 @@ direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会�
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
-
-
 
   
 

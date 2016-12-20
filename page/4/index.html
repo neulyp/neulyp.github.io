@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,282 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" itemprop="url">
+                  mysql中tinyint.smallint.int.bigint区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
+              2016-10-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
+</li>
+<li><p>smallint<br>从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小为 2 个字节。<br>unsigned 是从 0 到 65535 的整型数据。<br>所以建表的时候 只能是smallint(5),哪怕你建smallint(100)，他最大还是5位这么多。</p>
+</li>
+<li><p>int<br>从 -2^31 (-2,147,483,648) 到 2^31 - 1 (2,147,483,647) 的整型数据（所有数字）.存储大小为 4 个字节。<br>unsigned 是从 0 到 4294967296 的整型数据。<br>所以建表的时候 只能是int(10),哪怕你建int(100)，他最大还是10位这么多。</p>
+</li>
+<li><p>bigint<br>从 -2^63 (-9,223,372,036,854,775,808) 到 2^63-1 (9,223,372,036,854,775,807) 的整型数据（所有数字）。存储大小为 8 个字节。<br>unsigned 是(自己算吧)</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/06/面向对象系统分析与设计/" itemprop="url">
+                  面向对象系统分析与设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
+              2016-10-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####系统分析设计方法：</p>
+<ul>
+<li>结构化方法</li>
+<li>信息建模法</li>
+<li>面向对象分析设计方法</li>
+</ul>
+<p>面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或概念）。</p>
+<p>面向对象的设计（ Object Oriented Design ，OOD）强调的是定义软件对象以它们是如何协作以实现需求</p>
+<p>####面向对象的优点：</p>
+<ul>
+<li>复用<br>通过继承、关联、封装等手段</li>
+<li>应变<br>弹性应对需求变化</li>
+<li>沟通<br>开发人员、用户、管理人员</li>
+<li>市场<br>应付市场的变化</li>
+<li>士气<br>员工的士气</li>
+</ul>
+<p>使用OMT方法的面向对象开发过程可分为5步：</p>
+<ul>
+<li>分析</li>
+<li>系统设计</li>
+<li>对象设计</li>
+<li>编代码</li>
+<li>测试</li>
+</ul>
+<p>分为下述5个活动 </p>
+<ul>
+<li>编写问题陈述 </li>
+<li>建立对象模型 </li>
+<li>建立动态模型 </li>
+<li>建立功能模型</li>
+<li>细化对象模型、动态模型和功能模型，并建立文档</li>
+</ul>
+<p>系统设计的步骤如下：</p>
+<ul>
+<li>将系统划分为子系统 </li>
+<li>识别并发 </li>
+<li>将子系统和任务分配给处理器 </li>
+<li>选择实现数据存储的策略 </li>
+<li>识别出全局资源，并确定控制访问全局资源的机制 </li>
+<li>选择实现软件控制的方法 </li>
+<li>考虑边界条件 </li>
+<li>建立折衷的优先级</li>
+</ul>
+<p>宏过程包括下述5个活动:</p>
+<p>（1）概念化（Conceptualization）：在这个活动中，建立核心需求。<br>（2）分析（Analysis）：在这个活动中，为所期望的行为建立模型。<br>（3）设计（Design）：在这个活动中，建立体系结构。<br>（4）进化（Evolution）：在这个活动中，形成实现。<br>（5）维护（Maintenance）：在这个活动中，管理软件的交付使用。</p>
+<p>微过程由4个步骤组成：</p>
+<p>（1）在给定的抽象层次上识别出类和对象。<br>（2）识别出这些类和对象的语义。<br>（3）识别出类间和对象间的关系。<br>（4）实现类和对象。</p>
+<p>####软件过程</p>
+<p>软件过程定义了软件开发、部署和维护的步骤</p>
+<ul>
+<li><p>迭代式开发 </p>
+<p> 迭代式开发将软件开发过程分解为一系列小的，固定周期的(比如，4个星期)的小项目，每个小项目称为一个迭代。</p>
+</li>
+<li><p>统一过程 (Unified Process)</p>
+</li>
+</ul>
+<p>一种采用OOA/D方法学开发项目的过程(Ivar Jacobson)。<br>一种流行的构造面向对象系统的迭代开发过程（JBR99）。</p>
+<ul>
+<li>敏捷UP( Agile UP ) </li>
+</ul>
+<p>引入了敏捷概念的UP,是UP的一个简集。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/29/机器学习weka（三）/" itemprop="url">
                   机器学习weka（三）
                 </a>
@@ -257,7 +533,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -269,7 +545,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -398,7 +674,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -410,7 +686,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -550,7 +826,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T20:39:32+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -562,7 +838,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -602,7 +878,7 @@
           <p>###机器学习weka（一）<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/29/weka1/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -665,7 +941,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:52:26+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -779,7 +1055,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -902,7 +1178,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1030,7 +1306,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1128,245 +1404,6 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             
               
                 
-                <a class="post-title-link" href="/2016/09/23/java杂记/" itemprop="url">
-                  java杂记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
-              2016-09-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
-<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
-<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
-<p>2.Comparable和Comparator接口是干什么的？列出它们的区别。</p>
-<p>Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。</p>
-<p>Java提供了包含compare()和equals()两个方法的Comparator接口。compare()方法用来给两个输入参数排序，返回负数，0，正数表明第一个参数是小于，等于，大于第二个参数。equals()方法需要一个对象作为参数，它用来决定输入参数是否和comparator相等。只有当输入参数也是一个comparator并且输入参数和当前comparator的排序结果是相同的时候，这个方法才返回true。</p>
-<p>3.Enumeration接口和Iterator接口的区别有哪些？</p>
-<p>Enumeration速度是Iterator的2倍，同时占用更少的内存。但是，Iterator远远比Enumeration安全，因为其他线程不能够修改正在被iterator遍历的集合里面的对象。同时，Iterator允许调用者删除底层集合里面的元素，这对Enumeration来说是不可能的。</p>
-<p>4.HashSet和TreeSet有什么区别？</p>
-<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
-<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
-<p>###JDBC</p>
-<p>8.什么是JDBC？</p>
-<p>JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。</p>
-<p>9.PreparedStatement比Statement有什么优势？</p>
-<p>PreparedStatements是预编译的，因此，性能会更好。同时，不同的查询参数值，PreparedStatement可以重用。</p>
-<p>10.什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？</p>
-<p>CallableStatement用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。准备一个CallableStatement的方法是：</p>
-<pre><code>CallableStament.prepareCall();
-</code></pre><hr>
-<p>##一.GC<br>Java中的垃圾回收机制</p>
-<p>####GC针对什么对象？<br>了解GC机制的第一步就是理解什么样的对象会被回收。当一个对象通过一系列根对象(比如：静态属性引用的常量)都不可达时就会被回收。简而言之，当一个对象的所有引用都为null。循环依赖不算做引用，如果对象A有一个指向对象B的引用，对象B也有一个指向对象A的引用，除此之外，它们没有其他引用，那么对象A和对象B都、需要被回收(如下图,ObjA和ObjB需要被回收)。</p>
-<p>####堆内存是如何划分的？</p>
-<p>Java中对象都在堆上创建。为了GC，堆内存分为三个部分，也可以说三代，分别称为新生代，老年代和永久代。其中新生代又进一步分为Eden区，Survivor 1区和Survivor 2区(如下图)。新创建的对象会分配在Eden区,在经历一次Minor GC后会被移到Survivor 1区，再经历一次Minor GC后会被移到Survivor 2区，直到升至老年代,需要注意的是，一些大对象(长字符串或数组)可能会直接存放到老年代。</p>
-<p><img src="http://i.imgur.com/KU1IyMG.png" alt=""></p>
-<hr>
-<p>##二.hashmap</p>
-<p>原文链接：<a href="http://yemengying.com/2016/05/07/threadsafe-hashmap/" target="_blank" rel="external">http://yemengying.com/2016/05/07/threadsafe-hashmap/</a></p>
-<p>####hashmap的自动扩容机制<br>HashMap 内部的 Node 数组默认的大小是16，假设有100万个元素，那么最好的情况下每个 hash 桶里都有62500个元素😱，这时get(),put(),remove()等方法效率都会降低。为了解决这个问题，HashMap 提供了自动扩容机制，当元素个数达到数组大小 loadFactor 后会扩大数组的大小，在默认情况下，数组大小为16，loadFactor 为0.75，也就是说当 HashMap 中的元素超过16\0.75=12时，会把数组大小扩展为2*16=32，并且重新计算每个元素在新数组中的位置。</p>
-<p>####为什么线程不安全<br>个人觉得 HashMap 在并发时可能出现的问题主要是两方面,首先如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的数据被覆盖。第二就是如果多个线程同时检测到元素个数超过数组大小* loadFactor ，这样就会发生多个线程同时对 Node 数组进行扩容，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失。</p>
-<p>关于 HashMap 线程不安全这一点，《Java并发编程的艺术》一书中是这样说的：</p>
-<blockquote>
-<p>HashMap 在并发执行 put 操作时会引起死循环，导致 CPU 利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。死循环并不是发生在 put 操作时，而是发生在扩容时。</p>
-</blockquote>
-<p>####如何安全的使用hashmap</p>
-<ul>
-<li>Hashtable</li>
-<li>ConcurrentHashMap</li>
-<li>Synchronized Map</li>
-</ul>
-<pre><code>//Hashtable
-Map&lt;String, String&gt; hashtable = new Hashtable&lt;&gt;();
-
-//synchronizedMap
-Map&lt;String, String&gt; synchronizedHashMap = Collections.synchronizedMap(new HashMap&lt;String, String&gt;());
-
-//ConcurrentHashMap
-Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
-</code></pre><p>hashtable通过使用 <em>synchronized</em>来保证线程安全。</p>
-<p>concurrenthashmap：</p>
-<ul>
-<li>CHM允许并发的读和线程安全的更新操作</li>
-<li>在执行写操作时，CHM只锁住部分的Map</li>
-<li>并发的更新是通过内部根据并发级别将Map分割成小部分实现的</li>
-<li>高的并发级别会造成时间和空间的浪费，低的并发级别在写线程多时会引起线程间的竞争</li>
-<li>CHM的所有操作都是线程安全</li>
-<li>CHM返回的迭代器是弱一致性，fail-safe并且不会抛出ConcurrentModificationException异常</li>
-<li>CHM不允许null的键值</li>
-<li>可以使用CHM代替HashTable，但要记住CHM不会锁住整个Map</li>
-</ul>
-<p>Synchronized Map：<br>从源码中可以看出调用 synchronizedMap() 方法后会返回一个 SynchronizedMap 类的对象，而在 SynchronizedMap 类中使用了 synchronized 同步关键字来保证对 Map 的操作是线程安全的。</p>
-<p>####hashmap如何解决冲突<br>其实就是链接法，将索引值相同的元素存放到一个单链表里。但为了解决在频繁冲突时HashMap性能降低的问题，Java 8中做了一个小优化，在冲突的元素个数超过设定的值(默认为8)时，会使用平衡树来替代链表存储冲突的元素。</p>
-<hr>
-<p>##三.java创建对象有哪几种</p>
-<ul>
-<li>new</li>
-<li>工厂模式</li>
-<li>反射</li>
-<li>克隆</li>
-</ul>
-<p>#四.java反射详解<br>原文链接：<a href="http://www.jianshu.com/p/53eb4e16d00e" target="_blank" rel="external">http://www.jianshu.com/p/53eb4e16d00e</a></p>
-<p>####什么是反射</p>
-<p> 主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。<br> 反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是反射使用不当会成本很高！<br>反射（Reflection）能够让运行于 JVM 中的程序检测和修改运行时的行为</p>
-<p>反射机制的作用：</p>
-<ol>
-<li>反编译：.class–&gt;.java</li>
-<li><p>通过反射机制访问java对象的属性，方法，构造方法等；</p>
-<pre><code>String s = &quot;java.util.Date&quot;;
-   Object m = Class.forName(s).newInstance();
-</code></pre><p>####为什么需要反射<br>通过反射，我们能够</p>
-</li>
-</ol>
-<ul>
-<li>在运行时检测对象的类型；</li>
-<li>动态构造某个类的对象；</li>
-<li>检测类的属性和方法；</li>
-<li>任意调用对象的方法；</li>
-<li>修改构造函数、方法、属性的可见性。</li>
-</ul>
-<p>JUnit通过反射来遍历包含 @Test 注解的方法，并在运行单元测试时调用它们。</p>
-<p>Web框架<br>开发人员可以在配置文件中定义对各种接口和类的实现。通过反射机制，框架能够快速地动态初始化所需要的类。</p>
-<p>Spring框架使用如下的配置文件：</p>
-<pre><code>&lt;bean id=&quot;someID&quot; class=&quot;com.programcreek.Foo&quot;&gt;
-    &lt;property name=&quot;someField&quot; value=&quot;someValue&quot; /&gt;
-&lt;/bean&gt;
-</code></pre><p>当Spring容器处理 bean 元素时，会使用Class.forName(“com.programcreek.Foo”)来初始化这个类，并再次使用反射获取 property 元素对应的setter方法，为对象的属性赋值。</p>
-<hr>
-<p>##五.异常<br>5.throw和throws有什么区别？</p>
-<p>throw关键字用来在程序中明确的抛出异常，相反，throws语句用来表明方法不能处理的异常。每一个方法都必须要指定哪些异常不能处理，所以方法的调用者才能够确保处理可能发生的异常，多个异常是用逗号分隔的。</p>
-<p>6.Java中Exception和Error有什么区别？</p>
-<p>Exception和Error都是Throwable的子类。Exception用于用户程序可以捕获的异常情况。Error定义了不期望被用户程序捕获的异常。</p>
-<p>7.Java中的两种异常类型是什么？他们有什么区别？</p>
-<p>Java中有两种异常：受检查的(checked)异常和不受检查的(unchecked)异常。不受检查的异常不需要在方法或者是构造函数上声明，就算方法或者是构造函数的执行可能会抛出这样的异常，并且不受检查的异常可以传播到方法或者是构造函数的外面。相反，受检查的异常必须要用throws语句在方法或者是构造函数上声明。<br><img src="http://i.imgur.com/hUwjIXa.jpg" alt=""></p>
-<p>##六.spring相关</p>
-<p>spring的核心 ioc和aop</p>
-<p>Spring Bean的生命周期（非常详细）<a href="http://www.cnblogs.com/zrtqsk/p/3735273.html" target="_blank" rel="external">http://www.cnblogs.com/zrtqsk/p/3735273.html</a></p>
-<p>####spring中用到的设计模式<br>工厂模式:IOC容器<br>代理模式:AOP<br>策略模式:在spring采取动态代理时，根据代理的类有无实现接口有JDK和CGLIB两种代理方式，就是采用策略模式实现的<br>单例模式:默认情况下spring中的bean只存在一个实例<br>只知道这四个。。。。</p>
-<p>####讲一讲Spring IoC和AOP<br>IoC的核心是依赖反转，将创建对象和对象之间的依赖管理交给IoC容器来做，完成对象之间的解耦。<br>AOP主要是利用代理模式，把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
-<p>权限，日志，处理异常，事务等等，个人理解就是把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
-<p>####Spring中编码统一要如何做<br>配置一个拦截器</p>
-<pre><code>&lt;filter&gt;  
-       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
-       &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  
-       &lt;init-param&gt;  
-           &lt;param-name&gt;encoding&lt;/param-name&gt;  
-           &lt;param-value&gt;UTF-8&lt;/param-value&gt;  
-       &lt;/init-param&gt;  
-       &lt;init-param&gt;  
-           &lt;param-name&gt;forceEncoding&lt;/param-name&gt;  
-           &lt;param-value&gt;true&lt;/param-value&gt;  
-       &lt;/init-param&gt;  
-   &lt;/filter&gt;  
-   &lt;filter-mapping&gt;  
-       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
-       &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
-   &lt;/filter-mapping&gt;
-</code></pre><hr>
-<p>##七.数据库相关</p>
-<p>###mysql索引原理</p>
-<p>来源：美团点评技术团队<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="external">http://tech.meituan.com/mysql-index.html</a></p>
-<p>####详解b+树</p>
-<p><img src="http://i.imgur.com/iFzh0Ub.jpg" alt=""></p>
-<p>如上图，是一颗b+树，关于b+树的定义可以参见B+树，这里只说一些重点，浅蓝色的块我们称之为一个磁盘块，可以看到每个磁盘块包含几个数据项（深蓝色所示）和指针（黄色所示），如磁盘块1包含数据项17和35，包含指针P1、P2、P3，P1表示小于17的磁盘块，P2表示在17和35之间的磁盘块，P3表示大于35的磁盘块。真实的数据存在于叶子节点即3、5、9、10、13、15、28、29、36、60、75、79、90、99。非叶子节点只不存储真实的数据，只存储指引搜索方向的数据项，如17、35并不真实存在于数据表中。</p>
-<p>####b+树的查找过程<br>如图所示，如果要查找数据项29，那么首先会把磁盘块1由磁盘加载到内存，此时发生一次IO，在内存中用二分查找确定29在17和35之间，锁定磁盘块1的P2指针，内存时间因为非常短（相比磁盘的IO）可以忽略不计，通过磁盘块1的P2指针的磁盘地址把磁盘块3由磁盘加载到内存，发生第二次IO，29在26和30之间，锁定磁盘块3的P2指针，通过指针加载磁盘块8到内存，发生第三次IO，同时内存中做二分查找找到29，结束查询，总计三次IO。真实的情况是，3层的b+树可以表示上百万的数据，如果上百万的数据查找只需要三次IO，性能提高将是巨大的，如果没有索引，每个数据项都要发生一次IO，那么总共需要百万次的IO，显然成本非常非常高。</p>
-<p>####b+树性质<br>1.通过上面的分析，我们知道IO次数取决于b+数的高度h，假设当前数据表的数据为N，每个磁盘块的数据项的数量是m，则有h=㏒(m+1)N，当数据量N一定的情况下，m越大，h越小；而m = 磁盘块的大小 / 数据项的大小，磁盘块的大小也就是一个数据页的大小，是固定的，如果数据项占的空间越小，数据项的数量越多，树的高度越低。这就是为什么每个数据项，即索引字段要尽量的小，比如int占4字节，要比bigint8字节少一半。这也是为什么b+树要求把真实的数据放到叶子节点而不是内层节点，一旦放到内层节点，磁盘块的数据项会大幅度下降，导致树增高。当数据项等于1时将会退化成线性表。</p>
-<p>2.当b+树的数据项是复合的数据结构，比如(name,age,sex)的时候，b+数是按照从左到右的顺序来建立搜索树的，比如当(张三,20,F)这样的数据来检索的时候，b+树会优先比较name来确定下一步的所搜方向，如果name相同再依次比较age和sex，最后得到检索的数据；但当(20,F)这样的没有name的数据来的时候，b+树就不知道下一步该查哪个节点，因为建立搜索树的时候name就是第一个比较因子，必须要先根据name来搜索才能知道下一步去哪里查询。比如当(张三,F)这样的数据来检索时，b+树可以用name来指定搜索方向，但下一个字段age的缺失，所以只能把名字等于张三的数据都找到，然后再匹配性别是F的数据了， 这个是非常重要的性质，即索引的最左匹配特性。</p>
-<p>####建索引的几大原则</p>
-<ol>
-<li>最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
-<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
-<li>尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录</li>
-<li>索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);</li>
-<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
-</ol>
-<p>####mysql分页优化<br>ps：吐槽下，饿了么面试问我，但是呢。我压根没优化过…<br>参考另一个。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/09/23/java泛型/" itemprop="url">
                   java泛型
                 </a>
@@ -1380,7 +1417,7 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
               2016-09-23
             </time>
@@ -1473,107 +1510,11 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
-                  mysql分页优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
-              2016-09-22
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1614,8 +1555,8 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">60</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1623,7 +1564,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1632,7 +1573,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1683,7 +1624,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

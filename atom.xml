@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-20T05:34:59.030Z</updated>
+  <updated>2016-12-20T06:08:28.398Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,75 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pat1002</title>
+    <link href="http://yoursite.com/2016/12/20/pat1002/"/>
+    <id>http://yoursite.com/2016/12/20/pat1002/</id>
+    <published>2016-12-20T06:04:04.000Z</published>
+    <updated>2016-12-20T06:08:28.398Z</updated>
+    
+    <content type="html"><![CDATA[<p>1002.A+B for Polynomials (25)</p>
+<p>This time, you are supposed to find A+B where A and B are two polynomials.</p>
+<p>Input</p>
+<p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial: K N1 aN1 N2 aN2 … NK aNK, where K is the number of nonzero terms in the polynomial, Ni and aNi (i=1, 2, …, K) are the exponents and coefficients, respectively. It is given that 1 &lt;= K &lt;= 10，0 &lt;= NK &lt; … &lt; N2 &lt; N1 &lt;=1000.</p>
+<p>Output</p>
+<p>For each test case you should output the sum of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate to 1 decimal place.</p>
+<p>Sample Input</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2 1 2.4 0 3.2</div><div class="line">2 2 1.5 1 0.5</div></pre></td></tr></table></figure>
+<p>Sample Output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 2 1.5 1 2.9 0 3.2</div></pre></td></tr></table></figure>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t2_2</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> max=<span class="number">1000</span>+<span class="number">10</span>;</div><div class="line">		<span class="keyword">double</span>[] arr=<span class="keyword">new</span> <span class="keyword">double</span>[max];</div><div class="line">		<span class="keyword">int</span> n;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>;i++)&#123;</div><div class="line">			n=sc.nextInt();</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=n-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</div><div class="line">				<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">				<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">				arr[e]+=c;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;max;i++) <span class="keyword">if</span>(arr[i]!=<span class="number">0</span>) cnt++;</div><div class="line">		System.out.print(cnt);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=max-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</div><div class="line">			<span class="keyword">if</span>(arr[i]!=<span class="number">0</span>)&#123;</div><div class="line">				System.out.print(<span class="string">" "</span>+i);</div><div class="line">				System.out.print(<span class="string">" "</span>);</div><div class="line">				System.out.printf(<span class="string">"%.1f"</span>,arr[i]);				</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解答二：（估计有点小问题）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t2</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc =<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">int</span> n1=sc.nextInt();</div><div class="line">		<span class="keyword">int</span>[] e1=<span class="keyword">new</span> <span class="keyword">int</span>[n1];</div><div class="line">		<span class="keyword">double</span>[] c1=<span class="keyword">new</span> <span class="keyword">double</span>[n1];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n1;i++)&#123;</div><div class="line">			e1[i]=sc.nextInt();</div><div class="line">			c1[i]=sc.nextDouble();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> n2=sc.nextInt();</div><div class="line">		<span class="keyword">int</span>[] e2=<span class="keyword">new</span> <span class="keyword">int</span>[n2];</div><div class="line">		<span class="keyword">double</span>[] c2=<span class="keyword">new</span> <span class="keyword">double</span>[n2];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n2;i++)&#123;</div><div class="line">			e2[i]=sc.nextInt();</div><div class="line">			c2[i]=sc.nextDouble();</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</div><div class="line">		List&lt;Integer&gt; e=<span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">		List&lt;Double&gt; c=<span class="keyword">new</span> ArrayList&lt;Double&gt;();</div><div class="line">		<span class="keyword">while</span>(i&lt;n1||j&lt;n2)&#123;</div><div class="line">			<span class="keyword">if</span>(i&gt;=n1&amp;&amp;j&lt;n2)&#123;</div><div class="line">				e.add(e2[j]);</div><div class="line">				c.add(c2[j]);</div><div class="line">				j++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(i&lt;n1&amp;&amp;j&gt;=n2)&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]);</div><div class="line">				i++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]&gt;e2[j])&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]);</div><div class="line">				i++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]==e2[j])&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]+c2[j]);</div><div class="line">				i++;</div><div class="line">				j++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]&lt;e2[j])&#123;</div><div class="line">				e.add(e2[j]);</div><div class="line">				c.add(c2[j]);</div><div class="line">				j++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.print(e.size());</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;e.size();k++)&#123;</div><div class="line">			System.out.print(<span class="string">" "</span>+e.get(k));</div><div class="line">			System.out.print(<span class="string">" "</span>+c.get(k));</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1002.A+B for Polynomials (25)&lt;/p&gt;
+&lt;p&gt;This time, you are supposed to find A+B where A and B are two polynomials.&lt;/p&gt;
+&lt;p&gt;Input&lt;/p&gt;
+&lt;p&gt;Each 
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pat1001</title>
+    <link href="http://yoursite.com/2016/12/20/pat1001/"/>
+    <id>http://yoursite.com/2016/12/20/pat1001/</id>
+    <published>2016-12-20T06:03:53.000Z</published>
+    <updated>2016-12-20T06:05:49.648Z</updated>
+    
+    <content type="html"><![CDATA[<p>1001.A+B Format (20)</p>
+<p>Calculate a + b and output the sum in standard format – that is, the digits must be separated into groups of three by commas (unless there are less than four digits).</p>
+<p>Input</p>
+<p>Each input file contains one test case. Each case contains a pair of integers a and b where -1000000 &lt;= a, b &lt;= 1000000. The numbers are separated by a space.</p>
+<p>Output</p>
+<p>For each test case, you should output the sum of a and b in one line. The sum must be written in the standard format.</p>
+<p>Sample Input</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-1000000 9</div></pre></td></tr></table></figure>
+<p>Sample Output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-999,991</div></pre></td></tr></table></figure>
+<p>解答</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t1</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc=<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">int</span> a=sc.nextInt();</div><div class="line">		<span class="keyword">int</span> b=sc.nextInt();</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> c=a+b;</div><div class="line">		<span class="keyword">if</span>(c&lt;<span class="number">0</span>)&#123;</div><div class="line">			c=-c;</div><div class="line">			System.out.printf(<span class="string">"-"</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(c&gt;=<span class="number">1000000</span>)</div><div class="line">			System.out.printf(<span class="string">"%d,%03d,%03d\n"</span>,c/<span class="number">1000000</span>,(c/<span class="number">1000</span>)%<span class="number">1000</span>,c%<span class="number">1000</span>);</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(c&gt;=<span class="number">1000</span>)</div><div class="line">			System.out.printf(<span class="string">"%d,%03d\n"</span>,c/<span class="number">1000</span>,c%<span class="number">1000</span>);</div><div class="line">		<span class="keyword">else</span></div><div class="line">			System.out.printf(<span class="string">"%d\n"</span>,c);	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1001.A+B Format (20)&lt;/p&gt;
+&lt;p&gt;Calculate a + b and output the sum in standard format – that is, the digits must be separated into groups of 
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
   
   <entry>
     <title>pat1003</title>
@@ -2633,126 +2702,6 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
       <category term="Spring" scheme="http://yoursite.com/tags/Spring/"/>
     
       <category term="AOP" scheme="http://yoursite.com/tags/AOP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据仓库三种变化类型</title>
-    <link href="http://yoursite.com/2016/10/28/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%89%E7%A7%8D%E5%8F%98%E5%8C%96%E7%B1%BB%E5%9E%8B/"/>
-    <id>http://yoursite.com/2016/10/28/数据仓库三种变化类型/</id>
-    <published>2016-10-28T03:50:06.000Z</published>
-    <updated>2016-11-02T17:26:00.248Z</updated>
-    
-    <content type="html"><![CDATA[<p>类型1：对于数据元素的历史记录不重要的时候使用，当一个数据源变化的时候，对应的维度属性将会被覆盖，</p>
-<p>类型2：当变化的数据元素历史记录也很重要的时候采用，源数据的元素变化的时候，会在维度表中插入新的一行来满足需求。</p>
-<p>类型3：当所有分析伴随新值或者旧值的变化前后记录的事实时，需要使用到变化类型3.使用类型1和类型2是不能够解决的。<br>比如：分析所有事实的情况，使用的是新值记录变化发生前后的情况。</p>
-<p>###3种事实表</p>
-<p>1.事务事实表<br>描述事件，获取事件，或行为的细节</p>
-<p>2.事务表快照<br>描述状态，获取事件或行为的效果</p>
-<p>3.累计快照<br>累计快照可以跟踪业务流程的一个或多个步骤的时间间隔。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;类型1：对于数据元素的历史记录不重要的时候使用，当一个数据源变化的时候，对应的维度属性将会被覆盖，&lt;/p&gt;
-&lt;p&gt;类型2：当变化的数据元素历史记录也很重要的时候采用，源数据的元素变化的时候，会在维度表中插入新的一行来满足需求。&lt;/p&gt;
-&lt;p&gt;类型3：当所有分析伴随新值或者旧
-    
-    </summary>
-    
-      <category term="数据仓库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-    
-      <category term="数据仓库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解JVM七-虚拟机类加载机制</title>
-    <link href="http://yoursite.com/2016/10/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B8%83-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
-    <id>http://yoursite.com/2016/10/24/深入理解JVM七-虚拟机类加载机制/</id>
-    <published>2016-10-24T10:59:48.000Z</published>
-    <updated>2016-12-10T16:13:35.638Z</updated>
-    
-    <content type="html"><![CDATA[<p>类从被加载到卸载，整个生命周期如下：</p>
-<ul>
-<li>加载（loading）</li>
-<li>连接（验证verification 准备preparation 解析resolution）</li>
-<li>初始化（initialization）</li>
-<li>使用（using）</li>
-<li>卸载（unloading）</li>
-</ul>
-<p>主动引用，触发类的初始化：</p>
-<ul>
-<li>1.遇到new getstatic putstatic invokestatic</li>
-<li>2.使用java.lang.reflect包的方法对垒进行反射调用。</li>
-<li>3.初始化一个类的时候，如果发现父类还没有进行过初始化，则先触发其父类的初始化。</li>
-<li>4.当虚拟机启动时，用户需要制定一个要执行的主类，虚拟机则会先初始化这个主类。</li>
-<li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
-</ul>
-<p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
-<p>###类加载器###</p>
-<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
-<pre><code>package jvm;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-
-/**
- * 
- * @author neuly
- *
- */
-public class ClassLoaderTest {
-    public static void main(String[] args) throws Exception{
-        ClassLoader myloader= new ClassLoader() {
-                @Override
-                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
-                    try {
-                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
-                        InputStream is= getClass().getResourceAsStream(fileName);
-                        if(is==null){
-                            return super.loadClass(name);
-                        }
-                        byte[] b = new byte[is.available()];
-                        is.read(b);
-                        return defineClass(name, b, 0,b.length);
-                    } catch (IOException e) {;; 
-                        // TODO: handle exception
-                        throw new ClassNotFoundException(name);
-                    }
-
-                }
-            };
-            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
-            System.out.println(obj.getClass());
-            System.out.println(obj instanceof jvm.ClassLoaderTest);
-    }
-}
-</code></pre><p>结果 </p>
-<pre><code>class jvm.ClassLoaderTest
-false
-</code></pre><p>代码加载与自己同一路径下的class文件。</p>
-<p>###2.双亲委派模型###</p>
-<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
-<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
-<p>###2.破坏双亲委派模型###</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;类从被加载到卸载，整个生命周期如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;加载（loading）&lt;/li&gt;
-&lt;li&gt;连接（验证verification 准备preparation 解析resolution）&lt;/li&gt;
-&lt;li&gt;初始化（initialization）&lt;/li&gt;
-&lt;li&gt;
-    
-    </summary>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
   </entry>
   

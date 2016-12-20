@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,282 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/28/数据仓库三种变化类型/" itemprop="url">
+                  数据仓库三种变化类型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-28T11:50:06+08:00" content="2016-10-28">
+              2016-10-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据仓库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据仓库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>类型1：对于数据元素的历史记录不重要的时候使用，当一个数据源变化的时候，对应的维度属性将会被覆盖，</p>
+<p>类型2：当变化的数据元素历史记录也很重要的时候采用，源数据的元素变化的时候，会在维度表中插入新的一行来满足需求。</p>
+<p>类型3：当所有分析伴随新值或者旧值的变化前后记录的事实时，需要使用到变化类型3.使用类型1和类型2是不能够解决的。<br>比如：分析所有事实的情况，使用的是新值记录变化发生前后的情况。</p>
+<p>###3种事实表</p>
+<p>1.事务事实表<br>描述事件，获取事件，或行为的细节</p>
+<p>2.事务表快照<br>描述状态，获取事件或行为的效果</p>
+<p>3.累计快照<br>累计快照可以跟踪业务流程的一个或多个步骤的时间间隔。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/24/深入理解JVM七-虚拟机类加载机制/" itemprop="url">
+                  深入理解JVM七-虚拟机类加载机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>类从被加载到卸载，整个生命周期如下：</p>
+<ul>
+<li>加载（loading）</li>
+<li>连接（验证verification 准备preparation 解析resolution）</li>
+<li>初始化（initialization）</li>
+<li>使用（using）</li>
+<li>卸载（unloading）</li>
+</ul>
+<p>主动引用，触发类的初始化：</p>
+<ul>
+<li>1.遇到new getstatic putstatic invokestatic</li>
+<li>2.使用java.lang.reflect包的方法对垒进行反射调用。</li>
+<li>3.初始化一个类的时候，如果发现父类还没有进行过初始化，则先触发其父类的初始化。</li>
+<li>4.当虚拟机启动时，用户需要制定一个要执行的主类，虚拟机则会先初始化这个主类。</li>
+<li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
+</ul>
+<p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
+<p>###类加载器###</p>
+<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
+<pre><code>package jvm;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+
+/**
+ * 
+ * @author neuly
+ *
+ */
+public class ClassLoaderTest {
+    public static void main(String[] args) throws Exception{
+        ClassLoader myloader= new ClassLoader() {
+                @Override
+                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
+                    try {
+                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
+                        InputStream is= getClass().getResourceAsStream(fileName);
+                        if(is==null){
+                            return super.loadClass(name);
+                        }
+                        byte[] b = new byte[is.available()];
+                        is.read(b);
+                        return defineClass(name, b, 0,b.length);
+                    } catch (IOException e) {;; 
+                        // TODO: handle exception
+                        throw new ClassNotFoundException(name);
+                    }
+
+                }
+            };
+            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
+            System.out.println(obj.getClass());
+            System.out.println(obj instanceof jvm.ClassLoaderTest);
+    }
+}
+</code></pre><p>结果 </p>
+<pre><code>class jvm.ClassLoaderTest
+false
+</code></pre><p>代码加载与自己同一路径下的class文件。</p>
+<p>###2.双亲委派模型###</p>
+<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
+<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
+<p>###2.破坏双亲委派模型###</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/24/深入理解JVM六-类文件结构/" itemprop="url">
                   深入理解JVM六-类文件结构
                 </a>
@@ -257,7 +533,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -269,7 +545,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -402,7 +678,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T15:00:22+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -414,7 +690,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -524,7 +800,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-23T20:45:12+08:00" content="2016-10-23">
               2016-10-23
             </time>
@@ -618,7 +894,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T16:22:24+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -630,7 +906,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -769,7 +1045,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T14:30:38+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -781,7 +1057,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -932,7 +1208,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-19T10:51:50+08:00" content="2016-10-19">
               2016-10-19
             </time>
@@ -944,7 +1220,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1081,7 +1357,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-18T15:03:57+08:00" content="2016-10-18">
               2016-10-18
             </time>
@@ -1093,7 +1369,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1272,7 +1548,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-14T12:30:14+08:00" content="2016-10-14">
               2016-10-14
             </time>
@@ -1417,287 +1693,11 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" itemprop="url">
-                  mysql中tinyint.smallint.int.bigint区别
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
-              2016-10-13
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>tinyint<br>从 -2^7 (-128) 到 2^7 - 1 (123) 的整型数据。存储大小为 1 个字节。<br>unsigned 是从 0 到 255 的整型数据。<br>所以建表的时候 只能是tinyint(3),哪怕你建tinyint(100)，他最大还是3位这么多。</p>
-</li>
-<li><p>smallint<br>从 -2^15 (-32,768) 到 2^15 - 1 (32,767) 的整型数据。存储大小为 2 个字节。<br>unsigned 是从 0 到 65535 的整型数据。<br>所以建表的时候 只能是smallint(5),哪怕你建smallint(100)，他最大还是5位这么多。</p>
-</li>
-<li><p>int<br>从 -2^31 (-2,147,483,648) 到 2^31 - 1 (2,147,483,647) 的整型数据（所有数字）.存储大小为 4 个字节。<br>unsigned 是从 0 到 4294967296 的整型数据。<br>所以建表的时候 只能是int(10),哪怕你建int(100)，他最大还是10位这么多。</p>
-</li>
-<li><p>bigint<br>从 -2^63 (-9,223,372,036,854,775,808) 到 2^63-1 (9,223,372,036,854,775,807) 的整型数据（所有数字）。存储大小为 8 个字节。<br>unsigned 是(自己算吧)</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/面向对象系统分析与设计/" itemprop="url">
-                  面向对象系统分析与设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>####系统分析设计方法：</p>
-<ul>
-<li>结构化方法</li>
-<li>信息建模法</li>
-<li>面向对象分析设计方法</li>
-</ul>
-<p>面向对象的分析（Object Oriented Analysis，OOA）强调的是在问题域内发现和描述对象（或概念）。</p>
-<p>面向对象的设计（ Object Oriented Design ，OOD）强调的是定义软件对象以它们是如何协作以实现需求</p>
-<p>####面向对象的优点：</p>
-<ul>
-<li>复用<br>通过继承、关联、封装等手段</li>
-<li>应变<br>弹性应对需求变化</li>
-<li>沟通<br>开发人员、用户、管理人员</li>
-<li>市场<br>应付市场的变化</li>
-<li>士气<br>员工的士气</li>
-</ul>
-<p>使用OMT方法的面向对象开发过程可分为5步：</p>
-<ul>
-<li>分析</li>
-<li>系统设计</li>
-<li>对象设计</li>
-<li>编代码</li>
-<li>测试</li>
-</ul>
-<p>分为下述5个活动 </p>
-<ul>
-<li>编写问题陈述 </li>
-<li>建立对象模型 </li>
-<li>建立动态模型 </li>
-<li>建立功能模型</li>
-<li>细化对象模型、动态模型和功能模型，并建立文档</li>
-</ul>
-<p>系统设计的步骤如下：</p>
-<ul>
-<li>将系统划分为子系统 </li>
-<li>识别并发 </li>
-<li>将子系统和任务分配给处理器 </li>
-<li>选择实现数据存储的策略 </li>
-<li>识别出全局资源，并确定控制访问全局资源的机制 </li>
-<li>选择实现软件控制的方法 </li>
-<li>考虑边界条件 </li>
-<li>建立折衷的优先级</li>
-</ul>
-<p>宏过程包括下述5个活动:</p>
-<p>（1）概念化（Conceptualization）：在这个活动中，建立核心需求。<br>（2）分析（Analysis）：在这个活动中，为所期望的行为建立模型。<br>（3）设计（Design）：在这个活动中，建立体系结构。<br>（4）进化（Evolution）：在这个活动中，形成实现。<br>（5）维护（Maintenance）：在这个活动中，管理软件的交付使用。</p>
-<p>微过程由4个步骤组成：</p>
-<p>（1）在给定的抽象层次上识别出类和对象。<br>（2）识别出这些类和对象的语义。<br>（3）识别出类间和对象间的关系。<br>（4）实现类和对象。</p>
-<p>####软件过程</p>
-<p>软件过程定义了软件开发、部署和维护的步骤</p>
-<ul>
-<li><p>迭代式开发 </p>
-<p> 迭代式开发将软件开发过程分解为一系列小的，固定周期的(比如，4个星期)的小项目，每个小项目称为一个迭代。</p>
-</li>
-<li><p>统一过程 (Unified Process)</p>
-</li>
-</ul>
-<p>一种采用OOA/D方法学开发项目的过程(Ivar Jacobson)。<br>一种流行的构造面向对象系统的迭代开发过程（JBR99）。</p>
-<ul>
-<li>敏捷UP( Agile UP ) </li>
-</ul>
-<p>引入了敏捷概念的UP,是UP的一个简集。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1738,8 +1738,8 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">60</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1747,7 +1747,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1756,7 +1756,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1807,7 +1807,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

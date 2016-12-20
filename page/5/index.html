@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,8 +244,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/22/java类的连接和初始化/" itemprop="url">
-                  Java类的连接与初始化
+                <a class="post-title-link" href="/2016/09/23/java杂记/" itemprop="url">
+                  java杂记
                 </a>
               
             
@@ -257,9 +257,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
-              2016-09-22
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
+              2016-09-23
             </time>
           </span>
 
@@ -289,82 +289,151 @@
         
           
             <a id="more"></a>
-<p>Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。</p>
-<p><img src="http://i.imgur.com/kQuMdeK.png" alt=""></p>
-<p>解析过程可以推迟到累的初始化之后进行，但这是有条件的，java虚拟机必须在每个类或借口主动使用时进行初始化。<br>以下为主动使用的情况：</p>
+<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
+<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
+<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
+<p>2.Comparable和Comparator接口是干什么的？列出它们的区别。</p>
+<p>Java提供了只包含一个compareTo()方法的Comparable接口。这个方法可以个给两个对象排序。具体来说，它返回负数，0，正数来表明输入对象小于，等于，大于已经存在的对象。</p>
+<p>Java提供了包含compare()和equals()两个方法的Comparator接口。compare()方法用来给两个输入参数排序，返回负数，0，正数表明第一个参数是小于，等于，大于第二个参数。equals()方法需要一个对象作为参数，它用来决定输入参数是否和comparator相等。只有当输入参数也是一个comparator并且输入参数和当前comparator的排序结果是相同的时候，这个方法才返回true。</p>
+<p>3.Enumeration接口和Iterator接口的区别有哪些？</p>
+<p>Enumeration速度是Iterator的2倍，同时占用更少的内存。但是，Iterator远远比Enumeration安全，因为其他线程不能够修改正在被iterator遍历的集合里面的对象。同时，Iterator允许调用者删除底层集合里面的元素，这对Enumeration来说是不可能的。</p>
+<p>4.HashSet和TreeSet有什么区别？</p>
+<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
+<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
+<p>###JDBC</p>
+<p>8.什么是JDBC？</p>
+<p>JDBC是允许用户在不同数据库之间做选择的一个抽象层。JDBC允许开发者用JAVA写数据库应用程序，而不需要关心底层特定数据库的细节。</p>
+<p>9.PreparedStatement比Statement有什么优势？</p>
+<p>PreparedStatements是预编译的，因此，性能会更好。同时，不同的查询参数值，PreparedStatement可以重用。</p>
+<p>10.什么时候使用CallableStatement？用来准备CallableStatement的方法是什么？</p>
+<p>CallableStatement用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。准备一个CallableStatement的方法是：</p>
+<pre><code>CallableStament.prepareCall();
+</code></pre><hr>
+<p>##一.GC<br>Java中的垃圾回收机制</p>
+<p>####GC针对什么对象？<br>了解GC机制的第一步就是理解什么样的对象会被回收。当一个对象通过一系列根对象(比如：静态属性引用的常量)都不可达时就会被回收。简而言之，当一个对象的所有引用都为null。循环依赖不算做引用，如果对象A有一个指向对象B的引用，对象B也有一个指向对象A的引用，除此之外，它们没有其他引用，那么对象A和对象B都、需要被回收(如下图,ObjA和ObjB需要被回收)。</p>
+<p>####堆内存是如何划分的？</p>
+<p>Java中对象都在堆上创建。为了GC，堆内存分为三个部分，也可以说三代，分别称为新生代，老年代和永久代。其中新生代又进一步分为Eden区，Survivor 1区和Survivor 2区(如下图)。新创建的对象会分配在Eden区,在经历一次Minor GC后会被移到Survivor 1区，再经历一次Minor GC后会被移到Survivor 2区，直到升至老年代,需要注意的是，一些大对象(长字符串或数组)可能会直接存放到老年代。</p>
+<p><img src="http://i.imgur.com/KU1IyMG.png" alt=""></p>
+<hr>
+<p>##二.hashmap</p>
+<p>原文链接：<a href="http://yemengying.com/2016/05/07/threadsafe-hashmap/" target="_blank" rel="external">http://yemengying.com/2016/05/07/threadsafe-hashmap/</a></p>
+<p>####hashmap的自动扩容机制<br>HashMap 内部的 Node 数组默认的大小是16，假设有100万个元素，那么最好的情况下每个 hash 桶里都有62500个元素😱，这时get(),put(),remove()等方法效率都会降低。为了解决这个问题，HashMap 提供了自动扩容机制，当元素个数达到数组大小 loadFactor 后会扩大数组的大小，在默认情况下，数组大小为16，loadFactor 为0.75，也就是说当 HashMap 中的元素超过16\0.75=12时，会把数组大小扩展为2*16=32，并且重新计算每个元素在新数组中的位置。</p>
+<p>####为什么线程不安全<br>个人觉得 HashMap 在并发时可能出现的问题主要是两方面,首先如果多个线程同时使用put方法添加元素，而且假设正好存在两个 put 的 key 发生了碰撞(根据 hash 值计算的 bucket 一样)，那么根据 HashMap 的实现，这两个 key 会添加到数组的同一个位置，这样最终就会发生其中一个线程的 put 的数据被覆盖。第二就是如果多个线程同时检测到元素个数超过数组大小* loadFactor ，这样就会发生多个线程同时对 Node 数组进行扩容，都在重新计算元素位置以及复制数据，但是最终只有一个线程扩容后的数组会赋给 table，也就是说其他线程的都会丢失，并且各自线程 put 的数据也丢失。</p>
+<p>关于 HashMap 线程不安全这一点，《Java并发编程的艺术》一书中是这样说的：</p>
+<blockquote>
+<p>HashMap 在并发执行 put 操作时会引起死循环，导致 CPU 利用率接近100%。因为多线程会导致 HashMap 的 Node 链表形成环形数据结构，一旦形成环形数据结构，Node 的 next 节点永远不为空，就会在获取 Node 时产生死循环。死循环并不是发生在 put 操作时，而是发生在扩容时。</p>
+</blockquote>
+<p>####如何安全的使用hashmap</p>
 <ul>
-<li>(1).(无论直接通过new创建出来的，还是通过反射、克隆、序列化创建的)创建某个类新的实例</li>
-<li>(2).使用某个类的静态方法</li>
-<li>(3).访问某个类或接口的静态字段</li>
-<li>(4).调用JavaAPI中的某些反射方法</li>
-<li>(5).初始化某个类的子类(要求其祖先类都要被初始化，否则无法正确访问其继承的成员)</li>
-<li>(6).启动某个标明为启动类的类(含有main()方法)</li>
+<li>Hashtable</li>
+<li>ConcurrentHashMap</li>
+<li>Synchronized Map</li>
 </ul>
-<p>主动使用会导致类的初始化，其超类均将在该类的初始化之前被初始化，但通过子类访问父类的静态字段或方法时，对于子类(或子接口、接口的实现类)来说，这种访问就是被动访问，或者说访问了该类(接口)中的不在该类(接口)中声明的静态成员。</p>
-<p>如：<br>Grandpa的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Grandpa {
-    static{
-        System.out.println(&quot;Grandpa was initialized.&quot;);
-    }
-}
-</code></pre><p>Parent的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Parent extends Grandpa{
-    static String language = &quot;Chinese&quot;;
-    static{
-        System.out.println(&quot;Parent was initialized.&quot;);
-    }
-}
-</code></pre><p>Cindy的定义如下：<br>    package com.ice.passiveaccess;</p>
-<pre><code>public class Cindy extends Parent{
-    static{
-        System.out.println(&quot;Child was initialized.&quot;);
-    }
-}
-</code></pre><p>现在通过Cindy访问父类的language成员</p>
-<pre><code>package com.ice.passiveaccess;
+<pre><code>//Hashtable
+Map&lt;String, String&gt; hashtable = new Hashtable&lt;&gt;();
 
-public class PassiveAccessTest {
-    public static void main(String args[]){
-        System.out.println(Cindy.language);
-    }
-}
-</code></pre><p>结果如下：</p>
-<pre><code>Grandpa was initialized.
-Parent was initialized.
-Chinese
-</code></pre><p>可见这是被动访问，Cindy自身并没有初始化</p>
-<p>下面简要介绍装载、验证与初始化过程：<br>1.装载：</p>
+//synchronizedMap
+Map&lt;String, String&gt; synchronizedHashMap = Collections.synchronizedMap(new HashMap&lt;String, String&gt;());
+
+//ConcurrentHashMap
+Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
+</code></pre><p>hashtable通过使用 <em>synchronized</em>来保证线程安全。</p>
+<p>concurrenthashmap：</p>
 <ul>
-<li>(1).找到该类型的class文件，产生一个该类型的class文件二进制数据流(ClassLoader需要实现的loadClassData()方法)</li>
-<li>(2).解析该二进制数据流为方法区内的数据结构</li>
-<li>(3).创建一个该类型的java.lang.Class实例</li>
-<li>在加载器的相关代码中可以看到，最终通过defineClass()创建一个Java类型对象(Class对象)。</li>
+<li>CHM允许并发的读和线程安全的更新操作</li>
+<li>在执行写操作时，CHM只锁住部分的Map</li>
+<li>并发的更新是通过内部根据并发级别将Map分割成小部分实现的</li>
+<li>高的并发级别会造成时间和空间的浪费，低的并发级别在写线程多时会引起线程间的竞争</li>
+<li>CHM的所有操作都是线程安全</li>
+<li>CHM返回的迭代器是弱一致性，fail-safe并且不会抛出ConcurrentModificationException异常</li>
+<li>CHM不允许null的键值</li>
+<li>可以使用CHM代替HashTable，但要记住CHM不会锁住整个Map</li>
 </ul>
-<p>2.验证：<br>class文件校验器需要四趟独立的扫描来完成验证工作，其中：</p>
-<p>第一趟扫描在装载时进行，会对class文件进行结构检查，如</p>
-<blockquote>
-<p>(1).对魔数进行检查，以判断该文件是否是一个正常的class文件<br>(2).对主次版本号进行检查，以判断class文件是否与java虚拟机兼容。<br>(3).对class文件的长度和类型进行检查，避免class文件部分缺失或被附加内容。</p>
-</blockquote>
-<p>第二趟扫描在连接过程中进行，会对类型数据进行语义检查，主要检查各个类的二进制兼容性(主要是查看超类和子类的关系)和类本身是否符合特定的语义条件</p>
-<blockquote>
-<p>(1).final类不能拥有子类<br>(2).final方法不能被重写(覆盖)<br>(3).子类和超类之间没有不兼容的方法声明<br>(4).检查常量池入口类型是否一致(如CONSTANT_Class常量池的内容是否指向一个CONSTANT_Utf8字符串常量池)<br>(5).检查常量池的所有特殊字符串，以确定它们是否是其所属类型的实例，以及是否符合特定的上下文无关语法、格式</p>
-</blockquote>
-<p>第三趟扫描为字节码验证，其验证内容和实现较为复杂，主要检验字节码是否可以被java虚拟机安全地执行。</p>
-<p>第四趟扫描在解析过程中进行，为对符号引用的验证。在动态连接过程中，通过保存在常量池的符号引用查找被引用的类、接口、字段、方法时，在把符号引用替换成直接引用时，首先需要确认查找的元素真正存在，然后需要检查访问权限、查找的元素是否是静态类成员而非实例成员。</p>
-<p>3.准备：</p>
-<p>为类变量分配内存、设置默认初始值(内存设置初始值，而非对类变量真正地进行初始化，即类中声明int i = 5，但实际上这里是分配内存并设置初始值为0)</p>
-<p>4.解析：</p>
-<p>在类的常量池中寻找类、接口、字段、方法的符号引用，将这些符号引用替换成直接引用</p>
-<p>5.初始化</p>
-<p>对类变量赋予指定的初始值(这个时候int i = 5就必须赋予i以初值5)。这个初始值的给定方式有两种，一种是通过类变量的初始化语句，一种是静态初始化语句。而这些初始化语句都将被Java编译器一起放在方法中。<br>如前面所述，一个类的初始化需要初始化其直接超类，并递归初始化其祖先类，初始化是通过调用类的初始化方法完成的。此外，对于接口，并不需要初始化其父接口，而只需要执行该接口的接口初始化方法就可以了。</p>
-<p>注意：</p>
-<p>(1). 在初始化阶段，只会为类变量(静态全局变量)进行初始化工作，并且当类变量声明为final类型切初始化语句采用了常量表达式方式进行初始化赋值，那么， 也不会对其进行初始化，它将会直接被编译器计算并保存在常量池中，并且对这些变量的使用也将直接将其变量值嵌入到字节码中。</p>
-<p>(2).接口的初始化与类有所不同，在初始化阶段，会为在接口中声明的所有public、static和final类型的、无法被编译为常量的字段进行初始化</p>
-<p>6.类实例化</p>
-<p>这里需要明白什么是类初始化，什么是类实例化，以及类的实例对象的初始化<br>如前面所述，类初始化时对类(静态)变量赋予指定的初始值，类初始化之后就可以访问类的静态字段和方法，而访问类的非静态(实例)字段和方法，就需要创建类的对象实例，故类的实例化是在类的初始化之后，是在堆上创建一个该类的对象。</p>
-<p>类的静态方法和字段属于类，作为类型数据保存在方法区，其生命周期取决于类，而实例方法和字段位于Java堆，其生命周期取决于对象的生命周期。
-　　</p>
-<p>类的初始化会从祖先类到子类、按出现顺序，对类变量的初始化语句、静态初始化语句块依次进行初始化。而对类实例的初始化也类似，会从祖先类到子类、按出现顺序，对类成员的初始化语句、实例初始化块、构造方法依次进行初始化。</p>
+<p>Synchronized Map：<br>从源码中可以看出调用 synchronizedMap() 方法后会返回一个 SynchronizedMap 类的对象，而在 SynchronizedMap 类中使用了 synchronized 同步关键字来保证对 Map 的操作是线程安全的。</p>
+<p>####hashmap如何解决冲突<br>其实就是链接法，将索引值相同的元素存放到一个单链表里。但为了解决在频繁冲突时HashMap性能降低的问题，Java 8中做了一个小优化，在冲突的元素个数超过设定的值(默认为8)时，会使用平衡树来替代链表存储冲突的元素。</p>
+<hr>
+<p>##三.java创建对象有哪几种</p>
+<ul>
+<li>new</li>
+<li>工厂模式</li>
+<li>反射</li>
+<li>克隆</li>
+</ul>
+<p>#四.java反射详解<br>原文链接：<a href="http://www.jianshu.com/p/53eb4e16d00e" target="_blank" rel="external">http://www.jianshu.com/p/53eb4e16d00e</a></p>
+<p>####什么是反射</p>
+<p> 主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。<br> 反射是java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以再运行时装配，无需在组件之间进行源代码链接。但是反射使用不当会成本很高！<br>反射（Reflection）能够让运行于 JVM 中的程序检测和修改运行时的行为</p>
+<p>反射机制的作用：</p>
+<ol>
+<li>反编译：.class–&gt;.java</li>
+<li><p>通过反射机制访问java对象的属性，方法，构造方法等；</p>
+<pre><code>String s = &quot;java.util.Date&quot;;
+   Object m = Class.forName(s).newInstance();
+</code></pre><p>####为什么需要反射<br>通过反射，我们能够</p>
+</li>
+</ol>
+<ul>
+<li>在运行时检测对象的类型；</li>
+<li>动态构造某个类的对象；</li>
+<li>检测类的属性和方法；</li>
+<li>任意调用对象的方法；</li>
+<li>修改构造函数、方法、属性的可见性。</li>
+</ul>
+<p>JUnit通过反射来遍历包含 @Test 注解的方法，并在运行单元测试时调用它们。</p>
+<p>Web框架<br>开发人员可以在配置文件中定义对各种接口和类的实现。通过反射机制，框架能够快速地动态初始化所需要的类。</p>
+<p>Spring框架使用如下的配置文件：</p>
+<pre><code>&lt;bean id=&quot;someID&quot; class=&quot;com.programcreek.Foo&quot;&gt;
+    &lt;property name=&quot;someField&quot; value=&quot;someValue&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>当Spring容器处理 bean 元素时，会使用Class.forName(“com.programcreek.Foo”)来初始化这个类，并再次使用反射获取 property 元素对应的setter方法，为对象的属性赋值。</p>
+<hr>
+<p>##五.异常<br>5.throw和throws有什么区别？</p>
+<p>throw关键字用来在程序中明确的抛出异常，相反，throws语句用来表明方法不能处理的异常。每一个方法都必须要指定哪些异常不能处理，所以方法的调用者才能够确保处理可能发生的异常，多个异常是用逗号分隔的。</p>
+<p>6.Java中Exception和Error有什么区别？</p>
+<p>Exception和Error都是Throwable的子类。Exception用于用户程序可以捕获的异常情况。Error定义了不期望被用户程序捕获的异常。</p>
+<p>7.Java中的两种异常类型是什么？他们有什么区别？</p>
+<p>Java中有两种异常：受检查的(checked)异常和不受检查的(unchecked)异常。不受检查的异常不需要在方法或者是构造函数上声明，就算方法或者是构造函数的执行可能会抛出这样的异常，并且不受检查的异常可以传播到方法或者是构造函数的外面。相反，受检查的异常必须要用throws语句在方法或者是构造函数上声明。<br><img src="http://i.imgur.com/hUwjIXa.jpg" alt=""></p>
+<p>##六.spring相关</p>
+<p>spring的核心 ioc和aop</p>
+<p>Spring Bean的生命周期（非常详细）<a href="http://www.cnblogs.com/zrtqsk/p/3735273.html" target="_blank" rel="external">http://www.cnblogs.com/zrtqsk/p/3735273.html</a></p>
+<p>####spring中用到的设计模式<br>工厂模式:IOC容器<br>代理模式:AOP<br>策略模式:在spring采取动态代理时，根据代理的类有无实现接口有JDK和CGLIB两种代理方式，就是采用策略模式实现的<br>单例模式:默认情况下spring中的bean只存在一个实例<br>只知道这四个。。。。</p>
+<p>####讲一讲Spring IoC和AOP<br>IoC的核心是依赖反转，将创建对象和对象之间的依赖管理交给IoC容器来做，完成对象之间的解耦。<br>AOP主要是利用代理模式，把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>权限，日志，处理异常，事务等等，个人理解就是把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。</p>
+<p>####Spring中编码统一要如何做<br>配置一个拦截器</p>
+<pre><code>&lt;filter&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;encoding&lt;/param-name&gt;  
+           &lt;param-value&gt;UTF-8&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+       &lt;init-param&gt;  
+           &lt;param-name&gt;forceEncoding&lt;/param-name&gt;  
+           &lt;param-value&gt;true&lt;/param-value&gt;  
+       &lt;/init-param&gt;  
+   &lt;/filter&gt;  
+   &lt;filter-mapping&gt;  
+       &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;  
+       &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
+   &lt;/filter-mapping&gt;
+</code></pre><hr>
+<p>##七.数据库相关</p>
+<p>###mysql索引原理</p>
+<p>来源：美团点评技术团队<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="external">http://tech.meituan.com/mysql-index.html</a></p>
+<p>####详解b+树</p>
+<p><img src="http://i.imgur.com/iFzh0Ub.jpg" alt=""></p>
+<p>如上图，是一颗b+树，关于b+树的定义可以参见B+树，这里只说一些重点，浅蓝色的块我们称之为一个磁盘块，可以看到每个磁盘块包含几个数据项（深蓝色所示）和指针（黄色所示），如磁盘块1包含数据项17和35，包含指针P1、P2、P3，P1表示小于17的磁盘块，P2表示在17和35之间的磁盘块，P3表示大于35的磁盘块。真实的数据存在于叶子节点即3、5、9、10、13、15、28、29、36、60、75、79、90、99。非叶子节点只不存储真实的数据，只存储指引搜索方向的数据项，如17、35并不真实存在于数据表中。</p>
+<p>####b+树的查找过程<br>如图所示，如果要查找数据项29，那么首先会把磁盘块1由磁盘加载到内存，此时发生一次IO，在内存中用二分查找确定29在17和35之间，锁定磁盘块1的P2指针，内存时间因为非常短（相比磁盘的IO）可以忽略不计，通过磁盘块1的P2指针的磁盘地址把磁盘块3由磁盘加载到内存，发生第二次IO，29在26和30之间，锁定磁盘块3的P2指针，通过指针加载磁盘块8到内存，发生第三次IO，同时内存中做二分查找找到29，结束查询，总计三次IO。真实的情况是，3层的b+树可以表示上百万的数据，如果上百万的数据查找只需要三次IO，性能提高将是巨大的，如果没有索引，每个数据项都要发生一次IO，那么总共需要百万次的IO，显然成本非常非常高。</p>
+<p>####b+树性质<br>1.通过上面的分析，我们知道IO次数取决于b+数的高度h，假设当前数据表的数据为N，每个磁盘块的数据项的数量是m，则有h=㏒(m+1)N，当数据量N一定的情况下，m越大，h越小；而m = 磁盘块的大小 / 数据项的大小，磁盘块的大小也就是一个数据页的大小，是固定的，如果数据项占的空间越小，数据项的数量越多，树的高度越低。这就是为什么每个数据项，即索引字段要尽量的小，比如int占4字节，要比bigint8字节少一半。这也是为什么b+树要求把真实的数据放到叶子节点而不是内层节点，一旦放到内层节点，磁盘块的数据项会大幅度下降，导致树增高。当数据项等于1时将会退化成线性表。</p>
+<p>2.当b+树的数据项是复合的数据结构，比如(name,age,sex)的时候，b+数是按照从左到右的顺序来建立搜索树的，比如当(张三,20,F)这样的数据来检索的时候，b+树会优先比较name来确定下一步的所搜方向，如果name相同再依次比较age和sex，最后得到检索的数据；但当(20,F)这样的没有name的数据来的时候，b+树就不知道下一步该查哪个节点，因为建立搜索树的时候name就是第一个比较因子，必须要先根据name来搜索才能知道下一步去哪里查询。比如当(张三,F)这样的数据来检索时，b+树可以用name来指定搜索方向，但下一个字段age的缺失，所以只能把名字等于张三的数据都找到，然后再匹配性别是F的数据了， 这个是非常重要的性质，即索引的最左匹配特性。</p>
+<p>####建索引的几大原则</p>
+<ol>
+<li>最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
+<li>尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录</li>
+<li>索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);</li>
+<li>尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可</li>
+</ol>
+<p>####mysql分页优化<br>ps：吐槽下，饿了么面试问我，但是呢。我压根没优化过…<br>参考另一个。</p>
 
           
         
@@ -427,7 +496,7 @@ Chinese
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -661,6 +730,272 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             
               
                 
+                <a class="post-title-link" href="/2016/09/22/java类的连接和初始化/" itemprop="url">
+                  Java类的连接与初始化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>Java虚拟机通过装载、连接、初始化来使得一个Java类型可以被Java程序所使用，如下图所示，其中连接过程又分为验证、准备、解析三个部分。其中部分类的解析过程可以推迟到程序真正使用其某个符号引用时再去解析。</p>
+<p><img src="http://i.imgur.com/kQuMdeK.png" alt=""></p>
+<p>解析过程可以推迟到累的初始化之后进行，但这是有条件的，java虚拟机必须在每个类或借口主动使用时进行初始化。<br>以下为主动使用的情况：</p>
+<ul>
+<li>(1).(无论直接通过new创建出来的，还是通过反射、克隆、序列化创建的)创建某个类新的实例</li>
+<li>(2).使用某个类的静态方法</li>
+<li>(3).访问某个类或接口的静态字段</li>
+<li>(4).调用JavaAPI中的某些反射方法</li>
+<li>(5).初始化某个类的子类(要求其祖先类都要被初始化，否则无法正确访问其继承的成员)</li>
+<li>(6).启动某个标明为启动类的类(含有main()方法)</li>
+</ul>
+<p>主动使用会导致类的初始化，其超类均将在该类的初始化之前被初始化，但通过子类访问父类的静态字段或方法时，对于子类(或子接口、接口的实现类)来说，这种访问就是被动访问，或者说访问了该类(接口)中的不在该类(接口)中声明的静态成员。</p>
+<p>如：<br>Grandpa的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Grandpa {
+    static{
+        System.out.println(&quot;Grandpa was initialized.&quot;);
+    }
+}
+</code></pre><p>Parent的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Parent extends Grandpa{
+    static String language = &quot;Chinese&quot;;
+    static{
+        System.out.println(&quot;Parent was initialized.&quot;);
+    }
+}
+</code></pre><p>Cindy的定义如下：<br>    package com.ice.passiveaccess;</p>
+<pre><code>public class Cindy extends Parent{
+    static{
+        System.out.println(&quot;Child was initialized.&quot;);
+    }
+}
+</code></pre><p>现在通过Cindy访问父类的language成员</p>
+<pre><code>package com.ice.passiveaccess;
+
+public class PassiveAccessTest {
+    public static void main(String args[]){
+        System.out.println(Cindy.language);
+    }
+}
+</code></pre><p>结果如下：</p>
+<pre><code>Grandpa was initialized.
+Parent was initialized.
+Chinese
+</code></pre><p>可见这是被动访问，Cindy自身并没有初始化</p>
+<p>下面简要介绍装载、验证与初始化过程：<br>1.装载：</p>
+<ul>
+<li>(1).找到该类型的class文件，产生一个该类型的class文件二进制数据流(ClassLoader需要实现的loadClassData()方法)</li>
+<li>(2).解析该二进制数据流为方法区内的数据结构</li>
+<li>(3).创建一个该类型的java.lang.Class实例</li>
+<li>在加载器的相关代码中可以看到，最终通过defineClass()创建一个Java类型对象(Class对象)。</li>
+</ul>
+<p>2.验证：<br>class文件校验器需要四趟独立的扫描来完成验证工作，其中：</p>
+<p>第一趟扫描在装载时进行，会对class文件进行结构检查，如</p>
+<blockquote>
+<p>(1).对魔数进行检查，以判断该文件是否是一个正常的class文件<br>(2).对主次版本号进行检查，以判断class文件是否与java虚拟机兼容。<br>(3).对class文件的长度和类型进行检查，避免class文件部分缺失或被附加内容。</p>
+</blockquote>
+<p>第二趟扫描在连接过程中进行，会对类型数据进行语义检查，主要检查各个类的二进制兼容性(主要是查看超类和子类的关系)和类本身是否符合特定的语义条件</p>
+<blockquote>
+<p>(1).final类不能拥有子类<br>(2).final方法不能被重写(覆盖)<br>(3).子类和超类之间没有不兼容的方法声明<br>(4).检查常量池入口类型是否一致(如CONSTANT_Class常量池的内容是否指向一个CONSTANT_Utf8字符串常量池)<br>(5).检查常量池的所有特殊字符串，以确定它们是否是其所属类型的实例，以及是否符合特定的上下文无关语法、格式</p>
+</blockquote>
+<p>第三趟扫描为字节码验证，其验证内容和实现较为复杂，主要检验字节码是否可以被java虚拟机安全地执行。</p>
+<p>第四趟扫描在解析过程中进行，为对符号引用的验证。在动态连接过程中，通过保存在常量池的符号引用查找被引用的类、接口、字段、方法时，在把符号引用替换成直接引用时，首先需要确认查找的元素真正存在，然后需要检查访问权限、查找的元素是否是静态类成员而非实例成员。</p>
+<p>3.准备：</p>
+<p>为类变量分配内存、设置默认初始值(内存设置初始值，而非对类变量真正地进行初始化，即类中声明int i = 5，但实际上这里是分配内存并设置初始值为0)</p>
+<p>4.解析：</p>
+<p>在类的常量池中寻找类、接口、字段、方法的符号引用，将这些符号引用替换成直接引用</p>
+<p>5.初始化</p>
+<p>对类变量赋予指定的初始值(这个时候int i = 5就必须赋予i以初值5)。这个初始值的给定方式有两种，一种是通过类变量的初始化语句，一种是静态初始化语句。而这些初始化语句都将被Java编译器一起放在方法中。<br>如前面所述，一个类的初始化需要初始化其直接超类，并递归初始化其祖先类，初始化是通过调用类的初始化方法完成的。此外，对于接口，并不需要初始化其父接口，而只需要执行该接口的接口初始化方法就可以了。</p>
+<p>注意：</p>
+<p>(1). 在初始化阶段，只会为类变量(静态全局变量)进行初始化工作，并且当类变量声明为final类型切初始化语句采用了常量表达式方式进行初始化赋值，那么， 也不会对其进行初始化，它将会直接被编译器计算并保存在常量池中，并且对这些变量的使用也将直接将其变量值嵌入到字节码中。</p>
+<p>(2).接口的初始化与类有所不同，在初始化阶段，会为在接口中声明的所有public、static和final类型的、无法被编译为常量的字段进行初始化</p>
+<p>6.类实例化</p>
+<p>这里需要明白什么是类初始化，什么是类实例化，以及类的实例对象的初始化<br>如前面所述，类初始化时对类(静态)变量赋予指定的初始值，类初始化之后就可以访问类的静态字段和方法，而访问类的非静态(实例)字段和方法，就需要创建类的对象实例，故类的实例化是在类的初始化之后，是在堆上创建一个该类的对象。</p>
+<p>类的静态方法和字段属于类，作为类型数据保存在方法区，其生命周期取决于类，而实例方法和字段位于Java堆，其生命周期取决于对象的生命周期。
+　　</p>
+<p>类的初始化会从祖先类到子类、按出现顺序，对类变量的初始化语句、静态初始化语句块依次进行初始化。而对类实例的初始化也类似，会从祖先类到子类、按出现顺序，对类成员的初始化语句、实例初始化块、构造方法依次进行初始化。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
+                  mysql分页优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/21/hello-world/" itemprop="url">
                   Hello World
                 </a>
@@ -674,7 +1009,7 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-21T10:07:00+08:00" content="2016-09-21">
               2016-09-21
             </time>
@@ -776,7 +1111,7 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-07-22T20:52:12+08:00" content="2016-07-22">
               2016-07-22
             </time>
@@ -987,7 +1322,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-07-13T22:40:58+08:00" content="2016-07-13">
               2016-07-13
             </time>
@@ -1020,7 +1355,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
           <p>在centos7环境下部署hadoop2.7.2<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/13/hadoop配置/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -1083,7 +1418,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-02-25T22:26:18+08:00" content="2016-02-25">
               2016-02-25
             </time>
@@ -1116,7 +1451,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
           <p>MyBatis<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/02/25/mybatis/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -1179,7 +1514,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-12-31T00:30:12+08:00" content="2015-12-31">
               2015-12-31
             </time>
@@ -1212,7 +1547,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
           <p>OutOfMemoryError<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/12/31/Java中OutOfMemoryError/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -1275,7 +1610,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-12-31T00:26:38+08:00" content="2015-12-31">
               2015-12-31
             </time>
@@ -1287,7 +1622,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/生活/" itemprop="url" rel="index">
@@ -1354,222 +1689,11 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/09/simpleEmail/" itemprop="url">
-                  simpleEmail
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-12-09T19:36:02+08:00" content="2015-12-09">
-              2015-12-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>simpleEmail实现邮件发送<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/12/09/simpleEmail/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/30/数据库SQL优化大总结之百万级数据库优化方案/" itemprop="url">
-                  数据库SQL优化大总结之百万级数据库优化方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-11-30T23:52:50+08:00" content="2015-11-30">
-              2015-11-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数据库SQL优化大总结之百万级数据库优化方案<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/30/数据库SQL优化大总结之百万级数据库优化方案/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1610,8 +1734,8 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">60</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1619,7 +1743,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1628,7 +1752,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1679,7 +1803,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
