@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,129 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/25/java多线程/" itemprop="url">
+                  java多线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>线程和进程有什么区别？</p>
+<p>答：一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<p>如何在Java中实现线程？</p>
+<p>答：<br>创建线程有两种方式：</p>
+<ol>
+<li>一、继承 Thread 类，扩展线程。</li>
+<li>二、实现 Runnable 接口。</li>
+</ol>
+<p>启动一个线程是调用run()还是start()方法？</p>
+<p>答：启动一个线程是调用start()方法，使线程所代表的虚拟处理机处于可运行状态，这意味着它可以由JVM 调度并执行，这并不意味着线程就会立即运行。run()方法是线程启动后要进行回调（callback）的方法。</p>
+<p>Thread类的sleep()方法和对象的wait()方法都可以让线程暂停执行，它们有什么区别?</p>
+<ul>
+<li>sleep()方法（休眠）是线程类（Thread）的静态方法，调用此方法会让当前线程暂停执行指定的时间，将执行机会（CPU）让给其他线程，但是对象的锁依然保持，因此休眠时间结束后会自动恢复（线程回到就绪状态，请参考第66题中的线程状态转换图）。</li>
+<li>wait()是Object类的方法，调用对象的wait()方法导致当前线程放弃对象的锁（线程暂停执行），进入对象的等待池（wait pool），只有调用对象的notify()方法（或notifyAll()方法）时才能唤醒等待池中的线程进入等锁池（lock pool），如果线程重新获得对象的锁就可以进入就绪状态。</li>
+</ul>
+<p>线程的sleep()方法和yield()方法有什么区别？</p>
+<p>答：</p>
+<ul>
+<li>① sleep()方法给其他线程运行机会时不考虑线程的优先级，因此会给低优先级的线程以运行的机会；yield()方法只会给相同优先级或更高优先级的线程以运行的机会；</li>
+<li>② 线程执行sleep()方法后转入阻塞（blocked）状态，而执行yield()方法后转入就绪（ready）状态；</li>
+<li>③ sleep()方法声明抛出InterruptedException，而yield()方法没有声明任何异常；</li>
+<li>④ sleep()方法比yield()方法（跟操作系统CPU调度相关）具有更好的可移植性。</li>
+</ul>
+<p>请说出与线程同步以及线程调度相关的方法。<br>答：</p>
+<ul>
+<li>wait()：使一个线程处于等待（阻塞）状态，并且释放所持有的对象的锁；</li>
+<li>sleep()：使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要处理InterruptedException异常；</li>
+<li>notify()：唤醒一个处于等待状态的线程，当然在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由JVM确定唤醒哪个线程，而且与优先级无关；</li>
+<li>notityAll()：唤醒所有处于等待状态的线程，该方法并不是将对象的锁给所有线程，而是让它们竞争，只有获得锁的线程才能进入就绪状态；</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/25/oracle/" itemprop="url">
                   oracle
                 </a>
@@ -257,7 +380,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -385,7 +508,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -496,7 +619,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
               2016-09-23
             </time>
@@ -623,7 +746,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
               2016-09-23
             </time>
@@ -862,7 +985,7 @@ Map&lt;String, String&gt; concurrentHashMap = new ConcurrentHashMap&lt;&gt;();
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -1096,6 +1219,102 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             
               
                 
+                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
+                  mysql分页优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/22/java类的连接和初始化/" itemprop="url">
                   Java类的连接与初始化
                 </a>
@@ -1109,7 +1328,7 @@ myHashMap.get(new MyKey(&apos;Pankaj&apos;));
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
               2016-09-22
             </time>
@@ -1266,102 +1485,6 @@ Chinese
             
               
                 
-                <a class="post-title-link" href="/2016/09/22/mysql分页优化/" itemprop="url">
-                  mysql分页优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-22T20:52:12+08:00" content="2016-09-22">
-              2016-09-22
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>MySQL的limit工作原理就是先读取n条记录，然后抛弃前n条，读m条想要的，所以n越大，性能会越差。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/22/mysql分页优化/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/09/21/hello-world/" itemprop="url">
                   Hello World
                 </a>
@@ -1375,7 +1498,7 @@ Chinese
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-21T10:07:00+08:00" content="2016-09-21">
               2016-09-21
             </time>
@@ -1477,7 +1600,7 @@ Chinese
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-07-22T20:52:12+08:00" content="2016-07-22">
               2016-07-22
             </time>
@@ -1654,102 +1777,6 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/13/hadoop配置/" itemprop="url">
-                  hadoop配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-07-13T22:40:58+08:00" content="2016-07-13">
-              2016-07-13
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在centos7环境下部署hadoop2.7.2<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/13/hadoop配置/#more" rel="contents">
-              Weiterlesen &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1795,8 +1822,8 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">65</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1804,7 +1831,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1813,7 +1840,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1864,7 +1891,7 @@ System.exit(job.waitForCompletion(true) ? 0 : 1);
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

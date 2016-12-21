@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-21T06:13:17.811Z</updated>
+  <updated>2016-12-21T11:23:22.453Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pat1007</title>
+    <link href="http://yoursite.com/2016/12/21/pat1007/"/>
+    <id>http://yoursite.com/2016/12/21/pat1007/</id>
+    <published>2016-12-21T11:19:17.000Z</published>
+    <updated>2016-12-21T11:23:22.453Z</updated>
+    
+    <content type="html"><![CDATA[<p>Given a sequence of K integers { N1, N2, …, NK }. A continuous subsequence is defined to be { Ni, Ni+1, …, Nj } where 1 &lt;= i &lt;= j &lt;= K. The Maximum Subsequence is the continuous subsequence which has the largest sum of its elements. For example, given sequence { -2, 11, -4, 13, -5, -2 }, its maximum subsequence is { 11, -4, 13 } with the largest sum being 20.</p>
+<p>Now you are supposed to find the largest sum, together with the first and the last numbers of the maximum subsequence.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case occupies two lines. The first line contains a positive integer K (&lt;= 10000). The second line contains K numbers, separated by a space.</p>
+<p>Output Specification:</p>
+<p>For each test case, output in one line the largest sum, together with the first and the last numbers of the maximum subsequence. The numbers must be separated by one space, but there must be no extra space at the end of a line. In case that the maximum subsequence is not unique, output the one with the smallest indices i and j (as shown by the sample case). If all the K numbers are negative, then its maximum sum is defined to be 0, and you are supposed to output the first and the last numbers of the whole sequence.</p>
+<p>Sample Input:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">-10 1 2 3 4 -5 -23 3 7 -21</div></pre></td></tr></table></figure>
+<p>Sample Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">10 1 4</div></pre></td></tr></table></figure>
+<p>思路：问一段连续子序列的最大和是多少，顺便记录下左端和右端。<br>注意<strong>the first and the last numbers of the maximum subsequence</strong>是值不是下标index！ 最开始看错了。。。</p>
+<p>解法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] arr;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		arr=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		<span class="keyword">boolean</span> flag=<span class="keyword">false</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			arr[i]=sc.nextInt();</div><div class="line">			<span class="keyword">if</span>(arr[i]&gt;=<span class="number">0</span>) flag=<span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> sum=<span class="number">0</span>,max=-<span class="number">1</span>,l=<span class="number">0</span>,maxL=<span class="number">0</span>,maxR=<span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span>(!flag) </div><div class="line">			System.out.println(<span class="string">"0"</span>+<span class="string">" "</span>+arr[<span class="number">0</span>]+<span class="string">" "</span>+arr[n-<span class="number">1</span>]);</div><div class="line">		<span class="keyword">else</span>&#123;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">				<span class="keyword">if</span>(arr[i]&gt;=<span class="number">0</span>) l=arr[i];</div><div class="line">				<span class="keyword">while</span>(i&lt;n&amp;&amp;sum+arr[i]&gt;=<span class="number">0</span>)&#123;</div><div class="line">					sum+=arr[i];</div><div class="line">					<span class="keyword">if</span>(sum&gt;max) &#123;max=sum;maxL=l;maxR=arr[i];&#125;</div><div class="line">					i++;</div><div class="line">				&#125;</div><div class="line">				sum=<span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">			System.out.print(max+<span class="string">" "</span>+maxL+<span class="string">" "</span>+maxR);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">			</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Given a sequence of K integers { N1, N2, …, NK }. A continuous subsequence is defined to be { Ni, Ni+1, …, Nj } where 1 &amp;lt;= i &amp;lt;= j &amp;
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
   
   <entry>
     <title>pat1006</title>
@@ -1338,152 +1370,6 @@ forward()
     
     
       <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面向对象设计与分析复习note</title>
-    <link href="http://yoursite.com/2016/11/12/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90%E5%A4%8D%E4%B9%A0note/"/>
-    <id>http://yoursite.com/2016/11/12/面向对象设计与分析复习note/</id>
-    <published>2016-11-12T10:28:24.000Z</published>
-    <updated>2016-12-10T16:12:37.420Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="概念1"><a href="#概念1" class="headerlink" title="概念1"></a>概念1</h3><p>面向对象分析：<br>在<strong>问题域内</strong>发现和描述<strong>对象</strong>。</p>
-<p>面向对象设计：<br>强调的是定义<strong>软件对象</strong>以他们是如何<strong>协作</strong>以实现<strong>需求</strong>。</p>
-<p>面向对象的优点:</p>
-<ul>
-<li>复用<br>通过继承、关联、封装等手段</li>
-<li>应变<br>弹性应对需求变化</li>
-<li>沟通<br>开发人员、用户、管理人员</li>
-<li>市场<br>应付市场的变化</li>
-<li>士气<br>员工的士气</li>
-</ul>
-<p>系统顺序图(SSD):</p>
-<ul>
-<li>系统顺序图(SSD)是阐述与<strong>所讨论系统</strong>相关的输入和输出事件而快速、简单创建的制品（顺序图）。 </li>
-<li>对于用例的一个特定场景，SSD展示了直接与系统交互的<strong>外部参与者</strong>对<strong>系统</strong>（作为黑盒）发起的<strong>系统事件</strong>以及其（系统事件）<strong>顺序</strong>。</li>
-<li>系统被视为<strong>黑盒</strong>，该图强调的是从参与者到系统的跨越系统边界的事件。</li>
-<li>系统顺序图是操作契约（第11章）和（最重要的）对象设计的输入。</li>
-</ul>
-<h3 id="2-基于用例图、类图、顺序图的分析与设计"><a href="#2-基于用例图、类图、顺序图的分析与设计" class="headerlink" title="2.基于用例图、类图、顺序图的分析与设计"></a>2.基于用例图、类图、顺序图的分析与设计</h3><p><strong>用例图：</strong></p>
-<p>actor（有行为的something)<br>:在系统之外，通过系统边界与系统进行有意义交互的任何事物<br>:actor is something with behavior, such as a person (identified by role), computer system, or organization; for example, a cashier.</p>
-<p>scenario: 一个场景是一种特定序列的在参与者和系统之间的动作。也被乘坐use case instance<br>:A scenario is a specific sequence of actions and interactions between actors and the system; it is also called a use case instance. </p>
-<p>use case: 用例是一组成功或失败的场景，用以描述使用系统来达到某个<br>目的的参与者。<br>A use case is a collection of related success and failure scenarios that describe an actor using a system to support a goal</p>
-<p>三种关系：</p>
-<ul>
-<li>包含：提取公共交互，提高复用</li>
-<li>扩展：“冻结”基础用例以保持稳定</li>
-<li>泛化：同一业务目的的不同技术实现</li>
-</ul>
-<p>ps：使用包含关系来处理用例之间的关系是首要原则</p>
-<p><strong>顺序图：</strong></p>
-<p>显示一组对象为了实现某种功能，而彼此发送和接收的一串消息，这组对象可能是类、接口、构件、节点和系统的具体的或原型化的实例。<br>强调消息时间顺序</p>
-<p>note:<br>刺形箭头消息表示异步调用，实心箭头消息表示同步调用</p>
-<ul>
-<li>消息的传入：类对象所具有的操作－－责任（行为）</li>
-<li>消息的传出：类对象完成操作所需合作者－－协作</li>
-</ul>
-<p>bce模式</p>
-<p><strong>类图：</strong></p>
-<ul>
-<li>分析类——域模型<ul>
-<li>关键抽象，CRC较验</li>
-<li>类图，关键确定类之间关系</li>
-</ul>
-</li>
-<li>设计类——<ul>
-<li>设计类是系统实施中一个或多个对象的抽象；设计类所对应的对象取决于采用的系统框架、设计模式、实现语言。 </li>
-</ul>
-</li>
-</ul>
-<p>分析类图-域模型<br><img src="http://i.imgur.com/XlKHtHM.png" alt=""></p>
-<p>类之间的关系</p>
-<p><img src="http://i.imgur.com/vZ0NiPF.png" alt=""></p>
-<p>依赖关系表示的是类之间的调用关系，即用一个类去调用另外一个类，被调用的类表现为调用类的局部变量、方法的参数，调用类调用被调用类的静态方法。–&gt;</p>
-<p><strong>依赖vs关联</strong></p>
-<ul>
-<li>从类之间关系的时间角度来分，关联表示类之间的“持久、静态”关系，一般需要“持久化”的，或者说需要保存到数据库中的，是一种重要的业务之间的关系。另外，依赖表示类之间的是一种“短暂、动态”关系，这种关系是不需要保存的。</li>
-<li>从类之间关系的强弱程度来分，关联表示类之间的很强的关系；依赖表示类之间的较弱的关系。</li>
-<li>设计类之间的关系遵循的原则：首先判断是否是一种“关联”关系，若不是再判断是否是“依赖关系”，一般情况下若不是关联，就是依赖关系</li>
-<li>依赖关系（Dependency relationship ）：是类与类之间的连接，依赖总是单向的。</li>
-<li>关联关系（Association relationship）：是一种结构关系，是指一个类的对象与另一个类的对象之间的关系（具有多重性）。关联可以有方向，即导航。一般不作说明的时候，导航是双向的，不需要在线上标出箭头。关联在代码中一般表示为属性（成员变量）</li>
-</ul>
-<h3 id="3-鲁棒性分析"><a href="#3-鲁棒性分析" class="headerlink" title="3.鲁棒性分析"></a>3.鲁棒性分析</h3><p>定义：</p>
-<ul>
-<li>一种方法<ul>
-<li>通过分析用例规约中的事件流，识别出实现用例规定的功能所需的主要对象及其职责，形成以职责模型为主的初步设计。——由Ivar Jacobson提出。</li>
-</ul>
-</li>
-<li>一个过程<ul>
-<li>它引导我们从用例转换为支持用例的模型。</li>
-</ul>
-</li>
-</ul>
-<p>鲁棒图：<br>包含三种元素：边界对象，控制对象，实体对象。</p>
-<p>建模原则：</p>
-<blockquote>
-<p>(1) 参与者只能与边界对象交谈<br>(2) 边界对象只能与控制体和参与者交流<br>(3) 实体对象也只能与控制体交谈<br>(4) 控制体既能与边界对象交谈，也能与控制体交谈，但不能与参与者交谈</p>
-</blockquote>
-<h3 id="4-面向对象设计原则"><a href="#4-面向对象设计原则" class="headerlink" title="4.面向对象设计原则"></a>4.面向对象设计原则</h3><p>好的设计：</p>
-<ul>
-<li>容易理解</li>
-<li>容易修改和扩展</li>
-<li>容易复用</li>
-<li>容易实现与应用</li>
-<li>简单、紧凑、经济适用</li>
-</ul>
-<p>坏的设计：</p>
-<ul>
-<li>僵化性（Rigidity）：刚性，难以修改，牵一发而动全身</li>
-<li>脆弱性（Fragility）：易碎，牵一发而肝胆俱裂</li>
-<li>牢固性（Immobility）：无法分解成可移植的组件</li>
-<li>粘滞性（Viscosity），修改设计代价高昂</li>
-<li>不必要的复杂性（Needless Complexity）,预测需求，处理潜在变化代码</li>
-<li>不必要的重复（ Needless Repetition ）</li>
-<li>晦涩性（Opacity）：不透明，很难看清设计者的真实意图</li>
-</ul>
-<p>原则：</p>
-<ul>
-<li>LSP：Liskov替换原则<br>The Liskov Substitution Principle</li>
-<li>OCP：开放-封闭原则<br>The Open-Close Principle</li>
-<li>SRP：单一职责原则<br>The Single Responsibility Principle</li>
-<li>ISP：接口隔离原则<br>The Interface Segregation Principle </li>
-<li>DIP：依赖倒置原则<br>The Dependency Inversion Principle</li>
-</ul>
-<h3 id="5-GRASP：通用职责分配软件模式"><a href="#5-GRASP：通用职责分配软件模式" class="headerlink" title="5.GRASP：通用职责分配软件模式"></a>5.GRASP：通用职责分配软件模式</h3><p>General Responsibility Assignment Software Pattern:     GRASP 作为设计模式来描述对象设计和职责分配的基本原则。</p>
-<p>GRASP模式：</p>
-<ul>
-<li>创建者(Creator)</li>
-<li>信息专家(Information Expert)</li>
-<li>低耦合(Low Coupling)</li>
-<li>控制器(Controller)</li>
-<li>高内聚(High Cohesion)</li>
-<li>多态（Polymorphism）</li>
-<li>纯虚构（Pure Fabrication）</li>
-<li>间接性（Indirection）</li>
-<li>防止变异（Protected Variations）</li>
-</ul>
-<p>信息专家：将职责分配给具有完成该职责所需信息的那个类</p>
-<p>低耦合：分配职责，使耦合尽可能低。利用这一原则来评估可选方案。</p>
-<p>高内聚度：不要给一个类分派太多的职责，在履行职责时尽量将部分职责分派给有能力完成的其它类去完成。不相关的职责不要分派给同一个类。</p>
-<p>控制器：正常情况下，控制器应当把需要完成的工作委派给其它对象。控制器只是协调或控制这些活动，本身并不完成大量工作。</p>
-<p>多态：当相关的或行为随类型（类）有所不同时，使用“多态操作”为变化的行为类型分配职责 。</p>
-<p>纯虚构：分配这组高度内聚的职责给一个人造类。人造类不代表问题领域的任何事物，只是为了支持高内聚、低耦合和可重用而虚构的一个类。</p>
-<p>适配器与某些grasp核心原则的关系<br><img src="http://i.imgur.com/EYjjYlR.png" alt=""></p>
-<h3 id="6-设计模式"><a href="#6-设计模式" class="headerlink" title="6.设计模式"></a>6.设计模式</h3><p>creational </p>
-<p>behavioral</p>
-<p>structural</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;概念1&quot;&gt;&lt;a href=&quot;#概念1&quot; class=&quot;headerlink&quot; title=&quot;概念1&quot;&gt;&lt;/a&gt;概念1&lt;/h3&gt;&lt;p&gt;面向对象分析：&lt;br&gt;在&lt;strong&gt;问题域内&lt;/strong&gt;发现和描述&lt;strong&gt;对象&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
     
   </entry>
   
