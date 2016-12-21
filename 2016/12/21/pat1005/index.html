@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="oracle," />
+  <meta name="keywords" content="pat," />
 
 
 
@@ -90,31 +90,25 @@
 
 
 
-<meta name="description" content="很少使用oracle，记录两个问题。
-###1.在Maven仓库中添加Oracle JDBC驱动
-由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。
-1.获取oracle jdbc driver
-
-通过Oracle官方网站下载相应版本： http://www.oracle.com">
+<meta name="description" content="1005.Spell It Right (20)
+Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.
+Input Specification:
+Each input file cont">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oracle">
-<meta property="og:url" content="http://yoursite.com/2016/09/25/oracle/index.html">
+<meta property="og:title" content="pat1005">
+<meta property="og:url" content="http://yoursite.com/2016/12/21/pat1005/index.html">
 <meta property="og:site_name" content="lyp's blog">
-<meta property="og:description" content="很少使用oracle，记录两个问题。
-###1.在Maven仓库中添加Oracle JDBC驱动
-由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。
-1.获取oracle jdbc driver
-
-通过Oracle官方网站下载相应版本： http://www.oracle.com">
-<meta property="og:updated_time" content="2016-12-10T16:11:06.872Z">
+<meta property="og:description" content="1005.Spell It Right (20)
+Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.
+Input Specification:
+Each input file cont">
+<meta property="og:updated_time" content="2016-12-21T06:10:52.114Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oracle">
-<meta name="twitter:description" content="很少使用oracle，记录两个问题。
-###1.在Maven仓库中添加Oracle JDBC驱动
-由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。
-1.获取oracle jdbc driver
-
-通过Oracle官方网站下载相应版本： http://www.oracle.com">
+<meta name="twitter:title" content="pat1005">
+<meta name="twitter:description" content="1005.Spell It Right (20)
+Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.
+Input Specification:
+Each input file cont">
 
 
 
@@ -135,10 +129,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/25/oracle/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/21/pat1005/"/>
 
 
-  <title> oracle | lyp's blog </title>
+  <title> pat1005 | lyp's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -260,7 +254,7 @@
             
             
               
-                oracle
+                pat1005
               
             
           </h1>
@@ -272,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
-              2016-09-25
+            <time itemprop="dateCreated" datetime="2016-12-21T14:04:21+08:00" content="2016-12-21">
+              2016-12-21
             </time>
           </span>
 
@@ -300,41 +294,19 @@
       
 
       
-        <a id="more"></a>
-<p>很少使用oracle，记录两个问题。</p>
-<p>###1.在Maven仓库中添加Oracle JDBC驱动</p>
-<p>由于Oracle授权问题，Maven不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</p>
-<p>1.获取oracle jdbc driver</p>
-<ol>
-<li>通过Oracle官方网站下载相应版本： <a href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html" target="_blank" rel="external">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</a></li>
-<li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc14.jar</li>
-</ol>
-<p>2.安装到本地仓库</p>
-<pre><code>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=D:\Document_x64\Downloads\ojdbc14.jar
-</code></pre><p>3.pom文件中添加引用</p>
-<pre><code>&lt;dependency&gt;
-&lt;groupId&gt;com.oracle&lt;/groupId&gt;
-&lt;artifactId&gt;ojdbc7&lt;/artifactId&gt;
-&lt;version&gt;12.1.0.2&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>###2. “ORA-00942: 表或视图不存在 “的原因和解决方法</p>
-<p>产生的原因：<br>Oracle 是大小写敏感的，我们创自己写Sql脚本创建表的时候Oracle会自动将我们的表名，字段名转成大写,</p>
-<pre><code>create table T_WindRadar  (
-   wr_id                VARCHAR2(64)                    not null,
-   wr_reciveTime        DATE,
-   wr_image             BLOB,
-   constraint PK_T_WINDRADAR primary key (wr_id)
-);
-</code></pre><p>但是 Oracle 同样支持”” 语法，将表名或字段名加上””后，Oracle不会将其转换成大写。</p>
-<pre><code>create table &quot;T_WindRadar&quot;  (
-   &quot;wr_id&quot;                VARCHAR2(64)                    not null,
-   &quot;wr_reciveTime&quot;        DATE,
-   &quot;wr_image &quot;            BLOB,
-   constraint PK_T_WINDRADAR primary key (wr_id)
-);
-</code></pre><p>如果加上了””,那么我们采用一般的SQL语句查询则会产生“ORA-00942: 表或视图不存在 ”，因此SQL脚本中需要将表名也加上””。</p>
-<pre><code>select * from  &quot;T_WindRadar&quot;;
-</code></pre><p>这种情况在我们手写SQL的时候一般不会发生，但是我们使用powerdesigner设计数据库的时候，由于不注意会经常出现此类问题，因为Powerdesigner生成的SQL文件默认是加””的。</p>
+        <p>1005.Spell It Right (20)</p>
+<p>Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case occupies one line which contains an N (&lt;= 10100).</p>
+<p>Output Specification:</p>
+<p>For each test case, output in one line the digits of the sum in English words. There must be one space between two consecutive words, but no extra space at the end of a line.</p>
+<p>Sample Input:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">12345</div></pre></td></tr></table></figure>
+<p>Sample Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">one five</div></pre></td></tr></table></figure>
+<p>思路：读入一串数字，然后相加打印。注意读入采用string，入股直接读入一个int，会越界，超过int最大值。</p>
+<p>编程;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t5</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">	String[] s=&#123;</div><div class="line">				<span class="string">"zero"</span>,<span class="string">"one"</span>,<span class="string">"two"</span>,<span class="string">"three"</span>,<span class="string">"four"</span>,<span class="string">"five"</span>,<span class="string">"six"</span>,<span class="string">"seven"</span>,<span class="string">"eight"</span>,<span class="string">"nine"</span></div><div class="line">	&#125;;</div><div class="line">	 Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">	 String a=sc.next();</div><div class="line">	 <span class="keyword">if</span>(a.equals(<span class="string">"0"</span>))&#123;</div><div class="line">		 System.out.println(<span class="string">"zero"</span>);</div><div class="line">		 <span class="keyword">return</span> ;</div><div class="line">	 &#125;</div><div class="line">	 sc.close();</div><div class="line">	 <span class="keyword">int</span> sum=<span class="number">0</span>;</div><div class="line">	 <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length();i++)&#123;</div><div class="line">		sum+=a.charAt(i)-<span class="string">'0'</span>;</div><div class="line">	 &#125;</div><div class="line">	 List&lt;String&gt; ss=<span class="keyword">new</span> ArrayList&lt;String&gt;(); </div><div class="line">	 <span class="keyword">while</span>(sum!=<span class="number">0</span>)&#123;</div><div class="line">		 ss.add(s[sum%<span class="number">10</span>]);</div><div class="line">		 sum=sum/<span class="number">10</span>;</div><div class="line">	 &#125;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=ss.size()-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</div><div class="line">		<span class="keyword">if</span>(j==ss.size()-<span class="number">1</span>) System.out.print(ss.get(j));</div><div class="line">		<span class="keyword">else</span> System.out.print(<span class="string">" "</span>+ss.get(j));</div><div class="line">	&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -357,7 +329,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/oracle/" rel="tag">#oracle</a>
+            <a href="/tags/pat/" rel="tag">#pat</a>
           
         </div>
       
@@ -366,16 +338,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/25/k-近邻算法/" rel="next" title="机器学习">
-                <i class="fa fa-chevron-left"></i> 机器学习
+              <a href="/2016/12/21/pat1004/" rel="next" title="pat1004">
+                <i class="fa fa-chevron-left"></i> pat1004
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/25/java多线程/" rel="prev" title="java多线程">
-                java多线程 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/12/21/pat1006/" rel="prev" title="pat1006">
+                pat1006 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
