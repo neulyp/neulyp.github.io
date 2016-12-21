@@ -123,7 +123,7 @@ namenode datanode jobtracker tasktracker secondaryNamenode
 mapper类 
 r">
 <meta property="og:image" content="http://i.imgur.com/xm8ivA9.png">
-<meta property="og:updated_time" content="2016-12-18T14:05:23.221Z">
+<meta property="og:updated_time" content="2016-12-20T07:41:20.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop笔记-备考">
 <meta name="twitter:description" content="2.2hadoop安装模式:
@@ -220,7 +220,7 @@ r">
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -228,7 +228,7 @@ r">
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -236,7 +236,7 @@ r">
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -297,7 +297,7 @@ r">
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-18T21:10:31+08:00" content="2016-12-18">
               2016-12-18
             </time>
@@ -309,7 +309,7 @@ r">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/hadoop/" itemprop="url" rel="index">
@@ -377,7 +377,16 @@ r">
 <p>hdfs架构？（主从结构，一个namenode节点，多个datanode节点）</p>
 <p>hadoop的rpc机制？</p>
 <p>hadoop文件系统的访问/</p>
-<p>```<br>hadoop fs -ls /<br>hadoop fs -mkdir /input<br>hadoop fs -put file1 /input<br>hadoop fs -text /input/file1<br>hadoop fs -get /input/file1 //复制到本地<br>hadoop fs -rm /input/file1<br>hadoop namenode -format<br>hadoop secondarynamenode<br>hadoop dfsadmin<br>hadoop job<br>hadoop version</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">hadoop fs -ls /</div><div class="line">hadoop fs -mkdir /input</div><div class="line">hadoop fs -put file1 /input</div><div class="line">hadoop fs -text /input/file1</div><div class="line">hadoop fs -get /input/file1 //复制到本地</div><div class="line">hadoop fs -rm /input/file1</div><div class="line">hadoop namenode -format</div><div class="line">hadoop secondarynamenode</div><div class="line">hadoop dfsadmin</div><div class="line">hadoop job</div><div class="line">hadoop version</div></pre></td></tr></table></figure>
+<h3 id="5-1"><a href="#5-1" class="headerlink" title="5.1"></a>5.1</h3><p>hadoop文件的数据结构</p>
+<p>hdfs提供两种类型的容器：</p>
+<ul>
+<li>sequencefile:记录可序列化的数组</li>
+</ul>
+<p>sequencefile主要由一个header和多个record组成。<br>header:记录key calssname, value classname，存储压缩算法，用户自定义信息等。<br>record：以键值对的方式进行存储。用来表示他的字符数组可以一次解析为：记录的长度，key的长度，key的值，value值。</p>
+<ul>
+<li>mapfile</li>
+</ul>
 
       
     </div>
@@ -468,10 +477,10 @@ r">
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -487,8 +496,8 @@ r">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -496,7 +505,7 @@ r">
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -505,7 +514,7 @@ r">
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -540,7 +549,7 @@ r">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2"><span class="nav-number">1.</span> <span class="nav-text">2.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3"><span class="nav-number">2.</span> <span class="nav-text">2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2"><span class="nav-number">3.</span> <span class="nav-text">3.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3"><span class="nav-number">4.</span> <span class="nav-text">3.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4"><span class="nav-number">5.</span> <span class="nav-text">4</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2"><span class="nav-number">1.</span> <span class="nav-text">2.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3"><span class="nav-number">2.</span> <span class="nav-text">2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2"><span class="nav-number">3.</span> <span class="nav-text">3.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3"><span class="nav-number">4.</span> <span class="nav-text">3.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4"><span class="nav-number">5.</span> <span class="nav-text">4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1"><span class="nav-number">6.</span> <span class="nav-text">5.1</span></a></li></ol></div>
             
           </div>
         </section>
@@ -567,7 +576,7 @@ r">
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

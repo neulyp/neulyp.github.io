@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/12/21/pat1004/</loc>
+    
+    <lastmod>2016-12-21T06:01:13.219Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/12/18/hadoop%E7%AC%94%E8%AE%B0-%E5%A4%87%E8%80%83/</loc>
+    
+    <lastmod>2016-12-20T07:41:20.088Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2016/12/20/pat1002/</loc>
     
     <lastmod>2016-12-20T06:08:28.398Z</lastmod>
@@ -26,13 +40,6 @@
     <loc>http://yoursite.com/2016/12/15/hbase/</loc>
     
     <lastmod>2016-12-18T14:12:39.594Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2016/12/18/hadoop%E7%AC%94%E8%AE%B0-%E5%A4%87%E8%80%83/</loc>
-    
-    <lastmod>2016-12-18T14:05:23.221Z</lastmod>
     
   </url>
   

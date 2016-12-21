@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,185 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/14/Ng机器学习notes1-weka相关算法实现/" itemprop="url">
+                  Ng机器学习notes1+weka相关算法实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-14T12:30:14+08:00" content="2016-10-14">
+              2016-10-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Andrew Ng的机器学习课程notes1.</p>
+<p>参考链接：<a href="http://blog.csdn.net/qiao1245/article/details/50886247" target="_blank" rel="external">http://blog.csdn.net/qiao1245/article/details/50886247</a></p>
+<p>主要内容是关于判别学习方法的，涉及到了梯度下降、随机梯度下降、最小二乘法、局部加权回归、极大似然原理、logistic regression、牛顿方法、广义线性模型、指数分布族。</p>
+<p>##Ng机器学习笔记</p>
+<p><strong>1.问题引入：房价预测</strong></p>
+<p><img src="http://i.imgur.com/YVXqMDd.png" alt=""><br>我们可以将变量表示成X1，X2，然后结果表示为Y，那么Y和X之间存在一种映射关系，也就是说，我们可以通过X预测Y，假设二者之间关系是多元线性关系，形式上表述为：</p>
+<p><img src="http://i.imgur.com/WhQcGmc.png" alt=""></p>
+<p>H就是根据X对Y做出的估计，其中的参数θ是我们要求的量。<br>如何求得参数θ呢？我们可以利用损失函数的概念，损失函数表示了预测值与实际值之间的差距：</p>
+<p><img src="http://i.imgur.com/b8rfDs0.png" alt=""></p>
+<p>那么很显然，只要J（θ）最小化，那么θ就是最好的参数。那么我们下面就是使得J（θ）最小化，其中方法之一梯度下降方法。</p>
+<p><strong>2.梯度下降</strong></p>
+<p>什么是梯度？梯度是标量场中某一点上的梯度指向标量场增长最快的方向，梯度的长度是这个最大的变化率。因此，梯度方向是函数变化最快的地方。那么我们可以任意初始化θ，接下来就按照梯度方向进行调整θ只，就可以最快的到达最大值。 </p>
+<p>可以得到更新θ规则，对于一个独立的样本，这种方法就是最小二乘法。 </p>
+<p><img src="http://i.imgur.com/ovVDkP1.png" alt=""></p>
+<p>扩展到M个样本，对J（θ）求偏导数，可以得到最终结果：<br><img src="http://i.imgur.com/aKxdpy0.png" alt=""><br>因此，梯度下降的过程就是不断地θ进行迭代，直到θ达到最大值为止<br><img src="http://i.imgur.com/3wQOxcE.png" alt=""><br>但是这样有一个很大的问题，就是每下降一步，就需要遍历整个数据集，这会导致巨大的计算量。因此，我们可以每次使用一条数据，就迭代一次，过程如下：<br><img src="http://i.imgur.com/tFXT2y1.png" alt=""><br>这样就会使得迭代过程并非一直是正向进行的，也就是可能会有向相反方向迭代的可能，但是总体还是向下的。这样还有一个问题，就是可能算法未必会收敛到最小值，而在最小值附近一直徘徊。但是最大的优点就是，快！</p>
+<p>除了代数方法求得θ，我们还可以使用线性代数的方法直接求得θ参数，具体推导过程不再赘述，可以去看讲义，结果是：<br><img src="http://i.imgur.com/9bpMtTg.png" alt=""></p>
+<p>这样虽然避免了计算，但是对矩阵求逆是比较慢的，而且这个方法要求X是满秩的，若不是满秩矩阵需要做处理。</p>
+<p><strong>3.极大似然估计</strong></p>
+<p>那么为什么采用平方和函数得到的θ就是最佳的呢？这里有对应的概率解释。对于一般的回归问题，我们可以将预测值和真实值之间表示为：<br><img src="http://i.imgur.com/H9SEMY1.png" alt=""></p>
+<p><strong>4.局部加权回归</strong></p>
+<p>有时候可能我们发现变量X和Y之间的关系并不是一种线性关系，但是在很小一段上，X和Y可以近似的看做线性关系，那么如何衡量这种关系呢？我们可以使用局部加权回归来解决这类问题，通过权重函数，我们可以距离目标值越远的点对整体影响越小。 </p>
+<p>那么我们的问题可以化为：<br> <img src="http://i.imgur.com/cPk6OoJ.png" alt=""></p>
+<p>其中，W可以表示为：<br><img src="http://i.imgur.com/7oueKN5.png" alt=""><br>这里面的τ被称为波长，用于控制权值随着距离变化的快慢。<br>那么我们像之前一样对问题进行求解。</p>
+<p><strong>5.logistic回归</strong><br>有时候，我们的预测值并不是连续的，如满足伯努利分布，Y∈{0,1}，那么该怎么进行回归分析呢？<br>我们可以利用函数将连续值映射到0-1之间，一个函数就是： </p>
+<p><img src="http://i.imgur.com/I20ojGR.png" alt=""></p>
+<p><strong>6.牛顿方法</strong></p>
+<p>除了梯度下降，还有一种牛顿方法可以对解空间进行搜索。示意图如下：<br><img src="http://i.imgur.com/NHm6GiT.png" alt=""></p>
+<p>方法是先随机选一个点，求出该点的切线，延长它使之与 x 轴相<br>交，以相交时的 x 的值作为下一次迭代的值。<br>由于最大似然函数的性质，我们可以知道当导数为0时，求得θ最佳，那么我们可以得到更新规则：</p>
+<p><img src="http://i.imgur.com/0ZTqRI2.png" alt=""></p>
+<p>牛顿法的优点是收敛较快，但是有可能达不到最值。</p>
+<p>##weka相关算法实现</p>
+<p><strong>1.线性回归</strong></p>
+<pre><code>weka.classifiers.functions.LinearRegression
+Class for using linear regression for prediction. Uses the Akaike criterion for model selection, and is able to deal with weighted instances. 
+
+ Valid options are: 
+ -S &lt;number of selection method&gt;
+  Set the attribute selection method to use. 1 = None, 2 = Greedy.
+  (default 0 = M5&apos; method)
+
+ -C
+  Do not try to eliminate colinear attributes.
+
+ -R &lt;double&gt;
+  Set ridge parameter (default 1.0e-8).
+
+ -minimal
+  Conserve memory, don&apos;t keep dataset header and means/stdevs.
+  Model cannot be printed out if this option is enabled. (default: keep data)
+
+ -additional-stats
+  Output additional statistics.
+
+ -output-debug-info
+  If set, classifier is run in debug mode and
+  may output additional info to the console
+
+ -do-not-check-capabilities
+  If set, classifier capabilities are not checked before classifier is built
+  (use with caution).
+
+Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (trigg@cs.waikato.ac.nz)
+</code></pre><p><strong>2.逻辑回归</strong></p>
+<p>Valid options are: </p>
+<pre><code>-D
+ Turn on debugging output.
+
+-R &lt;ridge&gt;
+ Set the ridge in the log-likelihood.
+
+-M &lt;number&gt;
+ Set the maximum number of iterations (default -1, until convergence).
+</code></pre><p>参数比较少，其中-R用来调整迭代时θ对整个Cost函数的影响，默认是1E-8，-M是迭代的最大次数，如果指定为-1，则算法运行一直到收敛为止。<br>代码如下：</p>
+<pre><code>class LogisticModel {
+
+    public LogisticModel(Instances data) {
+        String[] options={&quot;-M&quot;,20};
+        Logistic model = new Logistic();
+        try {
+            model.setOptions(options);
+            model.buildClassifier(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/13/mysql中tinyint-smallint-int-bigint区别/" itemprop="url">
                   mysql中tinyint.smallint.int.bigint区别
                 </a>
@@ -257,7 +436,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
               2016-10-13
             </time>
@@ -360,7 +539,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
               2016-10-06
             </time>
@@ -372,7 +551,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
@@ -533,7 +712,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -545,7 +724,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -674,7 +853,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -686,7 +865,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -826,7 +1005,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-29T20:39:32+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -838,7 +1017,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -878,7 +1057,7 @@
           <p>###机器学习weka（一）<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/29/weka1/#more" rel="contents">
-              Weiterlesen &raquo;
+              Read more &raquo;
             </a>
           </div>
         
@@ -941,7 +1120,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:52:26+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1055,7 +1234,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T23:43:30+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1178,7 +1357,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T22:14:27+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1306,7 +1485,7 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-09-25T13:39:12+08:00" content="2016-09-25">
               2016-09-25
             </time>
@@ -1383,133 +1562,6 @@ void    wait(long timeout, int nanos) //导致当前的线程等待，直到其�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/23/java泛型/" itemprop="url">
-                  java泛型
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T20:52:12+08:00" content="2016-09-23">
-              2016-09-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>###一、泛型的由来<br>在1.5之后，Java引入了泛型(Generic)的概念，提供了一套抽象的类型表示方法。<br>利用泛型，我们可以；</p>
-<p>1、表示多个可变类型之间的相互关系：HashMap<t,s>表示类型T与S的映射，HashMap<t, s="" extends="" t="">表示T的子类与T的映射关系</t,></t,s></p>
-<p>2、细化类的能力：ArrayList<t> 可以容纳任何指定类型T的数据，当T代指人，则是人的有序列表，当T代指杯子，则是杯子的有序列表，所有对象个体可以共用相同的操作行为</t></p>
-<p>3、简化代码实现：假设有一个执行过程，对不同类型的数据，进行某些流程一致的处理.</p>
-<pre><code>public &lt;T&gt; void addToArray(T data, T array[], int pos) {  
-    array[pos] = data;  
-} 
-</code></pre><p>###二、泛型用法<br>1.泛型类</p>
-<p>2.泛型方法</p>
-<p>###三、通配符<br>我们还可以赋予泛型参数不确定值，也就是通配符?。使用通配符?表示一个未知的类型。类似如下：</p>
-<pre><code>List&lt;?&gt; list;存放任意的对象
-List&lt;? extends AClass&gt; listSubAClass; //存放AClass的子类
-List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
-</code></pre><p>通配符不能用在泛型类和泛型方法声明中</p>
-<p>###四、泛型关键字<br>1、泛型关键字有二个 extends和super，分别表示类型上界和类型下界<br><code>T extends AClass</code> 表示T继承自AClass类<br><code>? super AClass</code> 表示?是AClass的父类，注意：super只能与通配符?搭配使用，我们不能写：</p>
-<pre><code>public class GenericClass&lt;T super AClass&gt; { //错误
-}
-</code></pre><p>此例子中super换成extends是正确的，表示泛型T继承自AClass，T换成通配符?也是可以的，表示未知类型的下界是AClass。</p>
-<p>###五、泛型的应用<br>java泛型的最深入人心的应用就是容器（Collections）了。容器不需要考虑它要装什么东西，它的职责就是表达它装的东西的集合所具有的功能。因此是天然的泛型支持者。</p>
-<p>JAVA的容器—List,Map,Set<br>Collection </p>
-<p>├List<br>│├LinkedList<br>│├ArrayList<br>│└Vector<br>│　└Stack<br>└Set </p>
-<p>Map<br>├Hashtable<br>├HashMap<br>└WeakHashMap</p>
-<p><img src="http://i.imgur.com/QIEylMe.jpg" alt=""></p>
-<p>LinkedList ：其数据结构采用的是链表，此种结构的优势是删除和添加的效率很高，但随机访问元素时效率较ArrayList类低。</p>
-<p>ArrayList：其数据结构采用的是线性表，此种结构的优势是访问和查询十分方便，但添加和删除的时候效率很低。</p>
-<p>HashSet: Set类不允许其中存在重复的元素（集），无法添加一个重复的元素（Set中已经存在）。HashSet利用Hash函数进行了查询效率上的优化，其contain（）方法经常被使用，以用于判断相关元素是否已经被添加过。</p>
-<p>HashMap: 提供了key-value的键值对数据存储机制，可以十分方便的通过键值查找相应的元素，而且通过Hash散列机制，查找十分的方便。</p>
-<p>1.ArrayList和LinkedList有什么区别？<br>ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。</p>
-<p>相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。</p>
-<p>LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。</p>
-<p>2.HashSet和TreeSet有什么区别？</p>
-<p>HashSet是由一个hash表来实现的，因此，它的元素是无序的。add()，remove()，contains()方法的时间复杂度是O(1)。</p>
-<p>另一方面，TreeSet是由一个树形的结构来实现的，它里面的元素是有序的。因此，add()，remove()，contains()方法的时间复杂度是O(logn)</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1555,8 +1607,8 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1564,7 +1616,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1573,7 +1625,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1624,7 +1676,7 @@ List&lt;? extends BClass&gt; listSuperBClass; //存放BClass的父类
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
