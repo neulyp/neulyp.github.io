@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="1.mapreduce框架结构mapreduce是一个用于大规模数据处理的分布式计算模型。
+mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。reducer：主要是获取mapper出来的结果，对结果进行统计。
+
+
+mapper和reducer
+jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mapReduce工作原理">
+<meta property="og:url" content="http://yoursite.com/2016/12/21/mapReduce工作原理/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="1.mapreduce框架结构mapreduce是一个用于大规模数据处理的分布式计算模型。
+mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。reducer：主要是获取mapper出来的结果，对结果进行统计。
+
+
+mapper和reducer
+jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一">
+<meta property="og:image" content="http://i.imgur.com/p3Tu8Wr.png">
+<meta property="og:image" content="http://i.imgur.com/UllRps9.png">
+<meta property="og:image" content="http://i.imgur.com/etHGgpb.png">
+<meta property="og:image" content="http://i.imgur.com/27YtRlh.png">
+<meta property="og:updated_time" content="2016-12-22T14:00:12.613Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mapReduce工作原理">
+<meta name="twitter:description" content="1.mapreduce框架结构mapreduce是一个用于大规模数据处理的分布式计算模型。
+mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。reducer：主要是获取mapper出来的结果，对结果进行统计。
+
+
+mapper和reducer
+jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一">
+<meta name="twitter:image" content="http://i.imgur.com/p3Tu8Wr.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/21/mapReduce工作原理/"/>
+
+
+  <title> mapReduce工作原理 | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mapReduce工作原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-21T21:44:43+08:00" content="2016-12-21">
+              2016-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-mapreduce框架结构"><a href="#1-mapreduce框架结构" class="headerlink" title="1.mapreduce框架结构"></a>1.mapreduce框架结构</h3><p>mapreduce是一个用于大规模数据处理的分布式计算模型。</p>
+<p>mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。<br>reducer：主要是获取mapper出来的结果，对结果进行统计。</p>
+<p><img src="http://i.imgur.com/p3Tu8Wr.png" alt=""></p>
+<ol>
+<li>mapper和reducer</li>
+<li>jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一个子任务运行于tasktracker上，并监控。如果发现失败的task，就重启他们。</li>
+<li>tasktracker：运行在多个节点的slaver服务，tasktracker主动与jobtracker通信（通过心跳实现）来接收作业。并负责直接执行每个任务。</li>
+<li>jobclient</li>
+<li>每一个job都会在用户端通过jobclient类将应用程序级configuration打包成jar存储在hdfs上，并把路径提交给jobtracker的master服务，然后由master创建每一个task将他们分给各个tasktracker服务中心去执行。</li>
+<li>jobinprogress：jobclient提交job后，jobtracker创建一个jobinprogress来跟踪和调度这个job，并把它添加到job队列中。</li>
+<li>jontracker启动任务task对象序列化写入相应的tasktracker中。tasktracker收到创建taskinprogress，用来监控和调度task。</li>
+<li>maptask和reducetask，一个完整的job会自动执行mapper combine reducer。</li>
+</ol>
+<h3 id="2-mapreduce运行原理"><a href="#2-mapreduce运行原理" class="headerlink" title="2.mapreduce运行原理"></a>2.mapreduce运行原理</h3><p><img src="http://i.imgur.com/UllRps9.png" alt=""></p>
+<ul>
+<li>jobtracker调用getnewjobid（）请求一个新作业id</li>
+<li>检查作业输出说明，没有指定或者已经存在，返回到mr程序</li>
+<li>计算作业的输出划分，失败返回mr程序</li>
+<li>将运行资源（jar configuration文件 输入划分）复制到jobtracker文件系统中一个以作业id命名的目录中。</li>
+<li>调用jobtracker的submitjob方法</li>
+<li>将任务放在调度器中，并初始化任务。</li>
+<li>创建运行任务列表，首先根据输入划分来确定map任务个数，再根据jobconf中mapred。reduce.tasks确定reduce个数。</li>
+<li>tasktracker执行循环，定期发送心跳告诉jobtracker，是否存活。同时充当消息通道。</li>
+</ul>
+<ul>
+<li>作业的提交 </li>
+<li>作业的初始化<img src="http://i.imgur.com/etHGgpb.png" alt=""></li>
+<li>任务分配</li>
+<li>任务的执行</li>
+<li>进度和状态的更新</li>
+<li>mapreduce的进度组成</li>
+<li>任务完成</li>
+</ul>
+<h3 id="3-mapreduce容错"><a href="#3-mapreduce容错" class="headerlink" title="3.mapreduce容错"></a>3.mapreduce容错</h3><p>mapreduce容错主要考虑以下几点：</p>
+<ul>
+<li>任务失败</li>
+<li>tasktracker失败</li>
+<li>jobtracker失败</li>
+<li>子任务失败</li>
+<li>任务失败反复次数的处理</li>
+</ul>
+<p>1.任务失败：</p>
+<ul>
+<li>mapreduce代码有问题—&gt;子任务jvm在推出前向上一级tasktracker提交错误报告，记录在用户错误日志中，并将本次task attemp 标记failed。释放任务槽slot</li>
+<li>jvm错误—&gt;jvm的bug导致，将本次标记为failed。</li>
+<li>不设置超时—&gt;不释放slot。降低性能</li>
+</ul>
+<p>2.tasktracker失败</p>
+<p>tasktracker发送心跳包到jobtracker。tasktracker故障，心跳包停止或者很少发送，jobtracker将tasktracker从等待任务调度的tasktracker池中溢出。jobtracker会安排此tasktracker上一个成功运行的map任务返回。</p>
+<ul>
+<li>没有完成的作业，map任务失败。重新执行</li>
+<li>reduce未完成， 执行reduce任务。</li>
+</ul>
+<p>3.jobtracker失败</p>
+<p>jobtracker是存在单点故障的，失败就gg。 可以通过启动多个jobtracker，只运行一个主jobtracker。可以采用zookeeper作为jobtracker的协调机制。</p>
+<p>4.子任务失败</p>
+<p>一个mapreduce任务包含很多map和reduce任务。</p>
+<ul>
+<li>map或者reduce子任务代码异常—&gt;jvm进程向tasktracker发送错误报告，标记failed，释放slot，执行另一个。</li>
+<li>对于刘任务，流进程以非零退出代码，标记failed</li>
+<li>jvm退出，标记failed</li>
+</ul>
+<p>5.任务失败反复次数的处理方法</p>
+<p>当map task执行失败后会重试，超过重试次数，整个job会失败。<br>重试次数可以配置在mapred-site.xml <code>mapred.max.failures.percent</code></p>
+<h3 id="4-shuffle阶段-和sort阶段（未看完）"><a href="#4-shuffle阶段-和sort阶段（未看完）" class="headerlink" title="4.shuffle阶段 和sort阶段（未看完）"></a>4.shuffle阶段 和sort阶段（未看完）</h3><p>shuffle:指从map的输出开始，包括系统执行排序以及传送map输出到reduce的过程。</p>
+<p>sort阶段：指map端输出的key进行排序。</p>
+<h3 id="6-任务的执行"><a href="#6-任务的执行" class="headerlink" title="6.任务的执行"></a>6.任务的执行</h3><p>1.推测执行</p>
+<p>问题：hadoop把任务分配给很多歌节点，可能有一些节点会限制程序的执行速度。别的任务都执行完了，却要等待这个节点慢慢的执行。怎么办？</p>
+<p>方案：通过强迫任务独立运行于其他的任务，使得单个任务之间不会知道他们的输入数据来自哪里。对于相同的输入数据，我们可以并行多次处理来利用不同机器的负载能力，因为大部分任务都完成了，hadoop平台会在几个空闲的节点上调度执行剩余任务的赋值，这个过程叫做推测执行。任务完成时，向jobtracker报告。第一个完成的是权威赋值，其他没完成的就会被终止并且丢弃他们的输出。</p>
+<p>2.任务jvm调用</p>
+<p>mapred.job.reuse.jvm.num.tasks默认值为1，即每个task都新启动一个jvm来运行任务，当值是-1的时候，表示jvm可以无限重用。</p>
+<p>针对数目巨大的task时，可以用jvm重用。</p>
+<p>3.跳过坏的记录</p>
+<p>数据的一些记录不符合怪烦，处理时跑出异常。mapreduce可以将这次记录标记为坏记录，重启任务时会跳过该记录。</p>
+<p>默认是关闭的，通过<code>mapred.map.max.attemps</code>和<code>mapred.reduce.max.attemps</code>设置</p>
+<p>4.任务执行的环境</p>
+<p>通过某些环境属性得知作业和任务的信息。<br><img src="http://i.imgur.com/27YtRlh.png" alt=""></p>
+<h3 id="7-作业调度器"><a href="#7-作业调度器" class="headerlink" title="7.作业调度器"></a>7.作业调度器</h3><ul>
+<li>先进先出调度器</li>
+<li>容量调度器</li>
+<li>公平调度器</li>
+<li>自定义hadoop调度器</li>
+</ul>
+<p>细节略，参考hadoop应用开发技术详解</p>
+<h3 id="8-yarn"><a href="#8-yarn" class="headerlink" title="8.yarn"></a>8.yarn</h3><p>略</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文主要介绍了mapreduce的工作原理，主要讲解了jobtracker tasktracker 任务调度 任务工作原理 级shuffle和sort机制。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag">#hadoop</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/21/pat1007/" rel="next" title="pat1007">
+                <i class="fa fa-chevron-left"></i> pat1007
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/22/pat1008/" rel="prev" title="pat1008">
+                pat1008 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-mapreduce框架结构"><span class="nav-number">1.</span> <span class="nav-text">1.mapreduce框架结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-mapreduce运行原理"><span class="nav-number">2.</span> <span class="nav-text">2.mapreduce运行原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-mapreduce容错"><span class="nav-number">3.</span> <span class="nav-text">3.mapreduce容错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-shuffle阶段-和sort阶段（未看完）"><span class="nav-number">4.</span> <span class="nav-text">4.shuffle阶段 和sort阶段（未看完）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-任务的执行"><span class="nav-number">5.</span> <span class="nav-text">6.任务的执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-作业调度器"><span class="nav-number">6.</span> <span class="nav-text">7.作业调度器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-yarn"><span class="nav-number">7.</span> <span class="nav-text">8.yarn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

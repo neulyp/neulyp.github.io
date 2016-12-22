@@ -244,6 +244,289 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/22/pat1008/" itemprop="url">
+                  pat1008
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-22T13:17:29+08:00" content="2016-12-22">
+              2016-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1008.Elevator (20)</p>
+<p>The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified order. It costs 6 seconds to move the elevator up one floor, and 4 seconds to move down one floor. The elevator will stay for 5 seconds at each stop.</p>
+<p>For a given request list, you are to compute the total time spent to fulfill the requests on the list. The elevator is on the 0th floor at the beginning and does not have to return to the ground floor when the requests are fulfilled.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case contains a positive integer N, followed by N positive numbers. All the numbers in the input are less than 100.</p>
+<p>Output Specification:</p>
+<p>For each test case, print the total time on a single line.</p>
+<p>Sample Input:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 2 3 1</div></pre></td></tr></table></figure></p>
+<p>Sample Output:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">41</div></pre></td></tr></table></figure></p>
+<p>解答：直接计算就可以。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t8</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n=<span class="number">0</span>,sum=<span class="number">0</span>;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] a;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		a=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			a[i]=sc.nextInt();</div><div class="line">			<span class="keyword">if</span>(i==<span class="number">0</span>)</div><div class="line">				sum+=<span class="number">6</span>*a[i];</div><div class="line">			<span class="keyword">else</span></div><div class="line">				sum=a[i]&gt;a[i-<span class="number">1</span>]?sum+(a[i]-a[i-<span class="number">1</span>])*<span class="number">6</span>:sum+(a[i-<span class="number">1</span>]-a[i])*<span class="number">4</span>;			</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		sum+=n*<span class="number">5</span>;</div><div class="line">		System.out.println(sum);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/21/mapReduce工作原理/" itemprop="url">
+                  mapReduce工作原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-21T21:44:43+08:00" content="2016-12-21">
+              2016-12-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-mapreduce框架结构"><a href="#1-mapreduce框架结构" class="headerlink" title="1.mapreduce框架结构"></a>1.mapreduce框架结构</h3><p>mapreduce是一个用于大规模数据处理的分布式计算模型。</p>
+<p>mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。<br>reducer：主要是获取mapper出来的结果，对结果进行统计。</p>
+<p><img src="http://i.imgur.com/p3Tu8Wr.png" alt=""></p>
+<ol>
+<li>mapper和reducer</li>
+<li>jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一个子任务运行于tasktracker上，并监控。如果发现失败的task，就重启他们。</li>
+<li>tasktracker：运行在多个节点的slaver服务，tasktracker主动与jobtracker通信（通过心跳实现）来接收作业。并负责直接执行每个任务。</li>
+<li>jobclient</li>
+<li>每一个job都会在用户端通过jobclient类将应用程序级configuration打包成jar存储在hdfs上，并把路径提交给jobtracker的master服务，然后由master创建每一个task将他们分给各个tasktracker服务中心去执行。</li>
+<li>jobinprogress：jobclient提交job后，jobtracker创建一个jobinprogress来跟踪和调度这个job，并把它添加到job队列中。</li>
+<li>jontracker启动任务task对象序列化写入相应的tasktracker中。tasktracker收到创建taskinprogress，用来监控和调度task。</li>
+<li>maptask和reducetask，一个完整的job会自动执行mapper combine reducer。</li>
+</ol>
+<h3 id="2-mapreduce运行原理"><a href="#2-mapreduce运行原理" class="headerlink" title="2.mapreduce运行原理"></a>2.mapreduce运行原理</h3><p><img src="http://i.imgur.com/UllRps9.png" alt=""></p>
+<ul>
+<li>jobtracker调用getnewjobid（）请求一个新作业id</li>
+<li>检查作业输出说明，没有指定或者已经存在，返回到mr程序</li>
+<li>计算作业的输出划分，失败返回mr程序</li>
+<li>将运行资源（jar configuration文件 输入划分）复制到jobtracker文件系统中一个以作业id命名的目录中。</li>
+<li>调用jobtracker的submitjob方法</li>
+<li>将任务放在调度器中，并初始化任务。</li>
+<li>创建运行任务列表，首先根据输入划分来确定map任务个数，再根据jobconf中mapred。reduce.tasks确定reduce个数。</li>
+<li>tasktracker执行循环，定期发送心跳告诉jobtracker，是否存活。同时充当消息通道。</li>
+</ul>
+<ul>
+<li>作业的提交 </li>
+<li>作业的初始化<img src="http://i.imgur.com/etHGgpb.png" alt=""></li>
+<li>任务分配</li>
+<li>任务的执行</li>
+<li>进度和状态的更新</li>
+<li>mapreduce的进度组成</li>
+<li>任务完成</li>
+</ul>
+<h3 id="3-mapreduce容错"><a href="#3-mapreduce容错" class="headerlink" title="3.mapreduce容错"></a>3.mapreduce容错</h3><p>mapreduce容错主要考虑以下几点：</p>
+<ul>
+<li>任务失败</li>
+<li>tasktracker失败</li>
+<li>jobtracker失败</li>
+<li>子任务失败</li>
+<li>任务失败反复次数的处理</li>
+</ul>
+<p>1.任务失败：</p>
+<ul>
+<li>mapreduce代码有问题—&gt;子任务jvm在推出前向上一级tasktracker提交错误报告，记录在用户错误日志中，并将本次task attemp 标记failed。释放任务槽slot</li>
+<li>jvm错误—&gt;jvm的bug导致，将本次标记为failed。</li>
+<li>不设置超时—&gt;不释放slot。降低性能</li>
+</ul>
+<p>2.tasktracker失败</p>
+<p>tasktracker发送心跳包到jobtracker。tasktracker故障，心跳包停止或者很少发送，jobtracker将tasktracker从等待任务调度的tasktracker池中溢出。jobtracker会安排此tasktracker上一个成功运行的map任务返回。</p>
+<ul>
+<li>没有完成的作业，map任务失败。重新执行</li>
+<li>reduce未完成， 执行reduce任务。</li>
+</ul>
+<p>3.jobtracker失败</p>
+<p>jobtracker是存在单点故障的，失败就gg。 可以通过启动多个jobtracker，只运行一个主jobtracker。可以采用zookeeper作为jobtracker的协调机制。</p>
+<p>4.子任务失败</p>
+<p>一个mapreduce任务包含很多map和reduce任务。</p>
+<ul>
+<li>map或者reduce子任务代码异常—&gt;jvm进程向tasktracker发送错误报告，标记failed，释放slot，执行另一个。</li>
+<li>对于刘任务，流进程以非零退出代码，标记failed</li>
+<li>jvm退出，标记failed</li>
+</ul>
+<p>5.任务失败反复次数的处理方法</p>
+<p>当map task执行失败后会重试，超过重试次数，整个job会失败。<br>重试次数可以配置在mapred-site.xml <code>mapred.max.failures.percent</code></p>
+<h3 id="4-shuffle阶段-和sort阶段（未看完）"><a href="#4-shuffle阶段-和sort阶段（未看完）" class="headerlink" title="4.shuffle阶段 和sort阶段（未看完）"></a>4.shuffle阶段 和sort阶段（未看完）</h3><p>shuffle:指从map的输出开始，包括系统执行排序以及传送map输出到reduce的过程。</p>
+<p>sort阶段：指map端输出的key进行排序。</p>
+<h3 id="6-任务的执行"><a href="#6-任务的执行" class="headerlink" title="6.任务的执行"></a>6.任务的执行</h3><p>1.推测执行</p>
+<p>问题：hadoop把任务分配给很多歌节点，可能有一些节点会限制程序的执行速度。别的任务都执行完了，却要等待这个节点慢慢的执行。怎么办？</p>
+<p>方案：通过强迫任务独立运行于其他的任务，使得单个任务之间不会知道他们的输入数据来自哪里。对于相同的输入数据，我们可以并行多次处理来利用不同机器的负载能力，因为大部分任务都完成了，hadoop平台会在几个空闲的节点上调度执行剩余任务的赋值，这个过程叫做推测执行。任务完成时，向jobtracker报告。第一个完成的是权威赋值，其他没完成的就会被终止并且丢弃他们的输出。</p>
+<p>2.任务jvm调用</p>
+<p>mapred.job.reuse.jvm.num.tasks默认值为1，即每个task都新启动一个jvm来运行任务，当值是-1的时候，表示jvm可以无限重用。</p>
+<p>针对数目巨大的task时，可以用jvm重用。</p>
+<p>3.跳过坏的记录</p>
+<p>数据的一些记录不符合怪烦，处理时跑出异常。mapreduce可以将这次记录标记为坏记录，重启任务时会跳过该记录。</p>
+<p>默认是关闭的，通过<code>mapred.map.max.attemps</code>和<code>mapred.reduce.max.attemps</code>设置</p>
+<p>4.任务执行的环境</p>
+<p>通过某些环境属性得知作业和任务的信息。<br><img src="http://i.imgur.com/27YtRlh.png" alt=""></p>
+<h3 id="7-作业调度器"><a href="#7-作业调度器" class="headerlink" title="7.作业调度器"></a>7.作业调度器</h3><ul>
+<li>先进先出调度器</li>
+<li>容量调度器</li>
+<li>公平调度器</li>
+<li>自定义hadoop调度器</li>
+</ul>
+<p>细节略，参考hadoop应用开发技术详解</p>
+<h3 id="8-yarn"><a href="#8-yarn" class="headerlink" title="8.yarn"></a>8.yarn</h3><p>略</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文主要介绍了mapreduce的工作原理，主要讲解了jobtracker tasktracker 任务调度 任务工作原理 级shuffle和sort机制。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/21/pat1007/" itemprop="url">
                   pat1007
                 </a>
@@ -1115,446 +1398,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/15/hbase/" itemprop="url">
-                  hbase
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-15T13:22:02+08:00" content="2016-12-15">
-              2016-12-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-hbase"><a href="#1-hbase" class="headerlink" title="1.hbase"></a>1.hbase</h4><p>hbase是一个<strong>高可靠、高性能、面向列、可伸缩</strong>的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。</p>
-<p>hbase的特点：</p>
-<ul>
-<li>大</li>
-<li>面向列</li>
-<li>稀疏</li>
-</ul>
-<p>hbase访问接口：</p>
-<ul>
-<li>native java api</li>
-<li>hbase shell</li>
-<li>thrift gateway</li>
-<li>rest gateway</li>
-<li>pig</li>
-<li>hive</li>
-</ul>
-<h4 id="2-hbase存储结构"><a href="#2-hbase存储结构" class="headerlink" title="2.hbase存储结构"></a>2.hbase存储结构</h4><p><img src="http://i.imgur.com/nzZrDc1.png" alt=""></p>
-<ol>
-<li><p>client<br>管理类操作：client与hmaster进行rpc操作。<br>数据读写类操作：client与hregionserver进行rpc操作。</p>
-</li>
-<li><p>zookeeper<br>zookeeper quorum中，除了存储-root-表的地址和hmaster的地址，hregion-server也会以ephemeral方式把自己注册到zookeeper中，使得hmaster可以随时的感知各个HRegionServer的健康状态。zookeeper的master election机制保证总有一个master运行</p>
-</li>
-<li><p>hmaster<br>hmaster主要负责table和region的管理工作。具体包含以下功能：</p>
-<ul>
-<li>管理用户对table的增删改查操作</li>
-<li>管理hregionserver的负载均衡，调整region分布</li>
-<li>在region split后，负责新region的分配</li>
-<li>在hregionserver停机后，负责失效hregionserver上region迁移</li>
-</ul>
-</li>
-<li><p>hregionserver<br>hregionserver主要负责响应用户i/o请求。向hdfs文件系统中读写数据。是hbase中最核心的模块。<br><img src="http://i.imgur.com/HsVM38Z.png" alt=""><br>hregionserver内部管理了一系列hregion对象，每个hregion对应table中的一个region，</p>
-</li>
-<li><p>hstore<br>hstore存储是hbase存储的核心，其中有两部分组成，一部分是memstore，一部分是storefile。用户写入的数据首先会放入memstore中，当memstore满了以后，会执行一个flush操作，变成一个storefile。当storefile增加到一定的阈值。会出发compact合并操作将多个storefile合并成一个storefile，合并过程中进行版本合并和数据删除。</p>
-</li>
-<li><p>hlog<br>每个hregionserver都有一个hlog对象，hlog是一个实现write ahead log的类，每次用户写入memstore同时，也会写一份数据到hlog中，hlog文件会定期回滚出新的，并删除old的文件（已经持久化到memstore）。当hregionserver意外终止的时候，hmaster汇通过zookeeper感知到，hmaster会首先处理遗留下来的hlog。将其中不同region的log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配。领取这些region的hregionserver在load region的过程中，会发现有历史hlog需要处理。因此会重新加载hlog中的数据到memstore中，然后保存到哦storefile，完成数据恢复。</p>
-</li>
-</ol>
-<h4 id="3-hbase存储格式"><a href="#3-hbase存储格式" class="headerlink" title="3.hbase存储格式"></a>3.hbase存储格式</h4><ul>
-<li>hfile</li>
-<li>hlog file</li>
-</ul>
-<p>1.hfile<br><img src="http://i.imgur.com/Lqn3NUh.png" alt=""></p>
-<p>2.hlogfile</p>
-<p><img src="http://i.imgur.com/PYr0eFk.png" alt=""></p>
-<h4 id="4-数据模型"><a href="#4-数据模型" class="headerlink" title="4.数据模型"></a>4.数据模型</h4><p><img src="http://i.imgur.com/jEb1inN.png" alt=""></p>
-<ul>
-<li>row key</li>
-<li>列族</li>
-<li>时间戳</li>
-<li>cell</li>
-</ul>
-<p><img src="http://i.imgur.com/dmLyotO.png" alt=""></p>
-<p>hbase中有两张特殊的表，-root- .meta</p>
-<p>.meta. 记录用户表的region信息，可以有多个region<br>-root- 记录.meta.表的region信息，只能有一个region</p>
-<p>zookeper中记录-root-表的location </p>
-<p><img src="http://i.imgur.com/vBzRFlR.png" alt=""></p>
-<h4 id="4-hbase红的算法和流程"><a href="#4-hbase红的算法和流程" class="headerlink" title="4.hbase红的算法和流程"></a>4.hbase红的算法和流程</h4><p>region 定位<br><img src="http://i.imgur.com/FBfy26s.png" alt=""></p>
-<p>region 分配</p>
-<p>region server上线和下线</p>
-<p>master上线和下线</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/13/hive/" itemprop="url">
-                  hive
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-13T15:44:16+08:00" content="2016-12-13">
-              2016-12-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
-<p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
-<p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
-<p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
-<p>特点：</p>
-<ul>
-<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几乎没有门槛。</li>
-<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转换，大大减少开发人员学习和应用MapReduce成本。</li>
-<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外Hive还支持用户自定义函数。</li>
-<li>良好的容错性：<br>当Hive节点出现问题，SQL仍可继续无中断执行</li>
-</ul>
-<p>hive数据类型：</p>
-<ul>
-<li>基本数据类型</li>
-<li>复杂数据类型</li>
-</ul>
-<p><img src="http://i.imgur.com/T2N79nW.png" alt=""></p>
-<p>hive和关系型数据库对比：<br><img src="http://i.imgur.com/8yl4sPC.png" alt=""><br>针对比较的部分解释：</p>
-<ol>
-<li>查询语言：由于sql被广泛的应用在数据仓库中，专门针对hive的特性设计了类sql的查询语句。HQL。</li>
-<li>数据存储位置：hive建立在hadoop之上，所有hive的数据都存储在hdfs中，而数据库则将数据保存在块设备或者本地文件系统中。</li>
-<li>数据格式：hive中没有专门定义的数据结构，数据格式由用户指定，用户定义数据格式需要指定三个属性：列分割符（通常是空格 ‘\t’ ‘\x001’）行分割符（\n）以及读文件的方法（hive默认有三个文件格式textfile sequencefile rcfile）。hive在加载过程中不会对数据本身进行修改，只是将数据内容复制或者移动到相应的hdfs目录中。</li>
-<li>数据更新：hive是针对数据仓库应用设计的，而数据仓库内容读多写少，因此hive不支持对数据的改写和添加。</li>
-<li>索引：由于不需要对数据进行处理加载的时候，所以不用对数据中的某些key建立索引</li>
-<li>执行： 通过hadoop的mapreduce执行</li>
-<li>执行延迟：由于查询数据的时候没有索引，所以需要扫描整个表，因此延迟较高。另一个导致hive执行延迟高的银锁是mapreduce框架。</li>
-<li>可扩展性，hive建立在hadoop上，扩展性和hadoop一致</li>
-</ol>
-<h4 id="2-centos7，hive安装"><a href="#2-centos7，hive安装" class="headerlink" title="2.centos7，hive安装"></a>2.centos7，hive安装</h4><p>Hive原则上可以安装在集群上的任何一台机器上面.</p>
-<ol>
-<li>准备工作-创建配置数据存储位置（非必须？）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoopfs-mkdir/tmp</div><div class="line">hadoopfs-mkdir/user/hive/warehouse</div><div class="line">hadoopfs-chmodg+w/tmp</div><div class="line">hadoopfs-chmodg+w/user/hive/warehouse</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>如果进行这一步的话，在hive-site.xml中配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive.metastore.warehouse.dir</div><div class="line">/user/hive/warehouse</div><div class="line">locationofdefaultdatabaseforthewarehouse</div></pre></td></tr></table></figure></p>
-<ol>
-<li><p>安装mysql作为元数据存储</p>
-<p> CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。</p>
-<ul>
-<li>下载mysql的repo源<br><code>wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</code></li>
-<li>安装mysql-community-release-el7-5.noarch.rpm包<br><code>sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></li>
-<li>安装mysql<br><code>sudo yum install mysql-server</code></li>
-<li>重启mysql<br><code>sudo systemctl restart mysqld.service</code></li>
-<li>设置远程登录<br><code>grant all privileges on *.* to root@&quot;%&quot; identified by &quot;password&quot; with grant option;</code><br><code>flush privileges;</code></li>
-<li>为hive设置单独的账户密码登录（我认为可选吧，懒省事直接用root，反正是虚拟机实验）<br><code>create user &#39;hive&#39; identified by &#39;mysql&#39;</code><br><code>grant all privileges on *.* to &#39;hive&#39;@&#39;%&#39; with grant option</code></li>
-</ul>
-</li>
-<li><p>hive下载，针对hadoop2.7.2 hbase1.2.4，选择版本hive2.1.1进行安装。</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget &quot;http://mirrors.cnnic.cn/apache/hive/hive-2.0.0/apache-hive-2.0.0-bin.tar.gz&quot;</div><div class="line">tar -xzvf apache-hive-2.0.0-bin.tar.gz</div></pre></td></tr></table></figure>
-</code></pre></li>
-<li><p>拷贝mysql驱动文件<br>下载地址：<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">http://dev.mysql.com/downloads/connector/j/</a> ，解压后拷贝其中的mysql-connector-Java-5.1.38-bin.jar到hive的lib文件夹下。</p>
-</li>
-<li><p>配置环境变量</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/profile</div><div class="line">export HIVE_HOME=/usr/hive/apache-hive-2.1.1-bin</div><div class="line">export PATH=$PATH:$HIVE_HOME/bin</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置文件</p>
-</li>
-</ol>
-<p>hive-site.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</div><div class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://127.0.0.1:3306/hive?createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>JDBC connect string for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Local scratch space for Hive jobs<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/resources<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Temporary local directory for added resources in the remote file system.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.querylog.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Location of Hive run time structured log file<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.logging.operation.log.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/operation_logs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Top level directory where operation logs are stored if logging functionality is enabled<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>修改hive-en.sh：添加jdk和hadoop根目录路径（可选）</p>
-<ol>
-<li>初始化数据库<br> <code>schematool -initSchema -dbType mysql</code></li>
-<li>启动hive <code>bin/hive</code></li>
-</ol>
-<h4 id="3-hive架构"><a href="#3-hive架构" class="headerlink" title="3.hive架构"></a>3.hive架构</h4><p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
-<p>hive的架构可以分为四个部分：</p>
-<ul>
-<li>用户接口</li>
-<li>元数据存储</li>
-<li>解释器、编译器、优化器</li>
-<li>数据存储</li>
-</ul>
-<p>以下分别详细介绍;</p>
-<p>1.hive用户接口</p>
-<p>hive对外提供三种服务模式，命令行模式（CLI）hive的web模式（WUI）、hive的远程服务（client）</p>
-<ul>
-<li><p>hive命令行模式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./hive</div><div class="line"> hive --service cli</div></pre></td></tr></table></figure>
-</li>
-<li><p>hive web模式 <code>hive --service hwi</code> 默认端口是9999</p>
-</li>
-<li>hive远程服务 <code>nohup hive --service hiveserver &amp;</code>（默认端口10000）</li>
-</ul>
-<p>2.hive元数据库</p>
-<p>hive将源数据存储在rdbms中，一般常用mysql和derby。hive默认存储元数据信息在derby。我们已经将其更改为mysql。</p>
-<p>理由如下：</p>
-<ul>
-<li>hive源数据保存在内嵌的derby数据库中么只允许一个会话连接，只适合简单的测试。实际生产环境中不合适，</li>
-<li>为了支持多会话，则需要一个独立的元数据库，使用mysql作为元数据库，hive内部对mysql提供了很好的支持。具体配置 参照上面hive安装</li>
-</ul>
-<p>3.hive的数据存储</p>
-<ul>
-<li>hive没有专门的数据格式，也没有为数据建立索引。</li>
-<li>hive所有的数据存储在hdfs中</li>
-<li>hive的数据模型包括（table,external, partition,bucket）</li>
-</ul>
-<p>部分详细介绍：</p>
-<p>table：每一个table在hive中都有一个相应的目录存储数据，例如一个表mytest，他在hdfs中的目录为/user/hive/warehouse/mytest 其中warehouse是在hive-site.xml中<code>hive.metastore.warehouse.dir</code>配置的。所有的table（不包括external table）包含在该目录下</p>
-<p>partition:对应于数据库中partition列的密集索引，在，hive中，表中一个partition对应于表下的一个目录，所有的partition的数据都存在对应的目录中，例如mytest表中优name和no两个partition，</p>
-<ul>
-<li>name=asd,no=4854的hdfs子目录为：<code>/warehouse/mytest/name=asd/no=4854</code></li>
-</ul>
-<p>buckets对指定列计算hash，根据hash切分数据，目的是并行，每一个bucket对应一个文件，将user列分先至32个bucket，首先对user列计算hash，对应：</p>
-<ul>
-<li>hash为0的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00000</code></li>
-<li>hash为20的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00020</code></li>
-</ul>
-<p><img src="http://i.imgur.com/f3ne7LT.png" alt=""></p>
-<p>4.hive解释器</p>
-<ul>
-<li>解析器</li>
-<li>语义分析器</li>
-<li>逻辑策略生成器</li>
-<li>优化器</li>
-</ul>
-<h4 id="4-hive文件格式"><a href="#4-hive文件格式" class="headerlink" title="4.hive文件格式"></a>4.hive文件格式</h4><p>四种：textfile sequencefile rcfile 自定义</p>
-<p>1.textfile格式</p>
-<p>textfile为默认个事，数据不做压缩，磁盘开销大，数据解析开销大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create table text(str STRING)</div><div class="line">STORED AS TEXTFILE;</div><div class="line">load data local &apos;/data/test.txt&apos; into table text</div></pre></td></tr></table></figure></p>
-<p>2.sequencefile格式</p>
-<p>sequencefile格式是hadoop api提供的二进制文件支持。其具有使用方便，可分割，可压缩的特点。一般建议使用block压缩。</p>
-<p>3.RCfile格式</p>
-<p>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
-<h4 id="5-hive操作"><a href="#5-hive操作" class="headerlink" title="5.hive操作"></a>5.hive操作</h4><ol>
-<li>表操作：感觉类似sql。不做介绍了</li>
-<li>视图操作</li>
-<li>分区操作</li>
-<li>桶操作</li>
-<li>struct类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="keyword">struct</span>&lt;<span class="keyword">name</span>:<span class="keyword">String</span>,age <span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>准备一个文件,内容如下：<br>1,liu：30<br>2,zhang:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
-<ol>
-<li>array类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="built_in">array</span>&lt;<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>准备一个文件,内容如下：<br>1,1:2:3<br>2,20:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
-<ol>
-<li>map类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(<span class="keyword">id</span> <span class="keyword">String</span>,info <span class="keyword">map</span>&lt;<span class="keyword">STRING</span>,<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>准备一个文件,内容如下：<br>1    job:80,team:60<br>2    job:30,team:60,person:100<br>执行<br><code>load data local inpath &#39;/test&#39; into table test</code></p>
-<ol>
-<li>join操作</li>
-<li>hive函数与自定义函数</li>
-<li>hive权限控制</li>
-</ol>
-<h4 id="5-hive优劣分析"><a href="#5-hive优劣分析" class="headerlink" title="5.hive优劣分析"></a>5.hive优劣分析</h4><p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
-<ul>
-<li>存储灵活性：<br>Hive的元数据存储在RDBMS中，所有其它数据都基于HDFS存储。Hive没有专门的数据存储格式也没有为数据建立索引。 Hive默认支持多种文件格式，也支持用户自定义格式。基于Hive的分析过程支持从不同数据源<br>装载数据</li>
-<li>执行效率：Hive基于MapReduce，因此Sort和Groupby等都依赖MapReduce。MapReduce可以理解为固化了的执行算子。此外Hive对Join算子的支持不够全面。在特定应用场景下，内存拷贝和数据预处理同样可能影响Hive的执行效率</li>
-<li>可扩展性：Hive的数据处理量是PB级的，因此它具备非常好的水平可扩展性，支持集群部署，支持通过简单地增加资源以支持更大的数据量和负载</li>
-<li>可视化：Hive的可视化界面基本属于字符终端，对用户的技术水平要求比较高。提供个性化的可视化展现<br>（GUI），是Hive改进的重要方向。</li>
-<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实的数据仓库可以部署在普通机器构建的分布式集群之上。</li>
-</ul>
-<h4 id="6-hive-vs-hbase"><a href="#6-hive-vs-hbase" class="headerlink" title="6.hive vs hbase"></a>6.hive vs hbase</h4><p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口Hive和HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不持类SQL语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
-<p>Hive与HBase的整合实现是利用两者对外的API接口互相进行通信的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。在将HBase和Hive集成的过程中注意确保hbase jar包的一致性。</p>
-<p>Hive集成HBase需要在Hive表和HBase表之间建立映射关系，也就是Hive表的列和列类型与HBase表的列族及列限定词建立关联。每一个在Hive表中的列都存在于HBase中，但反过来在Hive表中则不需要包含所有的HBase中的列</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1600,7 +1443,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

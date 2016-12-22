@@ -244,6 +244,446 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/15/hbase/" itemprop="url">
+                  hbase
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-15T13:22:02+08:00" content="2016-12-15">
+              2016-12-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1-hbase"><a href="#1-hbase" class="headerlink" title="1.hbase"></a>1.hbase</h4><p>hbase是一个<strong>高可靠、高性能、面向列、可伸缩</strong>的分布式存储系统，利用hbase技术可以再廉价pc server上搭建大规模结构化存储集群。</p>
+<p>hbase的特点：</p>
+<ul>
+<li>大</li>
+<li>面向列</li>
+<li>稀疏</li>
+</ul>
+<p>hbase访问接口：</p>
+<ul>
+<li>native java api</li>
+<li>hbase shell</li>
+<li>thrift gateway</li>
+<li>rest gateway</li>
+<li>pig</li>
+<li>hive</li>
+</ul>
+<h4 id="2-hbase存储结构"><a href="#2-hbase存储结构" class="headerlink" title="2.hbase存储结构"></a>2.hbase存储结构</h4><p><img src="http://i.imgur.com/nzZrDc1.png" alt=""></p>
+<ol>
+<li><p>client<br>管理类操作：client与hmaster进行rpc操作。<br>数据读写类操作：client与hregionserver进行rpc操作。</p>
+</li>
+<li><p>zookeeper<br>zookeeper quorum中，除了存储-root-表的地址和hmaster的地址，hregion-server也会以ephemeral方式把自己注册到zookeeper中，使得hmaster可以随时的感知各个HRegionServer的健康状态。zookeeper的master election机制保证总有一个master运行</p>
+</li>
+<li><p>hmaster<br>hmaster主要负责table和region的管理工作。具体包含以下功能：</p>
+<ul>
+<li>管理用户对table的增删改查操作</li>
+<li>管理hregionserver的负载均衡，调整region分布</li>
+<li>在region split后，负责新region的分配</li>
+<li>在hregionserver停机后，负责失效hregionserver上region迁移</li>
+</ul>
+</li>
+<li><p>hregionserver<br>hregionserver主要负责响应用户i/o请求。向hdfs文件系统中读写数据。是hbase中最核心的模块。<br><img src="http://i.imgur.com/HsVM38Z.png" alt=""><br>hregionserver内部管理了一系列hregion对象，每个hregion对应table中的一个region，</p>
+</li>
+<li><p>hstore<br>hstore存储是hbase存储的核心，其中有两部分组成，一部分是memstore，一部分是storefile。用户写入的数据首先会放入memstore中，当memstore满了以后，会执行一个flush操作，变成一个storefile。当storefile增加到一定的阈值。会出发compact合并操作将多个storefile合并成一个storefile，合并过程中进行版本合并和数据删除。</p>
+</li>
+<li><p>hlog<br>每个hregionserver都有一个hlog对象，hlog是一个实现write ahead log的类，每次用户写入memstore同时，也会写一份数据到hlog中，hlog文件会定期回滚出新的，并删除old的文件（已经持久化到memstore）。当hregionserver意外终止的时候，hmaster汇通过zookeeper感知到，hmaster会首先处理遗留下来的hlog。将其中不同region的log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配。领取这些region的hregionserver在load region的过程中，会发现有历史hlog需要处理。因此会重新加载hlog中的数据到memstore中，然后保存到哦storefile，完成数据恢复。</p>
+</li>
+</ol>
+<h4 id="3-hbase存储格式"><a href="#3-hbase存储格式" class="headerlink" title="3.hbase存储格式"></a>3.hbase存储格式</h4><ul>
+<li>hfile</li>
+<li>hlog file</li>
+</ul>
+<p>1.hfile<br><img src="http://i.imgur.com/Lqn3NUh.png" alt=""></p>
+<p>2.hlogfile</p>
+<p><img src="http://i.imgur.com/PYr0eFk.png" alt=""></p>
+<h4 id="4-数据模型"><a href="#4-数据模型" class="headerlink" title="4.数据模型"></a>4.数据模型</h4><p><img src="http://i.imgur.com/jEb1inN.png" alt=""></p>
+<ul>
+<li>row key</li>
+<li>列族</li>
+<li>时间戳</li>
+<li>cell</li>
+</ul>
+<p><img src="http://i.imgur.com/dmLyotO.png" alt=""></p>
+<p>hbase中有两张特殊的表，-root- .meta</p>
+<p>.meta. 记录用户表的region信息，可以有多个region<br>-root- 记录.meta.表的region信息，只能有一个region</p>
+<p>zookeper中记录-root-表的location </p>
+<p><img src="http://i.imgur.com/vBzRFlR.png" alt=""></p>
+<h4 id="4-hbase红的算法和流程"><a href="#4-hbase红的算法和流程" class="headerlink" title="4.hbase红的算法和流程"></a>4.hbase红的算法和流程</h4><p>region 定位<br><img src="http://i.imgur.com/FBfy26s.png" alt=""></p>
+<p>region 分配</p>
+<p>region server上线和下线</p>
+<p>master上线和下线</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/13/hive/" itemprop="url">
+                  hive
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T15:44:16+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
+<p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
+<p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
+<p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
+<p>特点：</p>
+<ul>
+<li>更友好的接口：<br>Hive提供类SQL语法使开发人员在使用接口时几乎没有门槛。</li>
+<li>更低的学习成本：<br>Hive底层自动实现SQL到MapReduce任务的转换，大大减少开发人员学习和应用MapReduce成本。</li>
+<li>更好的可扩展性：<br>Hive可自由扩展集群规模而无需重启服务，此外Hive还支持用户自定义函数。</li>
+<li>良好的容错性：<br>当Hive节点出现问题，SQL仍可继续无中断执行</li>
+</ul>
+<p>hive数据类型：</p>
+<ul>
+<li>基本数据类型</li>
+<li>复杂数据类型</li>
+</ul>
+<p><img src="http://i.imgur.com/T2N79nW.png" alt=""></p>
+<p>hive和关系型数据库对比：<br><img src="http://i.imgur.com/8yl4sPC.png" alt=""><br>针对比较的部分解释：</p>
+<ol>
+<li>查询语言：由于sql被广泛的应用在数据仓库中，专门针对hive的特性设计了类sql的查询语句。HQL。</li>
+<li>数据存储位置：hive建立在hadoop之上，所有hive的数据都存储在hdfs中，而数据库则将数据保存在块设备或者本地文件系统中。</li>
+<li>数据格式：hive中没有专门定义的数据结构，数据格式由用户指定，用户定义数据格式需要指定三个属性：列分割符（通常是空格 ‘\t’ ‘\x001’）行分割符（\n）以及读文件的方法（hive默认有三个文件格式textfile sequencefile rcfile）。hive在加载过程中不会对数据本身进行修改，只是将数据内容复制或者移动到相应的hdfs目录中。</li>
+<li>数据更新：hive是针对数据仓库应用设计的，而数据仓库内容读多写少，因此hive不支持对数据的改写和添加。</li>
+<li>索引：由于不需要对数据进行处理加载的时候，所以不用对数据中的某些key建立索引</li>
+<li>执行： 通过hadoop的mapreduce执行</li>
+<li>执行延迟：由于查询数据的时候没有索引，所以需要扫描整个表，因此延迟较高。另一个导致hive执行延迟高的银锁是mapreduce框架。</li>
+<li>可扩展性，hive建立在hadoop上，扩展性和hadoop一致</li>
+</ol>
+<h4 id="2-centos7，hive安装"><a href="#2-centos7，hive安装" class="headerlink" title="2.centos7，hive安装"></a>2.centos7，hive安装</h4><p>Hive原则上可以安装在集群上的任何一台机器上面.</p>
+<ol>
+<li>准备工作-创建配置数据存储位置（非必须？）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoopfs-mkdir/tmp</div><div class="line">hadoopfs-mkdir/user/hive/warehouse</div><div class="line">hadoopfs-chmodg+w/tmp</div><div class="line">hadoopfs-chmodg+w/user/hive/warehouse</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果进行这一步的话，在hive-site.xml中配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive.metastore.warehouse.dir</div><div class="line">/user/hive/warehouse</div><div class="line">locationofdefaultdatabaseforthewarehouse</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>安装mysql作为元数据存储</p>
+<p> CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。</p>
+<ul>
+<li>下载mysql的repo源<br><code>wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql-community-release-el7-5.noarch.rpm包<br><code>sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></li>
+<li>安装mysql<br><code>sudo yum install mysql-server</code></li>
+<li>重启mysql<br><code>sudo systemctl restart mysqld.service</code></li>
+<li>设置远程登录<br><code>grant all privileges on *.* to root@&quot;%&quot; identified by &quot;password&quot; with grant option;</code><br><code>flush privileges;</code></li>
+<li>为hive设置单独的账户密码登录（我认为可选吧，懒省事直接用root，反正是虚拟机实验）<br><code>create user &#39;hive&#39; identified by &#39;mysql&#39;</code><br><code>grant all privileges on *.* to &#39;hive&#39;@&#39;%&#39; with grant option</code></li>
+</ul>
+</li>
+<li><p>hive下载，针对hadoop2.7.2 hbase1.2.4，选择版本hive2.1.1进行安装。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget &quot;http://mirrors.cnnic.cn/apache/hive/hive-2.0.0/apache-hive-2.0.0-bin.tar.gz&quot;</div><div class="line">tar -xzvf apache-hive-2.0.0-bin.tar.gz</div></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>拷贝mysql驱动文件<br>下载地址：<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">http://dev.mysql.com/downloads/connector/j/</a> ，解压后拷贝其中的mysql-connector-Java-5.1.38-bin.jar到hive的lib文件夹下。</p>
+</li>
+<li><p>配置环境变量</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/profile</div><div class="line">export HIVE_HOME=/usr/hive/apache-hive-2.1.1-bin</div><div class="line">export PATH=$PATH:$HIVE_HOME/bin</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ol>
+<p>hive-site.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;</div><div class="line">&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://127.0.0.1:3306/hive?createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>JDBC connect string for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Local scratch space for Hive jobs<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/resources<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Temporary local directory for added resources in the remote file system.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.querylog.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Location of Hive run time structured log file<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.logging.operation.log.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hive/apache-hive-2.1.1-bin/tmp/operation_logs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Top level directory where operation logs are stored if logging functionality is enabled<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改hive-en.sh：添加jdk和hadoop根目录路径（可选）</p>
+<ol>
+<li>初始化数据库<br> <code>schematool -initSchema -dbType mysql</code></li>
+<li>启动hive <code>bin/hive</code></li>
+</ol>
+<h4 id="3-hive架构"><a href="#3-hive架构" class="headerlink" title="3.hive架构"></a>3.hive架构</h4><p><img src="http://i.imgur.com/0xW0CN6.png" alt=""></p>
+<p>hive的架构可以分为四个部分：</p>
+<ul>
+<li>用户接口</li>
+<li>元数据存储</li>
+<li>解释器、编译器、优化器</li>
+<li>数据存储</li>
+</ul>
+<p>以下分别详细介绍;</p>
+<p>1.hive用户接口</p>
+<p>hive对外提供三种服务模式，命令行模式（CLI）hive的web模式（WUI）、hive的远程服务（client）</p>
+<ul>
+<li><p>hive命令行模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./hive</div><div class="line"> hive --service cli</div></pre></td></tr></table></figure>
+</li>
+<li><p>hive web模式 <code>hive --service hwi</code> 默认端口是9999</p>
+</li>
+<li>hive远程服务 <code>nohup hive --service hiveserver &amp;</code>（默认端口10000）</li>
+</ul>
+<p>2.hive元数据库</p>
+<p>hive将源数据存储在rdbms中，一般常用mysql和derby。hive默认存储元数据信息在derby。我们已经将其更改为mysql。</p>
+<p>理由如下：</p>
+<ul>
+<li>hive源数据保存在内嵌的derby数据库中么只允许一个会话连接，只适合简单的测试。实际生产环境中不合适，</li>
+<li>为了支持多会话，则需要一个独立的元数据库，使用mysql作为元数据库，hive内部对mysql提供了很好的支持。具体配置 参照上面hive安装</li>
+</ul>
+<p>3.hive的数据存储</p>
+<ul>
+<li>hive没有专门的数据格式，也没有为数据建立索引。</li>
+<li>hive所有的数据存储在hdfs中</li>
+<li>hive的数据模型包括（table,external, partition,bucket）</li>
+</ul>
+<p>部分详细介绍：</p>
+<p>table：每一个table在hive中都有一个相应的目录存储数据，例如一个表mytest，他在hdfs中的目录为/user/hive/warehouse/mytest 其中warehouse是在hive-site.xml中<code>hive.metastore.warehouse.dir</code>配置的。所有的table（不包括external table）包含在该目录下</p>
+<p>partition:对应于数据库中partition列的密集索引，在，hive中，表中一个partition对应于表下的一个目录，所有的partition的数据都存在对应的目录中，例如mytest表中优name和no两个partition，</p>
+<ul>
+<li>name=asd,no=4854的hdfs子目录为：<code>/warehouse/mytest/name=asd/no=4854</code></li>
+</ul>
+<p>buckets对指定列计算hash，根据hash切分数据，目的是并行，每一个bucket对应一个文件，将user列分先至32个bucket，首先对user列计算hash，对应：</p>
+<ul>
+<li>hash为0的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00000</code></li>
+<li>hash为20的hdfs目录：<code>/warehouse/mytest/name=asd/no=4854、part-00020</code></li>
+</ul>
+<p><img src="http://i.imgur.com/f3ne7LT.png" alt=""></p>
+<p>4.hive解释器</p>
+<ul>
+<li>解析器</li>
+<li>语义分析器</li>
+<li>逻辑策略生成器</li>
+<li>优化器</li>
+</ul>
+<h4 id="4-hive文件格式"><a href="#4-hive文件格式" class="headerlink" title="4.hive文件格式"></a>4.hive文件格式</h4><p>四种：textfile sequencefile rcfile 自定义</p>
+<p>1.textfile格式</p>
+<p>textfile为默认个事，数据不做压缩，磁盘开销大，数据解析开销大。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create table text(str STRING)</div><div class="line">STORED AS TEXTFILE;</div><div class="line">load data local &apos;/data/test.txt&apos; into table text</div></pre></td></tr></table></figure></p>
+<p>2.sequencefile格式</p>
+<p>sequencefile格式是hadoop api提供的二进制文件支持。其具有使用方便，可分割，可压缩的特点。一般建议使用block压缩。</p>
+<p>3.RCfile格式</p>
+<p>一个集行存储和列存储优点于一身，压缩比更高，读取列更快。</p>
+<h4 id="5-hive操作"><a href="#5-hive操作" class="headerlink" title="5.hive操作"></a>5.hive操作</h4><ol>
+<li>表操作：感觉类似sql。不做介绍了</li>
+<li>视图操作</li>
+<li>分区操作</li>
+<li>桶操作</li>
+<li>struct类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="keyword">struct</span>&lt;<span class="keyword">name</span>:<span class="keyword">String</span>,age <span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,liu：30<br>2,zhang:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>array类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> struct_test(<span class="keyword">id</span> <span class="built_in">INT</span>,info <span class="built_in">array</span>&lt;<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1,1:2:3<br>2,20:30<br>执行<br><code>load data local inpath &#39;/test&#39; into table struct_test</code></p>
+<ol>
+<li>map类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(<span class="keyword">id</span> <span class="keyword">String</span>,info <span class="keyword">map</span>&lt;<span class="keyword">STRING</span>,<span class="built_in">INT</span>&gt;)</div><div class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></div><div class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">','</span></div><div class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span>;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>准备一个文件,内容如下：<br>1    job:80,team:60<br>2    job:30,team:60,person:100<br>执行<br><code>load data local inpath &#39;/test&#39; into table test</code></p>
+<ol>
+<li>join操作</li>
+<li>hive函数与自定义函数</li>
+<li>hive权限控制</li>
+</ol>
+<h4 id="5-hive优劣分析"><a href="#5-hive优劣分析" class="headerlink" title="5.hive优劣分析"></a>5.hive优劣分析</h4><p>Hive在扩展性和容错性方面有强大优势，但是在执行引擎高效化和多样化接口与可视化等方面，与传<br>统并行数据仓库还存在一定差距。此外像Tenzing、 DryadLINQ、 Dremel、 HadoopDB 等新兴数据<br>仓库，都有Hive值得借鉴的地方。 Hive的诞生带动了Hadoop开源栈系统的进一步发展，支持用户从<br>零开始快速搭建数据仓库系统，推动了整个产业链的进步。</p>
+<ul>
+<li>存储灵活性：<br>Hive的元数据存储在RDBMS中，所有其它数据都基于HDFS存储。Hive没有专门的数据存储格式也没有为数据建立索引。 Hive默认支持多种文件格式，也支持用户自定义格式。基于Hive的分析过程支持从不同数据源<br>装载数据</li>
+<li>执行效率：Hive基于MapReduce，因此Sort和Groupby等都依赖MapReduce。MapReduce可以理解为固化了的执行算子。此外Hive对Join算子的支持不够全面。在特定应用场景下，内存拷贝和数据预处理同样可能影响Hive的执行效率</li>
+<li>可扩展性：Hive的数据处理量是PB级的，因此它具备非常好的水平可扩展性，支持集群部署，支持通过简单地增加资源以支持更大的数据量和负载</li>
+<li>可视化：Hive的可视化界面基本属于字符终端，对用户的技术水平要求比较高。提供个性化的可视化展现<br>（GUI），是Hive改进的重要方向。</li>
+<li>容错性：Hive基于Hadoop HDFS和MapReduce构建，天然具备较好的容错性，基于Hive实的数据仓库可以部署在普通机器构建的分布式集群之上。</li>
+</ul>
+<h4 id="6-hive-vs-hbase"><a href="#6-hive-vs-hbase" class="headerlink" title="6.hive vs hbase"></a>6.hive vs hbase</h4><p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口Hive和HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不持类SQL语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
+<p>Hive与HBase的整合实现是利用两者对外的API接口互相进行通信的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。在将HBase和Hive集成的过程中注意确保hbase jar包的一致性。</p>
+<p>Hive集成HBase需要在Hive表和HBase表之间建立映射关系，也就是Hive表的列和列类型与HBase表的列族及列限定词建立关联。每一个在Hive表中的列都存在于HBase中，但反过来在Hive表中则不需要包含所有的HBase中的列</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/13/java并发编程实战-线程安全性/" itemprop="url">
                   java并发编程实战-线程安全性
                 </a>
@@ -1597,259 +2037,6 @@ forward()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/20/datastructs/" itemprop="url">
-                  datastructs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-20T13:10:58+08:00" content="2016-11-20">
-              2016-11-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/datastructure/" itemprop="url" rel="index">
-                    <span itemprop="name">datastructure</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>1.数组实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> default_capacity=<span class="number">16</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> T[] items;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyArrayList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		ensureCapacity(default_capacity);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span></span>&#123;</div><div class="line">		ensureCapacity(size());</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> items[idx];</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		T old =items[idx];</div><div class="line">		items[idx]=newVal;</div><div class="line">		<span class="keyword">return</span> old;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(items.length==size())&#123;</div><div class="line">			ensureCapacity(size()*<span class="number">2</span>+<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=size;i&gt;idx;i--)&#123;</div><div class="line">			items[i]=items[i-<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		items[idx]=x;</div><div class="line">		size++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span> <span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		T removedItem=items[idx];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=idx;i&lt;size()-<span class="number">1</span>;i++)&#123;</div><div class="line">			items[i]=items[i+<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		size--;</div><div class="line">		<span class="keyword">return</span> removedItem;		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(newCapacity&lt;size) <span class="keyword">return</span>;</div><div class="line">		T[] old=items;</div><div class="line">		items= (T[]) <span class="keyword">new</span> Object[newCapacity];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size();i++)&#123;</div><div class="line">			items[i]=old[i];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ArrayListIterator();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> current=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> current&lt;size();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(!hasNext())</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			<span class="keyword">return</span> items[current++];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			MyArrayList.<span class="keyword">this</span>.remove(--current);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2.node实现linkedlist</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ConcurrentModificationException;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLinkedList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> modCount=<span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; beginMarker;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; endMarker;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">		<span class="keyword">public</span> T data;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; prev;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; next;		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T d,Node&lt;T&gt; p, Node&lt;T&gt; n)</span></span>&#123;</div><div class="line">			data=d;</div><div class="line">			prev=p;</div><div class="line">			next=n;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span>  <span class="title">MyLinkedList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		beginMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">		endMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, beginMarker, <span class="keyword">null</span>);</div><div class="line">		beginMarker.next=endMarker;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		modCount++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		addBefore(getNode(idx),x);		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> getNode(idx).data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =getNode(idx);</div><div class="line">		T oldVal=p.data;</div><div class="line">		p.data=newVal;</div><div class="line">		<span class="keyword">return</span> oldVal;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> remove(getNode(idx));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =beginMarker.next;</div><div class="line">		<span class="keyword">while</span>(p!=endMarker&amp;&amp;!(p.data.equals(x)))&#123;</div><div class="line">			p=p.next;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p!=endMarker;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addBefore</span><span class="params">(Node&lt;T&gt; p, T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; newNode= <span class="keyword">new</span> Node&lt;T&gt;(x, p.prev, p);</div><div class="line">		newNode.prev.next=newNode;		</div><div class="line">		p.prev=newNode;</div><div class="line">		size++;</div><div class="line">		modCount++;			</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> T <span class="title">remove</span><span class="params">(Node&lt;T&gt; p)</span></span>&#123;</div><div class="line">		p.prev.next=p.next;</div><div class="line">		p.next.prev=p.prev;</div><div class="line">		size--;</div><div class="line">		modCount++;</div><div class="line">		<span class="keyword">return</span> p.data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">private</span> Node&lt;T&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;size()) <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</div><div class="line">		<span class="keyword">if</span>(idx&lt;size()/<span class="number">2</span>)&#123;</div><div class="line">			p=beginMarker.next;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;idx;i++) p=p.next;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			p=endMarker;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=size();i&gt;idx;i--) p=p.prev;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> linkedListIterator();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">linkedListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> Node&lt;T&gt; current =beginMarker.next;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> exceptedModCount=modCount;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">boolean</span> okToRemove=<span class="keyword">false</span>;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;			</div><div class="line">			<span class="keyword">return</span> current!=endMarker;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!hasNext()) <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			T nextItem =current.data;</div><div class="line">			current=current.next;</div><div class="line">			okToRemove=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">return</span> nextItem;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!okToRemove) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">			MyLinkedList.<span class="keyword">this</span>.remove(current.prev);</div><div class="line">			okToRemove=<span class="keyword">false</span>;</div><div class="line">			exceptedModCount++;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><h3 id="散列"><a href="#散列" class="headerlink" title="散列"></a>散列</h3><h3 id="优先队列（堆）"><a href="#优先队列（堆）" class="headerlink" title="优先队列（堆）"></a>优先队列（堆）</h3><p>堆是一棵完全被填满的二叉树。<br>一棵高位h的完全二叉树有2^k到2^（k+1）-1个节点。</p>
-<p>完全二叉树可以用一个数组表示。</p>
-<p>对于数组中i位置上的元素，做儿子在2i，右儿子在2i+1，父亲在[i/2]</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/16/深入理解jvm十-早期（编译期）优化/" itemprop="url">
-                  深入理解jvm十-早期（编译期）优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
-              2016-11-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
-<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
-<li>sun的javac eclipsejdt中的ecj</li>
-</ul>
-</li>
-<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
-<li>hotspot vm 中的 c1 c2编译器</li>
-</ul>
-</li>
-<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
-<li>gun compiler for java</li>
-</ul>
-</li>
-</ul>
-<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
-<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
-<ul>
-<li>解析与填充符号表过程。</li>
-<li>插入式注解处理器的注解处理过程。</li>
-<li>分析与字节码生成过程。</li>
-</ul>
-<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1895,7 +2082,7 @@ forward()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

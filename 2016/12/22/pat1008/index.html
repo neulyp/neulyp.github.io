@@ -72,7 +72,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="js," />
+  <meta name="keywords" content="pat," />
 
 
 
@@ -90,34 +90,19 @@
 
 
 
-<meta name="description" content="#JS数字格式化(三位加逗号处理保留两位置小数)
-(1).  1111111-&amp;gt;11,111,111.00
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &amp;quot;">
+<meta name="description" content="1008.Elevator (20)
+The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified or">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js数字格式化">
-<meta property="og:url" content="http://yoursite.com/2015/11/21/js数字格式化/index.html">
+<meta property="og:title" content="pat1008">
+<meta property="og:url" content="http://yoursite.com/2016/12/22/pat1008/index.html">
 <meta property="og:site_name" content="lyp's blog">
-<meta property="og:description" content="#JS数字格式化(三位加逗号处理保留两位置小数)
-(1).  1111111-&amp;gt;11,111,111.00
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &amp;quot;">
-<meta property="og:updated_time" content="2016-12-10T16:09:58.467Z">
+<meta property="og:description" content="1008.Elevator (20)
+The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified or">
+<meta property="og:updated_time" content="2016-12-22T05:21:56.569Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="js数字格式化">
-<meta name="twitter:description" content="#JS数字格式化(三位加逗号处理保留两位置小数)
-(1).  1111111-&amp;gt;11,111,111.00
-&amp;lt;html&amp;gt;
-&amp;lt;head&amp;gt;
-&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &amp;quot;">
+<meta name="twitter:title" content="pat1008">
+<meta name="twitter:description" content="1008.Elevator (20)
+The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified or">
 
 
 
@@ -138,10 +123,10 @@ number = number.replace(/\,/g, &amp;quot;">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/11/21/js数字格式化/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/22/pat1008/"/>
 
 
-  <title> js数字格式化 | lyp's blog </title>
+  <title> pat1008 | lyp's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -263,7 +248,7 @@ number = number.replace(/\,/g, &amp;quot;">
             
             
               
-                js数字格式化
+                pat1008
               
             
           </h1>
@@ -275,8 +260,8 @@ number = number.replace(/\,/g, &amp;quot;">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
-              2015-11-21
+            <time itemprop="dateCreated" datetime="2016-12-22T13:17:29+08:00" content="2016-12-22">
+              2016-12-22
             </time>
           </span>
 
@@ -303,92 +288,18 @@ number = number.replace(/\,/g, &amp;quot;">
       
 
       
-        <a id="more"></a>
-<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
-<p>(1).  1111111-&gt;11,111,111.00</p>
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &quot;&quot;);
-if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
-number = Math.round(number * 100) / 100;
-    if (number &lt; 0)
-        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
-    else
-        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
-} 
-//格式化金额
-function outputdollars(number) {
-    if (number.length &lt;= 3)
-        return (number == &apos;&apos; ? &apos;0&apos; : number);
-    else {
-        var mod = number.length % 3;
-        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
-        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
-            if ((mod == 0) &amp;&amp; (i == 0))
-                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
-            else
-                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
-        }
-        return (output);
-    }
-}
-function outputcents(amount) {
-    amount = Math.round(((amount) - Math.floor(amount)) * 100);
-    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
-}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
-<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
-&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
-&lt;script language=&quot;javascript&quot;&gt;
-function tran(id)
-{
-  var v, j, sj, rv = &quot;&quot;;
-  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
-  j = v[0].length % 3;
-  sj = v[0].substr(j).toString();
-  for (var i = 0; i &lt; sj.length; i++)
-  {
-    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
-  }
-  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
-  if (rvalue.charCodeAt(0) == 44)
-  {
-    rvalue = rvalue.substr(1);
-  }
-  id.value = rvalue;
-}
-function tran2(id)
-{
-  var v;
-  v = id.value.replace(/,/g,&quot;&quot;);
-  alert(v);
-}
-&lt;/script&gt;
-&lt;style type=&quot;text/css&quot;&gt;
-&lt;!--
-body,td,th,input {
- font-size: 12px;
-}
---&gt;
-&lt;/style&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
-&lt;br/&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+        <p>1008.Elevator (20)</p>
+<p>The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified order. It costs 6 seconds to move the elevator up one floor, and 4 seconds to move down one floor. The elevator will stay for 5 seconds at each stop.</p>
+<p>For a given request list, you are to compute the total time spent to fulfill the requests on the list. The elevator is on the 0th floor at the beginning and does not have to return to the ground floor when the requests are fulfilled.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case contains a positive integer N, followed by N positive numbers. All the numbers in the input are less than 100.</p>
+<p>Output Specification:</p>
+<p>For each test case, print the total time on a single line.</p>
+<p>Sample Input:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 2 3 1</div></pre></td></tr></table></figure></p>
+<p>Sample Output:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">41</div></pre></td></tr></table></figure></p>
+<p>解答：直接计算就可以。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t8</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n=<span class="number">0</span>,sum=<span class="number">0</span>;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] a;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		a=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			a[i]=sc.nextInt();</div><div class="line">			<span class="keyword">if</span>(i==<span class="number">0</span>)</div><div class="line">				sum+=<span class="number">6</span>*a[i];</div><div class="line">			<span class="keyword">else</span></div><div class="line">				sum=a[i]&gt;a[i-<span class="number">1</span>]?sum+(a[i]-a[i-<span class="number">1</span>])*<span class="number">6</span>:sum+(a[i-<span class="number">1</span>]-a[i])*<span class="number">4</span>;			</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		sum+=n*<span class="number">5</span>;</div><div class="line">		System.out.println(sum);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -410,7 +321,7 @@ body,td,th,input {
       
         <div class="post-tags">
           
-            <a href="/tags/js/" rel="tag">#js</a>
+            <a href="/tags/pat/" rel="tag">#pat</a>
           
         </div>
       
@@ -419,17 +330,13 @@ body,td,th,input {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/21/设计模式/" rel="next" title="设计模式">
-                <i class="fa fa-chevron-left"></i> 设计模式
+              <a href="/2016/12/21/mapReduce工作原理/" rel="next" title="mapReduce工作原理">
+                <i class="fa fa-chevron-left"></i> mapReduce工作原理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/21/js百分数/" rel="prev" title="js百分数">
-                js百分数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

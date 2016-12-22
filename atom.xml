@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-21T11:23:22.453Z</updated>
+  <updated>2016-12-22T05:21:56.569Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,144 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pat1008</title>
+    <link href="http://yoursite.com/2016/12/22/pat1008/"/>
+    <id>http://yoursite.com/2016/12/22/pat1008/</id>
+    <published>2016-12-22T05:17:29.000Z</published>
+    <updated>2016-12-22T05:21:56.569Z</updated>
+    
+    <content type="html"><![CDATA[<p>1008.Elevator (20)</p>
+<p>The highest building in our city has only one elevator. A request list is made up with N positive numbers. The numbers denote at which floors the elevator will stop, in specified order. It costs 6 seconds to move the elevator up one floor, and 4 seconds to move down one floor. The elevator will stay for 5 seconds at each stop.</p>
+<p>For a given request list, you are to compute the total time spent to fulfill the requests on the list. The elevator is on the 0th floor at the beginning and does not have to return to the ground floor when the requests are fulfilled.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case contains a positive integer N, followed by N positive numbers. All the numbers in the input are less than 100.</p>
+<p>Output Specification:</p>
+<p>For each test case, print the total time on a single line.</p>
+<p>Sample Input:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 2 3 1</div></pre></td></tr></table></figure></p>
+<p>Sample Output:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">41</div></pre></td></tr></table></figure></p>
+<p>解答：直接计算就可以。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t8</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n=<span class="number">0</span>,sum=<span class="number">0</span>;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] a;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		a=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			a[i]=sc.nextInt();</div><div class="line">			<span class="keyword">if</span>(i==<span class="number">0</span>)</div><div class="line">				sum+=<span class="number">6</span>*a[i];</div><div class="line">			<span class="keyword">else</span></div><div class="line">				sum=a[i]&gt;a[i-<span class="number">1</span>]?sum+(a[i]-a[i-<span class="number">1</span>])*<span class="number">6</span>:sum+(a[i-<span class="number">1</span>]-a[i])*<span class="number">4</span>;			</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		sum+=n*<span class="number">5</span>;</div><div class="line">		System.out.println(sum);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1008.Elevator (20)&lt;/p&gt;
+&lt;p&gt;The highest building in our city has only one elevator. A request list is made up with N positive numbers. The 
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mapReduce工作原理</title>
+    <link href="http://yoursite.com/2016/12/21/mapReduce%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2016/12/21/mapReduce工作原理/</id>
+    <published>2016-12-21T13:44:43.000Z</published>
+    <updated>2016-12-22T14:00:12.613Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-mapreduce框架结构"><a href="#1-mapreduce框架结构" class="headerlink" title="1.mapreduce框架结构"></a>1.mapreduce框架结构</h3><p>mapreduce是一个用于大规模数据处理的分布式计算模型。</p>
+<p>mapper：主要负责对数据进行分析处理，最终转化为key-value的数据结构。<br>reducer：主要是获取mapper出来的结果，对结果进行统计。</p>
+<p><img src="http://i.imgur.com/p3Tu8Wr.png" alt=""></p>
+<ol>
+<li>mapper和reducer</li>
+<li>jobtracker：jobtracker是一个master服务，软件启动后，tracker接受job，负责调度job的每一个子任务运行于tasktracker上，并监控。如果发现失败的task，就重启他们。</li>
+<li>tasktracker：运行在多个节点的slaver服务，tasktracker主动与jobtracker通信（通过心跳实现）来接收作业。并负责直接执行每个任务。</li>
+<li>jobclient</li>
+<li>每一个job都会在用户端通过jobclient类将应用程序级configuration打包成jar存储在hdfs上，并把路径提交给jobtracker的master服务，然后由master创建每一个task将他们分给各个tasktracker服务中心去执行。</li>
+<li>jobinprogress：jobclient提交job后，jobtracker创建一个jobinprogress来跟踪和调度这个job，并把它添加到job队列中。</li>
+<li>jontracker启动任务task对象序列化写入相应的tasktracker中。tasktracker收到创建taskinprogress，用来监控和调度task。</li>
+<li>maptask和reducetask，一个完整的job会自动执行mapper combine reducer。</li>
+</ol>
+<h3 id="2-mapreduce运行原理"><a href="#2-mapreduce运行原理" class="headerlink" title="2.mapreduce运行原理"></a>2.mapreduce运行原理</h3><p><img src="http://i.imgur.com/UllRps9.png" alt=""></p>
+<ul>
+<li>jobtracker调用getnewjobid（）请求一个新作业id</li>
+<li>检查作业输出说明，没有指定或者已经存在，返回到mr程序</li>
+<li>计算作业的输出划分，失败返回mr程序</li>
+<li>将运行资源（jar configuration文件 输入划分）复制到jobtracker文件系统中一个以作业id命名的目录中。</li>
+<li>调用jobtracker的submitjob方法</li>
+<li>将任务放在调度器中，并初始化任务。</li>
+<li>创建运行任务列表，首先根据输入划分来确定map任务个数，再根据jobconf中mapred。reduce.tasks确定reduce个数。</li>
+<li>tasktracker执行循环，定期发送心跳告诉jobtracker，是否存活。同时充当消息通道。</li>
+</ul>
+<ul>
+<li>作业的提交 </li>
+<li>作业的初始化<img src="http://i.imgur.com/etHGgpb.png" alt=""></li>
+<li>任务分配</li>
+<li>任务的执行</li>
+<li>进度和状态的更新</li>
+<li>mapreduce的进度组成</li>
+<li>任务完成</li>
+</ul>
+<h3 id="3-mapreduce容错"><a href="#3-mapreduce容错" class="headerlink" title="3.mapreduce容错"></a>3.mapreduce容错</h3><p>mapreduce容错主要考虑以下几点：</p>
+<ul>
+<li>任务失败</li>
+<li>tasktracker失败</li>
+<li>jobtracker失败</li>
+<li>子任务失败</li>
+<li>任务失败反复次数的处理</li>
+</ul>
+<p>1.任务失败：</p>
+<ul>
+<li>mapreduce代码有问题—&gt;子任务jvm在推出前向上一级tasktracker提交错误报告，记录在用户错误日志中，并将本次task attemp 标记failed。释放任务槽slot</li>
+<li>jvm错误—&gt;jvm的bug导致，将本次标记为failed。</li>
+<li>不设置超时—&gt;不释放slot。降低性能</li>
+</ul>
+<p>2.tasktracker失败</p>
+<p>tasktracker发送心跳包到jobtracker。tasktracker故障，心跳包停止或者很少发送，jobtracker将tasktracker从等待任务调度的tasktracker池中溢出。jobtracker会安排此tasktracker上一个成功运行的map任务返回。</p>
+<ul>
+<li>没有完成的作业，map任务失败。重新执行</li>
+<li>reduce未完成， 执行reduce任务。</li>
+</ul>
+<p>3.jobtracker失败</p>
+<p>jobtracker是存在单点故障的，失败就gg。 可以通过启动多个jobtracker，只运行一个主jobtracker。可以采用zookeeper作为jobtracker的协调机制。</p>
+<p>4.子任务失败</p>
+<p>一个mapreduce任务包含很多map和reduce任务。</p>
+<ul>
+<li>map或者reduce子任务代码异常—&gt;jvm进程向tasktracker发送错误报告，标记failed，释放slot，执行另一个。</li>
+<li>对于刘任务，流进程以非零退出代码，标记failed</li>
+<li>jvm退出，标记failed</li>
+</ul>
+<p>5.任务失败反复次数的处理方法</p>
+<p>当map task执行失败后会重试，超过重试次数，整个job会失败。<br>重试次数可以配置在mapred-site.xml <code>mapred.max.failures.percent</code></p>
+<h3 id="4-shuffle阶段-和sort阶段（未看完）"><a href="#4-shuffle阶段-和sort阶段（未看完）" class="headerlink" title="4.shuffle阶段 和sort阶段（未看完）"></a>4.shuffle阶段 和sort阶段（未看完）</h3><p>shuffle:指从map的输出开始，包括系统执行排序以及传送map输出到reduce的过程。</p>
+<p>sort阶段：指map端输出的key进行排序。</p>
+<h3 id="6-任务的执行"><a href="#6-任务的执行" class="headerlink" title="6.任务的执行"></a>6.任务的执行</h3><p>1.推测执行</p>
+<p>问题：hadoop把任务分配给很多歌节点，可能有一些节点会限制程序的执行速度。别的任务都执行完了，却要等待这个节点慢慢的执行。怎么办？</p>
+<p>方案：通过强迫任务独立运行于其他的任务，使得单个任务之间不会知道他们的输入数据来自哪里。对于相同的输入数据，我们可以并行多次处理来利用不同机器的负载能力，因为大部分任务都完成了，hadoop平台会在几个空闲的节点上调度执行剩余任务的赋值，这个过程叫做推测执行。任务完成时，向jobtracker报告。第一个完成的是权威赋值，其他没完成的就会被终止并且丢弃他们的输出。</p>
+<p>2.任务jvm调用</p>
+<p>mapred.job.reuse.jvm.num.tasks默认值为1，即每个task都新启动一个jvm来运行任务，当值是-1的时候，表示jvm可以无限重用。</p>
+<p>针对数目巨大的task时，可以用jvm重用。</p>
+<p>3.跳过坏的记录</p>
+<p>数据的一些记录不符合怪烦，处理时跑出异常。mapreduce可以将这次记录标记为坏记录，重启任务时会跳过该记录。</p>
+<p>默认是关闭的，通过<code>mapred.map.max.attemps</code>和<code>mapred.reduce.max.attemps</code>设置</p>
+<p>4.任务执行的环境</p>
+<p>通过某些环境属性得知作业和任务的信息。<br><img src="http://i.imgur.com/27YtRlh.png" alt=""></p>
+<h3 id="7-作业调度器"><a href="#7-作业调度器" class="headerlink" title="7.作业调度器"></a>7.作业调度器</h3><ul>
+<li>先进先出调度器</li>
+<li>容量调度器</li>
+<li>公平调度器</li>
+<li>自定义hadoop调度器</li>
+</ul>
+<p>细节略，参考hadoop应用开发技术详解</p>
+<h3 id="8-yarn"><a href="#8-yarn" class="headerlink" title="8.yarn"></a>8.yarn</h3><p>略</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>本文主要介绍了mapreduce的工作原理，主要讲解了jobtracker tasktracker 任务调度 任务工作原理 级shuffle和sort机制。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-mapreduce框架结构&quot;&gt;&lt;a href=&quot;#1-mapreduce框架结构&quot; class=&quot;headerlink&quot; title=&quot;1.mapreduce框架结构&quot;&gt;&lt;/a&gt;1.mapreduce框架结构&lt;/h3&gt;&lt;p&gt;mapreduce是一个用于大规模数
+    
+    </summary>
+    
+    
+      <category term="hadoop" scheme="http://yoursite.com/tags/hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title>pat1007</title>
@@ -1294,82 +1432,6 @@ forward()
     
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>datastructs</title>
-    <link href="http://yoursite.com/2016/11/20/datastructs/"/>
-    <id>http://yoursite.com/2016/11/20/datastructs/</id>
-    <published>2016-11-20T05:10:58.000Z</published>
-    <updated>2016-12-10T16:07:40.716Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>1.数组实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> default_capacity=<span class="number">16</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> T[] items;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyArrayList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		ensureCapacity(default_capacity);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span></span>&#123;</div><div class="line">		ensureCapacity(size());</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> items[idx];</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;=size())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException();</div><div class="line">		&#125;</div><div class="line">		T old =items[idx];</div><div class="line">		items[idx]=newVal;</div><div class="line">		<span class="keyword">return</span> old;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(items.length==size())&#123;</div><div class="line">			ensureCapacity(size()*<span class="number">2</span>+<span class="number">1</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=size;i&gt;idx;i--)&#123;</div><div class="line">			items[i]=items[i-<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		items[idx]=x;</div><div class="line">		size++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span> <span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		T removedItem=items[idx];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=idx;i&lt;size()-<span class="number">1</span>;i++)&#123;</div><div class="line">			items[i]=items[i+<span class="number">1</span>];</div><div class="line">		&#125;</div><div class="line">		size--;</div><div class="line">		<span class="keyword">return</span> removedItem;		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(newCapacity&lt;size) <span class="keyword">return</span>;</div><div class="line">		T[] old=items;</div><div class="line">		items= (T[]) <span class="keyword">new</span> Object[newCapacity];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size();i++)&#123;</div><div class="line">			items[i]=old[i];</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ArrayListIterator();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> current=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> current&lt;size();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(!hasNext())</div><div class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			<span class="keyword">return</span> items[current++];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			MyArrayList.<span class="keyword">this</span>.remove(--current);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2.node实现linkedlist</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> datastructure;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ConcurrentModificationException;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.NoSuchElementException;</div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLinkedList</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> size;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> modCount=<span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; beginMarker;</div><div class="line">	<span class="keyword">private</span> Node&lt;T&gt; endMarker;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">		<span class="keyword">public</span> T data;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; prev;</div><div class="line">		<span class="keyword">public</span> Node&lt;T&gt; next;		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T d,Node&lt;T&gt; p, Node&lt;T&gt; n)</span></span>&#123;</div><div class="line">			data=d;</div><div class="line">			prev=p;</div><div class="line">			next=n;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span>  <span class="title">MyLinkedList</span><span class="params">()</span> </span>&#123;</div><div class="line">		clear();</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</div><div class="line">		beginMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">		endMarker= <span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>, beginMarker, <span class="keyword">null</span>);</div><div class="line">		beginMarker.next=endMarker;</div><div class="line">		size=<span class="number">0</span>;</div><div class="line">		modCount++;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> size()==<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		add(size(),x);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> idx,T x)</span></span>&#123;</div><div class="line">		addBefore(getNode(idx),x);		</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> getNode(idx).data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">set</span><span class="params">(<span class="keyword">int</span> idx,T newVal)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =getNode(idx);</div><div class="line">		T oldVal=p.data;</div><div class="line">		p.data=newVal;</div><div class="line">		<span class="keyword">return</span> oldVal;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">remove</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> remove(getNode(idx));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p =beginMarker.next;</div><div class="line">		<span class="keyword">while</span>(p!=endMarker&amp;&amp;!(p.data.equals(x)))&#123;</div><div class="line">			p=p.next;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p!=endMarker;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addBefore</span><span class="params">(Node&lt;T&gt; p, T x)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; newNode= <span class="keyword">new</span> Node&lt;T&gt;(x, p.prev, p);</div><div class="line">		newNode.prev.next=newNode;		</div><div class="line">		p.prev=newNode;</div><div class="line">		size++;</div><div class="line">		modCount++;			</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> T <span class="title">remove</span><span class="params">(Node&lt;T&gt; p)</span></span>&#123;</div><div class="line">		p.prev.next=p.next;</div><div class="line">		p.next.prev=p.prev;</div><div class="line">		size--;</div><div class="line">		modCount++;</div><div class="line">		<span class="keyword">return</span> p.data;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">private</span> Node&lt;T&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> idx)</span></span>&#123;</div><div class="line">		Node&lt;T&gt; p;</div><div class="line">		<span class="keyword">if</span>(idx&lt;<span class="number">0</span>||idx&gt;size()) <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</div><div class="line">		<span class="keyword">if</span>(idx&lt;size()/<span class="number">2</span>)&#123;</div><div class="line">			p=beginMarker.next;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;idx;i++) p=p.next;</div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			p=endMarker;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=size();i&gt;idx;i--) p=p.prev;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> p;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> linkedListIterator();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">linkedListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">private</span> Node&lt;T&gt; current =beginMarker.next;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> exceptedModCount=modCount;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">boolean</span> okToRemove=<span class="keyword">false</span>;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;			</div><div class="line">			<span class="keyword">return</span> current!=endMarker;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> T <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!hasNext()) <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">			T nextItem =current.data;</div><div class="line">			current=current.next;</div><div class="line">			okToRemove=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">return</span> nextItem;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="keyword">if</span>(modCount!=exceptedModCount) <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">			<span class="keyword">if</span>(!okToRemove) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">			MyLinkedList.<span class="keyword">this</span>.remove(current.prev);</div><div class="line">			okToRemove=<span class="keyword">false</span>;</div><div class="line">			exceptedModCount++;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><h3 id="散列"><a href="#散列" class="headerlink" title="散列"></a>散列</h3><h3 id="优先队列（堆）"><a href="#优先队列（堆）" class="headerlink" title="优先队列（堆）"></a>优先队列（堆）</h3><p>堆是一棵完全被填满的二叉树。<br>一棵高位h的完全二叉树有2^k到2^（k+1）-1个节点。</p>
-<p>完全二叉树可以用一个数组表示。</p>
-<p>对于数组中i位置上的元素，做儿子在2i，右儿子在2i+1，父亲在[i/2]</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;链表&quot;&gt;&lt;a href=&quot;#链表&quot; class=&quot;headerlink&quot; title=&quot;链表&quot;&gt;&lt;/a&gt;链表&lt;/h3&gt;&lt;p&gt;1.数组实现&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
-    
-    </summary>
-    
-      <category term="datastructure" scheme="http://yoursite.com/categories/datastructure/"/>
-    
-    
-      <category term="datastructure" scheme="http://yoursite.com/tags/datastructure/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解jvm十-早期（编译期）优化</title>
-    <link href="http://yoursite.com/2016/11/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3jvm%E5%8D%81-%E6%97%A9%E6%9C%9F%EF%BC%88%E7%BC%96%E8%AF%91%E6%9C%9F%EF%BC%89%E4%BC%98%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/11/16/深入理解jvm十-早期（编译期）优化/</id>
-    <published>2016-11-16T05:37:45.000Z</published>
-    <updated>2016-12-10T16:13:51.791Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
-<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
-<li>sun的javac eclipsejdt中的ecj</li>
-</ul>
-</li>
-<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
-<li>hotspot vm 中的 c1 c2编译器</li>
-</ul>
-</li>
-<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
-<li>gun compiler for java</li>
-</ul>
-</li>
-</ul>
-<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
-<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
-<ul>
-<li>解析与填充符号表过程。</li>
-<li>插入式注解处理器的注解处理过程。</li>
-<li>分析与字节码生成过程。</li>
-</ul>
-<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-编译期&quot;&gt;&lt;a href=&quot;#1-编译期&quot; class=&quot;headerlink&quot; title=&quot;1.编译期&quot;&gt;&lt;/a&gt;1.编译期&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;前端编译器：把&lt;em&gt;java转换成&lt;/em&gt;.class文件的过程。 &lt;ul&gt;
-&lt;li&gt;sun的jav
-    
-    </summary>
-    
-      <category term="JVM" scheme="http://yoursite.com/categories/JVM/"/>
-    
-    
-      <category term="JVM" scheme="http://yoursite.com/tags/JVM/"/>
     
   </entry>
   
