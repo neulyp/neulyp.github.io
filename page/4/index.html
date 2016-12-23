@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,128 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/24/深入理解JVM笔记五/" itemprop="url">
+                  深入理解JVM笔记五-调优案例分析与实战
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T15:00:22+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>高性能硬件上部署程序，目前主要有两种方式：</p>
+<ul>
+<li>使用64位JDK来使用大内存</li>
+<li>使用若干个32位虚拟机建立逻辑集群来利用硬件资源</li>
+</ul>
+<p>集群间同步导致的内存溢出；</p>
+<p>堆外内存导致的溢出错误：</p>
+<p>direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。</p>
+<p>线程堆栈：通过-Xss调整大小。不足抛出stackoverflowerror。</p>
+<p>eclipse性能调优参考深入理解jvm第5章</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/23/兰天震的设计/" itemprop="url">
                   兰天震的设计
                 </a>
@@ -257,7 +379,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-23T20:45:12+08:00" content="2016-10-23">
               2016-10-23
             </time>
@@ -351,7 +473,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T16:22:24+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -363,7 +485,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -502,7 +624,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-21T14:30:38+08:00" content="2016-10-21">
               2016-10-21
             </time>
@@ -514,7 +636,7 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -665,7 +787,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-19T10:51:50+08:00" content="2016-10-19">
               2016-10-19
             </time>
@@ -677,7 +799,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -814,7 +936,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-18T15:03:57+08:00" content="2016-10-18">
               2016-10-18
             </time>
@@ -826,7 +948,7 @@ public static final int _1MB =1024*1024;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -1005,7 +1127,7 @@ public static final int _1MB =1024*1024;
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-14T12:30:14+08:00" content="2016-10-14">
               2016-10-14
             </time>
@@ -1184,7 +1306,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-13T15:52:49+08:00" content="2016-10-13">
               2016-10-13
             </time>
@@ -1287,7 +1409,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-06T17:02:48+08:00" content="2016-10-06">
               2016-10-06
             </time>
@@ -1299,7 +1421,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
@@ -1460,7 +1582,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-09-29T22:12:39+08:00" content="2016-09-29">
               2016-09-29
             </time>
@@ -1472,7 +1594,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/weka/" itemprop="url" rel="index">
@@ -1567,158 +1689,6 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/29/weka学习2/" itemprop="url">
-                  机器学习weka（二）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-29T22:04:00+08:00" content="2016-09-29">
-              2016-09-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/weka/" itemprop="url" rel="index">
-                    <span itemprop="name">weka</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>1.weka分类/回归模型构建与评价</strong></p>
-<p>以最简单的决策树算法为例，在Weka中，决策树算法的实现是J48类，因此我们只需要创建J48对象就可以创建决策树。整个过程可以分为如下步骤： </p>
-<p><strong>数据准备</strong></p>
-<p>我们要做的就是加载数据，然后使用Filter对数据进行一定的操作，满足特定算法的需求。具体的将在决策树中讲解。</p>
-<p><strong>模型配置</strong></p>
-<p>在模型准备前，要对模型进行适当的配置，Weka中是通过传入Options数组来实现的，然后使用模型的setOptions(options)方法将模型配置信息传入</p>
-<p><strong>模型学习</strong></p>
-<p>模型学习过程就是使用训练数据对模型进行训练，在Weka中只需要调用模型的buildClassifier(data)方法即可。<br>上述三个过程可以用以下代码表示：</p>
-<pre><code>class CARTModel {
-    public CARTModel(Instances data) throws Exception{
-        J48 model = new J48();
-        String[] options = {&quot;-M&quot;,&quot;5&quot;,&quot;-R&quot;};
-        model.setOptions(options);
-        model.buildClassifier(data);
-    }
-}
-</code></pre><p><strong>模型评价</strong></p>
-<p>通过创建Evaluation对象来实现评价，具体代码如下：</p>
-<pre><code>Evaluation eval = new Evaluation(testData);
- eval.crossValidateModel(model, trainSet, 10, new Random(1));
- System.out.println(eval.toSummaryString(&quot;\nResult&quot;, false));
- System.out.println(eval.toClassDetailsString());
-</code></pre><p><strong>2.评价evaluation介绍</strong></p>
-<p><strong>基本指标</strong></p>
-<p>1、 FN：False Negative,被判定为负样本，但事实上是正样本。 </p>
-<p>2、 FP：False Positive,被判定为正样本，但事实上是负样本。 </p>
-<p>3、TN：True Negative,被判定为负样本，事实上也是负样本。 </p>
-<p>4、TP：True Positive,被判定为正样本，事实上也是证样本。</p>
-<p>5、precesion：查准率<br>即在检索后返回的结果中，真正正确的个数占整个结果的比例。precesion = TP/(TP+FP) 。 </p>
-<p>6、 recall：查全率<br>即在检索结果中真正正确的个数 占整个数据集（检索到的和未检索到的）中真正正确个数的比例。recall = TP/(TP+FN)即，检索结果中，你判断为正的样本也确实为正的，以及那些没在检索结果中被你判断为负但是事实上是正的（FN）。</p>
-<p>7、F-Measure<br>是Precision和Recall加权调和平均<br>P和R指标有时候会出现的矛盾的情况，这样就需要综合考虑他们，最常见的方法就是F-Measure（又称为F-Score）。 </p>
-<p>8、MCC 马修斯相关系数<br>衡量不平衡数据集的指标比较好。</p>
-<p><strong>ROC曲线</strong></p>
-<p>ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR）<br>当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。根据每个测试样本属于正样本的概率值从大到小排序，依次将 “Score”值作为阈值threshold，当测试样本属于正样本的概率 大于或等于这个threshold时，认为它为正样本，否则为负样本。 </p>
-<p><strong>PRC曲线</strong></p>
-<p>在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。 </p>
-<p><strong>其他指标</strong></p>
-<p>1、kappa statics Kappa<br>值即内部一致性系数(inter-rater,coefficient of internal consistency)，是作为评价判断的一致性程度的重要指标。取值在0～1之间。Kappa≥0.75两者一致性较好；0.75&gt;Kappa≥0.4两者一致性一般；Kappa&lt;0.4两者一致性较差。</p>
-<p>2、Mean absolute error 和 Root mean squared error<br>平均绝对误差和均方根误差，用来衡量分类器预测值和实际结果的差异，越小越好。</p>
-<p>3、Relative absolute error 和 Root relative squared error<br>相对绝对误差和相对均方根误差，有时绝对误差不能体现误差的真实大小，而相对误差通过体现误差占真值的比重来反映误差大小。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1764,8 +1734,8 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1773,7 +1743,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1782,7 +1752,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1833,7 +1803,7 @@ Version:$Revision: 12643 $Author:Eibe Frank (eibe@cs.waikato.ac.nz)Len Trigg (tr
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

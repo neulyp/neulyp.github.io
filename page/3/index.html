@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,132 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/21/算法总结之快速排序/" itemprop="url">
+                  算法总结4-快速排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T12:24:37+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6684558</a></p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</p>
+<p>该方法的基本思想是：</p>
+<p>1．先从数列中取出一个数作为基准数。</p>
+<p>2．分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。</p>
+<p>3．再对左右区间重复第二步，直到各区间只有一个数</p>
+<p>虽然快速排序称为分治法，但分治法这三个字显然无法很好的概括快速排序的全部步骤。因此我的对快速排序作了进一步的说明：<strong>挖坑填数+分治法</strong>：</p>
+<p><img src="http://i.imgur.com/lXST5qW.png" alt=""></p>
+<p><img src="http://i.imgur.com/6GAncK6.png" alt=""></p>
+<p>对挖坑填数进行总结</p>
+<p>1．i =L; j = R; 将基准数挖出形成第一个坑a[i]。</p>
+<p>2．j–由后向前找比它小的数，找到后挖出此数填前一个坑a[i]中。</p>
+<p>3．i++由前向后找比它大的数，找到后也挖出此数填到前一个坑a[j]中。</p>
+<p>4．再重复执行2，3二步，直到i==j，将基准数填入a[i]中。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> sort;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 快排</div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] swap(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)&#123;</div><div class="line">		<span class="comment">//将中间的数和第一个数进行交换</span></div><div class="line">		<span class="keyword">int</span> tmp=s[l];</div><div class="line">		s[l]=s[(r-l)/<span class="number">2</span>];</div><div class="line">		s[(r-l)/<span class="number">2</span>]=tmp;</div><div class="line">		<span class="keyword">return</span> s;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] s, <span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(l&lt;r)&#123;	</div><div class="line">			<span class="keyword">int</span> i=l,j=r,x=s[l];</div><div class="line">			<span class="keyword">while</span>(i&lt;j)&#123;</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[j]&gt;=x) j--;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[i++]=s[j];</div><div class="line">				</div><div class="line">				<span class="keyword">while</span>(i&lt;j&amp;&amp;s[i]&lt;=x) i++;</div><div class="line">				<span class="keyword">if</span>(i&lt;j) s[j--]=s[i];</div><div class="line">			&#125;</div><div class="line">			s[i]=x;</div><div class="line">			quickSort(s, l, i-<span class="number">1</span>);</div><div class="line">			quickSort(s, i+<span class="number">1</span>, r);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/20/datastructs/" itemprop="url">
                   datastructs
                 </a>
@@ -257,7 +383,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-20T13:10:58+08:00" content="2016-11-20">
               2016-11-20
             </time>
@@ -269,7 +395,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/datastructure/" itemprop="url" rel="index">
@@ -376,7 +502,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
               2016-11-16
             </time>
@@ -388,7 +514,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -510,7 +636,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-12T18:28:24+08:00" content="2016-11-12">
               2016-11-12
             </time>
@@ -522,7 +648,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
@@ -747,7 +873,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-10T09:51:23+08:00" content="2016-11-10">
               2016-11-10
             </time>
@@ -1160,7 +1286,7 @@ return first &lt; second ? -1 ://自动拆箱
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-03T13:46:38+08:00" content="2016-11-03">
               2016-11-03
             </time>
@@ -1393,7 +1519,7 @@ return first &lt; second ? -1 ://自动拆箱
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-11-03T01:15:11+08:00" content="2016-11-03">
               2016-11-03
             </time>
@@ -1405,7 +1531,7 @@ return first &lt; second ? -1 ://自动拆箱
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Spring/" itemprop="url" rel="index">
@@ -2314,7 +2440,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-28T11:50:06+08:00" content="2016-10-28">
               2016-10-28
             </time>
@@ -2326,7 +2452,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/数据仓库/" itemprop="url" rel="index">
@@ -2433,7 +2559,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -2590,7 +2716,7 @@ false
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
               2016-10-24
             </time>
@@ -2602,7 +2728,7 @@ false
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -2701,128 +2827,6 @@ false
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM笔记五/" itemprop="url">
-                  深入理解JVM笔记五-调优案例分析与实战
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T15:00:22+08:00" content="2016-10-24">
-              2016-10-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>高性能硬件上部署程序，目前主要有两种方式：</p>
-<ul>
-<li>使用64位JDK来使用大内存</li>
-<li>使用若干个32位虚拟机建立逻辑集群来利用硬件资源</li>
-</ul>
-<p>集群间同步导致的内存溢出；</p>
-<p>堆外内存导致的溢出错误：</p>
-<p>direct memory:可通过-XX：MaxDirectMemorySize调整大小，内存不足会抛出outofmemory或者outofmemoryerror：direct buffer memory。</p>
-<p>线程堆栈：通过-Xss调整大小。不足抛出stackoverflowerror。</p>
-<p>eclipse性能调优参考深入理解jvm第5章</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2868,8 +2872,8 @@ false
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -2877,7 +2881,7 @@ false
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2886,7 +2890,7 @@ false
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2937,7 +2941,7 @@ false
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

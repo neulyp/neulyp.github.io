@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,112 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/23/pat1009/" itemprop="url">
+                  pat1009
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T12:06:37+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1009.Product of Polynomials (25)</p>
+<p>This time, you are supposed to find A*B where A and B are two polynomials.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial: K N1 aN1 N2 aN2 … NK aNK, where K is the number of nonzero terms in the polynomial, Ni and aNi (i=1, 2, …, K) are the exponents and coefficients, respectively. It is given that 1 &lt;= K &lt;= 10, 0 &lt;= NK &lt; … &lt; N2 &lt; N1 &lt;=1000.</p>
+<p>Output Specification:</p>
+<p>For each test case you should output the product of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate up to 1 decimal place.</p>
+<p>Sample Input</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2 1 2.4 0 3.2</div><div class="line">2 2 1.5 1 0.5</div></pre></td></tr></table></figure>
+<p>Sample Output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 3 3.6 2 6.0 1 1.6</div></pre></td></tr></table></figure>
+<p>思路：正常按照多项式乘法计算就行，注意如果系数是0，那么这一项就是0.运算的时候要过滤到该项。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t9_2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] a= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] b= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] c= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>*<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n1,n2;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n1=sc.nextInt();</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n1;i++)&#123;</div><div class="line">			<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">			<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">			a[e]=c;</div><div class="line">		</div><div class="line">		&#125;</div><div class="line">		n2=sc.nextInt();</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n2;i++)&#123;</div><div class="line">			<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">			<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">			b[e]=c;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(a[i]!=<span class="number">0</span>)&#123;</div><div class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;b.length;j++)&#123;</div><div class="line">					<span class="keyword">if</span>(b[j]!=<span class="number">0</span>)&#123;</div><div class="line">						c[i+j]+=a[i]*b[j];</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;c.length;i++) <span class="keyword">if</span>(c[i]!=<span class="number">0</span>) count++;</div><div class="line">		System.out.print(count);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=c.length-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) </div><div class="line">			<span class="keyword">if</span>(c[i]!=<span class="number">0</span>) &#123;</div><div class="line">				System.out.print(<span class="string">" "</span>+i+<span class="string">" "</span>);</div><div class="line">				System.out.printf(<span class="string">"%.1f"</span>,c[i]);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/22/pat1008/" itemprop="url">
                   pat1008
                 </a>
@@ -257,7 +363,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-22T13:17:29+08:00" content="2016-12-22">
               2016-12-22
             </time>
@@ -361,7 +467,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-21T21:44:43+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -540,7 +646,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-21T19:19:17+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -645,7 +751,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-21T14:11:10+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -753,7 +859,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-21T14:04:21+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -859,7 +965,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-21T13:53:50+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -965,7 +1071,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-20T14:04:04+08:00" content="2016-12-20">
               2016-12-20
             </time>
@@ -1072,7 +1178,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-20T14:03:53+08:00" content="2016-12-20">
               2016-12-20
             </time>
@@ -1176,7 +1282,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-20T13:31:09+08:00" content="2016-12-20">
               2016-12-20
             </time>
@@ -1217,160 +1323,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2 4</div></pre></td></tr></table></figure>
 <p>解答：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3_2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n,m,c1,c2;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] teams;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] mtx;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> inf=Integer.MAX_VALUE;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		m=sc.nextInt();</div><div class="line">		c1=sc.nextInt();</div><div class="line">		c2=sc.nextInt();</div><div class="line">		teams=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		mtx=<span class="keyword">new</span> <span class="keyword">int</span>[n][n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			teams[i]=sc.nextInt();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) Arrays.fill(mtx[i], -<span class="number">1</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</div><div class="line">			<span class="keyword">int</span> c1=sc.nextInt(),c2=sc.nextInt(),l=sc.nextInt();</div><div class="line">			mtx[c1][c2]=mtx[c2][c1]=l;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		djk(c1,c2);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">djk</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">		<span class="keyword">boolean</span>[] visted=<span class="keyword">new</span> <span class="keyword">boolean</span>[n]; </div><div class="line">		Arrays.fill(visted, <span class="keyword">false</span>);</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentDist=<span class="keyword">new</span> <span class="keyword">int</span>[n]; </div><div class="line">		Arrays.fill(currentDist, inf);</div><div class="line">		currentDist[start]=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentTeam=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		currentTeam=teams.clone();</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] path= <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		Arrays.fill(path, <span class="number">0</span>);</div><div class="line">		path[start]=<span class="number">1</span>;</div><div class="line">		</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> min=<span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span>(min!=end)&#123;</div><div class="line">			min=-<span class="number">1</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[i])&#123;</div><div class="line">					<span class="keyword">if</span>(min==-<span class="number">1</span>) min=i;</div><div class="line">					<span class="keyword">if</span>(currentDist[i]&lt;currentDist[min]) min=i;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			visted[min]=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[j]&amp;&amp; mtx[min][j]!=-<span class="number">1</span>)&#123;</div><div class="line">					<span class="keyword">if</span>(currentDist[min]+mtx[min][j]&lt;currentDist[j])&#123;</div><div class="line">						currentDist[j]=currentDist[min]+mtx[min][j];</div><div class="line">						currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						path[j]=path[min];</div><div class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span>(currentDist[min]+mtx[min][j]==currentDist[j])&#123;</div><div class="line">						path[j]+=path[min];</div><div class="line">						<span class="keyword">if</span>(currentTeam[min]+teams[j]&gt;currentTeam[j])&#123;</div><div class="line">							currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;	</div><div class="line">		&#125;</div><div class="line">		System.out.println(path[end]+<span class="string">" "</span>+currentTeam[end]);	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/18/hadoop笔记-备考/" itemprop="url">
-                  hadoop笔记-备考
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-18T21:10:31+08:00" content="2016-12-18">
-              2016-12-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="2-2"><a href="#2-2" class="headerlink" title="2.2"></a>2.2</h3><p>hadoop安装模式:</p>
-<ul>
-<li>单机模式</li>
-<li>伪分布式</li>
-<li>完全分布式</li>
-</ul>
-<p>namenode datanode jobtracker tasktracker secondaryNamenode</p>
-<h3 id="2-3"><a href="#2-3" class="headerlink" title="2.3"></a>2.3</h3><p>1.命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hadoop namenode -format</div><div class="line">sbin/start-all.sh</div><div class="line">sbin/stop-all.sh</div></pre></td></tr></table></figure></p>
-<p>2.配置文件（考点）</p>
-<p><img src="http://i.imgur.com/xm8ivA9.png" alt=""></p>
-<h3 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h3><p>编写mapreduce函数：</p>
-<ul>
-<li>mapper类 </li>
-<li>reducer类</li>
-<li>main类</li>
-</ul>
-<p>详情见wordcount例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> wordcount;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.StringTokenizer;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.IntWritable;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.LongWritable;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Job;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Mapper;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Reducer;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.TextInputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCount</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountMap</span> <span class="keyword">extends</span></span></div><div class="line">			<span class="title">Mapper</span>&lt;<span class="title">LongWritable</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; &#123;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">final</span> IntWritable one = <span class="keyword">new</span> IntWritable(<span class="number">1</span>);</div><div class="line">		<span class="keyword">private</span> Text word = <span class="keyword">new</span> Text();</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(LongWritable key, Text value, Context context)</span></span></div><div class="line">				<span class="keyword">throws</span> IOException, InterruptedException &#123;</div><div class="line">			String line = value.toString();</div><div class="line">			StringTokenizer token = <span class="keyword">new</span> StringTokenizer(line);</div><div class="line">			<span class="keyword">while</span> (token.hasMoreTokens()) &#123;</div><div class="line">				word.set(token.nextToken());</div><div class="line">				context.write(word, one);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCountReduce</span> <span class="keyword">extends</span></span></div><div class="line">			<span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; &#123;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values,</span></span></div><div class="line">				Context context) <span class="keyword">throws</span> IOException, InterruptedException &#123;</div><div class="line">			<span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">			<span class="keyword">for</span> (IntWritable val : values) &#123;</div><div class="line">				sum += val.get();</div><div class="line">			&#125;</div><div class="line">			context.write(key, <span class="keyword">new</span> IntWritable(sum));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</div><div class="line">		Job job = <span class="keyword">new</span> Job(conf);</div><div class="line">		job.setJarByClass(WordCount.class);</div><div class="line">		job.setJobName(<span class="string">"wordcount"</span>);</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(IntWritable.class);</div><div class="line">		job.setMapperClass(WordCountMap.class);</div><div class="line">		job.setReducerClass(WordCountReduce.class);</div><div class="line">		job.setInputFormatClass(TextInputFormat.class);</div><div class="line">		job.setOutputFormatClass(TextOutputFormat.class);</div><div class="line">		FileInputFormat.addInputPath(job, <span class="keyword">new</span> Path(args[<span class="number">0</span>]));</div><div class="line">		FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(args[<span class="number">1</span>]));</div><div class="line">		job.waitForCompletion(<span class="keyword">true</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>configuration类：怼佢hadoop的配置文件</li>
-<li>job类： 表示一个mapreduce任务</li>
-</ul>
-<h3 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h3><ul>
-<li>打包：<code>wordcount -&gt;export-&gt;jar file</code> 把jar放在$hadoop_home 下</li>
-<li>部署和运行： <code>hadoop fs -put /file1 /input/</code></li>
-<li>运行： <code>hadoop jar wordcount.jar wordcount.WordMain /file1 /output</code></li>
-<li>测试结果：_success _logs part-r-00000</li>
-</ul>
-<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>hdfs的特点？</p>
-<p>hdfs架构？（主从结构，一个namenode节点，多个datanode节点）</p>
-<p>hadoop的rpc机制？</p>
-<p>hadoop文件系统的访问/</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">hadoop fs -ls /</div><div class="line">hadoop fs -mkdir /input</div><div class="line">hadoop fs -put file1 /input</div><div class="line">hadoop fs -text /input/file1</div><div class="line">hadoop fs -get /input/file1 //复制到本地</div><div class="line">hadoop fs -rm /input/file1</div><div class="line">hadoop namenode -format</div><div class="line">hadoop secondarynamenode</div><div class="line">hadoop dfsadmin</div><div class="line">hadoop job</div><div class="line">hadoop version</div></pre></td></tr></table></figure>
-<h3 id="5-1"><a href="#5-1" class="headerlink" title="5.1"></a>5.1</h3><p>hadoop文件的数据结构</p>
-<p>hdfs提供两种类型的容器：</p>
-<ul>
-<li>sequencefile:记录可序列化的数组</li>
-</ul>
-<p>sequencefile主要由一个header和多个record组成。<br>header:记录key calssname, value classname，存储压缩算法，用户自定义信息等。<br>record：以键值对的方式进行存储。用来表示他的字符数组可以一次解析为：记录的长度，key的长度，key的值，value值。</p>
-<ul>
-<li>mapfile</li>
-</ul>
-
           
         
       
@@ -1443,8 +1395,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1452,7 +1404,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1461,7 +1413,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1512,7 +1464,7 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
