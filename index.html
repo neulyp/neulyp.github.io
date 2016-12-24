@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,388 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/24/memcached/" itemprop="url">
+                  memcached
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-24T13:21:48+08:00" content="2016-12-24">
+              2016-12-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原理：</p>
+<ol>
+<li>Memcached是danga的一个项目，最早是为LiveJournal服务的，后来被很多大型网站采用。www.danga.com</li>
+<li>一种缓存技术，可以把你的数据放入内存，从而通过内存访问，提速。维护了一张大的hashtable表，该表是在内存中的，表结构：key    value。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/24/redis/" itemprop="url">
+                  redis
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-24T12:35:12+08:00" content="2016-12-24">
+              2016-12-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://www.yiibai.com/redis/redis_quick_guide.html" target="_blank" rel="external">http://www.yiibai.com/redis/redis_quick_guide.html</a></p>
+<p>Redis是一个速度非常快的非关系数据库，它可以存储键与5种不同类型的值之间的映射，可以将存储在内存的键值对数据持久化到硬盘，可以使用复制特性来扩展读性能，还可以使用客户端分片来扩展写性能。</p>
+<p>安装：<br><a href="http://www.cnblogs.com/sandea/p/5782192.html" target="_blank" rel="external">http://www.cnblogs.com/sandea/p/5782192.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-3.2.3.tar.gz</div><div class="line"></div><div class="line">tar -zxvf redis-3.2.3.tar.gz</div><div class="line"></div><div class="line">mv redis-3.2.3 redis</div><div class="line">cd redis</div><div class="line">make MALLOC=libc</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h3><p><img src="http://i.imgur.com/7VRR2Xz.png" alt=""></p>
+<p>Redis 有三个主要使其有别于其它很多竞争对手的特点：</p>
+<ul>
+<li>Redis是完全在内存中保存数据的数据库，使用磁盘只是为了持久性目的； </li>
+<li>Redis相比许多键值数据存储系统有相对丰富的数据类型； </li>
+<li>Redis可以将数据复制到任意数量的从服务器中； </li>
+</ul>
+<p>Redis优点</p>
+<ul>
+<li>异常快速 : Redis是非常快的，每秒可以执行大约110000设置操作，81000个/每秒的读取操作。</li>
+<li>支持丰富的数据类型 : Redis支持最大多数开发人员已经知道如列表，集合，可排序集合，哈希等数据类型。这使得在应用中很容易解决的各种问题，因为我们知道哪些问题处理使用哪种数据类型更好解决。</li>
+<li>操作都是原子的 : 所有 Redis 的操作都是原子，从而确保当两个客户同时访问 Redis 服务器得到的是更新后的值（最新值）。</li>
+<li>MultiUtility工具：Redis是一个多功能实用工具，可以在很多如：缓存，消息传递队列中使用（Redis原生支持发布/订阅），在应用程序中，如：Web应用程序会话，网站页面点击数等任何短暂的数据；</li>
+</ul>
+<h3 id="2-redis中数据结构"><a href="#2-redis中数据结构" class="headerlink" title="2.redis中数据结构"></a>2.redis中数据结构</h3><p>5种:string list set hash zset</p>
+<h3 id="3-事务"><a href="#3-事务" class="headerlink" title="3.事务"></a>3.事务</h3><p>Redis事务允许一组命令在单一步骤中执行。事务有两个属性，说明如下：</p>
+<ul>
+<li>在一个事务中的所有命令作为单个独立的操作顺序执行。在Redis事务中的执行过程中而另一客户机发出的请求，这是不可以的；</li>
+<li>Redis事务是原子的。原子意味着要么所有的命令都执行，要么都不执行；</li>
+</ul>
+<p>Redis 事务由指令 MULTI 发起的，之后传递需要在事务中和整个事务中，最后由 EXEC 命令执行所有命令的列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; MULTI</div><div class="line">OK</div><div class="line">redis 127.0.0.1:6379&gt; SET tutorial redis</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; GET tutorial</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; INCR visitors</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; EXEC</div><div class="line"></div><div class="line">1) OK</div><div class="line">2) &quot;redis&quot;</div><div class="line">3) (integer) 1</div></pre></td></tr></table></figure>
+<h3 id="4-持久化"><a href="#4-持久化" class="headerlink" title="4.持久化"></a>4.持久化</h3><p>Redis提供两种不同的持久化方法来将数据存储到硬盘里面。一种方法叫快照，它可以将存在于某一时刻的所有数据都写入硬盘里面。另一种方法叫只追加文件（AOF)，它会在执行写命令时，将被执行的写命令复制到硬盘里面。这两种持久化方法既可以同时使用，又可以单独使用，在某些情况下甚至两种方法都不是用，具体选择哪种持久化方法需要根据用户的数据以及应用来决定。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/24/zookeeper/" itemprop="url">
+                  zookeeper
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-24T10:37:01+08:00" content="2016-12-24">
+              2016-12-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://cailin.iteye.com/blog/2014486/" target="_blank" rel="external">http://cailin.iteye.com/blog/2014486/</a></p>
+<p>ps：未完待续</p>
+<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，它包含一个简单的原语集，分布式应用程序可以基于它<strong>实现同步服务，配置维护和命名服务</strong>等。Zookeeper是hadoop的一个子项目，其发展历程无需赘述。在分布式应用中，由于工程师不能很好地使用锁机制，以及基于消息的协调机制不适合在某些应用中使用，因此需要有一种可靠的、可扩展的、分布式的、可配置的协调机制来统一系统的状态。Zookeeper的目的就在于此。本文简单分析zookeeper的工作原理，对于如何使用zookeeper不是本文讨论的重点。</p>
+<p>Zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框。</p>
+<p>功能：</p>
+<ul>
+<li>统一命名服务（Name Service）：<br>分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住。<br>Name Service 已经是 Zookeeper 内置的功能，你只要调用 Zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</li>
+<li>配置管理</li>
+<li>集群管理</li>
+</ul>
+<h4 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h4><p>Zookeeper中的角色主要有以下三类，如下表所示：<br><img src="http://i.imgur.com/NxWbDV8.jpg" alt=""></p>
+<h4 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h4><p>1.最终一致性：client不论连接到哪个Server，展示给它都是同一个视图，这是zookeeper最重要的性能。</p>
+<p>2 .可靠性：具有简单、健壮、良好的性能，如果消息m被到一台服务器接受，那么它将被所有的服务器接受。</p>
+<p>3 .实时性：Zookeeper保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用sync()接口。</p>
+<p>4 .等待无关（wait-free）：慢的或者失效的client不得干预快速的client的请求，使得每个client都能有效的等待。</p>
+<p>5.原子性：更新只能成功或者失败，没有中间状态。</p>
+<p>6 .顺序性：包括全局有序和偏序两种：全局有序是指如果在一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>Zookeeper的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。</p>
+<p>为了保证事务的顺序一致性，zookeeper采用了递增的事务id号（zxid）来标识事务。所有的提议（proposal）都在被提出的时候加上了zxid。实现中zxid是一个64位的数字，它高32位是epoch用来标识leader关系是否改变，每次一个leader被选出来，它都会有一个新的epoch，标识当前属于那个leader的统治时期。低32位用于递增计数。</p>
+<p>每个Server在工作过程中有三种状态：</p>
+<ul>
+<li>LOOKING：当前Server不知道leader是谁，正在搜寻</li>
+<li>LEADING：当前Server即为选举出来的leader</li>
+<li>FOLLOWING：leader已经选举出来，当前Server与之同步</li>
+</ul>
+<h4 id="选主流程"><a href="#选主流程" class="headerlink" title="选主流程"></a>选主流程</h4><p>当leader崩溃或者leader失去大多数的follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。Zk的选举算法有两种：一种是基于basic paxos实现的，另外一种是基于fast paxos算法实现的。系统默认的选举算法为fast paxos。先介绍basic paxos流程：</p>
+<ol>
+<li><p>选举线程由当前Server发起选举的线程担任，其主要功能是对投票结果进行统计，并选出推荐的Server；</p>
+</li>
+<li><p>选举线程首先向所有Server发起一次询问(包括自己)；</p>
+</li>
+<li><p>选举线程收到回复后，验证是否是自己发起的询问(验证zxid是否一致)，然后获取对方的id(myid)，并存储到当前询问对象列表中，最后获取对方提议的leader相关信息(id,zxid)，并将这些信息存储到当次选举的投票记录表中；</p>
+</li>
+<li><p>收到所有Server回复以后，就计算出zxid最大的那个Server，并将这个Server相关信息设置成下一次要投票的Server；</p>
+</li>
+<li><p>线程将当前zxid最大的Server设置为当前Server要推荐的Leader，如果此时获胜的Server获得n/2 + 1的Server票数， 设置当前推荐的leader为获胜的Server，将根据获胜的Server相关信息设置自己的状态，否则，继续这个过程，直到leader被选举出来。</p>
+</li>
+</ol>
+<p>通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且<strong>存活的Server的数目不得少于n+1</strong>.</p>
+<p>每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。选主的具体流程图如下所示：<br><img src="http://i.imgur.com/Vbcg5ge.jpg" alt=""></p>
+<p>fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。其流程图如下所示：</p>
+<p><img src="http://i.imgur.com/6faX072.jpg" alt=""></p>
+<h4 id="同步过程"><a href="#同步过程" class="headerlink" title="同步过程"></a>同步过程</h4><p>选完leader以后，zk就进入状态同步过程。</p>
+<ol>
+<li><p>leader等待server连接；</p>
+</li>
+<li><p>Follower连接leader，将最大的zxid发送给leader；</p>
+</li>
+<li><p>Leader根据follower的zxid确定同步点；</p>
+</li>
+<li><p>完成同步后通知follower 已经成为uptodate状态；</p>
+</li>
+<li><p>Follower收到uptodate消息后，又可以重新接受client的请求进行服务了</p>
+</li>
+</ol>
+<p><img src="http://i.imgur.com/uOAy55a.jpg" alt=""></p>
+<h4 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h4><p>leader工作流程：</p>
+<p>Leader主要有三个功能：</p>
+<ol>
+<li>恢复数据；</li>
+<li>维持与Learner的心跳，接收Learner请求并判断Learner的请求消息类型；</li>
+<li>Learner的消息类型主要有PING消息、REQUEST消息、ACK消息、REVALIDATE消息，根据不同的消息类型，进行不同的处理。</li>
+</ol>
+<p>PING消息是指Learner的心跳信息；REQUEST消息是Follower发送的提议信息，包括写请求及同步请求；ACK消息是Follower的对提议的回复，超过半数的Follower通过，则commit该提议；REVALIDATE消息是用来延长SESSION有效时间。</p>
+<p>follower工作流程<br>Follower主要有四个功能：</p>
+<ol>
+<li>向Leader发送请求（PING消息、REQUEST消息、ACK消息、REVALIDATE消息）；</li>
+<li>接收Leader消息并进行处理；</li>
+<li>接收Client的请求，如果为写请求，发送给Leader进行投票；</li>
+<li>返回Client结果。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/23/pat1009/" itemprop="url">
                   pat1009
                 </a>
@@ -257,7 +639,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-23T12:06:37+08:00" content="2016-12-23">
               2016-12-23
             </time>
@@ -363,7 +745,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-22T13:17:29+08:00" content="2016-12-22">
               2016-12-22
             </time>
@@ -467,7 +849,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-21T21:44:43+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -646,7 +1028,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-21T19:19:17+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -751,7 +1133,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-21T14:11:10+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -859,7 +1241,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-21T14:04:21+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -965,7 +1347,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-12-21T13:53:50+08:00" content="2016-12-21">
               2016-12-21
             </time>
@@ -1037,324 +1419,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/20/pat1002/" itemprop="url">
-                  pat1002
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T14:04:04+08:00" content="2016-12-20">
-              2016-12-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1002.A+B for Polynomials (25)</p>
-<p>This time, you are supposed to find A+B where A and B are two polynomials.</p>
-<p>Input</p>
-<p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial: K N1 aN1 N2 aN2 … NK aNK, where K is the number of nonzero terms in the polynomial, Ni and aNi (i=1, 2, …, K) are the exponents and coefficients, respectively. It is given that 1 &lt;= K &lt;= 10，0 &lt;= NK &lt; … &lt; N2 &lt; N1 &lt;=1000.</p>
-<p>Output</p>
-<p>For each test case you should output the sum of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate to 1 decimal place.</p>
-<p>Sample Input</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2 1 2.4 0 3.2</div><div class="line">2 2 1.5 1 0.5</div></pre></td></tr></table></figure>
-<p>Sample Output</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 2 1.5 1 2.9 0 3.2</div></pre></td></tr></table></figure>
-<p>解答：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t2_2</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> max=<span class="number">1000</span>+<span class="number">10</span>;</div><div class="line">		<span class="keyword">double</span>[] arr=<span class="keyword">new</span> <span class="keyword">double</span>[max];</div><div class="line">		<span class="keyword">int</span> n;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>;i++)&#123;</div><div class="line">			n=sc.nextInt();</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=n-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</div><div class="line">				<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">				<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">				arr[e]+=c;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;max;i++) <span class="keyword">if</span>(arr[i]!=<span class="number">0</span>) cnt++;</div><div class="line">		System.out.print(cnt);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=max-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</div><div class="line">			<span class="keyword">if</span>(arr[i]!=<span class="number">0</span>)&#123;</div><div class="line">				System.out.print(<span class="string">" "</span>+i);</div><div class="line">				System.out.print(<span class="string">" "</span>);</div><div class="line">				System.out.printf(<span class="string">"%.1f"</span>,arr[i]);				</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>解答二：（估计有点小问题）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t2</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc =<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">int</span> n1=sc.nextInt();</div><div class="line">		<span class="keyword">int</span>[] e1=<span class="keyword">new</span> <span class="keyword">int</span>[n1];</div><div class="line">		<span class="keyword">double</span>[] c1=<span class="keyword">new</span> <span class="keyword">double</span>[n1];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n1;i++)&#123;</div><div class="line">			e1[i]=sc.nextInt();</div><div class="line">			c1[i]=sc.nextDouble();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> n2=sc.nextInt();</div><div class="line">		<span class="keyword">int</span>[] e2=<span class="keyword">new</span> <span class="keyword">int</span>[n2];</div><div class="line">		<span class="keyword">double</span>[] c2=<span class="keyword">new</span> <span class="keyword">double</span>[n2];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n2;i++)&#123;</div><div class="line">			e2[i]=sc.nextInt();</div><div class="line">			c2[i]=sc.nextDouble();</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</div><div class="line">		List&lt;Integer&gt; e=<span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">		List&lt;Double&gt; c=<span class="keyword">new</span> ArrayList&lt;Double&gt;();</div><div class="line">		<span class="keyword">while</span>(i&lt;n1||j&lt;n2)&#123;</div><div class="line">			<span class="keyword">if</span>(i&gt;=n1&amp;&amp;j&lt;n2)&#123;</div><div class="line">				e.add(e2[j]);</div><div class="line">				c.add(c2[j]);</div><div class="line">				j++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(i&lt;n1&amp;&amp;j&gt;=n2)&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]);</div><div class="line">				i++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]&gt;e2[j])&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]);</div><div class="line">				i++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]==e2[j])&#123;</div><div class="line">				e.add(e1[i]);</div><div class="line">				c.add(c1[i]+c2[j]);</div><div class="line">				i++;</div><div class="line">				j++;</div><div class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(e1[i]&lt;e2[j])&#123;</div><div class="line">				e.add(e2[j]);</div><div class="line">				c.add(c2[j]);</div><div class="line">				j++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.print(e.size());</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;e.size();k++)&#123;</div><div class="line">			System.out.print(<span class="string">" "</span>+e.get(k));</div><div class="line">			System.out.print(<span class="string">" "</span>+c.get(k));</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/20/pat1001/" itemprop="url">
-                  pat1001
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T14:03:53+08:00" content="2016-12-20">
-              2016-12-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1001.A+B Format (20)</p>
-<p>Calculate a + b and output the sum in standard format – that is, the digits must be separated into groups of three by commas (unless there are less than four digits).</p>
-<p>Input</p>
-<p>Each input file contains one test case. Each case contains a pair of integers a and b where -1000000 &lt;= a, b &lt;= 1000000. The numbers are separated by a space.</p>
-<p>Output</p>
-<p>For each test case, you should output the sum of a and b in one line. The sum must be written in the standard format.</p>
-<p>Sample Input</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-1000000 9</div></pre></td></tr></table></figure>
-<p>Sample Output</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-999,991</div></pre></td></tr></table></figure>
-<p>解答</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t1</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc=<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">int</span> a=sc.nextInt();</div><div class="line">		<span class="keyword">int</span> b=sc.nextInt();</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">int</span> c=a+b;</div><div class="line">		<span class="keyword">if</span>(c&lt;<span class="number">0</span>)&#123;</div><div class="line">			c=-c;</div><div class="line">			System.out.printf(<span class="string">"-"</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(c&gt;=<span class="number">1000000</span>)</div><div class="line">			System.out.printf(<span class="string">"%d,%03d,%03d\n"</span>,c/<span class="number">1000000</span>,(c/<span class="number">1000</span>)%<span class="number">1000</span>,c%<span class="number">1000</span>);</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(c&gt;=<span class="number">1000</span>)</div><div class="line">			System.out.printf(<span class="string">"%d,%03d\n"</span>,c/<span class="number">1000</span>,c%<span class="number">1000</span>);</div><div class="line">		<span class="keyword">else</span></div><div class="line">			System.out.printf(<span class="string">"%d\n"</span>,c);	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/20/pat1003/" itemprop="url">
-                  pat1003
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T13:31:09+08:00" content="2016-12-20">
-              2016-12-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.</p>
-<p>Input</p>
-<p>Each input file contains one test case. For each test case, the first line contains 4 positive integers: N (&lt;= 500) - the number of cities (and the cities are numbered from 0 to N-1), M - the number of roads, C1 and C2 - the cities that you are currently in and that you must save, respectively. The next line contains N integers, where the i-th integer is the number of rescue teams in the i-th city. Then M lines follow, each describes a road with three integers c1, c2 and L, which are the pair of cities connected by a road and the length of that road, respectively. It is guaranteed that there exists at least one path from C1 to C2.</p>
-<p>Output</p>
-<p>For each test case, print in one line two numbers: the number of different shortest paths between C1 and C2, and the maximum amount of rescue teams you can possibly gather.<br>All the numbers in a line must be separated by exactly one space, and there is no extra space allowed at the end of a line.</p>
-<p>Sample Input<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">5 6 0 2</div><div class="line">1 2 1 5 3</div><div class="line">0 1 1</div><div class="line">0 2 2</div><div class="line">0 3 1</div><div class="line">1 2 1</div><div class="line">2 4 1</div><div class="line">3 4 1</div></pre></td></tr></table></figure></p>
-<p>Sample Output</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2 4</div></pre></td></tr></table></figure>
-<p>解答：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3_2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n,m,c1,c2;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] teams;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[][] mtx;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> inf=Integer.MAX_VALUE;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n=sc.nextInt();</div><div class="line">		m=sc.nextInt();</div><div class="line">		c1=sc.nextInt();</div><div class="line">		c2=sc.nextInt();</div><div class="line">		teams=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		mtx=<span class="keyword">new</span> <span class="keyword">int</span>[n][n];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">			teams[i]=sc.nextInt();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) Arrays.fill(mtx[i], -<span class="number">1</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</div><div class="line">			<span class="keyword">int</span> c1=sc.nextInt(),c2=sc.nextInt(),l=sc.nextInt();</div><div class="line">			mtx[c1][c2]=mtx[c2][c1]=l;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		djk(c1,c2);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">djk</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">		<span class="keyword">boolean</span>[] visted=<span class="keyword">new</span> <span class="keyword">boolean</span>[n]; </div><div class="line">		Arrays.fill(visted, <span class="keyword">false</span>);</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentDist=<span class="keyword">new</span> <span class="keyword">int</span>[n]; </div><div class="line">		Arrays.fill(currentDist, inf);</div><div class="line">		currentDist[start]=<span class="number">0</span>;</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] currentTeam=<span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		currentTeam=teams.clone();</div><div class="line">		</div><div class="line">		<span class="keyword">int</span>[] path= <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">		Arrays.fill(path, <span class="number">0</span>);</div><div class="line">		path[start]=<span class="number">1</span>;</div><div class="line">		</div><div class="line">		</div><div class="line">		<span class="keyword">int</span> min=<span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span>(min!=end)&#123;</div><div class="line">			min=-<span class="number">1</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[i])&#123;</div><div class="line">					<span class="keyword">if</span>(min==-<span class="number">1</span>) min=i;</div><div class="line">					<span class="keyword">if</span>(currentDist[i]&lt;currentDist[min]) min=i;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			visted[min]=<span class="keyword">true</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</div><div class="line">				<span class="keyword">if</span>(!visted[j]&amp;&amp; mtx[min][j]!=-<span class="number">1</span>)&#123;</div><div class="line">					<span class="keyword">if</span>(currentDist[min]+mtx[min][j]&lt;currentDist[j])&#123;</div><div class="line">						currentDist[j]=currentDist[min]+mtx[min][j];</div><div class="line">						currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						path[j]=path[min];</div><div class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span>(currentDist[min]+mtx[min][j]==currentDist[j])&#123;</div><div class="line">						path[j]+=path[min];</div><div class="line">						<span class="keyword">if</span>(currentTeam[min]+teams[j]&gt;currentTeam[j])&#123;</div><div class="line">							currentTeam[j]=currentTeam[min]+teams[j];</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;	</div><div class="line">		&#125;</div><div class="line">		System.out.println(path[end]+<span class="string">" "</span>+currentTeam[end]);	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1395,8 +1464,8 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">69</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -1404,7 +1473,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -1413,7 +1482,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -1464,7 +1533,7 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

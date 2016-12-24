@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Kategorien
+            Categories
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -244,6 +244,364 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/24/哈夫曼编码/" itemprop="url">
+                  算法总结5-哈夫曼编码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-24T20:13:15+08:00" content="2016-11-24">
+              2016-11-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><p>前几章的例子：dijkstra，prim，kruskal算法等</p>
+<p>1.哈夫曼编码</p>
+<p><img src="http://i.imgur.com/VnWxmaH.png" alt=""></p>
+<p>2.算法描述</p>
+<p>算法对由输组成的一个森林进行。一棵树的权等于他的树叶的频率之和。任意选取最小权的两棵树t1和t2，形成以t1和t2为子树的新树，将这样的过程进行c-1次。在算法的开始，存放c棵单节点树-每个字符一颗。在算法结束时得到一棵树，这可树就是最优哈夫曼编码树。</p>
+<p><img src="http://i.imgur.com/Mpaf16W.png" alt=""></p>
+<p>3.实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> hufman;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayDeque;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.PriorityQueue;</div><div class="line"><span class="keyword">import</span> java.util.Queue;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HuffmanTree</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt;</span>&#123;</div><div class="line">		<span class="keyword">private</span> T data; <span class="comment">//节点</span></div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> weight; <span class="comment">//权值</span></div><div class="line">		<span class="keyword">private</span> String code; <span class="comment">//编码</span></div><div class="line">		<span class="keyword">private</span> Node&lt;T&gt; left; <span class="comment">//左儿子</span></div><div class="line">		<span class="keyword">private</span> Node&lt;T&gt; right; <span class="comment">//右儿子</span></div><div class="line">		</div><div class="line">		</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data, <span class="keyword">int</span> weight)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data = data;  </div><div class="line">	        <span class="keyword">this</span>.weight = weight;</div><div class="line">	        <span class="keyword">this</span>.code=<span class="string">"0"</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data,String code, <span class="keyword">int</span> weight,Node&lt;T&gt; left,Node&lt;T&gt; right)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data = data;  </div><div class="line">	        <span class="keyword">this</span>.weight = weight;  </div><div class="line">	        <span class="keyword">this</span>.left=left;</div><div class="line">	        <span class="keyword">this</span>.right=right;</div><div class="line">	        <span class="keyword">this</span>.code=code;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Node&lt;T&gt; o)</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">this</span>.weight-o.weight;</div><div class="line">		&#125;	</div><div class="line">		<span class="meta">@Override</span>  </div><div class="line">	    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;  </div><div class="line">	        <span class="keyword">return</span> <span class="string">"data:"</span>+<span class="keyword">this</span>.data+<span class="string">" weight:"</span>+<span class="keyword">this</span>.weight+<span class="string">" code:"</span>+code+<span class="string">"\n"</span>;  </div><div class="line">	    &#125; </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">Node&lt;T&gt; <span class="title">createTree</span><span class="params">(List&lt;Node&lt;T&gt;&gt; nodes)</span></span>&#123;</div><div class="line">		Queue&lt;Node&lt;T&gt;&gt; q= <span class="keyword">new</span> PriorityQueue&lt;&gt;(nodes);</div><div class="line">		<span class="keyword">while</span>(q.size()&gt;<span class="number">1</span>)&#123;</div><div class="line">			Node&lt;T&gt; left=q.poll();</div><div class="line">			Node&lt;T&gt; right=q.poll();</div><div class="line">			Node&lt;T&gt; parent=<span class="keyword">new</span> Node&lt;T&gt;(<span class="keyword">null</span>,<span class="string">"0"</span>, left.weight+right.weight, left, right);</div><div class="line">			q.offer(parent);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> q.element();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> &lt;T&gt; List&lt;Node&lt;T&gt;&gt; breadth(Node&lt;T&gt; root)&#123;</div><div class="line">		List&lt;Node&lt;T&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;Node&lt;T&gt;&gt;();  </div><div class="line">        Queue&lt;Node&lt;T&gt;&gt; queue = <span class="keyword">new</span> ArrayDeque&lt;Node&lt;T&gt;&gt;();  </div><div class="line">        <span class="keyword">if</span>(root != <span class="keyword">null</span>)&#123;  </div><div class="line">            queue.offer(root);  </div><div class="line">        &#125; </div><div class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;  </div><div class="line">            list.add(queue.peek());  </div><div class="line">            Node&lt;T&gt; node = queue.poll();               </div><div class="line">            <span class="keyword">if</span>(node.left!= <span class="keyword">null</span>)&#123;  </div><div class="line">                queue.offer(node.left);  </div><div class="line">                node.left.code=node.code+<span class="string">"0"</span>;</div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">if</span>(node.right!= <span class="keyword">null</span>)&#123;  </div><div class="line">                queue.offer(node.right);  </div><div class="line">                node.right.code=node.code+<span class="string">"1"</span>;</div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> list;  	</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		HuffmanTree huffmanTree = <span class="keyword">new</span> HuffmanTree();</div><div class="line">		List&lt;Node&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;Node&lt;String&gt;&gt;();  </div><div class="line">        list.add(<span class="keyword">new</span> Node&lt;String&gt;(<span class="string">"a"</span>,<span class="number">7</span>));  </div><div class="line">        list.add(<span class="keyword">new</span> Node&lt;String&gt;(<span class="string">"b"</span>,<span class="number">5</span>));  </div><div class="line">        list.add(<span class="keyword">new</span> Node&lt;String&gt;(<span class="string">"c"</span>,<span class="number">4</span>));  </div><div class="line">        list.add(<span class="keyword">new</span> Node&lt;String&gt;(<span class="string">"d"</span>,<span class="number">2</span>));</div><div class="line">        Node&lt;String&gt; root = huffmanTree.createTree(list); </div><div class="line">        System.out.println(huffmanTree.breadth(root));  </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/21/算法总结之希尔排序/" itemprop="url">
+                  算法总结2-希尔排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T13:50:31+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>参考：<a href="http://blog.csdn.net/morewindows/article/details/6668714" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6668714</a></p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>该方法的基本思想是：先将整个待排元素序列分割成若干个子序列（由相隔某个“增量”的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序。因为直接插入排序在元素基本有序的情况下（接近最好情况），效率是很高的，因此希尔排序在时间效率上比前两种方法有较大提高</p>
+<p><img src="http://i.imgur.com/FPSyyTw.png" alt=""></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//希尔排序</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">shellsort</span><span class="params">(T[] a)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> gap=a.length/<span class="number">2</span>;gap&gt;<span class="number">0</span>;gap/=<span class="number">2</span>)&#123;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=gap;i&lt;a.length;i++)&#123;</div><div class="line">				T tmp=a[i];</div><div class="line">				<span class="keyword">for</span>(j=i;j&gt;=gap&amp;&amp;tmp.compareTo(a[j-gap])&lt;<span class="number">0</span>;j-=gap)&#123;</div><div class="line">					a[j]=a[j-gap];</div><div class="line">				&#125;</div><div class="line">				a[j]=tmp;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/21/算法总结之插入排序/" itemprop="url">
+                  算法总结1-插入排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T13:20:54+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>直接插入排序(Insertion Sort)的基本思想是：每次将一个待排序的记录，按其关键字大小插入到前面已经排好序的子序列中的适当位置，直到全部记录插入完成为止。</p>
+<p>设数组为a[0…n-1]。</p>
+<ol>
+<li><p>初始时，a[0]自成1个有序区，无序区为a[1..n-1]。令i=1</p>
+</li>
+<li><p>将a[i]并入当前的有序区a[0…i-1]中形成a[0…i]的有序区间。</p>
+</li>
+<li><p>i++并重复第二步直到i==n-1。排序完成。</p>
+</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//插入排序</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(T[] a)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;a.length;i++)&#123;</div><div class="line">			T tmp=a[i];</div><div class="line">			<span class="keyword">for</span>(j=i;j&gt;<span class="number">0</span>&amp;&amp;tmp.compareTo(a[j-<span class="number">1</span>])&lt;<span class="number">0</span>;j--)&#123;</div><div class="line">				a[j]=a[j-<span class="number">1</span>];</div><div class="line">			&#125;</div><div class="line">			a[j]=tmp;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/21/算法总结之快速排序/" itemprop="url">
                   算法总结4-快速排序
                 </a>
@@ -257,7 +615,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-21T12:24:37+08:00" content="2016-11-21">
               2016-11-21
             </time>
@@ -269,7 +627,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/算法/" itemprop="url" rel="index">
@@ -383,7 +741,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-20T13:10:58+08:00" content="2016-11-20">
               2016-11-20
             </time>
@@ -395,7 +753,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/datastructure/" itemprop="url" rel="index">
@@ -502,7 +860,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
               2016-11-16
             </time>
@@ -514,7 +872,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/JVM/" itemprop="url" rel="index">
@@ -636,7 +994,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-12T18:28:24+08:00" content="2016-11-12">
               2016-11-12
             </time>
@@ -648,7 +1006,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
@@ -873,7 +1231,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-10T09:51:23+08:00" content="2016-11-10">
               2016-11-10
             </time>
@@ -1286,7 +1644,7 @@ return first &lt; second ? -1 ://自动拆箱
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-03T13:46:38+08:00" content="2016-11-03">
               2016-11-03
             </time>
@@ -1519,7 +1877,7 @@ return first &lt; second ? -1 ://自动拆箱
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-11-03T01:15:11+08:00" content="2016-11-03">
               2016-11-03
             </time>
@@ -1531,7 +1889,7 @@ return first &lt; second ? -1 ://自动拆箱
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">in</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Spring/" itemprop="url" rel="index">
@@ -2406,432 +2764,11 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/28/数据仓库三种变化类型/" itemprop="url">
-                  数据仓库三种变化类型
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-28T11:50:06+08:00" content="2016-10-28">
-              2016-10-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/数据仓库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据仓库</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类型1：对于数据元素的历史记录不重要的时候使用，当一个数据源变化的时候，对应的维度属性将会被覆盖，</p>
-<p>类型2：当变化的数据元素历史记录也很重要的时候采用，源数据的元素变化的时候，会在维度表中插入新的一行来满足需求。</p>
-<p>类型3：当所有分析伴随新值或者旧值的变化前后记录的事实时，需要使用到变化类型3.使用类型1和类型2是不能够解决的。<br>比如：分析所有事实的情况，使用的是新值记录变化发生前后的情况。</p>
-<p>###3种事实表</p>
-<p>1.事务事实表<br>描述事件，获取事件，或行为的细节</p>
-<p>2.事务表快照<br>描述状态，获取事件或行为的效果</p>
-<p>3.累计快照<br>累计快照可以跟踪业务流程的一个或多个步骤的时间间隔。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM七-虚拟机类加载机制/" itemprop="url">
-                  深入理解JVM七-虚拟机类加载机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
-              2016-10-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类从被加载到卸载，整个生命周期如下：</p>
-<ul>
-<li>加载（loading）</li>
-<li>连接（验证verification 准备preparation 解析resolution）</li>
-<li>初始化（initialization）</li>
-<li>使用（using）</li>
-<li>卸载（unloading）</li>
-</ul>
-<p>主动引用，触发类的初始化：</p>
-<ul>
-<li>1.遇到new getstatic putstatic invokestatic</li>
-<li>2.使用java.lang.reflect包的方法对垒进行反射调用。</li>
-<li>3.初始化一个类的时候，如果发现父类还没有进行过初始化，则先触发其父类的初始化。</li>
-<li>4.当虚拟机启动时，用户需要制定一个要执行的主类，虚拟机则会先初始化这个主类。</li>
-<li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
-</ul>
-<p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
-<p>###类加载器###</p>
-<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
-<pre><code>package jvm;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-
-/**
- * 
- * @author neuly
- *
- */
-public class ClassLoaderTest {
-    public static void main(String[] args) throws Exception{
-        ClassLoader myloader= new ClassLoader() {
-                @Override
-                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
-                    try {
-                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
-                        InputStream is= getClass().getResourceAsStream(fileName);
-                        if(is==null){
-                            return super.loadClass(name);
-                        }
-                        byte[] b = new byte[is.available()];
-                        is.read(b);
-                        return defineClass(name, b, 0,b.length);
-                    } catch (IOException e) {;; 
-                        // TODO: handle exception
-                        throw new ClassNotFoundException(name);
-                    }
-
-                }
-            };
-            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
-            System.out.println(obj.getClass());
-            System.out.println(obj instanceof jvm.ClassLoaderTest);
-    }
-}
-</code></pre><p>结果 </p>
-<pre><code>class jvm.ClassLoaderTest
-false
-</code></pre><p>代码加载与自己同一路径下的class文件。</p>
-<p>###2.双亲委派模型###</p>
-<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
-<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
-<p>###2.破坏双亲委派模型###</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM六-类文件结构/" itemprop="url">
-                  深入理解JVM六-类文件结构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
-              2016-10-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
-<p>###class文件结构介绍：</p>
-<p>根据java虚拟机规范的规定，class文件格式采用一种类似c语言结构体的伪结构来存储，这种伪结构中只有两种数据类型：无符号数和表。</p>
-<p>无符号数：无符号数属于基本的数据类型，以u1,u2,u4,u8来分别代表1个字节，2个字节，4个字节和8个字节的无符号数，无符号数可以用来描述数字、索引引用、数量值，或者按照utf-8编码构成字符串值。</p>
-<p>表：表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性地以“_info“结尾。表用于描述有层次关系的复合结构的数据，整个class文件本质上就是一张表，它由下列数据项构成：</p>
-<pre><code>ClassFile {  
-    u4 magic;//魔数(0xCAFEBABE)  
-    u2 minor_version;//次版本号  
-    u2 major_version;//主版本号  
-    u2 constant_pool_count;//常量池容量计数值  
-    cp_info constant_pool[constant_pool_count-1];//常量池  
-    u2 access_flags;//访问标志  
-    u2 this_class;//类索引  
-    u2 super_class;//父类索引  
-    u2 interfaces_count;//接口计数器  
-    u2 interfaces[interfaces_count];//接口索引集合  
-    u2 fields_count;//字段计数器  
-    field_info fields[fields_count];//字段表  
-    u2 methods_count;//方法计数器  
-    method_info methods[methods_count];//方法表  
-    u2 attributes_count;//属性表计数器  
-    attribute_info attributes[attributes_count];//属性表集合  
-}  
-</code></pre><p>无论是无符号数还是表，当需要描述的同一类型但是数量不定的多个数据时，经常会使用一个前置的容量计数器加若干个连续的数据项的形式（比如说一个类可能实现了多个接口，这时候需要一个计数器来指定接口的数量），这时候称这一系列连续的某一类型的数据为某一类型的集合。上面的文件格式是固定的，每个数据项的顺序，占用字节数都是被严格限定的，不允许改变。</p>
-<p>1.魔数：class文件头四个字节代表魔数，它的作用是用于确定该文件是一个能被虚拟机接受的class文件,其值为0xCAFEBABE.</p>
-<p>2.版本：魔数后四个字节代表class文件的版本号，其中前两个字节代表次版本号，后两个字节代表主版本号。高版本的jdk能向下兼容以前版本的class文件，但不能运行以后版本的class文件。</p>
-<p>3.常量池：主版本之后的是常量池入口，常量池是class文件结构中与其他项目关联最多的数据类型，也是占用class文件空间最大的数据项目之一，同时还是在class文件中第一个出现的表类型的数据项目。因为常量池中常量数量不固定，所以在常量池入口前需要放置一个计数器，占用两个字节。比如如果该位置的值为0x0016,那就代表常量池中有21项常量（从1开始），第0项空出来是为了满足后面某些指向常量池的索引值的数据在特定情况下需要表达”不引用任何一个常量池项目“的意思，这种情况就可以把索引置为0来表示。class文件结构只有常量池的容量计数器是从1开始的，其他集合类型都是从0开始的。<br>    常量池中主要存放两类数据：字面量和符号引用；<br>（1）字面量：比如文本字符串，被声明为final的常量值等。<br>（2）符号引用：包括类和接口的权限定名，字段的名称和描述符，方法的名称和描述符。</p>
-<p>4.访问标志（access_flags）：常量池之后，紧接着的两个字节代表访问标志，这个标志用于识别一些类或者接口层次的访问信息（比如这个class是否是public是否是final等等)。</p>
-<p>5.类索引，父类索引，接口索引：类索引和父类索引都是一个u2类型的数据，而接口索引集合时一组u2类型的数据的集合，class文件中由这三项数据来确定这个类的继承关系。类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名（除了kava.lang.Object以外所有类的父类索引均不为0）。接口索引集合用来描述这个类实现了哪些接口。<br>    类索引和父类索引用两个u2类型的索引值表示，它们各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过CONSTANT_Class_info类型的常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
-<p>6.字段表集合：字段表集合用于描述接口或者类中声明的变量。字段包括了类级变量或者实例级变量，但是不包括方法内部声明的变量。</p>
-<p>7.方法表集合：内容跟属性表集合基本一致</p>
-<p>8.属性表集合：在class文件、字段表、方法表中都可以携带字节的属性表集合，用于描述某些场景专有的信息。属性表中的数据项目不需要有严格的顺序，java虚拟机在运行时会自动的忽略掉不认识的属性，其中系统预定义了9种虚拟机应该识别的属性，</p>
-<p>连接：<br><a href="http://blog.csdn.net/kobejayandy/article/details/39620833" target="_blank" rel="external">http://blog.csdn.net/kobejayandy/article/details/39620833</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2872,8 +2809,8 @@ false
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">69</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -2881,7 +2818,7 @@ false
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -2890,7 +2827,7 @@ false
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -2941,7 +2878,7 @@ false
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
