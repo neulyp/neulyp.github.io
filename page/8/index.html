@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,8 +244,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/21/如何声明数组及push-pop-shift-unshift操作/" itemprop="url">
-                  如何声明数组及push,pop,shift,unshift操作
+                <a class="post-title-link" href="/2015/11/21/js百分数/" itemprop="url">
+                  js百分数
                 </a>
               
             
@@ -257,31 +257,12 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
               2015-11-21
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -306,12 +287,17 @@
 
       
         
-          <p>#如何声明数组及push,pop,shift,unshift操作<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/21/如何声明数组及push-pop-shift-unshift操作/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
+          
+            <a id="more"></a>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+Number.prototype.toPercent = function(){
+return (Math.round(this * 10000)/100).toFixed(2) + &apos;%&apos;;
+}
+var A=0.35897, B=0.25554;
+ alert([A, A.toPercent(), B, B.toPercent()].join(&apos;\n&apos;));
+&lt;/script&gt;
+</code></pre>
+          
         
       
     </div>
@@ -372,7 +358,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-11-19T02:21:53+08:00" content="2015-11-19">
               2015-11-19
             </time>
@@ -384,7 +370,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/生活/" itemprop="url" rel="index">
@@ -424,7 +410,7 @@
           <p>随笔<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/11/19/北京的夜/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
         
@@ -499,7 +485,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">72</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -507,7 +493,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -516,7 +502,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">34</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -567,7 +553,7 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
