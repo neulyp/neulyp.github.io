@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-24T05:23:03.860Z</updated>
+  <updated>2016-12-26T12:55:00.701Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,77 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pat1011</title>
+    <link href="http://yoursite.com/2016/12/26/pat1011/"/>
+    <id>http://yoursite.com/2016/12/26/pat1011/</id>
+    <published>2016-12-26T12:50:35.000Z</published>
+    <updated>2016-12-26T12:55:00.701Z</updated>
+    
+    <content type="html"><![CDATA[<p>1011.World Cup Betting (20)</p>
+<p>With the 2010 FIFA World Cup running, football fans the world over were becoming increasingly excited as the best players from the best teams doing battles for the World Cup trophy in South Africa. Similarly, football betting fans were putting their money where their mouths were, by laying all manner of World Cup bets.</p>
+<p>Chinese Football Lottery provided a “Triple Winning” game. The rule of winning was simple: first select any three of the games. Then for each selected game, bet on one of the three possible results – namely W for win, T for tie, and L for lose. There was an odd assigned to each result. The winner’s odd would be the product of the three odds times 65%.</p>
+<p>For example, 3 games’ odds are given as the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> W    T    L</div><div class="line">1.1  2.5  1.7</div><div class="line">1.2  3.0  1.6</div><div class="line">4.1  1.2  1.1</div></pre></td></tr></table></figure>
+<p>To obtain the maximum profit, one must buy W for the 3rd game, T for the 2nd game, and T for the 1st game. If each bet takes 2 yuans, then the maximum profit would be <code>(4.1*3.0*2.5*65%-1)*2 = 37.98</code> yuans (accurate up to 2 decimal places).</p>
+<p>Input</p>
+<p>Each input file contains one test case. Each case contains the betting information of 3 games. Each game occupies a line with three distinct odds corresponding to W, T and L.</p>
+<p>Output</p>
+<p>For each test case, print in one line the best bet of each game, and the maximum profit accurate up to 2 decimal places. The characters and the number must be separated by one space.</p>
+<p>Sample Input</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.1 2.5 1.7</div><div class="line">1.2 3.0 1.6</div><div class="line">4.1 1.2 1.1</div></pre></td></tr></table></figure>
+<p>Sample Output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T T W 37.98</div></pre></td></tr></table></figure>
+<p>思路：属于简单送分题。按照思路，直接写程序就好。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t11</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		String[] s=&#123;<span class="string">"W"</span>,<span class="string">"T"</span>,<span class="string">"L"</span>&#125;;</div><div class="line">		String[] ss=<span class="keyword">new</span> String[<span class="number">3</span>];</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">double</span> sum=<span class="number">1</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</div><div class="line">			<span class="keyword">double</span> x=<span class="number">0</span>;</div><div class="line">			<span class="keyword">int</span> index=<span class="number">0</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</div><div class="line">				<span class="keyword">double</span> t=sc.nextDouble();</div><div class="line">				<span class="keyword">if</span>(x&lt;t)&#123;</div><div class="line">					x=t;</div><div class="line">					index=j;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			ss[i]=s[index];</div><div class="line">			sum*=x;	</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">for</span>(String str:ss)</div><div class="line">			System.out.print(str+<span class="string">" "</span>);</div><div class="line">		System.out.printf(<span class="string">"%.2f"</span>,(sum*<span class="number">0.65</span>-<span class="number">1</span>)*<span class="number">2</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1011.World Cup Betting (20)&lt;/p&gt;
+&lt;p&gt;With the 2010 FIFA World Cup running, football fans the world over were becoming increasingly excited 
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pat1010</title>
+    <link href="http://yoursite.com/2016/12/26/pat1010/"/>
+    <id>http://yoursite.com/2016/12/26/pat1010/</id>
+    <published>2016-12-26T12:43:07.000Z</published>
+    <updated>2016-12-26T12:50:14.406Z</updated>
+    
+    <content type="html"><![CDATA[<p>1010.Radix (25)</p>
+<p>Given a pair of positive integers, for example, 6 and 110, can this equation 6 = 110 be true? The answer is “yes”, if 6 is a decimal number and 110 is a binary number.</p>
+<p>Now for any pair of positive integers N1 and N2, your task is to find the radix of one number while that of the other is given.</p>
+<p>Input Specification:</p>
+<p>Each input file contains one test case. Each case occupies a line which contains 4 positive integers:<br>N1 N2 tag radix<br>Here N1 and N2 each has no more than 10 digits. A digit is less than its radix and is chosen from the set {0-9, a-z} where 0-9 represent the decimal numbers 0-9, and a-z represent the decimal numbers 10-35. The last number “radix” is the radix of N1 if “tag” is 1, or of N2 if “tag” is 2.</p>
+<p>Output Specification:</p>
+<p>For each test case, print in one line the radix of the other number so that the equation N1 = N2 is true. If the equation is impossible, print “Impossible”. If the solution is not unique, output the smallest possible radix.</p>
+<p>Sample Input 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">6 110 1 10</div></pre></td></tr></table></figure></p>
+<p>Sample Output 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2</div></pre></td></tr></table></figure></p>
+<p>Sample Input 2:<br><figure class="highlight plain"><figcaption><span>ab 1 2```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Sample Output 2:</div><div class="line">```Impossible</div></pre></td></tr></table></figure></p>
+<p>思路：如果a等于b，第二个进制数应该大于b中最大的数字，小于等于a的值+1。并且基数有可能很大，所以要声明long。</p>
+<p>解答：<br>C++版本</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;math.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;functional&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> uLL;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">1</span>&lt;&lt;<span class="number">30</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e5</span> + <span class="number">50</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">toint</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> ans;</div><div class="line">	<span class="keyword">if</span>(c &gt; <span class="string">'9'</span>) ans = c-<span class="string">'a'</span>+<span class="number">10</span>;</div><div class="line">	<span class="keyword">else</span> ans = c-<span class="string">'0'</span>;</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">uLL <span class="title">change</span><span class="params">(<span class="built_in">string</span> s, uLL r)</span></span>&#123;</div><div class="line">	uLL ans = <span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; s[i]; i++)  ans = ans*r + toint(s[i]);</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">findmax</span><span class="params">(<span class="built_in">string</span> s)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; s[i]; i++) <span class="keyword">if</span>(ans &lt; toint(s[i])) ans = toint(s[i]);</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> tag,r;</div><div class="line">	uLL x,y;</div><div class="line">	<span class="built_in">string</span> a,b;</div><div class="line">	<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b&gt;&gt;tag&gt;&gt;r;</div><div class="line">	<span class="keyword">if</span>(tag==<span class="number">2</span>) swap(a,b);</div><div class="line">	x = change(a,r);</div><div class="line">	<span class="keyword">for</span>(uLL l=findmax(b)+<span class="number">1</span>, r = x+<span class="number">1</span>; l &lt;= r; )&#123;</div><div class="line">		uLL m = l+r &gt;&gt; <span class="number">1</span>;</div><div class="line">		y = change(b,m);</div><div class="line">		<span class="keyword">if</span>(y==x) &#123; <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,m); <span class="keyword">return</span> <span class="number">0</span>; &#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(y&gt;x) r = m<span class="number">-1</span>;</div><div class="line">		<span class="keyword">else</span> l = m+<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Impossible\n"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div></pre></td></tr></table></figure>
+<p>java测试用例没有全部通过。我不知道什么原因。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t10_2</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">toint</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> c&gt;<span class="string">'9'</span>?c-<span class="string">'a'</span>+<span class="number">10</span>:c-<span class="string">'0'</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">long</span> <span class="title">change</span><span class="params">(String s,<span class="keyword">long</span> radix)</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> ans=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">			ans=ans*radix+toint(s.charAt(i));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> ans;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">findmax</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> ans=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)</div><div class="line">			<span class="keyword">if</span>(ans&lt;toint(s.charAt(i))) ans=toint(s.charAt(i));</div><div class="line">		<span class="keyword">return</span> ans;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="keyword">long</span> tag,r;</div><div class="line">	<span class="keyword">static</span> String a,b;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">long</span> x,y;</div><div class="line">		Scanner sc=<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		a=sc.next();</div><div class="line">		b=sc.next();</div><div class="line">		tag=sc.nextInt();</div><div class="line">		r=sc.nextLong();</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">if</span>(tag==<span class="number">2</span>)&#123;</div><div class="line">			String tmp=a;a=b;b=tmp;</div><div class="line">		&#125;</div><div class="line">		x=change(a, r);		</div><div class="line">		<span class="keyword">long</span> left=findmax(b)+<span class="number">1</span>,right=x+<span class="number">1</span>;</div><div class="line">		<span class="keyword">while</span>(left&lt;=right)&#123;</div><div class="line">			<span class="keyword">long</span> middle=(left+right)&gt;&gt;<span class="number">1</span>;</div><div class="line">			y=change(b, middle);</div><div class="line">			<span class="keyword">if</span>(x==y)&#123;System.out.println(middle);  <span class="keyword">return</span>;&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(y&gt;x) right=middle-<span class="number">1</span>;</div><div class="line">			<span class="keyword">else</span> left=middle+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		System.out.println(<span class="string">"Impossible"</span>);</div><div class="line">		<span class="keyword">return</span> ;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1010.Radix (25)&lt;/p&gt;
+&lt;p&gt;Given a pair of positive integers, for example, 6 and 110, can this equation 6 = 110 be true? The answer is “yes”,
+    
+    </summary>
+    
+    
+      <category term="pat" scheme="http://yoursite.com/tags/pat/"/>
+    
+  </entry>
   
   <entry>
     <title>memcached</title>
@@ -1374,140 +1445,6 @@ forward()
     
     
       <category term="javaee" scheme="http://yoursite.com/tags/javaee/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hadoop分布式文件系统详解</title>
-    <link href="http://yoursite.com/2016/12/06/hadoop%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2016/12/06/hadoop分布式文件系统详解/</id>
-    <published>2016-12-06T13:11:33.000Z</published>
-    <updated>2016-12-10T16:08:09.342Z</updated>
-    
-    <content type="html"><![CDATA[<p>###1.大数据概念 ###</p>
-<blockquote>
-<p>麦肯锡说：大数据指的是所涉及的数据集规模已经超过了传统<br>数据库软件的获取、存储、管理和分析的能力。<br>随着技术的不断发展，符合大数据标准的数据集容量也会增长。<br>并且大数据的定义随着不同行业也有变化。</p>
-<p> IBM说：可以用3个特征相结合来定义大数据：<strong>数量（Volume），种类(Variety)，速度(Velocity)</strong>，即庞大容量，极快速度和种类丰富的数据。</p>
-</blockquote>
-<p>大数据的特征：大量化，快速化，多样化，价值化</p>
-<p>###2.数据库VS大数据 ###</p>
-<ul>
-<li>1、数据规模： “池塘”的处理对象通常以MB 为基本单位，而“大<br>  海”则常常以GB，甚至是TB、PB 为基本处理单位。</li>
-<li>2、数据类型：过去的“池塘”中，数据的种类单一，往往仅仅有一<br>  种或少数几种，这些数据又以结构化数据为主。而在“大海”中，数<br>  据的种类繁多，数以千计，而这些数据又包含着结构化、半结构化以<br>  及非结构化的数据，并且半结构化和非结构化数据所占份额越来越大<br>  。</li>
-<li>3、模式(Schema)和数据的关系：传统的数据库都是先有模式，然后<br>  才会产生数据。这就好比是先选好合适的“池塘”，然后才会向其中<br>  投放适合在该“池塘”环境生长的“鱼”。而大数据时代很多情况下<br>  难以预先确定模式，模式只有在数据出现之后才能确定，且模式随着<br>  数据量的增长处于不断的演变之中。这就好比先有少量的鱼类，随着<br>  时间推移，鱼的种类和数量都在不断的增长。鱼的变化会使大海的成<br>  分和环境处于不断的变化之中。</li>
-<li>4、处理对象：在“池塘”中捕鱼，“鱼”仅仅是其捕捞对象。而在<br>  “大海”中，“鱼”除了是捕捞对象之外，还可以通过某些“鱼”的<br>  存在来判断其他种类的“鱼”是否存在。也就是说传统数据库中数据<br>  仅作为处理对象。而在大数据时代，要将数据作为一种资源来辅助解<br>  决其他诸多领域的问题。</li>
-<li>5、处理工具：捕捞“池塘”中的“鱼”，一种渔网或少数几种基本<br>  就可以应对，也就是所谓的One Size Fits All。但是在“大海”中，<br>  不可能存在一种渔网能够捕获所有的鱼类，也就是说No Size Fits All</li>
-</ul>
-<p>###3.Hadoop###</p>
-<ul>
-<li>一个分布式文件系统和并行执行环境（框架）</li>
-<li>让用户便捷地处理海量数据</li>
-<li>Apache软件基金会下面的一个开源项目</li>
-<li>目前Yahoo!是最主要的贡献者</li>
-</ul>
-<p>hadoop的特点：</p>
-<ul>
-<li>扩容能力（Scalable）：能可靠地（reliably）存储和处理千兆字节（PB）数据。</li>
-<li>成本低（Economical）：可以通过普通机器组成的服务器群来分发以及处理数据。这些服务器群总计可达数千个节点。</li>
-<li>高效率（Efficient）：通过分发数据，hadoop可以在数据所在的节点上并行地（parallel）处理它们，这使得处理非常的快速。</li>
-<li>可靠性（Reliable）：hadoop能自动地维护数据的多份复制，并且在任务失败后能自动地重新部署（redeploy）计算任务。</li>
-</ul>
-<p>hadoop生态系统：<br><img src="http://i.imgur.com/kFpATOP.png" alt=""></p>
-<p>###3.Hdfs文件系统架构###</p>
-<p>设计目标：</p>
-<ul>
-<li>为以流式数据访问模式存储超大文件而设计的文件系统<ul>
-<li>超大文件<br>指的是几百MB，几百GB，几百TB，甚至几百PB</li>
-<li>流式数据访问<br>HDFS建立的思想是：一次写入、多次读取模式是最高效的。</li>
-<li>商用硬件<br>HDFS不需要运行在昂贵并且高可靠的硬件上。</li>
-</ul>
-</li>
-</ul>
-<p>设计基础与目标：</p>
-<ul>
-<li>硬件错误是常态，因此需要冗余。</li>
-<li>程序采用“数据就近”原则分配节点执行。</li>
-</ul>
-<p>hdfs体系：<br>hdfs是一个主从结构的体系，一个hdfs集群由以下部分组成。<br>1.namenode： 一个，用来管理文件的名字空间和调节客户端访问文件的主服务器。<br>2.datanode：一个或多个，用来管理存储。提供真是文件数据的存储服务。</p>
-<p><img src="http://i.imgur.com/pdHbox9.png" alt=""></p>
-<p>1.机架：rack</p>
-<p>2.数据块：block 64M<br>hadoop fsck / -files -blocks</p>
-<p>3.元数据节点：namenode<br>namenode 决定是否将文件映射到datanode的复制块上，对于最常见的3个复制快，第一个复制快存储在同一个机架上的不同节点上，最后一个复制快存储在不同机器上的某个节点上。</p>
-<p>主要功能：</p>
-<p>namenode提供名称查询服务。<br>namenode保存metadate信息。具体包括;文件owership和permissions；文件包含哪些块；block保存在哪个datanode上。<br>namenode的metadate信息在启动后会加载到内存。</p>
-<p>4.数据节点：datanode</p>
-<ul>
-<li>保存block，每个快对应一个元数据信息文件，这个文件主要描述这个块属于哪个文件，第几个块等信息。</li>
-<li>启动datanode线程的时候会向namenode回报block信息。</li>
-<li>通过向namenode发送心跳保持与其连系（3s一次），如果namenode10分钟没有收到datanode的心跳，认为其已经lost，并将其上的block复制到其他的datanode。</li>
-</ul>
-<p>5.辅助元数据节点：secondarynamenode</p>
-<p><img src="http://i.imgur.com/Lrjf9Tm.png" alt=""><br>辅助元数据节点，会周期性的将editslog文件中记录对hdfs的操作合并到一个fsimage中，然后清空editslog。namenode重启就会加载最新的fsimage文件，并重新创建一个editslog文件来记录hdfs。</p>
-<p>6.名字空间 namespace</p>
-<p>7.数据复制</p>
-<p>8.快备份原理</p>
-<p><img src="http://i.imgur.com/ortzuIT.png" alt=""></p>
-<p>9.机架感知</p>
-<p>###4.hadoop rpc机制###</p>
-<p>一般的RPC，都要考虑两个问题。对象调用方式和序列化反序列化机制<br>hadoop rpc使用java动态代理和反射实现了对象调用方式，客户端到服务器数据的序列化和反序列化由hadoop框架或用火自己实现，也就是数据组装时定制的。<br><img src="http://i.imgur.com/BWCh7o4.png" alt=""></p>
-<p>文件的读和写<br><img src="http://i.imgur.com/EmUaCxm.png" alt=""></p>
-<p>客户端联系NameNode,得到所有数据块信息，以及数据块对应的所有数据服务器的位置信息<br>尝试从某个数据块对应的一组数据服务器中选出一个，进行连接<br>数据被一个包一个包发送回客户端，等到整个数据块的数据都被读取完了，就会断开此链接，尝试连接下一个数据块对应的数据服务器，整个流程，依次如此反复，直到所有想读的都读取完了为止。<br>Namenode并不实际参与数据传输</p>
-<p><img src="http://i.imgur.com/6M44r2f.png" alt=""></p>
-<p>客户端联系namenode，在namenode命名空间中创建一个新文件，此时，namenode会检查文件是否存在和客户端是否有权限创建新文件，检查通过，就会创建一条记录。<br>然后客户端写文件时，会取得合适的3个datanodes形成一个管线DataStreamer将数据包流式的传输到管线中第一个datanode，第一个datanode存储数据包并发送的第二个datanode, 第二个datanode存储数据包并发送的第三个datanode。<br>当收到管道中所有datanodes的确认信息后对应数据包才会从确认队列中删除。<br>如此反复，直到所有的数据包，都写完，最后向namenode报告写入完成。</p>
-<p>###4.hadoop ha机制###<br>如果namenode节点坏掉，将会影响整个集群。 hdfs的高可用性（high availability ha）就可以解决这个问题。通过提供选择运行在同一个集群的一个热备份的‘主/备’两个冗余的namenode，允许在机器宕机或系统维护的时候，快速的转移到另一个namenode。</p>
-<p><img src="http://i.imgur.com/mdwV6S7.png" alt=""></p>
-<p>###5.hdfs federation机制###</p>
-<p>简单来说， hdfs federation 就是使得hdfs支持多个名字空间，并且允许在hdfs中同时存在多个namenode</p>
-<p>###6.hdfs处理文件的命令###</p>
-<p>hadoop fs -mkdir /input<br>hadoop fs -ls /input<br>hadoop fs - put test.txt /input/<br>hadoop fs -text /input/test.txt<br>hadoop fs -get /input/text.txt<br>hadoop fs -rm /input/text.txt</p>
-<p>###7.java api 接口###</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;###1.大数据概念 ###&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;麦肯锡说：大数据指的是所涉及的数据集规模已经超过了传统&lt;br&gt;数据库软件的获取、存储、管理和分析的能力。&lt;br&gt;随着技术的不断发展，符合大数据标准的数据集容量也会增长。&lt;br&gt;并且大数据的定义随着不同行业
-    
-    </summary>
-    
-    
-      <category term="hadoop" scheme="http://yoursite.com/tags/hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>最近点问题</title>
-    <link href="http://yoursite.com/2016/11/30/%E6%9C%80%E8%BF%91%E7%82%B9%E9%97%AE%E9%A2%98/"/>
-    <id>http://yoursite.com/2016/11/30/最近点问题/</id>
-    <published>2016-11-30T04:55:50.000Z</published>
-    <updated>2016-11-30T05:16:15.782Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>最近点对问题定义：已知上m个点的集合，找出对接近的一对点。</p>
-<p>在二维空间里，可用分治法求解最近点对问题。预处理：分别根据点的x轴和y轴坐标进行排序，得到X和Y,很显然此时X和Y中的点就是S中的点。</p>
-<p>情况（1）：点数小于等于三时：</p>
-<p><img src="http://i.imgur.com/kyHpBOQ.png" alt=""></p>
-<p>情况（2）：点数大于三时：</p>
-<p>首先划分集合S为SL和SR，使得SL中的每一个点位于SR中每一个点的左边，并且SL和SR中点数相同。分别在SL和SR中解决最近点对问题，得到DL和DR，分别表示SL和SR中的最近点对的距离。令d=min(DL,DR)。如果S中的最近点对(P1,P2)。P1、P2两点一个在SL和一个在SR中，那么P1和P2一定在以L为中心的间隙内，以L-d和L+d为界，如下图所示：</p>
-<p> <img src="http://i.imgur.com/qC1h3Tu.png" alt="">             </p>
-<p>如果在SL中的点P和在SR中的点Q成为最近点对，那么P和Q的距离必定小于d。因此对间隙中的每一个点，在合并步骤中，只需要检验yp+d和yp-d内的点即可。</p>
-<ul>
-<li>步骤1：根据点的y值和x值对S中的点排序。</li>
-<li>步骤2：找出中线L将S划分为SL和SR</li>
-<li>步骤3：将步骤2递归的应用解决SL和SR的最近点对问题，并令d=min(dL,dR)。</li>
-<li>步骤4：将L-d~L+d内的点以y值排序，对于每一个点(x1,y1)找出y值在y1-d~y1+d内的所有点，计算距离为d’。如果d’小于d，令d=d’，最后的d值就是答案。</li>
-</ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">package cloestpoint;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Arrays;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.Comparator;</div><div class="line"></div><div class="line">public class CloestPair &#123;</div><div class="line">	private static class Point&#123;</div><div class="line">		private double x;</div><div class="line">		private double y;</div><div class="line">		public Point()&#123;&#125;</div><div class="line">		public Point(double x,double y)&#123;this.x=x;this.y=y;&#125;	</div><div class="line">	&#125;</div><div class="line">	private static double distance(Point p1,Point p2)&#123; </div><div class="line">		return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));</div><div class="line">	&#125;</div><div class="line">		</div><div class="line">	public static double minDistance(Point[] p,int l,int r)&#123;</div><div class="line">		if(l==r)&#123;</div><div class="line">			return Double.MAX_VALUE;</div><div class="line">		&#125;</div><div class="line">		if(l+1==r)&#123;</div><div class="line">			return distance(p[l], p[r]);</div><div class="line">		&#125;</div><div class="line">		int center=(r-l)/2;</div><div class="line">		double dis1=minDistance(p, l, center);</div><div class="line">		double dis2=minDistance(p, center+1, r);</div><div class="line">		double dis=Math.min(dis1, dis2);</div><div class="line">		ArrayList&lt;Point&gt; nearPoints = new ArrayList&lt;&gt;(); </div><div class="line">		for(Point point : p)</div><div class="line">			if(Math.abs(p[center].x-point.x)&lt;=dis)</div><div class="line">				nearPoints.add(point);</div><div class="line">		Collections.sort(nearPoints, new Comparator&lt;Point&gt;() &#123;</div><div class="line">			@Override</div><div class="line">			public int compare(Point o1, Point o2) &#123;</div><div class="line">				if(o1.y&lt;o2.y) return -1;</div><div class="line">				if(o1.y&gt;o2.y) return 1;</div><div class="line">				if(o1.x&lt;o2.x) return -1;</div><div class="line">				if(o1.x&gt;o2.x) return 1;</div><div class="line">				return 0;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;);</div><div class="line">		ArrayList&lt;Point&gt; nearL = new ArrayList&lt;&gt;(); </div><div class="line">		ArrayList&lt;Point&gt; nearR = new ArrayList&lt;&gt;();</div><div class="line">		</div><div class="line">		for(int i=0;i&lt;nearPoints.size();i++)&#123; </div><div class="line">			if(nearPoints.get(i).x&lt;p[center].x)&#123;</div><div class="line">				nearL.add(nearPoints.get(i));</div><div class="line">			&#125;else&#123;</div><div class="line">				nearR.add(nearPoints.get(i));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		//有问题</div><div class="line">		for(int i=0;i&lt;nearL.size();i++)&#123;</div><div class="line">			for(int j=0;j&lt;nearR.size();j++)&#123;</div><div class="line">				if(Math.abs(nearR.get(j).y-nearL.get(i).y)&lt;dis)&#123;</div><div class="line">					double d=distance(nearL.get(i), nearR.get(j));</div><div class="line">					dis=d&lt;dis?d:dis;</div><div class="line">				&#125;else&#123;</div><div class="line">					break;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return dis;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		Point p1= new Point(-2, 1);</div><div class="line">		Point p2= new Point(-1, 3);</div><div class="line">		Point p3= new Point(1, 2);</div><div class="line">		Point p4= new Point(3, 3);</div><div class="line">		Point[] ps=&#123;p1,p2,p3,p4&#125;;</div><div class="line">		System.out.println(minDistance(ps, 0,ps.length-1 ));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h3&gt;&lt;p&gt;最近点对问题定义：已知上m个点的集合，找出对接近的一对点。&lt;/p&gt;
-&lt;p&gt;在二维空间里，可用分治法求解最近点对问题。预处理：分别根据点的x轴
-    
-    </summary>
-    
-    
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
