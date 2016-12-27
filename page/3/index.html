@@ -244,6 +244,485 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/10/javaee7/" itemprop="url">
+                  Java EE 7 Tutorial分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-10T16:47:25+08:00" content="2016-12-10">
+              2016-12-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>##分析要求##</p>
+<p>install Java EE7.0 JDK<br>learn Java EE 7 Tutorial，run and analysis Javae EE7.0 Samples，include</p>
+<ul>
+<li>Servlet 3.1<ul>
+<li>The Annotations Servlet Sample Application</li>
+<li>The Absolute Ordering of Web Fragments Servlet …</li>
+<li>The File Upload Servlet Sample Application</li>
+</ul>
+</li>
+<li>JAX-RS 2.0<ul>
+<li>The Asynchronous Chat JAX-RS Sample Application</li>
+</ul>
+</li>
+<li>JSON Processing 1.0<ul>
+<li>The JAX-RS JSONP Sample Application</li>
+</ul>
+</li>
+<li>WebSocket 1.0<ul>
+<li>The Echo WebSocket Sample Application</li>
+<li>The Auction WebSocket Sample Application</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://i.imgur.com/Ev34ZJs.png" alt=""></p>
+<p>##第一章：java ee7 总览##</p>
+<p>JavaEE 7提供了一个完整、全面、集成的堆栈来帮助你构建企业和Web应用程序。</p>
+<p>###javaEE 容器###</p>
+<p>主要就是JSF（JavaServer Faces）和EJB（Enterprise Java Bean）两大部分，JSF依赖于EJB，并且是重量级的，JSF使用了一大堆组件控制页面，跟Struts2的标签差不多；EJB目前做得不错，相比Spring，EJB完全不需要作任何配置，内部包含JPA规范，可以和Hibernate无缝接入，但是学习曲线依然很大，并且对服务器有要求，用tomcat做服务器还需要和JBoss搭配，新手学习可以使用Glassfish。</p>
+<p><img src="http://i.imgur.com/HOEo1LM.png" alt=""></p>
+<p>###WEB 容器###</p>
+<p>这部分内容比较多，JavaEE 7新添加的为下图棕黄色的部分，即WebSocket、Concurrency Utilities、Batch、JSON-P，新添加部分主要是为HTML5提供更好的伸缩性。</p>
+<p><img src="http://i.imgur.com/Yp8A2E6.png" alt=""></p>
+<p>###名词 概念###</p>
+<p>JWS：即Java Web Service,指与webservice相关的JavaEE技术部分，webservice是一种基于XML的独立的、跨平台的、互操作的应用程序，XML又包含XSD、DTD、XPath等相关技术，这个撇开不说。webservice平台元素主要有SOAP（简易对象访问协议）、UDDI（通用描述、发现及整理）、WSDL（WS描述语言）。</p>
+<p>JAX：即Java Xml，类似地JAXB（Java Xml Binding）</p>
+<p>目前JWS主要有：</p>
+<ul>
+<li>JAX-WS 全称JavaTM API forXML-Based Web Services 又叫JAX-RPC（远程调用），顾名思义就是基于Web Services</li>
+<li>JAX-RS 全称JavaTM API forRESTful Web Services 即使用REST风格</li>
+<li>JAXB</li>
+<li>JAXR</li>
+<li>SAAJ</li>
+<li>STAX</li>
+</ul>
+<p>网上说关于JAX-WS与JAX-RS有这么说的： 两者是不同风格的SOA架构。前者以动词为中心，指定的是每次执行函数。而后者以名词为中心，每次执行的时候指的是资源。</p>
+<p>感觉这个说法比较靠谱，JAX-WS是<strong>面向消息</strong>的，每次请求的时候指定了请求的方法。JAX-RS是<strong>面向资源</strong>的。后则将网络上的东西当做一种资源，每次请求都是对该资源进行操作，比如对资源的增删查改。</p>
+<p>CDI：即Contexts Dependency Injection，和Spring的IOC差不多的东西，就是可以在组件中通过注解注入上下文、请求和响应等。</p>
+<p>JTA：即Java Transaction API，使用过Hibernate和EJB的应该知道，就是事务处理，JTA依赖于所处的容器，如果不是分布式开发的话，我们一般使用本地事务，即是数据库本身的事务处理。</p>
+<p>PA：即Java Persistence API，就是最常用的持久化技术，原本属于EJB中的部分，EJB3.0之后分离出来，作为一个独立的规范。作为一种ORM技术，JPA提供了基本的统一标准。</p>
+<p>MS：即Java Message Service，和JDBC类似，提供了一个统一的API供其他厂商实现，主要用于客户机信息的交互，JMS主要有点到点和订阅/发布两种方式</p>
+<p>##第二章：servlet 3.1技术##</p>
+<p>本章主要分两部分来介绍servlet技术。</p>
+<p>第一部分讲解servlet的一些知识，主要参考17章：java servlet technology。主要包含以下内容：</p>
+<p>3.0新特性：</p>
+<ul>
+<li>开发的简易型<ul>
+<li>新增注解支持</li>
+</ul>
+</li>
+<li>可插拔性和可扩展性<ul>
+<li>Web 片段是将 web 应用程序逻辑分区为 servlet、servlet-mapping、servlet-filter、filter-mapping、servlet-listener 之类的元素及其子元素</li>
+</ul>
+</li>
+<li>异步支持<ul>
+<li>将新的 API 添加到 ServletRequest 和 ServletResponse，用于挂起、恢复和查询请求的状况、启用禁用和查询响应的状况。开发人员可以分别通过 requestSuspended(), requestResumed() 和 requestCompleted() 方法使用请求的 resume、suspend 和 complete 方法通知事件</li>
+</ul>
+</li>
+<li>安全性增强<ul>
+<li>Servlet3.0方案建议提供通过编程实现登录和注销功能。HTTPServletRequest 中添加的新 API 可以启用这项功能。HTTPServletRequest 的 login 方法使应用程序或者框架强制进行以容器为中介的验证。HTTPServletRequest 和 HTTPSession 的 logout 方法允许应用程序重置请求的验证状态</li>
+</ul>
+</li>
+<li>其它杂项变化</li>
+</ul>
+<p>3.1新特性：</p>
+<ul>
+<li>无阻塞 I/O</li>
+<li>协议升级</li>
+<li>安全性增强</li>
+</ul>
+<p>第二部分分析javaee 7 simples 下面的个例子。分为以下6个模块：</p>
+<ul>
+<li>最基本的操作实例<ul>
+<li>cookies</li>
+<li>error-mapping</li>
+<li>file-upload</li>
+</ul>
+</li>
+<li>servlet3中引入的注解的例子<ul>
+<li>servlet-filters</li>
+<li>event-listeners</li>
+</ul>
+</li>
+<li>注解与web.xml并存或分片处理的例子<ul>
+<li>metadata-complete</li>
+<li>web-fragment</li>
+</ul>
+</li>
+<li>异步请求处理<ul>
+<li>async-servlet</li>
+<li>nonblocking</li>
+</ul>
+</li>
+<li>安全验证<ul>
+<li>form-based-security</li>
+<li>servlet-security</li>
+</ul>
+</li>
+<li>资源打包<ul>
+<li>resource-packaging</li>
+</ul>
+</li>
+<li>协议操作</li>
+<li>protocol-handler</li>
+</ul>
+<h3 id="第一部分：servlet-3-1"><a href="#第一部分：servlet-3-1" class="headerlink" title="第一部分：servlet 3.1"></a>第一部分：servlet 3.1</h3><p>####2.1.1 what is a servlet? ####</p>
+<p>A servlet is a Java™ technology-based Web component, managed by a container,that generates dynamic content. —— from JSR315</p>
+<p><img src="http://i.imgur.com/t7UqWCg.png" alt=""></p>
+<p>The service() method is given an implementation in the HTTPServletbase class, where the doGet() and doPost() methods are called.</p>
+<p><img src="http://i.imgur.com/dQTarFP.png" alt=""></p>
+<p>####2.1.2 Servlet Lifecycle ####<br><img src="http://i.imgur.com/n3iYiRE.png" alt=""></p>
+<p>####2.1.3 writing service methods ####<br>servletrequest:</p>
+<p>ServletRequest接口中封装了客户请求信息，如客户请求方式、参数名和参数值、客户端正在使用的协议, 以及发出客户请求的远程主机信息等。</p>
+<p><img src="http://i.imgur.com/qfIhhsO.png" alt=""></p>
+<p>ServletResponse:</p>
+<p>Defines an object to assist a servlet in sending a response to the client. </p>
+<p><img src="http://i.imgur.com/0ETpjHg.png" alt=""></p>
+<p>####2.1.4 filtering requests and responses ####<br>Filters are Java components—very similar to servlets—that you can use to intercept and process requests before they are sent to the servlet, or to process responses after the servlet has completed, but before the response goes back to the client.</p>
+<p><img src="http://i.imgur.com/zqO4Q71.png" alt=""></p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destory()</li>
+</ul>
+<p>####2.1.5 invoking other web resources ####</p>
+<p>web组件能够直接或者间接的调用其他web资源。一个web组件间接地调用其他web资源通过把一个指向另一个web组件的url嵌入到返回客户端的内容中，当他被执行的时候，一个web组件直接的调用另一个资源或者包换另一个资源的内容或者只想另一个资源的请求。</p>
+<p><strong>RequestDispatcher</strong></p>
+<pre><code>include（request,response）
+forward()
+</code></pre><p>####2.1.6 accessing the web context ####</p>
+<p>web组件执行的context是一个实现servletContext接口的对象，你可以取出该对象通过getServletContext方法。web context子宫访问以下内容的访问方法：</p>
+<ul>
+<li>Initialization parameters</li>
+<li>Resources associated with the web context</li>
+<li>Object-valued attributes</li>
+<li>Logging capabilities</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">setAttribute(String name, Object object) </div><div class="line"> <span class="comment">//Binds an object to a given attribute name in this ServletContext.</span></div><div class="line">getAttribute(String name)</div><div class="line"><span class="comment">//Returns the servlet container attribute with the given name, or null if there is no attribute by that name.</span></div><div class="line">getRequestDispatcher(String path) </div><div class="line"><span class="comment">//Returns a RequestDispatcher object that acts as a wrapper for the resource located at the given path. </span></div><div class="line"> log(String msg) </div><div class="line"><span class="comment">//Writes the specified message to a servlet log file, usually an event log.  </span></div><div class="line">getRealPath(String path) </div><div class="line"><span class="comment">//Gets the real path corresponding to the given virtual path.</span></div></pre></td></tr></table></figure>
+<p>####2.1.7 maintaining client state ####</p>
+<p>http协议是无状态的。为了支持需要获取状态的应用，java servlet 技术提供了一个管理sessions的api和允许多种实现sessions的机制。</p>
+<p>getSession()：返还和request关联的session对象，没有的话，创建一个。<br>getSession(false)： 返回返还和request关联的session对象，没有的话，返回null<br>isNew(）//如果客户端还没有返回具有该sessionid的session，为true</p>
+<p>####2.1.8 uploading files with java servlet technology ####</p>
+<p>@MultipartConfig :支持一下属性</p>
+<ul>
+<li>location:文件系统中目录的绝对路径</li>
+<li>fileSizeThreshold:在文件被暂时存储在disk上，文件的自己额大小，默认是0字节。</li>
+<li>MaxFileSize:允许上传文件的最大大小</li>
+<li>maxRequestSize:最大允许一个multipart/form-data请求的数量。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@MultipartConfig</span>(location=<span class="string">"/tmp"</span>, fileSizeThreshold=<span class="number">1024</span>*<span class="number">1024</span>,</div><div class="line">maxFileSize=<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">5</span>, maxRequestSize=<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">5</span>*<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>Collection<part> getParts()</part></li>
+<li>Part getPart(String name)</li>
+</ul>
+<p>####2.1.9 Asynchronous Processing in Servlets ####</p>
+<p>使用asyncSupported属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebServlet</span>(urlPatterns=&#123;<span class="string">"/asyncservlet"</span>&#125;, asyncSupported=<span class="keyword">true</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123; ... &#125;</div></pre></td></tr></table></figure>
+<p><code>javax.servlet.AsyncContext</code>提供方法，这些方法包含你需要异步处理的功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> </span>&#123;</div><div class="line">...</div><div class="line">AsyncContext acontext = req.startAsync();</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/vc6RIea.png" alt=""></p>
+<p>####2.1.10 Nonblocking I/O ####</p>
+<p>java ee 对于servlets和filters提供非阻塞i/o ，当在异步模式下处理请求。下面的步骤总结了怎么使用非阻塞io来处理请求和写回复，在service方法中。</p>
+<ol>
+<li>Put the request in asynchronous mode as described in Asynchronous Processing.</li>
+<li>Obtain an input stream and/or an output stream from the request and response<br>objects in the service method.</li>
+<li>Assign a read listener to the input stream and/or a write listener to the output<br>stream.</li>
+<li>Process the request and the response inside the listener’s callback methods.</li>
+</ol>
+<p><img src="http://i.imgur.com/rgWh3iZ.png" alt=""></p>
+<h3 id="第二部分：-Examples-of-the-servlet"><a href="#第二部分：-Examples-of-the-servlet" class="headerlink" title="第二部分： Examples of the servlet"></a>第二部分： Examples of the servlet</h3><p>####2.2.1 Example 1：session-cookie-config ####</p>
+<p>这个例子展示了session的获取和cookie的获取。</p>
+<p>首先定义一个监听器，来初始化SessionCookieConfig对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebListener</span>()</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfigListener</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Receives notification that the web application initialization</div><div class="line">     * process is starting.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> sce The servlet context event</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</div><div class="line">        SessionCookieConfig scc =</div><div class="line">            sce.getServletContext().getSessionCookieConfig();</div><div class="line">        scc.setName(<span class="string">"MYJSESSIONID"</span>);</div><div class="line">        scc.setPath(<span class="string">"/myPath"</span>);</div><div class="line">        scc.setDomain(<span class="string">"mydomain"</span>);</div><div class="line">        scc.setComment(<span class="string">"myComment"</span>);</div><div class="line">        scc.setSecure(<span class="keyword">true</span>);</div><div class="line">        scc.setHttpOnly(<span class="keyword">true</span>);</div><div class="line">        scc.setMaxAge(<span class="number">123</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</div><div class="line">        <span class="comment">// Do nothing</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当接收到get请求的时候，我们通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebServlet</span>(urlPatterns = <span class="string">"/"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateSession</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse res)</span></span></div><div class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line"></div><div class="line">        req.getSession(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">        String sessionCookie = res.getHeader(<span class="string">"Set-Cookie"</span>);</div><div class="line">        <span class="keyword">if</span> (sessionCookie == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing Set-Cookie response header"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// name</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"MYJSESSIONID="</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing session id"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// comment</span></div><div class="line">       <span class="comment">/* if (sessionCookie.indexOf("Comment=myComment") == -1) &#123;</span></div><div class="line">            throw new ServletException("Missing cookie comment");</div><div class="line">        &#125;*/</div><div class="line"></div><div class="line">        <span class="comment">// domain</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"domain=mydomain"</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing cookie domain"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// path</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"path=/myPath"</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing cookie path"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// secure</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"Secure"</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing Secure attribute"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// http-only</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"HttpOnly"</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing HttpOnly attribute"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// max-age</span></div><div class="line">        <span class="keyword">if</span> (sessionCookie.indexOf(<span class="string">"Max-Age=123"</span>) == -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServletException(<span class="string">"Missing max-age"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        res.getWriter().println(sessionCookie);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2-2-2-Example-2：注解的使用"><a href="#2-2-2-Example-2：注解的使用" class="headerlink" title="2.2.2 Example 2：注解的使用"></a>2.2.2 Example 2：注解的使用</h4><p>TestServlet分析：<br>Servlet3.1规范大量使用注解来声明Servlet中，过滤器，监听器和安全性。配置文件web.xml中现在是可选的。</p>
+<p>servlet：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletConfig;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebInitParam;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * This class illustrate WebServlet annotation</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Shing Wai Chan</div><div class="line"> */</div><div class="line"><span class="meta">@WebServlet</span>(name = <span class="string">"TestServlet"</span>, urlPatterns = &#123;<span class="string">"/"</span>&#125;,</div><div class="line">            initParams = &#123;<span class="meta">@WebInitParam</span>(name = <span class="string">"message"</span>, value = <span class="string">"my servlet"</span>)&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String listenerMessage = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">        <span class="keyword">super</span>.init(config);</div><div class="line">        listenerMessage = (String) config.getServletContext().getAttribute(<span class="string">"listenerMessage"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse res)</span></span></div><div class="line">            <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">        PrintWriter writer = res.getWriter();</div><div class="line">        writer.write(<span class="string">"Hello, "</span> + getInitParameter(<span class="string">"message"</span>) + <span class="string">", "</span>);</div><div class="line">        writer.write(req.getAttribute(<span class="string">"filterMessage"</span>) + <span class="string">", "</span>);</div><div class="line">        writer.write(listenerMessage + <span class="string">".\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>拦截器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebFilter</span>(filterName = <span class="string">"TestFilter"</span>, urlPatterns = &#123;<span class="string">"/"</span>&#125;,</div><div class="line">           initParams = &#123;<span class="meta">@WebInitParam</span>(name = <span class="string">"mesg"</span>, value = <span class="string">"my filter"</span>)&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</div><div class="line"></div><div class="line">    String mesg = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">        mesg = filterConfig.getInitParameter(<span class="string">"mesg"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse res,</span></span></div><div class="line">            FilterChain chain) <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">        req.setAttribute(<span class="string">"filterMessage"</span>, mesg);</div><div class="line">        chain.doFilter(req, res);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>监听器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebListener</span>()</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServletContextListener</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</div><div class="line">        ServletContext context = sce.getServletContext();</div><div class="line">        String msg = <span class="string">"my listener"</span>;</div><div class="line">        context.setAttribute(<span class="string">"listenerMessage"</span>, msg);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent sce)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果:<br><img src="http://i.imgur.com/ZRBC2kM.png" alt=""></p>
+<h4 id="2-2-3-Example-3：文件上传"><a href="#2-2-3-Example-3：文件上传" class="headerlink" title="2.2.3 Example 3：文件上传"></a>2.2.3 Example 3：文件上传</h4><p>解释：<br>一个file是一个part，并且filename可以自己写方法解析，也可以直接调用方法part.getSubmittedFileName()。<br>写文件到本地，可以直接调用write（）方法，也可以自己实现。总的来说是一个很方便的功能。</p>
+<p>@WebServlet标注使用URL模式属性来定义的servlet映射。</p>
+<p>@MultipartConfig注释指示该servlet的期望请求被使用的multipart / form-data的MIME类型进行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.util.Collection;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.MultipartConfig;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.Part;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@author</span> Kinman Chung</div><div class="line"> * <span class="doctag">@author</span> Daniel Guo</div><div class="line"> */</div><div class="line"><span class="meta">@WebServlet</span>(name = <span class="string">"TestServlet"</span>, urlPatterns = &#123;<span class="string">"/TestServlet"</span>&#125;)</div><div class="line"><span class="meta">@MultipartConfig</span>()</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Processes requests for both HTTP</div><div class="line">     * &lt;code&gt;GET&lt;/code&gt; and</div><div class="line">     * &lt;code&gt;POST&lt;/code&gt; methods.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> request servlet request</div><div class="line">     * <span class="doctag">@param</span> response servlet response</div><div class="line">     * <span class="doctag">@throws</span> ServletException if a servlet-specific error occurs</div><div class="line">     * <span class="doctag">@throws</span> IOException if an I/O error occurs</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">processRequest</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line">    	request.setCharacterEncoding(<span class="string">"utf-8"</span>);</div><div class="line">    	Collection&lt;Part&gt; parts= request.getParts();</div><div class="line">    	System.out.println(parts.size());</div><div class="line">    	<span class="keyword">for</span>(Part part:parts)&#123;</div><div class="line">    		System.out.println(getFileName(part));</div><div class="line">    		String name=getFileName(part);</div><div class="line">    		<span class="keyword">if</span>(name==<span class="keyword">null</span>||name.equals(<span class="string">""</span>))&#123;</div><div class="line">    			<span class="comment">//do nothing</span></div><div class="line">    		&#125;<span class="keyword">else</span>&#123;</div><div class="line">    			part.write(<span class="string">"e:/a/"</span> +getFileName(part));	</div><div class="line">    		&#125;</div><div class="line">    	&#125;</div><div class="line">       request.getRequestDispatcher(<span class="string">"getParts.jsp"</span>).forward(request, response);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getFileName</span><span class="params">(Part part)</span> </span>&#123;</div><div class="line">        String header = part.getHeader(<span class="string">"Content-Disposition"</span>);</div><div class="line">        String fileName = header.substring(header.indexOf(<span class="string">"filename=\""</span>) + <span class="number">10</span>, header.lastIndexOf(<span class="string">"\""</span>));</div><div class="line"></div><div class="line">        <span class="keyword">return</span> fileName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeTo</span><span class="params">(String fileName, Part part)</span> <span class="keyword">throws</span> IOException, FileNotFoundException </span>&#123;</div><div class="line">        InputStream in = part.getInputStream();</div><div class="line">        File file = <span class="keyword">new</span> File(<span class="string">"e:/a/"</span> + fileName);</div><div class="line">        OutputStream out = <span class="keyword">new</span> FileOutputStream(<span class="string">"e:/a/"</span> + fileName);</div><div class="line">        <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">        <span class="keyword">int</span> length = -<span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> ((length = in.read(buffer)) != -<span class="number">1</span>) &#123;</div><div class="line">            out.write(buffer, <span class="number">0</span>, length);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        in.close();</div><div class="line">        out.close();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// &lt;editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."&gt;</span></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Handles the HTTP</div><div class="line">     * &lt;code&gt;GET&lt;/code&gt; method.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> request servlet request</div><div class="line">     * <span class="doctag">@param</span> response servlet response</div><div class="line">     * <span class="doctag">@throws</span> ServletException if a servlet-specific error occurs</div><div class="line">     * <span class="doctag">@throws</span> IOException if an I/O error occurs</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line">        processRequest(request, response);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Handles the HTTP</div><div class="line">     * &lt;code&gt;POST&lt;/code&gt; method.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> request servlet request</div><div class="line">     * <span class="doctag">@param</span> response servlet response</div><div class="line">     * <span class="doctag">@throws</span> ServletException if a servlet-specific error occurs</div><div class="line">     * <span class="doctag">@throws</span> IOException if an I/O error occurs</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</div><div class="line">        processRequest(request, response);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Returns a short description of the servlet.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> a String containing servlet description</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getServletInfo</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Short description"</span>;</div><div class="line">    &#125;<span class="comment">// &lt;/editor-fold&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="http://i.imgur.com/gr81LUH.png" alt=""></p>
+<h4 id="2-2-4-Example-4：web模块化"><a href="#2-2-4-Example-4：web模块化" class="headerlink" title="2.2.4 Example 4：web模块化"></a>2.2.4 Example 4：web模块化</h4><p>原本一个web应用的任何配置都需要在web.xml中进行，因此会使得web.xml变得很混乱，而且灵活性差，因此Servlet 3.0可以将每个Servlet、Filter、Listener打成jar包，然后放在WEB-INF\lib中；注意各自的模块都有各自的配置文件，这个配置文件的名称为  web-fragment.xml ;</p>
+<p>步骤如下：</p>
+<ol>
+<li>编写Servlet，并编译；</li>
+<li>将此编译class文件及所在包通过jar包命令打成jar包；</li>
+<li>将此jar包用winrar打开，并将其中的META-INF中的manifest删除并添加 web-fragment.xml；</li>
+<li>将此jar包放入WEB-INF\lib中即可；</li>
+</ol>
+<p>web-fragment.xml注意点：</p>
+<ol>
+<li>根元素为<web-fragment>;</web-fragment></li>
+<li><name></name>表示模块名称；</li>
+<li><ordering></ordering>是此模块的加载顺序；</li>
+<li><before><others></others></before>表示第一个加载；</li>
+<li><after><name>A</name></after>表示比A后面加载；</li>
+<li>可以在里面部署listener、filter、servlet</li>
+</ol>
+<p>针对本例子而言，<br>为了更好地进行适配，减少配置，一个web-fragment是可指定的，并包括在一个库或框架jar文件中的web.xml的一部分或全部。如果有很多个web-fragment jars时，那么人们可能会喜欢指定处理Web-fragment.xml之和注释的顺序。这个很重要。例如，过滤器可以为在web.xml中指定的顺序被执行，类似于监听。在Servlet3.1中，引入了web.xml 中的的标签和web-fragment.xml中的标签。</p>
+<p>Web Fragments的顺序被指定在以下优先级：</p>
+<ul>
+<li>(1)在web.xml中如果存在</li>
+<li>(2)如果存在于每一个web-fragment.xml</li>
+<li>(3)其他未指定</li>
+</ul>
+<p>在web.xml的 中提供了一种方法，以指定加载web的fragment.xml之和web fragments的注释处理的顺序。代码如下:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"&gt;</div><div class="line">    &lt;absolute-ordering&gt;</div><div class="line">        &lt;name&gt;A&lt;/name&gt;</div><div class="line">        &lt;others/&gt;</div><div class="line">        &lt;name&gt;B&lt;/name&gt;</div><div class="line">    &lt;/absolute-ordering&gt;</div><div class="line">&lt;/web-app&gt;</div></pre></td></tr></table></figure>
+<p>另外，在上述例子中，web fragment A 将被第一个处理，web fragment B 被最后处理。名称A和B在web-fragment.xml之中的元素指定的（见下面的例子）。</p>
+<p>排序是在web-fragment.xml中被指定的。如果在web.xml中没有，会查找web-fragment.xml中的。<br>仅仅在web-fragment.xml存在一个的jar包，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;web-fragment&gt;</div><div class="line">            &lt;name&gt;A&lt;/name&gt;</div><div class="line">            ...</div><div class="line">            &lt;ordering&gt;</div><div class="line">                &lt;before&gt;</div><div class="line">                    &lt;others/&gt;</div><div class="line">                &lt;/before&gt;</div><div class="line">            &lt;/ordering&gt;</div><div class="line">&lt;/web-fragment&gt;</div></pre></td></tr></table></figure>
+<p>在这种情况下，web-fragment A将首先被处理。<br>下面是在web-fragment.xml存在两个的示例，代码如下:<br>web-fragment A</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;web-fragment&gt;</div><div class="line">            &lt;name&gt;A&lt;/name&gt;</div><div class="line">            ...</div><div class="line">            &lt;ordering&gt;</div><div class="line">                &lt;before&gt;</div><div class="line">                    &lt;others/&gt;</div><div class="line">                &lt;/before&gt;</div><div class="line">            &lt;/ordering&gt;</div><div class="line">&lt;/web-fragment&gt;</div></pre></td></tr></table></figure>
+<p>web-fragment B</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;web-fragment&gt;</div><div class="line">            &lt;name&gt;B&lt;/name&gt;</div><div class="line">            ...</div><div class="line">            &lt;ordering&gt;</div><div class="line">                &lt;before&gt;</div><div class="line">                    &lt;others/&gt;</div><div class="line">                &lt;/before&gt;</div><div class="line">            &lt;/ordering&gt;</div><div class="line">&lt;/web-fragment&gt;</div></pre></td></tr></table></figure>
+<p>这时web-fragment A和web-fragment B会首先被处理。在这种情况下，人们只能保证web-fragment A和web-fragment B在其他web-fragment之前处理。但是A和B的顺序并不确定，在这种情况下这是随机的。<br>有两个包含 的jars 存在于web-fragment.xml之中，如下</p>
+<p>web-fragment A</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;web-fragment&gt;</div><div class="line">            &lt;name&gt;A&lt;/name&gt;</div><div class="line">            ...</div><div class="line">            &lt;ordering&gt;</div><div class="line">                &lt;before&gt;</div><div class="line">                    &lt;others/&gt;</div><div class="line">                &lt;/before&gt;</div><div class="line">            &lt;/ordering&gt;</div><div class="line">&lt;/web-fragment&gt;</div></pre></td></tr></table></figure>
+<p>web-fragment B</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;web-fragment&gt;</div><div class="line">            &lt;name&gt;B&lt;/name&gt;</div><div class="line">            ...</div><div class="line">            &lt;ordering&gt;</div><div class="line">                &lt;after&gt;</div><div class="line">                    &lt;name&gt;A&lt;/name&gt;</div><div class="line">                &lt;/after&gt;</div><div class="line">                &lt;before&gt;</div><div class="line">                    &lt;others/&gt;</div><div class="line">                &lt;/before&gt;</div><div class="line">            &lt;/ordering&gt;</div><div class="line">&lt;/web-fragment&gt;</div></pre></td></tr></table></figure>
+<p>在这种情况下，A将首先被处理，其次是B，然后其他web fragments。如果想有一个确定的顺序，那么建议使用在web.xml中的absolute-ordering。<br>如何存放web fragments？如果一个框架被打包为一个jar文件，并在部署描述符的形式的元数据信息，那么Web fragments需要被放置在jar文件的META-INF/文件夹。</p>
+<p>另一方面，如果一个框架，优先使用web fragment.xml这种方法，而且它增强了Web应用程序的web.xml，该框架必须在Web应用程序中被放置在的WEB-INF/ lib目录中。</p>
+<p>运行结果：<br><img src="http://i.imgur.com/OvCgqQc.png" alt=""></p>
+<p>##第三章：JAX-RS 2.0 技术##<br>当JAX-RS 1.0在2008年第一次由JSR-311——特别是其领导者Marc Hadley和Paul Sandoz——公之于众的时候，它就成为了第一个基于POJO/Annotation的、用于创建健壮的Web应用的框架。</p>
+<p>五年后，Java EE 7已经发布并且它包含了最新的JAX-RS 2.0版本，JSR-339的实现由Marek Potociar和Santiago Pericas-Geertsen发起。与Java EE 7的核心主题相一致，JAX-RS 2.0添加了一些期待已久的特性，这些特性主要围绕Oracle所称的“简化API”。</p>
+<p>本章主要介绍rest和jax-rs技术。分两个部分。</p>
+<p>第一部分介绍相关知识和概念，主要参考第31章内容。主要包含以下内容：</p>
+<ul>
+<li>客户端API</li>
+<li>异步</li>
+<li>HATEOAS（超媒体）</li>
+<li>注解</li>
+<li>验证</li>
+<li>过滤器与处理程序</li>
+<li>内容协商</li>
+</ul>
+<p>第二部分主要介绍一些simples。</p>
+<ul>
+<li>async-chat</li>
+<li>message-board</li>
+</ul>
+<p>###第一部分：JAX-RS: Advanced Topics####</p>
+<ul>
+<li><p>rest：</p>
+<p>  REpresentational State Transfer：代表性状态传输、具象状态传输</p>
+<p>  REST定义了应该如何正确地使用Web标准，例如HTTP和URI。REST并非标准，而是一种开发 Web 应用的架构风格，可以将其理解为一种设计模式。</p>
+</li>
+<li><p>jax-rs：</p>
+<p>  Java API forRESTful WebServices旨在定义一个统一的规范，使得 Java 程序员可以使用一套固定的接口来开发 REST 应用，避免了依赖于第三方框架。是一个Java编程语言的应用程序接口，支持按照表象化状态转变 (REST)架构风格创建Web服务Web服务。</p>
+<p>  与传统的 servlet 模型相比，JAX-RS 提供了一种可行的、更为简便、移植性更好的方式来在 Java 内实现 RESTful 服务。使用注释让您能够轻松提供 Java 资源的路径位置并将 Java 方法绑定到 HTTP 请求方法。一种可移植的数据绑定架构提供了一些本机的 Java 类型支持并允许进行序列化/反序列化处理的完全定制。javax.ws.rs.core.Application 子类的扩展以及 web.xml 内的相应清单表明了用最少的部署描述符配置就能进行轻松部署。</p>
+<p>  JAX-RS 的具体实现由第三方提供，例如 Sun 的参考实现 Jersey、Apache 的 CXF 以及 JBoss 的 RESTEasy。</p>
+</li>
+</ul>
+<p>####3.1.1 注解####</p>
+<p>注释<br>新的注释已经嵌入，例如支持新的注入。<br>JAX-RS提供注解如下：<br><img src="http://i.imgur.com/ydDwiFZ.png" alt=""></p>
+<ul>
+<li><p>@Path，标注资源类或方法的相对路径</p>
+</li>
+<li><p>@GET，@PUT，@POST，@DELETE，标注方法是用的HTTP请求的类型，分别对应 4 种 HTTP 方法，用于对资源进行创建、检索、更新和删除的操作。</p>
+<ul>
+<li>若要创建资源，应该使用 POST 方法；</li>
+<li>若要检索某个资源，应该使用 GET 方法；</li>
+<li>若要更改资源状态或对其进行更新，应该使用 PUT 方法；</li>
+<li>若要删除某个资源，应该使用 DELETE 方法。</li>
+</ul>
+</li>
+<li><p>@Produces，标注返回的MIME媒体类型</p>
+</li>
+<li><p>@Consumes，标注可接受请求的MIME媒体类型</p>
+</li>
+<li><p>@PathParam，@QueryParam，@HeaderParam，@CookieParam，@MatrixParam，@FormParam，分别标注方法的参数来自于HTTP请求的不同位置，</p>
+<ul>
+<li>@PathParam来自于URL的路径，</li>
+<li>@QueryParam来自于URL的查询参数，</li>
+<li>@HeaderParam来自于HTTP请求的头信息，</li>
+<li>@CookieParam来自于HTTP请求的Cookie。</li>
+</ul>
+</li>
+</ul>
+<p>具体例子如下：</p>
+<ul>
+<li><p>获取path参数：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/employees/&#123;firstname&#125;.&#123;lastname&#125;@&#123;domain&#125;.com"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmpResource</span> </span>&#123;</div><div class="line"><span class="meta">@GET</span></div><div class="line"><span class="meta">@Produces</span>(<span class="string">"text/xml"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getEmployeelastname</span><span class="params">(@PathParam(<span class="string">"lastname"</span>)</span> String lastName) </span>&#123;</div><div class="line">...</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 在这个例子中，@path注解定义了url变量(firstname lastname domain),request请求中pathparm标签从url中获取lastname属性。你也可以使用正则表达式，比如你想要求lastname只包含大小写字母，你可以定义如下。在这里，如果lastname没有匹配正则表达式，一个404 response将会被返回。<code>@Path(&quot;/employees/{firstname}.{lastname[a-zA-Z]*}@{domain}.com&quot;)</code></p>
+</li>
+<li><p>获取query参数：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/employees/"</span>)</div><div class="line"><span class="meta">@GET</span></div><div class="line"><span class="function"><span class="keyword">public</span> Response <span class="title">getEmployees</span><span class="params">(</span></span></div><div class="line">@DefaultValue(<span class="string">"2003"</span>) @<span class="title">QueryParam</span><span class="params">(<span class="string">"minyear"</span>)</span> <span class="keyword">int</span> minyear,</div><div class="line">@<span class="title">DefaultValue</span><span class="params">(<span class="string">"2013"</span>)</span> @<span class="title">QueryParam</span><span class="params">(<span class="string">"maxyear"</span>)</span> <span class="keyword">int</span> maxyear)</div><div class="line">&#123;...&#125;</div></pre></td></tr></table></figure>
+<pre><code>这段代码定义了连个参数minyear和maxyear。请求如下：`GET /employees?maxyear=2013&amp;minyear=2003`我们可以得到这两个参数。
+</code></pre></li>
+<li><p>获取表单数据</p>
+<p>  使用@formparm注解来从html forms中抽取参数。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;FORM action=&quot;http://example.com/employees/&quot; method=&quot;post&quot;&gt;</div><div class="line">&lt;p&gt;</div><div class="line">&lt;fieldset&gt;</div><div class="line">Employee name: &lt;INPUT type=&quot;text&quot; name=&quot;empname&quot; tabindex=&quot;1&quot;&gt;</div><div class="line">Employee address: &lt;INPUT type=&quot;text&quot; name=&quot;empaddress&quot; tabindex=&quot;2&quot;&gt;</div><div class="line">Manager name: &lt;INPUT type=&quot;text&quot; name=&quot;managername&quot; tabindex=&quot;3&quot;&gt;</div><div class="line">&lt;/fieldset&gt;</div><div class="line">&lt;/p&gt;</div><div class="line">&lt;/FORM&gt;</div></pre></td></tr></table></figure>
+<p>  获取指定参数：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="meta">@Consumes</span>(<span class="string">"application/x-www-form-urlencoded"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(@FormParam(<span class="string">"managername"</span>)</span> String managername) </span>&#123;</div><div class="line"><span class="comment">// Store the value</span></div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  获取一个键值对map：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="meta">@Consumes</span>(<span class="string">"application/x-www-form-urlencoded"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(MultivaluedMap&lt;String, String&gt; formParams)</span> </span>&#123;</div><div class="line"><span class="comment">// Store the message</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>获取java类型</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getParams</span><span class="params">(@Context UriInfo ui)</span> </span>&#123;</div><div class="line">MultivaluedMap&lt;String, String&gt; queryParams = ui.getQueryParameters();</div><div class="line">MultivaluedMap&lt;String, String&gt; pathParams = ui.getPathParameters();</div><div class="line">&#125;</div><div class="line"><span class="meta">@GET</span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getHeaders</span><span class="params">(@Context HttpHeaders hh)</span> </span>&#123;</div><div class="line">MultivaluedMap&lt;String, String&gt; headerParams = hh.getRequestHeaders();</div><div class="line">MultivaluedMap&lt;String, Cookie&gt; pathParams = hh.getCookies();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>####3.1.2 resource类和resource方法####</p>
+<p>Web 资源作为一个 Resource 类来实现，对资源的请求由 Resource 方法来处理。</p>
+<p>Resource 类或 Resource 方法被打上了 Path 标注，Path 标注的值是一个相对的 URI 路径，用于对资源进行定位，路径中可以包含任意的正则表达式以匹配资源。和大多数 JAX-RS 标注一样，Path 标注是可继承的，子类或实现类可以继承超类或接口中的 Path 标注。</p>
+<p>Resource 类是 POJO，使用 JAX-RS 标注来实现相应的 Web 资源。</p>
+<p>Resource 类分为根 Resource 类和子 Resource 类，区别在于子 Resource 类没有打在类上的 @Path 标注。</p>
+<p>Resource 类的实例方法打上了@Path 标注，则为 Resource 方法或子 Resource 定位器，子 Resource 定位器上没有任何 @GET、@POST、@PUT、@DELETE 或者自定义的 @HttpMethod</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/"</span>)   </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookkeepingService</span> </span>&#123;   </div><div class="line">    ......   </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/person/"</span>) <span class="comment">//资源方法；若无@POST，则为子资源定位器  </span></div><div class="line">    <span class="meta">@POST</span>   </div><div class="line">    <span class="meta">@Consumes</span>(<span class="string">"application/json"</span>)   </div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">createPerson</span><span class="params">(Person person)</span> </span>&#123; <span class="comment">//JSON 格式的请求体被自动映射为实体参数person  </span></div><div class="line">        ......   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/person/"</span>)   </div><div class="line">    <span class="meta">@PUT</span>   </div><div class="line">    <span class="meta">@Consumes</span>(<span class="string">"application/json"</span>)   </div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">updatePerson</span><span class="params">(Person person)</span> </span>&#123;   </div><div class="line">        ......   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/person/&#123;id:\\d+&#125;/"</span>) <span class="comment">//正则表达式  </span></div><div class="line">    <span class="meta">@DELETE</span>   </div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">deletePerson</span><span class="params">(@PathParam(<span class="string">"id"</span>)</span>   </span></div><div class="line">    <span class="keyword">int</span> id) &#123;   </div><div class="line">        ......   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/person/&#123;id:\\d+&#125;/"</span>)   </div><div class="line">    <span class="meta">@GET</span>   </div><div class="line">    <span class="meta">@Produces</span>(<span class="string">"application/json"</span>)   </div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">readPerson</span><span class="params">(@PathParam(<span class="string">"id"</span>)</span>   </span></div><div class="line">    <span class="keyword">int</span> id) &#123;   </div><div class="line">        ......   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/persons/"</span>)   </div><div class="line">    <span class="meta">@GET</span>   </div><div class="line">    <span class="meta">@Produces</span>(<span class="string">"application/json"</span>)   </div><div class="line">    <span class="keyword">public</span> Person[] readAllPersons() &#123; <span class="comment">//数组类型的返回值被自动映射为 JSON 格式的响应体——？  </span></div><div class="line">        ......   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="meta">@Path</span>(<span class="string">"/person/&#123;name&#125;/"</span>)   </div><div class="line">    <span class="meta">@GET</span>   </div><div class="line">    <span class="meta">@Produces</span>(<span class="string">"application/json"</span>)   </div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">readPersonByName</span><span class="params">(@PathParam(<span class="string">"name"</span>)</span>   </span></div><div class="line">    String name) &#123;   </div><div class="line">        ......   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Resource 方法合法的参数类型包括：</p>
+<ol>
+<li>原生类型</li>
+<li>构造函数接收单个字符串参数，或者包含拥有一个static的valueOf(String)方法</li>
+<li>List<t>，Set<t>，SortedSet<t>（T 为以上的 2 种类型）</t></t></t></li>
+<li>用于映射请求体的实体参数</li>
+</ol>
+<p>Resource 方法合法的返回值类型包括：</p>
+<ol>
+<li>void：状态码 204 和空响应体</li>
+<li>Response：Response 的 status 属性指定了状态码，entity 属性映射为响应体<code>return Response.status(Status.OK).entity(JsonUtils.toString(result)).build();</code></li>
+<li>GenericEntity：GenericEntity 的 entity 属性映射为响应体，entity 属性为空则状态码为 204，非空则状态码为 200</li>
+<li>其它类型：返回的对象实例映射为响应体，实例为空则状态码为 204，非空则状态码为 200</li>
+</ol>
+<p>对于错误处理，Resource 方法可以抛出非受控异常 WebApplicationException 或者返回包含了适当的错误码集合的 Response 对象。</p>
+<p>####3.1.3 内容协商与数据绑定####<br>Web 资源可以有不同的表现形式，服务端与客户端之间需要一种称为内容协商（Content Negotiation）的机制：</p>
+<p>作为服务端，Resource 方法的@Produces 标注用于指定响应体的数据格式（MIME 类型），@Consumes 标注用于指定请求体的数据格式；</p>
+<p>作为客户端，Accept 请求头用于选择响应体的数据格式，Content-Type 请求头用于标识请求体的数据格式。</p>
+<p>服务器端：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>  </div><div class="line"><span class="meta">@Path</span>(value=<span class="string">"/&#123;emailAddress:.+@.+\\.[a-z]+&#125;"</span>)  </div><div class="line"><span class="meta">@Produces</span>(value=&#123;<span class="string">"text/xml"</span>, <span class="string">"application/json"</span>&#125;)  </div><div class="line"><span class="function"><span class="keyword">public</span> ContactInfo <span class="title">getByEmailAddress</span><span class="params">(@PathParam(value=<span class="string">"emailAddress"</span>)</span>   </span></div><div class="line">    String emailAddress) &#123;  </div><div class="line">    ...  </div><div class="line">&#125;     </div><div class="line">  </div><div class="line">  </div><div class="line"><span class="meta">@POST</span>  </div><div class="line"><span class="meta">@Consumes</span>(value=&#123;<span class="string">"text/xml"</span>, <span class="string">"application/json"</span>&#125;)  </div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addContactInfo</span><span class="params">(ContactInfo contactInfo)</span> </span>&#123;  </div><div class="line">    ...  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####3.1.4 bean验证####</p>
+<p>一个基于注释的机制来识别参数的meta-data。例如“@NotNull shares”代表“shares”参数不允许为null。你同样可以提供传统的注释，比如保证特定的数据格式，例如邮编或者电话号码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="meta">@Path</span>(<span class="string">"/createUser"</span>)</div><div class="line"><span class="meta">@Consumes</span>(MediaType.APPLICATION_FORM_URLENCODED)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createUser</span><span class="params">(@NotNull @FormParam(<span class="string">"username"</span>)</span> String username,</span></div><div class="line">@NotNull @<span class="title">FormParam</span><span class="params">(<span class="string">"firstName"</span>)</span> String firstName,</div><div class="line">@NotNull @<span class="title">FormParam</span><span class="params">(<span class="string">"lastName"</span>)</span> String lastName,</div><div class="line">@Email @<span class="title">FormParam</span><span class="params">(<span class="string">"email"</span>)</span> String email) &#123;</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也可以用到一个resource class中，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/createUser"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateUserResource</span> </span>&#123;</div><div class="line"><span class="meta">@NotNull</span></div><div class="line"><span class="meta">@FormParam</span>(<span class="string">"username"</span>)</div><div class="line"><span class="keyword">private</span> String username;</div><div class="line"><span class="meta">@NotNull</span></div><div class="line"><span class="meta">@FormParam</span>(<span class="string">"firstName"</span>)</div><div class="line"><span class="keyword">private</span> String firstName;</div><div class="line"><span class="meta">@NotNull</span></div><div class="line"><span class="meta">@FormParam</span>(<span class="string">"lastName"</span>)</div><div class="line"><span class="keyword">private</span> String lastName;</div><div class="line"><span class="meta">@Email</span></div><div class="line"><span class="meta">@FormParam</span>(<span class="string">"email"</span>)</div><div class="line"><span class="keyword">private</span> String email;</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####3.1.5 客户端api####</p>
+<p>JAX-RS 1.0是一个严格的客户端API，一些实现对客户端提供了各种等级的支持，但是通常开发人员会安装像Apache软件基Jakarte公共组件中的HttpClient 或 WizTools的 REST Client。</p>
+<p>JAX-RS 2.0 为客户端调用Web服务添加了一个”构建” 工具:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Client client=ClientFactory.newClient();</div><div class="line">String shares=client.target(<span class="string">"http://.../portfolio/123"</span>)</div><div class="line">    .pathParam(<span class="string">"identifier"</span>, <span class="string">"IBM"</span>)</div><div class="line">    .queryParameter(<span class="string">"identifierType"</span>, <span class="string">"ticker"</span>)</div><div class="line">    .request(<span class="string">"text/plain).get(String.class"</span>);</div></pre></td></tr></table></figure>
+<p>我们看，这个方法首先包含了一个客户端(client)，然后使用了构建模式来构造URL的所有参数，同时，允许开发人员不需要使用各种各样的URL构造器来规划URL。</p>
+<p>####3.1.6 异步####<br>异步：<br>在JAX-RS 1.0中，一个要调用的客户端需要等待服务器传回的响应。2.0嵌入了异步支持。这让一个客户端能够发起一个REST的调用，并且在响应完成的时候得到一个Future或者一个InvocationCallback作为通知。</p>
+<p>####3.1.7 HATEOAS####<br>根据严格的RESTafarian规范，如果你没有使用HATEOAS，你就不是在做REST！HATEOAS（作为应用状态引擎的超媒体）要求REST的生产者和客户在“每个调用返回一组链接”上达成共识，以便进行下一步。如果你认为REST是一个应用版本的Web页，那么HATEOAS就可以认为是包含一组Web页面的链接。</p>
+<p>JAX-RS 2.0提供了Link和Target类，来把超链接嵌入到一个服务器端的响应当中，并把它们响应到客户端去。</p>
+<p>###第二部分：Examples of the JAX-RS 2.0 ##</p>
+<h4 id="3-2-1-Example-1-async-war"><a href="#3-2-1-Example-1-async-war" class="headerlink" title="3.2.1 Example 1 async-war"></a>3.2.1 Example 1 async-war</h4><p>分析：</p>
+<p>chatApplication</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.HashSet;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.ws.rs.ApplicationPath;</div><div class="line"><span class="keyword">import</span> javax.ws.rs.core.Application;</div><div class="line"></div><div class="line"><span class="meta">@ApplicationPath</span>(<span class="string">"/chat"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChatApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Set&lt;Class&lt;?&gt;&gt; getClasses() &#123;</div><div class="line">        <span class="keyword">final</span> Set&lt;Class&lt;?&gt;&gt; classes = <span class="keyword">new</span> HashSet&lt;Class&lt;?&gt;&gt;();</div><div class="line">        classes.add(ChatResource.class);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> classes;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/"</span>)</div><div class="line"><span class="meta">@Singleton</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChatResource</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * This queue synchronizes produces/consumes operations. It contains &#123;<span class="doctag">@link</span> AsyncResponse async responses&#125; into</div><div class="line">     * which post message should be written.</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BlockingQueue&lt;AsyncResponseWrapper&gt; suspended = <span class="keyword">new</span> ArrayBlockingQueue&lt;AsyncResponseWrapper&gt;(<span class="number">10</span>);</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Internal response wrapper which bundles response with id.</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncResponseWrapper</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">final</span> AsyncResponse asyncResponse;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String id;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="title">AsyncResponseWrapper</span><span class="params">(AsyncResponse asyncResponse, String id)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.asyncResponse = asyncResponse;</div><div class="line">            <span class="keyword">this</span>.id = id;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> AsyncResponse <span class="title">getAsyncResponse</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> asyncResponse;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> id;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Handle a HTTP get message asynchronously (suspend response in order to release the container thread instead of</div><div class="line">     * blocking it on the blocking queue).</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> asyncResponse Suspended asynchronous response (injected).</div><div class="line">     * <span class="doctag">@param</span> requestId Header identifying the header.</div><div class="line">     */</div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMessage</span><span class="params">(@Suspended <span class="keyword">final</span> AsyncResponse asyncResponse, <span class="keyword">final</span> @HeaderParam(<span class="string">"request-id"</span>)</span> String requestId) </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">// Put actual response to the queue. This response will be later taken and resumed with</span></div><div class="line">                    <span class="comment">// the message.</span></div><div class="line">                    suspended.put(<span class="keyword">new</span> AsyncResponseWrapper(asyncResponse, requestId));</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Handle a HTTP POST method asynchronously (suspend response in order to release the container thread instead of</div><div class="line">     * blocking it on the blocking queue).</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> postAsyncResponse Suspended asynchronous response (injected).</div><div class="line">     * <span class="doctag">@param</span> message Message to be sent.</div><div class="line">     */</div><div class="line">    <span class="meta">@POST</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postMessage</span><span class="params">(@Suspended <span class="keyword">final</span> AsyncResponse postAsyncResponse, <span class="keyword">final</span> String message)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="comment">// Take one response from the queue and resume it with the message. If no message is in the queue now</span></div><div class="line">                    <span class="comment">// then this method will block the thread until the response is put into queue (by GET http method).</span></div><div class="line">                    <span class="keyword">final</span> AsyncResponseWrapper responseWrapper = suspended.take();</div><div class="line">                    responseWrapper.getAsyncResponse().resume(Response.ok()</div><div class="line">                            .entity(message).header(<span class="string">"request-id"</span>, responseWrapper.getId()).build());</div><div class="line"></div><div class="line">                    <span class="comment">// Now resume response connected with the request invoking this post method just reply that the message</span></div><div class="line">                    <span class="comment">// was delivered.</span></div><div class="line">                    postAsyncResponse.resume(<span class="string">"Sent!"</span>);</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Get the string representation of internal async response queue &lt;code&gt;suspended&lt;code/&gt;.</div><div class="line">     * &lt;p/&gt;</div><div class="line">     * This resource is requested in regular intervals by clients.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> Plain text with list of request-id of async responses.</div><div class="line">     */</div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Path</span>(<span class="string">"queue"</span>)</div><div class="line">    <span class="meta">@Produces</span>(<span class="string">"text/html"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getResponseQueue</span><span class="params">()</span> </span>&#123;</div><div class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line">        <span class="keyword">boolean</span> addSeparator = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">for</span> (AsyncResponseWrapper asyncResponseWrapper : suspended) &#123;</div><div class="line">            <span class="keyword">if</span> (addSeparator) &#123;</div><div class="line">                sb.append(<span class="string">", "</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                addSeparator = <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            sb.append(asyncResponseWrapper.getId());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sb.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="3-2-2-Example-2：-message-board"><a href="#3-2-2-Example-2：-message-board" class="headerlink" title="3.2.2 Example 2： message-board"></a>3.2.2 Example 2： message-board</h4><p>详情见源代码</p>
+<p>##第四章：json processing 1.0 总览##</p>
+<p>主要参照第19章：json processing</p>
+<h3 id="第一部分：json-processing-介绍"><a href="#第一部分：json-processing-介绍" class="headerlink" title="第一部分：json processing 介绍"></a>第一部分：json processing 介绍</h3><p>####4.1.1 json####</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">"firstName"</span>: <span class="string">"Duke"</span>,</div><div class="line"><span class="attr">"lastName"</span>: <span class="string">"Java"</span>,</div><div class="line"><span class="attr">"age"</span>: <span class="number">18</span>,</div><div class="line"><span class="attr">"streetAddress"</span>: <span class="string">"100 Internet Dr"</span>,</div><div class="line"><span class="attr">"city"</span>: <span class="string">"JavaTown"</span>,</div><div class="line"><span class="attr">"state"</span>: <span class="string">"JA"</span>,</div><div class="line"><span class="attr">"postalCode"</span>: <span class="string">"12345"</span>,</div><div class="line"><span class="attr">"phoneNumbers"</span>: [</div><div class="line">&#123; <span class="attr">"Mobile"</span>: <span class="string">"111-111-1111"</span> &#125;,</div><div class="line">&#123; <span class="attr">"Home"</span>: <span class="string">"222-222-2222"</span> &#125;</div><div class="line">]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>http header:<br><code>Content-Type: application/json</code></p>
+<p>####4.1.2 json processing in the java ee platform####</p>
+<p><img src="http://i.imgur.com/XUTrGIq.png" alt=""></p>
+<p>####4.1.3 using the object model api####</p>
+<p>构建json对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">JsonObject model = Json.createObjectBuilder()</div><div class="line">.add(<span class="string">"firstName"</span>, <span class="string">"Duke"</span>)</div><div class="line">.add(<span class="string">"lastName"</span>, <span class="string">"Java"</span>)</div><div class="line">.add(<span class="string">"age"</span>, <span class="number">18</span>)</div><div class="line">.add(<span class="string">"streetAddress"</span>, <span class="string">"100 Internet Dr"</span>)</div><div class="line">.add(<span class="string">"city"</span>, <span class="string">"JavaTown"</span>)</div><div class="line">.add(<span class="string">"state"</span>, <span class="string">"JA"</span>)</div><div class="line">.add(<span class="string">"postalCode"</span>, <span class="string">"12345"</span>)</div><div class="line">.add(<span class="string">"phoneNumbers"</span>, Json.createArrayBuilder()</div><div class="line">.add(Json.createObjectBuilder()</div><div class="line">.add(<span class="string">"type"</span>, <span class="string">"mobile"</span>)</div><div class="line">.add(<span class="string">"number"</span>, <span class="string">"111-111-1111"</span>))</div><div class="line">.add(Json.createObjectBuilder()</div><div class="line">.add(<span class="string">"type"</span>, <span class="string">"home"</span>)</div><div class="line">.add(<span class="string">"number"</span>, <span class="string">"222-222-2222"</span>)))</div><div class="line">.build();</div></pre></td></tr></table></figure></p>
+<h3 id="第二部分：Examples-of-json-processing"><a href="#第二部分：Examples-of-json-processing" class="headerlink" title="第二部分：Examples of json processing"></a>第二部分：Examples of json processing</h3><p>jsonobject例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/object"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectResource</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> JsonBuilderFactory bf = Json.createBuilderFactory(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Produces</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> JsonObject <span class="title">doGet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> bf.createObjectBuilder()</div><div class="line">            .add(<span class="string">"firstName"</span>, <span class="string">"John"</span>)</div><div class="line">            .add(<span class="string">"lastName"</span>, <span class="string">"Smith"</span>)</div><div class="line">            .add(<span class="string">"age"</span>, <span class="number">25</span>)</div><div class="line">            .add(<span class="string">"address"</span>, bf.createObjectBuilder()</div><div class="line">                .add(<span class="string">"streetAddress"</span>, <span class="string">"21 2nd Street"</span>)</div><div class="line">                .add(<span class="string">"city"</span>, <span class="string">"New York"</span>)</div><div class="line">                .add(<span class="string">"state"</span>, <span class="string">"NY"</span>)</div><div class="line">                .add(<span class="string">"postalCode"</span>, <span class="string">"10021"</span>))</div><div class="line">            .add(<span class="string">"phoneNumber"</span>, bf.createArrayBuilder()</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"home"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"212 555-1234"</span>))</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"fax"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"646 555-4567"</span>)))</div><div class="line">            .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@POST</span></div><div class="line">    <span class="meta">@Consumes</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(JsonObject structure)</span> </span>&#123;</div><div class="line">        System.out.println(structure);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>jsonarray例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/array"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayResource</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> JsonBuilderFactory bf = Json.createBuilderFactory(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Produces</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> JsonArray <span class="title">doGet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> bf.createArrayBuilder()</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"home"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"212 555-1234"</span>))</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"fax"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"646 555-4567"</span>))</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@POST</span></div><div class="line">    <span class="meta">@Consumes</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(JsonArray structure)</span> </span>&#123;</div><div class="line">        System.out.println(structure);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>jsonStructure</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/structure"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StructureResource</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> JsonBuilderFactory bf = Json.createBuilderFactory(<span class="keyword">null</span>);</div><div class="line"></div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Produces</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> JsonStructure <span class="title">doGet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> bf.createObjectBuilder()</div><div class="line">            .add(<span class="string">"firstName"</span>, <span class="string">"John"</span>)</div><div class="line">            .add(<span class="string">"lastName"</span>, <span class="string">"Smith"</span>)</div><div class="line">            .add(<span class="string">"age"</span>, <span class="number">25</span>)</div><div class="line">            .add(<span class="string">"address"</span>, bf.createObjectBuilder()</div><div class="line">                .add(<span class="string">"streetAddress"</span>, <span class="string">"21 2nd Street"</span>)</div><div class="line">                .add(<span class="string">"city"</span>, <span class="string">"New York"</span>)</div><div class="line">                .add(<span class="string">"state"</span>, <span class="string">"NY"</span>)</div><div class="line">                .add(<span class="string">"postalCode"</span>, <span class="string">"10021"</span>))</div><div class="line">            .add(<span class="string">"phoneNumber"</span>, bf.createArrayBuilder()</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"home"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"212 555-1234"</span>))</div><div class="line">                .add(bf.createObjectBuilder()</div><div class="line">                    .add(<span class="string">"type"</span>, <span class="string">"fax"</span>)</div><div class="line">                    .add(<span class="string">"number"</span>, <span class="string">"646 555-4567"</span>)))</div><div class="line">            .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@POST</span></div><div class="line">    <span class="meta">@Consumes</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(JsonStructure structure)</span> </span>&#123;</div><div class="line">        System.out.println(structure);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>JsonGenerator例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/generator"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeneratorResource</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Produces</span>(MediaType.APPLICATION_JSON)</div><div class="line">    <span class="function"><span class="keyword">public</span> StreamingOutput <span class="title">doGet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> StreamingOutput() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(OutputStream os)</span> </span>&#123;</div><div class="line">                writeWikiExample(os);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Writes wiki example JSON in a streaming fashion</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeWikiExample</span><span class="params">(OutputStream os)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span>(JsonGenerator gene = Json.createGenerator(os)) &#123;</div><div class="line">            gene.writeStartObject()</div><div class="line">                .write(<span class="string">"firstName"</span>, <span class="string">"John"</span>)</div><div class="line">                .write(<span class="string">"lastName"</span>, <span class="string">"Smith"</span>)</div><div class="line">                .write(<span class="string">"age"</span>, <span class="number">25</span>)</div><div class="line">                .writeStartObject(<span class="string">"address"</span>)</div><div class="line">                    .write(<span class="string">"streetAddress"</span>, <span class="string">"21 2nd Street"</span>)</div><div class="line">                    .write(<span class="string">"city"</span>, <span class="string">"New York"</span>)</div><div class="line">                    .write(<span class="string">"state"</span>, <span class="string">"NY"</span>)</div><div class="line">                    .write(<span class="string">"postalCode"</span>, <span class="string">"10021"</span>)</div><div class="line">                .writeEnd()</div><div class="line">                .writeStartArray(<span class="string">"phoneNumber"</span>)</div><div class="line">                    .writeStartObject()</div><div class="line">                        .write(<span class="string">"type"</span>, <span class="string">"home"</span>)</div><div class="line">                        .write(<span class="string">"number"</span>, <span class="string">"212 555-1234"</span>)</div><div class="line">                    .writeEnd()</div><div class="line">                    .writeStartObject()</div><div class="line">                        .write(<span class="string">"type"</span>, <span class="string">"fax"</span>)</div><div class="line">                        .write(<span class="string">"number"</span>, <span class="string">"646 555-4567"</span>)</div><div class="line">                    .writeEnd()</div><div class="line">                .writeEnd()</div><div class="line">            .writeEnd();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>JsonParser例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/parser"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ParserResource</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GET</span></div><div class="line">    <span class="meta">@Produces</span>(<span class="string">"text/plain"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> StreamingOutput <span class="title">doGet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> StreamingOutput() &#123;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(OutputStream os)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                writeTwitterFeed(os);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Parses JSON from twitter search REST API</div><div class="line">     *</div><div class="line">     * ... &#123; ... "from_user" : "xxx", ..., "text: "yyy", ... &#125; ...</div><div class="line">     *</div><div class="line">     * then writes to HTTP output stream as follows:</div><div class="line">     *</div><div class="line">     * xxx: yyy</div><div class="line">     * --------</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeTwitterFeed</span><span class="params">(OutputStream os)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">"http://search.twitter.com/search.json?q=%23java"</span>);</div><div class="line">        <span class="keyword">try</span>(InputStream is = url.openStream();</div><div class="line">            JsonParser parser = Json.createParser(is);</div><div class="line">            PrintWriter ps = <span class="keyword">new</span> PrintWriter(<span class="keyword">new</span> OutputStreamWriter(os, <span class="string">"UTF-8"</span>))) &#123;</div><div class="line"></div><div class="line">            <span class="keyword">while</span>(parser.hasNext()) &#123;</div><div class="line">                Event e = parser.next();</div><div class="line">                <span class="keyword">if</span> (e == Event.KEY_NAME) &#123;</div><div class="line">                    <span class="keyword">if</span> (parser.getString().equals(<span class="string">"from_user"</span>)) &#123;</div><div class="line">                        parser.next();</div><div class="line">                        ps.print(parser.getString());</div><div class="line">                        ps.print(<span class="string">": "</span>);</div><div class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (parser.getString().equals(<span class="string">"text"</span>)) &#123;</div><div class="line">                        parser.next();</div><div class="line">                        ps.println(parser.getString());</div><div class="line">                        ps.println(<span class="string">"---------"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##第四章：WebSocket 1.0分析##</p>
+<p>作为Html5新特性之一的WebSocket组件，在实时性有一定要求的WEB应用开发 中还是有一定用武之地，高版本的IE、Chrome、FF浏览器都支持Websocket，标准的Websocket通信是基于RFC6455实现服务器 端与客户端握手与消息接发的。如果对Websocket通信不是太理解，可以查看RFC文档即可，简单说就是通过发送HTTP请求，实现双方握手，将无状 态的HTTP通信协议进一步升级成有状态的通信协议，同时Websocket还支持子协议选项与安全传输。标准的websocket连接URL以ws开 头，如果是基于TLS的则以wss开头。</p>
+<p>###第一部分:java api for websocket###</p>
+<p>参考第18章：java api for websocket</p>
+<p>###第二部分:Examples for websocket###</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/06/hadoop分布式文件系统详解/" itemprop="url">
                   hadoop分布式文件系统详解
                 </a>
@@ -1474,419 +1953,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/10/effective-java-1/" itemprop="url">
-                  effective-java-1
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-10T09:51:23+08:00" content="2016-11-10">
-              2016-11-10
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="第0-0条：java-unit"><a href="#第0-0条：java-unit" class="headerlink" title="第0.0条：java unit"></a>第0.0条：java unit</h3><p>javac hello.java<br>java hello</p>
-<p>A unit test tests the methods in<br>a single class</p>
-<p> A test case tests (insofar as<br>possible) a single method</p>
-<p> You can have multiple test<br>cases for a single method</p>
-<p> A test suite combines unit tests</p>
-<p> The test fixture provides<br>software support for all this</p>
-<p> The test runner runs unit tests<br>or an entire test suite</p>
-<p> Integration testing (testing that<br>it all works together) is not well<br>supported by JUnit</p>
-<p>static void assertFalse(boolean test)<br>static void assertFalse(String message, boolean test)</p>
-<p>assertEquals(expected, actual)<br>assertEquals(String message, expected, actual)</p>
-<p>assertSame(Object expected, Object actual)<br>assertSame(String message, Object expected, Object actual)</p>
-<p>assertNotSame(Object expected, Object actual)<br>assertNotSame(String message, Object expected, Object actual)</p>
-<p>assertNull(Object object)<br>assertNull(String message, Object object)</p>
-<p>fail()<br>fail(String message)</p>
-<p>@BeforeClass</p>
-<p>@AfterClass</p>
-<p>@Test (timeout=10)</p>
-<p>@Test (expected=IllegalArgumentException.class)</p>
-<p>创建一个 TestSuite.java，打包运行多个 JUnit 测试类</p>
-<pre><code>@RunWith(Suite.class)
-@SuiteClasses({XXTest.class, XXTest.class})
-public class TestSuite{
-}
-</code></pre><p>junit实验手册：</p>
-<p>1.测试驱动开发。<br>2.hamcrest(hamcrest可以用来增强junit中assert功能)<br>3.cobertura 单元测试覆盖率<br>mvn compile/test/cobertura:cobertura</p>
-<h3 id="第0-1条：maven"><a href="#第0-1条：maven" class="headerlink" title="第0.1条：maven"></a>第0.1条：maven</h3><p>maven compile</p>
-<p>maven test</p>
-<p>mvn clean</p>
-<p>mvn package</p>
-<p>mvn install</p>
-<h3 id="第0-2条：svn"><a href="#第0-2条：svn" class="headerlink" title="第0.2条：svn"></a>第0.2条：svn</h3><p>repository:<br>project code is stored in a server in a data store referred to as a “repository”;</p>
-<p>check out:<br>Developers “check out” copies of the project code into<br>their local environments. These copies are referred to<br>as “working copies.”</p>
-<p>commits:<br>After making changes to a working copy, the<br>developer “commits” changes to the repository.</p>
-<p>updating:<br>Other developers get these changes by “updating”<br>their working copies.</p>
-<h3 id="第0-3条：git"><a href="#第0-3条：git" class="headerlink" title="第0.3条：git"></a>第0.3条：git</h3><ul>
-<li>git config –global user.name “ss”</li>
-<li>git config –global user.mail “ss@mail.com”</li>
-<li>git clone</li>
-<li>git init  //创建版本库</li>
-<li>git add file.java //文件添加到版本库</li>
-<li>git commit -m “initial project version” //提交到本地</li>
-<li>git status (-s) //查看仓库当前状态</li>
-<li>git diff a.txt //比较文件修改变化</li>
-<li>git help</li>
-<li>git pull</li>
-<li>git push</li>
-<li>git log //查看历史修改记录</li>
-<li>git log –oneline</li>
-<li>git log -5</li>
-<li>git pull origin master</li>
-<li>git push origin master</li>
-<li>git branch experimental//创建分支</li>
-<li>git branch //查看当前分支</li>
-<li>git checkout -b experimental //创建并切换分支，-b标识创建并且换</li>
-<li>git checkout master //切换到某个分支</li>
-<li>git merge experimental //合并分支到master</li>
-<li>git branch -d dev //删除分支</li>
-<li>git log –graph</li>
-<li>git reset –hard HEAD^ //回退到上一个版本</li>
-<li>git reset –hard HEAD^^ //回退到上两个版本</li>
-<li>git reset –hard 3628164 //回退到指定版本</li>
-<li>git rm a.txt //删除</li>
-<li>git tag v1.0</li>
-<li>git tag</li>
-<li>git tag v0.9 6224937</li>
-<li>git show v0.9</li>
-</ul>
-<p>svn：<br>中央存储库方法，主仓库是真正的source，只有主仓库有完成的文件历史。<br>用户检出当前版本的本地副本。</p>
-<p>git：<br>分布式存储库方法：每次检出的存储库都是一个完成的存储库，有完整的历史。更多的荣誉和速度，分支和合并库更频繁使用。</p>
-<p>主要区别：<br>1.git是分布式的，svn不是。<br>2.git把内容按照元数据方式存储，svn是按照文件。<br>3.git没有全局版本号，svn有<br>4.git的内容完整性优于svn，git的内容存储用的是sha-1哈希算法，这能确保代码内容的完整性。<br>5.git离线可以看所有的log，svn不可以。</p>
-<h3 id="第0-4条：logging-vs-debugging"><a href="#第0-4条：logging-vs-debugging" class="headerlink" title="第0.4条：logging vs debugging"></a>第0.4条：logging vs debugging</h3><p>Logging is faster than using a debugger<br>• Logging can be used to diagnose problems<br>in the production stage as well as during<br>development<br>• Logging is easier than debugging in a<br>distributed computing environment<br>• To use logging as debugging tool we need<br>to record lots of events</p>
-<p>log4j:reliability, speed and flexibility.</p>
-<p>优先级：DEBUG, INFO, WARN, ERROR, FATAL</p>
-<pre><code>import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.apache.log4j.FileAppender;
-public class simpandfile {
-   static Logger logger = Logger.getLogger(simpandfile.class);
-   public static void main(String args[]) {
-      SimpleLayout layout = new SimpleLayout();
-
-      FileAppender appender = null;
-      try {
-         appender = new FileAppender(layout,&quot;output1.txt&quot;,false);
-      } catch(Exception e) {}
-
-      logger.addAppender(appender);
-      logger.setLevel((Level) Level.DEBUG);
-
-      logger.debug(&quot;Here is some DEBUG&quot;);
-      logger.info(&quot;Here is some INFO&quot;);
-      logger.warn(&quot;Here is some WARN&quot;);
-      logger.error(&quot;Here is some ERROR&quot;);
-      logger.fatal(&quot;Here is some FATAL&quot;);
-   }
-}
-</code></pre><h3 id="第0-5条：wildcards"><a href="#第0-5条：wildcards" class="headerlink" title="第0.5条：wildcards"></a>第0.5条：wildcards</h3><pre><code>public &lt;T extends Animal&gt; void takeThing(ArrayList&lt;T&gt; list)
-
-public void takeThing(ArrayList&lt;? extends Animal&gt; list)
-</code></pre><hr>
-<h3 id="第9条：覆盖equals总要覆盖hashcode"><a href="#第9条：覆盖equals总要覆盖hashcode" class="headerlink" title="第9条：覆盖equals总要覆盖hashcode"></a>第9条：覆盖equals总要覆盖hashcode</h3><p>object规范：</p>
-<ul>
-<li><p>在应用程序执行期间，只要对象的equals方法的比较操作所用到的 信息没有被修改，那么对于着同一个对象调用多次，hashcode必须始终如意的返回同一个证书。在同一个应用程序的多次执行过程中，每次执行所返回的整数可以不一致。</p>
-</li>
-<li><p>如果两个对象根据equals（object）方法比较是相等的，那么调用这两个对象任意一个对象的hashcode都必须能产生相同的整数结果。</p>
-</li>
-<li><p>度过两个对象根据equals（object）比较不相等，那么hashcode不一定不相等。</p>
-</li>
-</ul>
-<h3 id="第10条：始终要覆盖tostring"><a href="#第10条：始终要覆盖tostring" class="headerlink" title="第10条：始终要覆盖tostring"></a>第10条：始终要覆盖tostring</h3><p>默认实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> getClass().getName()+<span class="string">'@'</span>+Integer.toHexString(hashCode))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="第11条：谨慎的覆盖clone"><a href="#第11条：谨慎的覆盖clone" class="headerlink" title="第11条：谨慎的覆盖clone"></a>第11条：谨慎的覆盖clone</h3><p>约定（弱的）</p>
-<ul>
-<li>Create a copy such that x.clone() != x</li>
-<li>x.clone().getClass() == x.getClass()</li>
-<li>Should have x.clone().equals(x)</li>
-<li>No constructors are called</li>
-</ul>
-<p>拷贝构造器</p>
-<p>拷贝工厂</p>
-<h3 id="第12条：考虑实现Comparable接口"><a href="#第12条：考虑实现Comparable接口" class="headerlink" title="第12条：考虑实现Comparable接口"></a>第12条：考虑实现Comparable接口</h3><p>约定：</p>
-<ul>
-<li>1) Returns negative, zero, or positive depending on order<br>of this and specified object</li>
-<li>2) sgn(x.compareTo(y) == -sgn(y.compareTo(x))</li>
-<li>3) compareTo() must be transitive（可传递的）</li>
-<li>4) If x.compareTo(y) == 0, x and y must consistently<br>compare to all values z.<br>(ps:x.compareTo(y)==0暗示着所有z都满足sgn(x,compareTo(z))=sgn(y.compareTo(z)))</li>
-<li>5) Recommended that x.compareTo(y) == 0 iff<br>x.equals(y)</li>
-<li>6) Note that compareTo() can throw<br>ClassCastExceptions</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//This is horrible!</span></div><div class="line">Object x = <span class="keyword">new</span> BigDecimal(“<span class="number">1.0</span>”);</div><div class="line">Object y = <span class="keyword">new</span> BigDecimal(“<span class="number">1.00</span>”);</div><div class="line"><span class="comment">// !x.equals(y), but x.compareTo(y) == 0</span></div><div class="line">Set s = <span class="keyword">new</span> HashSet();</div><div class="line">Set t = <span class="keyword">new</span> TreeSet();</div><div class="line">s.add(x); s.add(y);</div><div class="line"><span class="comment">// HashSet uses equals, so s has 2 elements</span></div><div class="line">t.add(x); t.add(y);</div><div class="line"><span class="comment">// TreeSet uses compareTo, so t has 1 element</span></div></pre></td></tr></table></figure>
-<h3 id="第13条：使类和成员的可访问性最小化"><a href="#第13条：使类和成员的可访问性最小化" class="headerlink" title="第13条：使类和成员的可访问性最小化"></a>第13条：使类和成员的可访问性最小化</h3><p>Standard list of accessibility levels</p>
-<ul>
-<li> private</li>
-<li> package-private (aka package friendly)</li>
-<li> protected</li>
-<li> public</li>
-</ul>
-<p>Huge difference between 2nd and 3rd</p>
-<ul>
-<li> package-private: part of implementation</li>
-<li> protected: part of public AP</li>
-</ul>
-<h3 id="第14条：在共有类中使用访问方法而非公有域"><a href="#第14条：在共有类中使用访问方法而非公有域" class="headerlink" title="第14条：在共有类中使用访问方法而非公有域"></a>第14条：在共有类中使用访问方法而非公有域</h3><p>1.公有类永远不应该暴露可变的域</p>
-<p>2.让公有类暴露不可变的域危害较小</p>
-<blockquote>
-<p>  危害：</p>
-<pre><code>Wrong – Potential Security Hole:
-public static final Type[] VALUES = {…};
- Problem:
- VALUES is final; entries in VALUES are not!
-</code></pre><p>  解决方案：</p>
-<pre><code>private static final Type[] PRIVATE_VALUES = {…};
-public static final List VALUES =
-Collections.unmodifiableList(Arrays.asList
-(PRIVATE_VALUES));
- Also Correct:
-private static final Type[] PRIVATE_VALUES = {…};
-public static final Type[] values() {
-return (Type[]) PRIVATE_VALUES.clone();
-}
-</code></pre></blockquote>
-<h3 id="第15条：使可变性最小化"><a href="#第15条：使可变性最小化" class="headerlink" title="第15条：使可变性最小化"></a>第15条：使可变性最小化</h3><p>不可变类：一个对象被考虑是不可变的，如果他的状态不能改变在他被创建以后。</p>
-<blockquote>
-<p>An object is considered immutable if its state<br>cannot change after it is constructed.</p>
-<p> e.g String, Integer, BigInteger, BigDecimal</p>
-</blockquote>
-<p>使一个类成为不可变类的原因：</p>
-<ol>
-<li>Thread safe inherently</li>
-<li>Can be shared freely</li>
-<li>No need to make defensive copy</li>
-<li>Its internals can also be shared</li>
-<li><p>Great building blocks for other object</p>
-<p>  Great to be map keys and set elements</p>
-</li>
-</ol>
-<p>定义不可变类的策略</p>
-<ul>
-<li>1) Don’t provide any mutators（增变因子） (“setter” methods)</li>
-<li>2) Make all fields final and private</li>
-<li>3) Don’t allow subclasses to override methods.</li>
-<li>4) If the instance fields include references to<br>mutable objects, don’t allow those objects to<br>be changed:<ul>
-<li> Don’t provide methods that modify the mutable<br>objects.</li>
-<li> Don’t share references to the mutable objects. </li>
-</ul>
-</li>
-</ul>
-<p>性能问题：</p>
-<p>Example in Java Library:</p>
-<ul>
-<li> String (Immutable)</li>
-<li> StringBuilder (Companion Mutable Class)</li>
-<li> StringBuffer (Deprecated Companion Mutable Class)</li>
-</ul>
-<h3 id="第16条：复合优先于集成"><a href="#第16条：复合优先于集成" class="headerlink" title="第16条：复合优先于集成"></a>第16条：复合优先于集成</h3><p>hashset内部中addall方法是基于他的add方法实现的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstrumentedSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Set</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Set&lt;E&gt; s;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> addCount = <span class="number">0</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">InstrumentedSet</span> <span class="params">(Set&lt;E&gt; s)</span> </span>&#123; <span class="keyword">this</span>.s = s&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E o)</span> </span>&#123;</div><div class="line">		addCount++; <span class="keyword">return</span> s.add(o); &#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span> <span class="params">(Collection&lt;? extends E&gt; c)</span></span>&#123;</div><div class="line">		addCount += c.size();</div><div class="line">		<span class="keyword">return</span> s.addAll(c);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// forwarded methods from Set interface</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第17条：要么为集成而设计，并提供文档说明，要么就禁止继承"><a href="#第17条：要么为集成而设计，并提供文档说明，要么就禁止继承" class="headerlink" title="第17条：要么为集成而设计，并提供文档说明，要么就禁止继承"></a>第17条：要么为集成而设计，并提供文档说明，要么就禁止继承</h3><ul>
-<li>对于为了继承而设计的类，唯一的测试方法就是编写子类。</li>
-<li>构造器决不能调用可被覆盖的方法。</li>
-</ul>
-<h3 id="第18条：接口优于抽象类"><a href="#第18条：接口优于抽象类" class="headerlink" title="第18条：接口优于抽象类"></a>第18条：接口优于抽象类</h3><p>区别：<br>1.抽象类包含某些方法的实现。接口不允许<br>2.java单继承，所以抽象类收到了极大的限制，</p>
-<p>接口优点：</p>
-<ul>
-<li>现有的类可以很容易被更新，以实现新的接口。</li>
-<li>接口是定义mixin（混合类型）的理想选择。</li>
-<li>接口允许我们构建非层次结构的类型框架。</li>
-</ul>
-<p>接口缺点：</p>
-<ul>
-<li>Sometimes too tedious to use</li>
-<li>You have to implement a dozen methods before you can create an object </li>
-</ul>
-<p>抽象类优点：</p>
-<ul>
-<li>It is far easier to evolve an abstract<br>class than an interface<ul>
-<li> It is relatively easy to add a new method<br>to an abstract class</li>
-<li> But almost impossible to add a method to<br>a public interface</li>
-<li> Should be very carefully to design public<br>interfaces</li>
-</ul>
-</li>
-</ul>
-<h3 id="第19条：接口只用于定义类型"><a href="#第19条：接口只用于定义类型" class="headerlink" title="第19条：接口只用于定义类型"></a>第19条：接口只用于定义类型</h3><p>使用枚举类型 工具类，不要使用常量接口</p>
-<h3 id="第20条：类层次优于标签类"><a href="#第20条：类层次优于标签类" class="headerlink" title="第20条：类层次优于标签类"></a>第20条：类层次优于标签类</h3><p>对于标签类，好的方法是使用继承</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Class hierarchy replacement for a tagged class</span></div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Figure</span> </span>&#123; <span class="comment">// Note: NOT instantiable!</span></div><div class="line"><span class="function"><span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">area</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">extends</span> <span class="title">Figure</span> </span>&#123;</div><div class="line"><span class="keyword">final</span> <span class="keyword">double</span> radius;</div><div class="line">Circle(<span class="keyword">double</span> rad) &#123; radius = rad; &#125;</div><div class="line"><span class="function"><span class="keyword">double</span> <span class="title">area</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="keyword">return</span> Math.PI * (radius * radius);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">extends</span> <span class="title">Figure</span> </span>&#123;</div><div class="line"><span class="keyword">final</span> <span class="keyword">double</span> length; <span class="keyword">final</span> <span class="keyword">double</span> width;</div><div class="line">Rectangle (<span class="keyword">double</span> len; <span class="keyword">double</span> wid)</div><div class="line">&#123; length = len; width = wid; &#125;</div><div class="line"><span class="function"><span class="keyword">double</span> <span class="title">area</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="keyword">return</span> length * width;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第21条：用函数对象表示策略"><a href="#第21条：用函数对象表示策略" class="headerlink" title="第21条：用函数对象表示策略"></a>第21条：用函数对象表示策略</h3><h3 id="第22条：优先考虑静态成员类"><a href="#第22条：优先考虑静态成员类" class="headerlink" title="第22条：优先考虑静态成员类"></a>第22条：优先考虑静态成员类</h3><p>四种嵌套类（nested class）：</p>
-<ul>
-<li>静态成员类 （不是内部类，其余三个是）</li>
-<li>非静态成员类</li>
-<li>匿名类 anonymous class</li>
-<li>局部类</li>
-</ul>
-<p>匿名类的常见用法：</p>
-<ul>
-<li>动态的创建函数对象。</li>
-<li>创建过程对象： runnable thread timertask等</li>
-</ul>
-<h3 id="第30条：用enum代替int常量"><a href="#第30条：用enum代替int常量" class="headerlink" title="第30条：用enum代替int常量"></a>第30条：用enum代替int常量</h3><p>java枚举本质是int值。==！！</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Planet &#123;</div><div class="line"> <span class="comment">// Enum type with data and behavior</span></div><div class="line">	MERCURY (<span class="number">3.302e+23</span>, <span class="number">2.439e6</span>);</div><div class="line">	VENUS (<span class="number">4.869e+24</span>, <span class="number">6.052e6</span>);</div><div class="line">	EARTH (<span class="number">5.975e+24</span>, <span class="number">6.378e6</span>); <span class="comment">// plus MARS, JUPITER,etc.</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> mass;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> radius;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> surfaceGravity;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> G = <span class="number">6.67300e-11</span>; </div><div class="line"><span class="comment">//Universal G</span></div><div class="line">Planet (<span class="keyword">double</span> mass, <span class="keyword">double</span> radius) &#123; <span class="comment">// Constructor</span></div><div class="line">	<span class="keyword">this</span>.mass = mass; <span class="keyword">this</span>.radius = radius;</div><div class="line">	surfaceGravity = G* mass / (radius * radius);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">mass</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> mass; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">radious</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> radius; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceGravity</span><span class="params">()</span> </span>&#123; </div><div class="line">	<span class="keyword">return</span> 	surfaceGravity; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceWeight</span> <span class="params">(<span class="keyword">double</span> mass)</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> mass * surfaceGravity; &#125; <span class="comment">// F = ma</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>test</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightTable</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</div><div class="line"><span class="keyword">double</span> earthWeight = Double.parseDouble (args[<span class="number">0</span>]);</div><div class="line"><span class="keyword">double</span> mass = earthWeight / Planet.EARTH.surfaceGravity();</div><div class="line"><span class="comment">// All Enums have a static values() method</span></div><div class="line"><span class="comment">// All Enums have a sensible (and Overridable) toString()</span></div><div class="line"><span class="keyword">for</span> (Planet p : Planet.values())</div><div class="line">System.out.printf (“Weight on %s is %f%n”,</div><div class="line">p, p.surfaceWeight(mass));</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Output:</span></div><div class="line">Weight on MERCURY is <span class="number">66.133672</span></div><div class="line">Weight on VENUS is <span class="number">158.383926</span></div><div class="line">Weight on EARTH is <span class="number">175.000000</span></div></pre></td></tr></table></figure>
-<pre><code>// Enum type with constant-specific class bodies and data
-public enum Operation {
-PLUS(“+”) {
-double apply (double x, double y) { return x + y; } };
-MINUS(“-”) {
-double apply (double x, double y) { return x - y; } };
-TIMES(“*”) {
-double apply (double x, double y) { return x * y; } };
-DIVIDE(“/”) {
-double apply (double x, double y) { return x / y; } };
-private final String symbol;
-Operation (String symbol) { this.symbol = symbol; }
-@Override public String toString() { return symbol; }
-// abstract apply() ensures each constant provide definition
-abstract double apply(double x, double y);
-}
-</code></pre><p>方法：</p>
-<ul>
-<li>static E valueOf(s): converts a string into an enum value</li>
-<li>static E[] values() :an array of all values of your enumeration</li>
-</ul>
-<h3 id="第31条：用实例域代替序数"><a href="#第31条：用实例域代替序数" class="headerlink" title="第31条：用实例域代替序数"></a>第31条：用实例域代替序数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Abuse of ordinal to derive an associated value – DON’T DO THIS</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Ensemble &#123;</div><div class="line">SOLO, DUET, TRIO, QUARTET, QUINTET,</div><div class="line">SEXTET, SEPTET, OCTET, NONET, DECTET;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfMusicians</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> ordinal() + <span class="number">1</span>; &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// What if: you add a DOUBLE_QUARTET? You rearrange the constants?</span></div><div class="line"><span class="comment">// Good Solution: Use instance fields instead</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Ensemble &#123;</div><div class="line">SOLO(<span class="number">1</span>), DUET(<span class="number">2</span>), TRIO(<span class="number">3</span>), QUARTET(<span class="number">4</span>), QUINTET(<span class="number">5</span>), SEXTET(<span class="number">6</span>),</div><div class="line">SEPTET(<span class="number">7</span>), OCTET(<span class="number">8</span>), DOUBLE_QUARTET(<span class="number">8</span>), TRIPLE_QUARTET(<span class="number">12</span>);</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> numberOfMusicians;</div><div class="line">Ensemble(<span class="keyword">int</span> size) &#123; <span class="keyword">this</span>.numberOfMusicians = size; &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numberOfMusicians</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> numberOfMusisians; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第32条：用EnumSet代替位域"><a href="#第32条：用EnumSet代替位域" class="headerlink" title="第32条：用EnumSet代替位域"></a>第32条：用EnumSet代替位域</h3><h3 id="第33条：用EnumMap代替序数索引"><a href="#第33条：用EnumMap代替序数索引" class="headerlink" title="第33条：用EnumMap代替序数索引"></a>第33条：用EnumMap代替序数索引</h3><h3 id="第33条：用EnumMap代替序数索引-1"><a href="#第33条：用EnumMap代替序数索引-1" class="headerlink" title="第33条：用EnumMap代替序数索引"></a>第33条：用EnumMap代替序数索引</h3><h3 id="第35条：注解优先于命名模式"><a href="#第35条：注解优先于命名模式" class="headerlink" title="第35条：注解优先于命名模式"></a>第35条：注解优先于命名模式</h3><p>注解annotations</p>
-<p>Common uses for annotations:</p>
-<ul>
-<li> To detect problems or errors in code</li>
-<li> To suppress compiler warnings</li>
-<li> For unit tests, e.g. JUnit</li>
-</ul>
-<p>An annotation can be placed on:</p>
-<ul>
-<li> a class</li>
-<li> a method</li>
-<li> a field</li>
-<li> a local variable, …</li>
-</ul>
-<h3 id="第36条：坚持使用override注解"><a href="#第36条：坚持使用override注解" class="headerlink" title="第36条：坚持使用override注解"></a>第36条：坚持使用override注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bigram</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> first;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> second;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Bigram</span><span class="params">(<span class="keyword">char</span> first, <span class="keyword">char</span> second)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.first = first;</div><div class="line">		<span class="keyword">this</span>.second = second;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Bigram b)</span> </span>&#123;</div><div class="line">	 <span class="keyword">return</span> b.first == first &amp;&amp; b.second == second;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	 <span class="meta">@Override</span></div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">	 Bigram b = (Bigram)o;</div><div class="line">	 <span class="keyword">return</span> b.first == first &amp;&amp; b.second == second;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">31</span> * first + second;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"><span class="comment">//		System.out.println(new Bigram('a', 'z') == new Bigram('a', 'z'));</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		Object obj = new Bigram('a', 'z');</span></div><div class="line"><span class="comment">//		System.out.println(obj.equals(new Bigram('a', 'z')));</span></div><div class="line"><span class="comment">//		</span></div><div class="line"><span class="comment">//		System.out.println(new Bigram('a', 'z').equals(obj));</span></div><div class="line"></div><div class="line">		Set&lt;Bigram&gt; s = <span class="keyword">new</span> HashSet&lt;Bigram&gt;();</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">char</span> ch = <span class="string">'a'</span>; ch &lt;= <span class="string">'z'</span>; ch++)</div><div class="line">				s.add(<span class="keyword">new</span> Bigram(ch, ch));</div><div class="line"></div><div class="line">		System.out.println(s.size());</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果是260.<br>解释：bigram类的创建者想要覆盖equals方法，同事还覆盖了hashcode。但是结果是没有覆盖，将他重载了。为了覆盖object.equals方法，必须定义一个参数为object类型的equals方法。</p>
-<p>幸运的是当你加上@override注解时，编译器会报错告诉你哪里错了。</p>
-<h3 id="第38条：检查参数的有效性"><a href="#第38条：检查参数的有效性" class="headerlink" title="第38条：检查参数的有效性"></a>第38条：检查参数的有效性</h3><h3 id="第39条：必要时进行保护性拷贝"><a href="#第39条：必要时进行保护性拷贝" class="headerlink" title="第39条：必要时进行保护性拷贝"></a>第39条：必要时进行保护性拷贝</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Broken “immutable” time period class</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Period</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Date start;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> Date end;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Period</span> <span class="params">(Date start, Date end)</span> </span>&#123;</div><div class="line"><span class="keyword">if</span> (start.compareTo(end) &gt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IAE(…);</div><div class="line"><span class="keyword">this</span>.start = start; <span class="keyword">this</span>.end = end; <span class="comment">//oops – should make defensive copies</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">start</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> start;&#125; <span class="comment">// oops again!</span></div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">end</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> end;&#125; <span class="comment">// oops yet again!</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// Attack code</span></div><div class="line">Date start = <span class="keyword">new</span> Date();</div><div class="line">Date end = <span class="keyword">new</span> Date();</div><div class="line">Period p = <span class="keyword">new</span> Period(start, end);</div><div class="line">end.setYear(<span class="number">78</span>); <span class="comment">// Attack 1: Modify internals of p via passed reference</span></div><div class="line">p.end().setYear(<span class="number">78</span>); <span class="comment">// Attack 2: Modify internals of p via returned state</span></div></pre></td></tr></table></figure>
-<pre><code>// Repaired constructor and getters – now Period really is immutable
-public Period (Date start, Date end) {
-// Note: clone() *not* used to make defensive copy
-// Reason: Date class not final; hence return type may not be java.util.Date
-this.start = new Date(start.getTime()); // Defensive copy
-this.end = new Date(end.getTime()); // Defensive copy
-// Defensive copies made *before* exception check to avoid TOCTOU attack
-if (this.start.compareTo(end) &gt; 0) throw new IAE(…);
-}
-// clone also safe here, but constructors or static factories better (Item 11)
-public Date start() { return new Date(start.getTime()); }
-public Date end() { return new Date(end.getTime());}
-}
-</code></pre><h3 id="第40条：谨慎设计方法签名"><a href="#第40条：谨慎设计方法签名" class="headerlink" title="第40条：谨慎设计方法签名"></a>第40条：谨慎设计方法签名</h3><h3 id="第41条：慎用重载"><a href="#第41条：慎用重载" class="headerlink" title="第41条：慎用重载"></a>第41条：慎用重载</h3><p>Overriding</p>
-<ul>
-<li> Normal OO Pattern</li>
-<li> Dynamically determined by runtime system</li>
-</ul>
-<p>Overloading</p>
-<ul>
-<li> Exceptional OO Pattern</li>
-<li> Statically determined by compiler</li>
-</ul>
-<p>Set.java ：boolean remove(Object o);<br>List.java：E remove(int index);boolean remove(Object o);</p>
-<h3 id="第42条：慎用可变参数"><a href="#第42条：慎用可变参数" class="headerlink" title="第42条：慎用可变参数"></a>第42条：慎用可变参数</h3><h3 id="第43条：返回零长度的数据或者集合，而不是null"><a href="#第43条：返回零长度的数据或者集合，而不是null" class="headerlink" title="第43条：返回零长度的数据或者集合，而不是null"></a>第43条：返回零长度的数据或者集合，而不是null</h3><h3 id="第44条：为所有导出的api元素编写文档注释"><a href="#第44条：为所有导出的api元素编写文档注释" class="headerlink" title="第44条：为所有导出的api元素编写文档注释"></a>第44条：为所有导出的api元素编写文档注释</h3><h3 id="第45条：将局部变量的作用于最小化"><a href="#第45条：将局部变量的作用于最小化" class="headerlink" title="第45条：将局部变量的作用于最小化"></a>第45条：将局部变量的作用于最小化</h3><p>要使局部变量的作用于最小化，最有力的方法就是在第一次使用它的地方声明，</p>
-<p>几乎每个局部变量的声明都应该包含一个初始化表达式，</p>
-<h3 id="第46条：foreach循环优先于传统for循环"><a href="#第46条：foreach循环优先于传统for循环" class="headerlink" title="第46条：foreach循环优先于传统for循环"></a>第46条：foreach循环优先于传统for循环</h3><h3 id="第47条：了解和实用类库"><a href="#第47条：了解和实用类库" class="headerlink" title="第47条：了解和实用类库"></a>第47条：了解和实用类库</h3><h3 id="第48条：如果需要准确的答案，请避免实用float和double"><a href="#第48条：如果需要准确的答案，请避免实用float和double" class="headerlink" title="第48条：如果需要准确的答案，请避免实用float和double"></a>第48条：如果需要准确的答案，请避免实用float和double</h3><p>BigDecimal</p>
-<h3 id="第49条：自动拆箱和装箱"><a href="#第49条：自动拆箱和装箱" class="headerlink" title="第49条：自动拆箱和装箱"></a>第49条：自动拆箱和装箱</h3><pre><code>// Broken comparator – can you spot the flaw?
-Comparator &lt; Integer&gt; naturalOrder =
-new Comparator&lt;Integer&gt;() { // Anonymous type
-public int compare (Integer first, Integer second) {
-return first &lt; second ? -1 ://自动拆箱
-(first == second//没有自动拆箱
-? 0 : 1);
-}
-};
- Sample uses:
- naturalOrder.compare(new Integer(41), new Integer(42));
- naturalOrder.compare(new Integer(42), new Integer(42));
- naturalOrder.compare(new Integer(43), new Integer(42));
-</code></pre><h3 id="第50条：如果其他类型更适合，则尽量避免实用string"><a href="#第50条：如果其他类型更适合，则尽量避免实用string" class="headerlink" title="第50条：如果其他类型更适合，则尽量避免实用string"></a>第50条：如果其他类型更适合，则尽量避免实用string</h3><h3 id="第51条：当心字符串连接的性能"><a href="#第51条：当心字符串连接的性能" class="headerlink" title="第51条：当心字符串连接的性能"></a>第51条：当心字符串连接的性能</h3><h3 id="第52条：通过接口引用对象"><a href="#第52条：通过接口引用对象" class="headerlink" title="第52条：通过接口引用对象"></a>第52条：通过接口引用对象</h3><h3 id="第53条：接口优先于反射机制"><a href="#第53条：接口优先于反射机制" class="headerlink" title="第53条：接口优先于反射机制"></a>第53条：接口优先于反射机制</h3><h3 id="第54条：谨慎的使用本地方法"><a href="#第54条：谨慎的使用本地方法" class="headerlink" title="第54条：谨慎的使用本地方法"></a>第54条：谨慎的使用本地方法</h3><h3 id="第55条：谨慎的进行优化"><a href="#第55条：谨慎的进行优化" class="headerlink" title="第55条：谨慎的进行优化"></a>第55条：谨慎的进行优化</h3><h3 id="第57条：只针对异常的情况实用异常"><a href="#第57条：只针对异常的情况实用异常" class="headerlink" title="第57条：只针对异常的情况实用异常"></a>第57条：只针对异常的情况实用异常</h3><h3 id="第61条：抛出与抽象相对应的异常"><a href="#第61条：抛出与抽象相对应的异常" class="headerlink" title="第61条：抛出与抽象相对应的异常"></a>第61条：抛出与抽象相对应的异常</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1932,7 +1998,7 @@ return first &lt; second ? -1 ://自动拆箱
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1940,7 +2006,7 @@ return first &lt; second ? -1 ://自动拆箱
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1949,7 +2015,7 @@ return first &lt; second ? -1 ://自动拆箱
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
