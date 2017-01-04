@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -257,7 +257,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:14:17+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -390,7 +390,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:08:12+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -880,7 +880,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">startAcceptorThreads</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = getAcceptorThreadCount();</div><div class="line">        acceptors = <span class="keyword">new</span> Acceptor[count];</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">            acceptors[i] = createAcceptor();</div><div class="line">            String threadName = getName() + <span class="string">"-Acceptor-"</span> + i;</div><div class="line">            acceptors[i].setThreadName(threadName);</div><div class="line">            Thread t = <span class="keyword">new</span> Thread(acceptors[i], threadName);</div><div class="line">            t.setPriority(getAcceptorThreadPriority());</div><div class="line">            t.setDaemon(getDaemon());</div><div class="line">            t.start();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>如果JIoEndpoint尚未处于运行中（即running等于true），才会创建接收请求线程。从代码可以看出接收请求线程的数量主要由acceptorThreadCount控制，代码清单9已经告诉我们acceptorThreadCount的默认值为1，但是我们可以通过给Connector增加acceptorThreadCount属性来修改接收请求线程的数量。这些接收请求线程的主要工作由Acceptor完成，Acceptor的实质是一个Runnable.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Acceptor</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="keyword">public</span> <span class="keyword">enum</span> AcceptorState &#123;</div><div class="line">            NEW, RUNNING, PAUSED, ENDED</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">protected</span> <span class="keyword">volatile</span> AcceptorState state = AcceptorState.NEW;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> AcceptorState <span class="title">getState</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> state;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> String threadName;</div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setThreadName</span><span class="params">(<span class="keyword">final</span> String threadName)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.threadName = threadName;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> String <span class="title">getThreadName</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> threadName;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="第七章-Tomcat一次完整请求的处理流程"><a href="#第七章-Tomcat一次完整请求的处理流程" class="headerlink" title="第七章 Tomcat一次完整请求的处理流程"></a>第七章 Tomcat一次完整请求的处理流程</h3><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><p>上一章介绍了请求前的准备工作，这一章讲解tomact一次完成请求的处理流程。</p>
+<h3 id="第八章-Tomcat一次完整请求的处理流程"><a href="#第八章-Tomcat一次完整请求的处理流程" class="headerlink" title="第八章 Tomcat一次完整请求的处理流程"></a>第八章 Tomcat一次完整请求的处理流程</h3><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><p>上一章介绍了请求前的准备工作，这一章讲解tomact一次完成请求的处理流程。</p>
 <p>Tomcat一次完整请求处理的重点功能如下：</p>
 <ol>
 <li><p>接收Socket请求，把请求转发到线程池，由线程池分配一个线程来处理。</p>
@@ -971,7 +971,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:08:12+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -1069,7 +1069,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-27T13:33:17+08:00" content="2016-12-27">
               2016-12-27
             </time>
@@ -1081,7 +1081,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/tomact/" itemprop="url" rel="index">
@@ -1203,7 +1203,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-26T20:50:35+08:00" content="2016-12-26">
               2016-12-26
             </time>
@@ -1311,7 +1311,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-26T20:43:07+08:00" content="2016-12-26">
               2016-12-26
             </time>
@@ -1418,7 +1418,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-24T13:21:48+08:00" content="2016-12-24">
               2016-12-24
             </time>
@@ -1516,7 +1516,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-24T12:35:12+08:00" content="2016-12-24">
               2016-12-24
             </time>
@@ -1636,7 +1636,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-24T10:37:01+08:00" content="2016-12-24">
               2016-12-24
             </time>
@@ -1800,7 +1800,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-23T12:06:37+08:00" content="2016-12-23">
               2016-12-23
             </time>
@@ -1918,7 +1918,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">78</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -1926,7 +1926,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">16</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1935,7 +1935,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">36</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1986,7 +1986,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
