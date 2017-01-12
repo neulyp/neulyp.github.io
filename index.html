@@ -177,7 +177,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -193,7 +193,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -244,6 +244,922 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/12/juc_questions/" itemprop="url">
+                  juc:locks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-12T23:27:24+08:00" content="2017-01-12">
+              2017-01-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</strong></p>
+<p>使用join。</p>
+<p><strong>问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</strong></p>
+<p>这里主要是要考察说lock与synchronized 的区别。</p>
+<ol>
+<li><p>利用cpu底层机制lock有读锁 与 写锁的区分。</p>
+<p> synchronized这种排斥了 写/写，读/写 读/读。<br> lock读与读是多个线程可以同时读的。—-可以做为读多写少的应用<br> lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。</p>
+</li>
+<li><p>在于上下文的切换与锁的竞争的优化</p>
+<p> 对于 synchronized 来说。他只有一个条件队列的，里面放着对应于不同类型的（也可以说是处理不同业务类型的）线程，那这时，你只能notifyall<br> ，为了保证程序的正确，把所有的线程都叫起来，不管是不是你想要的业务类型的线程。这种对于性能影响是非常大的。比如10个线程在一个条件队列上等待，那么调用notifyAll 将唤醒所有的线程<br>这个时候线程产生如下：</p>
+<pre><code>a 它们会在锁上面产生竞争。
+b 它们竞争完了之后大部分又大部分wait了
+  这两步，会导致了大量的线程上下文切换。以及大量锁的竞争。
+</code></pre><p> 但这个lock是没问题的。他可以对于 不同的条件创建wait-set ，比如生产者消费者模式，生产者生产一个对象，这时想唤醒消费者，只需要在相应的条件上面的wait set进行single.</p>
+</li>
+<li><p>关于死锁的避免</p>
+</li>
+</ol>
+<p><strong>问题3 在java中wait和sleep方法的不同？</strong></p>
+<ol>
+<li>sleep是thread类的方法，wait是object的方法 </li>
+<li>最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</li>
+</ol>
+<p><strong>问题4 用Java实现阻塞队列</strong></p>
+<p>阻塞队列与普通队列的区别在于，当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞。试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其他的线程往空的队列插入新的元素。同样，试图往已满的阻塞队列中添加新元素的线程同样也会被阻塞，直到其他的线程使队列重新变得空闲起来，如从队列中移除一个或者多个元素，或者完全清空队列</p>
+<p>1.版本1 使用wait和notify实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockQueue</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> List q=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> limit =<span class="number">10</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BlockQueue</span><span class="params">(<span class="keyword">int</span> limit)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.limit=limit;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Object item)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">this</span>.q.add(item);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Object  <span class="title">dequeue</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.q.remove(<span class="number">0</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.版本2 并发包</p>
+<p>看源码分析（@TODO）</p>
+<p><strong>问题5 用Java写代码来解决生产者——消费者问题。</strong></p>
+<p>1.阻塞对列</p>
+<p><strong>问题6 用Java编程一个会导致死锁的程序，你将怎么解决？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDeadLock</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        MyThread mt = <span class="keyword">new</span> MyThread();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"张三"</span>).start();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"李四"</span>).start();</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> Object o1 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> Object o2 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">         </div><div class="line"> </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (flag) &#123;</div><div class="line">                flag = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                flag = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> TestDeadLock().run();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>问题7 什么是原子操作，Java中的原子操作是什么？</strong></p>
+<p>所谓原子操作,就是”不可中断的一个或一系列操作” , java中的atomic？还是说volatile synchronized？</p>
+<p><strong>问题8 Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</strong></p>
+<ol>
+<li>volatile是变量修饰符，而synchronized则作用于一段代码或方法。</li>
+<li>volatile只是在线程内存和“主”内存间同步某个变量的值；而synchronized通过锁定和解锁某个监视器同步所有变量的值。显然synchronized要比volatile消耗更多资源。 </li>
+</ol>
+<p>我自己的理解十volatile中，当一个变量被修改后，本地的缓存写入主内存中，并使其他线程中该对象的缓存失效，直接从主存中读值。synchronized是锁住主内存。</p>
+<p><strong>问题9 什么是竞争条件？你怎样发现和解决竞争？</strong></p>
+<p>在Java多线程中，当两个或以上的线程对同一个数据进行操作的时候，可能会产生“竞争条件”的现象。这种现象产生的根本原因是因为多个线程在对同一个数据进行操作，此时对该数据的操作是非“原子化”的，可能前一个线程对数据的操作还没有结束，后一个线程又开始对同样的数据开始进行操作，这就可能会造成数据结果的变化未知。</p>
+<p>怎么避免？使用锁。</p>
+<p><strong>问题10 如何使用thread dump？ 怎么分析？</strong></p>
+<p><a href="http://blog.csdn.net/rachel_luo/article/details/8920596" target="_blank" rel="external">http://blog.csdn.net/rachel_luo/article/details/8920596</a></p>
+<p><strong>问题11 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</strong></p>
+<p>调用start 多线程！！！你将创建新的线程，并且执行在run()方法里的代码</p>
+<p>调用run 只是一个普通的方法而已。它不会创建新的线程也不会执行调用线程的代码。只是执行一个run方法。并没有创建新的线程。</p>
+<p><strong>问题12 Java中你怎样唤醒一个阻塞的线程？</strong></p>
+<ol>
+<li>wait notify？但其面向的主体是对象object</li>
+<li>LockSupport，它提供的park和unpark方法分别用于阻塞和唤醒</li>
+</ol>
+<p>参照;<a href="http://blog.csdn.net/wangyangzhizhou/article/details/41777547" target="_blank" rel="external">http://blog.csdn.net/wangyangzhizhou/article/details/41777547</a></p>
+<p><strong>问题13 在Java中CycliBarriar和CountdownLatch有什么区别？</strong></p>
+<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
+<p><strong>问题14 什么是不可变对象，它对写并发应用有什么帮助？</strong></p>
+<ol>
+<li>不可变对象：如果一个对象，在它创建完成之后，不能再改变它的状态，那么这个对象就是不可变的。不能改变状态的意思是，不能改变对象内的成员变量，包括基本数据类型的值不能改变，引用类型的变量不能指向其他的对象，引用类型指向的对象的状态也不能改变。</li>
+<li>String为什么是不可变？String类其实就是对字符数组的封装。value是String封装的数组，offset是String在这个value数组中的起始位置，count是String所占的字符的个数。不提供更改方法，所以是不可变的。</li>
+</ol>
+<p><strong>问题15 线程与进程的区别？</strong></p>
+<p>进程可以包含很多线程</p>
+<p><strong>问题16 什么是多线程中的上下文切换？</strong></p>
+<p>上下文切换是存储和恢复CPU状态的过程，它使得线程执行能够从中断点恢复执行。上下文切换是多任务操作系统和多线程环境的基本特征。<br>同一进程中的两个线程之间的切换</p>
+<p><strong>问题17 死锁与活锁的区别，死锁与饥饿的区别？</strong></p>
+<p>死锁发生在当一些进程请求其它进程占有的资源而被阻塞时。</p>
+<p>另外一方面，活锁不会被阻塞，而是不停检测一个永远不可能为真的条件。除去进程本身持有的资源外，活锁状态的进程会持续耗费宝贵的CPU时间。</p>
+<p>最后，进程会处于饥饿状态是因为持续地有其它优先级更高的进程请求相同的资源。不像死锁或者活锁，饥饿能够被解开。例如，当其它高优先级的进程都终止时并且没有更高优先级的进程到达。</p>
+<p><strong>问题18 Java中用到的线程调度算法是什么？</strong></p>
+<p>抢占 和协同？？</p>
+<p><strong>问题19 为什么使用Executor框架比使用应用创建和管理线程好？</strong></p>
+<p><a href="http://www.tuicool.com/articles/ayIvq2Z" target="_blank" rel="external">http://www.tuicool.com/articles/ayIvq2Z</a></p>
+<p><strong>问题10 在Java中Executor和Executors的区别？</strong></p>
+<p>Executor是Java线程池的顶级接口</p>
+<p>Executors是一个类，Executors类提供了若干个静态方法，用于生成不同类型的线程池。</p>
+<p><strong>问题20 如何在Windows和Linux上查找哪个线程使用的CPU时间最长？</strong></p>
+<p>windows上面用任务管理器看，linux下可以用top 这个工具看。</p>
+<p>当然如果你要查找具体的进程，可以用ps命令,比如查找java：<br>ps -ef |grep java<br>linux 获取项目的pid，jps或者ps -ef | grep java</p>
+<p><strong>问题21 线程池底层如何实现？</strong></p>
+<p>详见前几章介绍</p>
+<p>撒花！！！！ 完结。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/12/juc_executor2/" itemprop="url">
+                  juc:collections-ConcurrentMap
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-12T19:27:24+08:00" content="2017-01-12">
+              2017-01-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文主要介绍线程池的实现原理（面试重点啊！！） 分分钟要搞清楚的</p>
+<h3 id="线程池数据结构和线程构造方法"><a href="#线程池数据结构和线程构造方法" class="headerlink" title="线程池数据结构和线程构造方法"></a>线程池数据结构和线程构造方法</h3><p>从threadpoolThread 中很容易看到线程池的数据结构如下：<br><img src="http://i.imgur.com/HEtEdUP.png" alt=""></p>
+<p>对于ThreadPoolExecutor而言，一个线程就是一个Worker对象，它与一个线程绑定，当Worker执行完毕就是线程执行完毕。</p>
+<p>线程的构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line">    <span class="function">Thread <span class="title">newThread</span><span class="params">(Runnable r)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ThreadPoolExecutor使用一个线程工厂来构造线程。线程池都是提交一个任务Runnable，然后在某一个线程Thread中执行，ThreadFactory 负责如何创建一个新线程。</p>
+<p>在J.U.C中有一个通用的线程工厂java.util.concurrent.Executors.DefaultThreadFactory，它的构造方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger poolNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</div><div class="line">    <span class="keyword">final</span> ThreadGroup group;</div><div class="line">    <span class="keyword">final</span> AtomicInteger threadNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</div><div class="line">    <span class="keyword">final</span> String namePrefix;</div><div class="line">    DefaultThreadFactory() &#123;</div><div class="line">        SecurityManager s = System.getSecurityManager();</div><div class="line">        group = (s != <span class="keyword">null</span>)? s.getThreadGroup() :</div><div class="line">                             Thread.currentThread().getThreadGroup();</div><div class="line">        namePrefix = <span class="string">"pool-"</span> +</div><div class="line">                      poolNumber.getAndIncrement() +</div><div class="line">                     <span class="string">"-thread-"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">        Thread t = <span class="keyword">new</span> Thread(group, r,</div><div class="line">                              namePrefix + threadNumber.getAndIncrement(),</div><div class="line">                              <span class="number">0</span>);</div><div class="line">        <span class="keyword">if</span> (t.isDaemon())</div><div class="line">            t.setDaemon(<span class="keyword">false</span>);</div><div class="line">        <span class="keyword">if</span> (t.getPriority() != Thread.NORM_PRIORITY)</div><div class="line">            t.setPriority(Thread.NORM_PRIORITY);</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/YToHSNz.png" alt=""></p>
+<h3 id="线程池任务执行流程"><a href="#线程池任务执行流程" class="headerlink" title="线程池任务执行流程"></a>线程池任务执行流程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Executes the given task sometime in the future.  The task</div><div class="line">     * may execute in a new thread or in an existing pooled thread.</div><div class="line">     *</div><div class="line">     * If the task cannot be submitted for execution, either because this</div><div class="line">     * executor has been shutdown or because its capacity has been reached,</div><div class="line">     * the task is handled by the current &#123;<span class="doctag">@code</span> RejectedExecutionHandler&#125;.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> command the task to execute</div><div class="line">     * <span class="doctag">@throws</span> RejectedExecutionException at discretion of</div><div class="line">     *         &#123;<span class="doctag">@code</span> RejectedExecutionHandler&#125;, if the task</div><div class="line">     *         cannot be accepted for execution</div><div class="line">     * <span class="doctag">@throws</span> NullPointerException if &#123;<span class="doctag">@code</span> command&#125; is null</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (command == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        <span class="comment">/*</span></div><div class="line">         * Proceed in 3 steps:</div><div class="line">         *</div><div class="line">         * 1. If fewer than corePoolSize threads are running, try to</div><div class="line">         * start a new thread with the given command as its first</div><div class="line">         * task.  The call to addWorker atomically checks runState and</div><div class="line">         * workerCount, and so prevents false alarms that would add</div><div class="line">         * threads when it shouldn't, by returning false.</div><div class="line">         *</div><div class="line">         * 2. If a task can be successfully queued, then we still need</div><div class="line">         * to double-check whether we should have added a thread</div><div class="line">         * (because existing ones died since last checking) or that</div><div class="line">         * the pool shut down since entry into this method. So we</div><div class="line">         * recheck state and if necessary roll back the enqueuing if</div><div class="line">         * stopped, or start a new thread if there are none.</div><div class="line">         *</div><div class="line">         * 3. If we cannot queue task, then we try to add a new</div><div class="line">         * thread.  If it fails, we know we are shut down or saturated</div><div class="line">         * and so reject the task.</div><div class="line">         */</div><div class="line">        <span class="keyword">int</span> c = ctl.get();</div><div class="line">        <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</div><div class="line">            <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            c = ctl.get();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</div><div class="line">            <span class="keyword">int</span> recheck = ctl.get();</div><div class="line">            <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</div><div class="line">                reject(command);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</div><div class="line">                addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</div><div class="line">            reject(command);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>主要步骤：</p>
+<ol>
+<li>如果任务command为空，则抛出空指针异常，返回。否则进行2。</li>
+<li>如果当前线程池大小 大于或等于 核心线程池大小，进行4。否则进行3。</li>
+<li>创建一个新工作队列（线程，参考上一节），成功直接返回，失败进行</li>
+<li>如果线程池正在运行并且任务加入线程池队列成功，进行5，否则进行7。</li>
+<li>如果线程池已经关闭或者线程池大小为0，进行6，否则直接返回。</li>
+<li>如果线程池已经关闭则执行拒绝策略返回，否则启动一个新线程来进行执行任务，返回。</li>
+<li>如果线程池大小 不大于 最大线程池数量，则启动新线程来进行执行，否则进行拒绝策略，结束。</li>
+</ol>
+<p><img src="http://i.imgur.com/CyLlYaA.png" alt=""></p>
+<p>那么什么时候一个任务被立即执行呢？</p>
+<p>在线程池运行状态下，如果线程池大小 小于 核心线程池大小或者线程池已满（任务队列已满）并且线程池大小 小于 最大线程池大小（此时线程池大小 大于 核心线程池大小的）。</p>
+<p>上面的条件就是一个任务能够被立即执行的条件。</p>
+<p>有了execute的基础，我们再来看ExecutorService中的几个submit方法的实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;Object&gt; ftask = newTaskFor(task, <span class="keyword">null</span>);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;T&gt; ftask = newTaskFor(task, result);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;T&gt; ftask = newTaskFor(task);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="线程池任务执行结果"><a href="#线程池任务执行结果" class="headerlink" title="线程池任务执行结果"></a>线程池任务执行结果</h3><p>为了解决之前获取线程结果会阻塞主线程并且任务不能被取消，线程池中提出了future接口。</p>
+<p><img src="http://i.imgur.com/zccXej5.png" alt=""></p>
+<p>在Future接口中提供了5个方法。</p>
+<p><img src="http://i.imgur.com/g0Q1FYe.png" alt=""></p>
+<p>在Future接口中提供了5个方法。</p>
+<ul>
+<li>V get() throws InterruptedException, ExecutionException： 等待计算完成，然后获取其结果。</li>
+<li>V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException。最多等待为使计算完成所给定的时间之后，获取其结果（如果结果可用）。</li>
+<li>boolean cancel(boolean mayInterruptIfRunning)：试图取消对此任务的执行。</li>
+<li>boolean isCancelled()：如果在任务正常完成前将其取消，则返回 true。</li>
+<li>boolean isDone()：如果任务已完成，则返回 true。 可能由于正常终止、异常或取消而完成，在所有这些情况中，此方法都将返回 true。</li>
+</ul>
+<p>API看起来容易，来研究下异常吧。</p>
+<p>get()请求获取一个结果会阻塞当前进程，并且可能抛出以下三种异常：</p>
+<ul>
+<li>InterruptedException：执行任务的线程被中断则会抛出此异常，此时不能知道任务是否执行完毕，因此其结果是无用的，必须处理此异常。</li>
+<li>ExecutionException：任务执行过程中(Runnable#run()）方法可能抛出RuntimeException，如果提交的是一个java.util.concurrent.Callable<v>接口任务，那么java.util.concurrent.Callable.call()方法有可能抛出任意异常。</v></li>
+<li>CancellationException：实际上get()方法还可能抛出一个CancellationException的RuntimeException，也就是任务被取消了但是依然去获取结果。</li>
+</ul>
+<p>对于get(long timeout, TimeUnit unit)而言，除了get()方法的异常外，由于有超时机制，因此还可能得到一个TimeoutException。</p>
+<p>boolean cancel(boolean mayInterruptIfRunning)方法比较复杂，各种情况比较多：</p>
+<ul>
+<li>如果任务已经执行完毕，那么返回false。</li>
+<li>如果任务已经取消，那么返回false。</li>
+<li>循环直到设置任务为取消状态，对于未启动的任务将永远不再执行，对于正在运行的任务，将根据mayInterruptIfRunning是否中断其运行，如果不中断那么任务将继续运行直到结束。</li>
+<li>此方法返回后任务要么处于运行结束状态，要么处于取消状态。isDone()将永远返回true，如果cancel()方法返回true，isCancelled()始终返回true。</li>
+</ul>
+<h3 id="延迟、周期性任务调度的实现"><a href="#延迟、周期性任务调度的实现" class="headerlink" title="延迟、周期性任务调度的实现"></a>延迟、周期性任务调度的实现</h3><p>java.util.concurrent.ScheduledThreadPoolExecutor是默认的延迟、周期性任务调度的实现。</p>
+<p>有了整个线程池的实现，再回头来看延迟、周期性任务调度的实现应该就很简单了，因为所谓的延迟、周期性任务调度，无非添加一系列有序的任务队列，然后按照执行顺序的先后来处理整个任务队列。如果是周期性任务，那么在执行完毕的时候加入下一个时间点的任务即可。</p>
+<p>由此可见，ScheduledThreadPoolExecutor和ThreadPoolExecutor的唯一区别在于任务是有序（按照执行时间顺序）的，并且需要到达时间点（临界点）才能执行，并不是任务队列中有任务就需要执行的。也就是说唯一不同的就是任务队列BlockingQueue<runnable> workQueue不一样。ScheduledThreadPoolExecutor的任务队列是java.util.concurrent.ScheduledThreadPoolExecutor.DelayedWorkQueue，它是基于java.util.concurrent.DelayQueue<runnablescheduledfuture>队列的实现。</runnablescheduledfuture></runnable></p>
+<p>DelayQueue是基于有序队列PriorityQueue实现的。PriorityQueue 也叫优先级队列，按照自然顺序对元素进行排序，类似于TreeMap/Collections.sort一样。</p>
+<p>同样是有序队列，DelayQueue和PriorityQueue区别在什么地方？</p>
+<p>由于DelayQueue在获取元素时需要检测元素是否“可用”，也就是任务是否达到“临界点”（指定时间点），因此加入元素和移除元素会有一些额外的操作。</p>
+<p>典型的，移除元素需要检测元素是否达到“临界点”，增加元素的时候如果有一个元素比“头元素”更早达到临界点，那么就需要通知任务队列。因此这需要一个条件变量final Condition available 。</p>
+<p>移除元素（出队列）的过程是这样的：</p>
+<ul>
+<li>总是检测队列的头元素（顺序最小元素，也是最先达到临界点的元素）</li>
+<li>检测头元素与当前时间的差，如果大于0，表示还未到底临界点，因此等待响应时间（使用条件变量available)</li>
+<li>如果小于或者等于0，说明已经到底临界点或者已经过了临界点，那么就移除头元素，并且唤醒其它等待任务队列的线程。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/11/juc_executor/" itemprop="url">
+                  juc:locks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-11T19:27:24+08:00" content="2017-01-11">
+              2017-01-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
+<p>文章主要介绍executor模块下面的内容。</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>并发执行任务的一个很重要前提是拆分任务。把一个大的过程或者任务拆分成很多小的工作单元，每一个工作单元可能相关、也可能无关，这些单元在一定程度上可以充分利用CPU的特性并发的执行，从而提高并发性（性能、响应时间、吞吐量等）。</p>
+<p>任务的执行策略包括4W3H部分：</p>
+<ul>
+<li>任务在什么（What）线程中执行</li>
+<li>任务以什么（What）顺序执行（FIFO/LIFO/优先级等）</li>
+<li>同时有多少个（How Many）任务并发执行</li>
+<li>允许有多少个（How Many）个任务进入执行队列</li>
+<li>系统过载时选择放弃哪一个（Which）任务，如何（How）通知应用程序这个动作</li>
+<li>任务执行的开始、结束应该做什么（What）处理</li>
+</ul>
+<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p><img src="http://i.imgur.com/1votuwr.png" alt=""></p>
+<p>Java里面线程池的顶级接口是Executor，但是严格意义上讲Executor并不是一个线程池，而只是一个执行线程的工具。真正的线程池接口是ExecutorService。</p>
+<p><strong>1.executor</strong></p>
+<p>只有一个执行方法 executor()</p>
+<p><strong>2.ExecutorService</strong></p>
+<p><img src="http://i.imgur.com/el6QC9K.png" alt=""></p>
+<p>主要方法如下：</p>
+<p>Future&lt;?&gt; submit(Runnable task)</p>
+<p><t> Future<t> submit(Callable<t> task)</t></t></t></p>
+<p>这两个方法都是向线程池中提交任务，它们的区别在于Runnable在执行完毕后没有结果，Callable执行完毕后有一个结果。这在多个线程中传递状态和结果是非常有用的。另外他们的相同点在于都返回一个Future对象。Future对象可以阻塞线程直到运行完毕（获取结果，如果有的话），也可以取消任务执行，当然也能够检测任务是否被取消或者是否执行完毕。</p>
+<p><strong>3.AbstractExecutorService</strong></p>
+<p>是一个抽象类，继承实现了ExecutorService接口。</p>
+<p><strong>4.ThreadPoolExecutor</strong></p>
+<p>继承抽象类AbstractExecutorService。是ExecutorService的默认实现。</p>
+<p><strong>5.ScheduledThreadPoolExecutor</strong></p>
+<p>ScheduledThreadPoolExecutor是继承ThreadPoolExecutor的ScheduledExecutorService接口实现，周期性任务调度的类实现。</p>
+<p><strong>5.Executors</strong></p>
+<ul>
+<li>要配置一个线程池是比较复杂的，尤其是对于线程池的原理不是很清楚的情况下，很有可能配置的线程池不是较优的，因此在Executors类里面提供了一些静态工厂，生成一些常用的线程池。</li>
+<li>newSingleThreadExecutor：创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。<br>newFixedThreadPool：创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。</li>
+<li>newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。</li>
+<li>newScheduledThreadPool：创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。</li>
+<li>newSingleThreadScheduledExecutor：创建一个单线程的线程池。此线程池支持定时以及周期性执行任务的需求。</li>
+</ul>
+<h3 id="Executor生命周期"><a href="#Executor生命周期" class="headerlink" title="Executor生命周期"></a>Executor生命周期</h3><p><img src="http://i.imgur.com/FDDMmd2.png" alt=""></p>
+<ul>
+<li>线程池在构造前（new操作）是初始状态，一旦构造完成线程池就进入了执行状态RUNNING。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。这个会后面线程池的原理会详细分析。但是线程池是出于运行状态，随时准备接受任务来执行。</li>
+<li>线程池运行中可以通过shutdown()和shutdownNow()来改变运行状态。shutdown()是一个平缓的关闭过程，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态；shutdownNow()是一个立即关闭过程，线程池停止接受新的任务，同时线程池取消所有执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。</li>
+<li>一旦shutdown()或者shutdownNow()执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。</li>
+<li>isTerminating()描述的是SHUTDOWN和STOP两种状态。</li>
+<li>isShutdown()描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
+</ul>
+<p>对于关闭线程池期间发生的任务提交情况就会触发一个拒绝执行的操作：<br>这是java.util.concurrent.RejectedExecutionHandler描述的任务操作。（下一小节进行介绍）</p>
+<p>总结：</p>
+<ul>
+<li>线程池有运行、关闭、停止、结束四种状态，结束后就会释放所有资源</li>
+<li>平缓关闭线程池使用shutdown()</li>
+<li>立即关闭线程池使用shutdownNow()，同时得到未执行的任务列表</li>
+<li>检测线程池是否正处于关闭中，使用isShutdown()</li>
+<li>检测线程池是否已经关闭使用isTerminated()</li>
+<li>定时或者永久等待线程池关闭结束使用awaitTermination()操作</li>
+</ul>
+<h3 id="线程池任务拒绝策略"><a href="#线程池任务拒绝策略" class="headerlink" title="线程池任务拒绝策略"></a>线程池任务拒绝策略</h3><p>RejectedExecutionHandler提供了四种方式来处理任务拒绝策略。</p>
+<ul>
+<li>callerRunPolicy 不用线程池线程执行</li>
+<li>DiscardPolicy 直接丢弃任务</li>
+<li>AbortPolicy 跑出异常</li>
+<li>DiscardOldestPolicy 丢弃队列中最旧任务 </li>
+</ul>
+<p>设置策略：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor pool = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, TimeUnit.SECONDS,</div><div class="line">                <span class="keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(<span class="number">1</span>));</div><div class="line">        pool.setRejectedExecutionHandler(<span class="keyword">new</span> ThreadPoolExecutor.DiscardPolicy());</div></pre></td></tr></table></figure>
+<h3 id="周期性任务调度"><a href="#周期性任务调度" class="headerlink" title="周期性任务调度"></a>周期性任务调度</h3><p>java.util.concurrent.ScheduledExecutorService</p>
+<p><img src="http://i.imgur.com/qIPJARw.png" alt=""></p>
+<ul>
+<li>schedule(Runnable command,long delay, TimeUnit unit)：在指定的延迟时间一次性启动任务（Runnable），没有返回值。</li>
+<li>schedule(Callable<v> callable, long delay, TimeUnit unit)：在指定的延迟时间一次性启动任务（Callable），携带一个结果。</v></li>
+<li>scheduleAtFixedRate(Runnable command,long initialDelay,long period,TimeUnit unit)：建并执行一个在给定初始延迟后首次启用的定期操作，后续操作具有给定的周期；也就是将在 initialDelay 后开始执行，然后在 initialDelay+period 后执行，接着在 initialDelay + 2 * period 后执行，依此类推。如果任务的任何一个执行遇到异常，则后续执行都会被取消。否则，只能通过执行程序的取消或终止方法来终止该任务。如果此任务的任何一个执行要花费比其周期更长的时间，则将推迟后续执行，但不会同时执行。</li>
+<li>scheduleWithFixedDelay(Runnable command,long initialDelay,long delay,TimeUnit unit)：创建并执行一个在给定初始延迟后首次启用的定期操作，随后，在每一次执行终止和下一次执行开始之间都存在给定的延迟。如果任务的任一执行遇到异常，就会取消后续执行。否则，只能通过执行程序的取消或终止方法来终止该任务。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/09/并发编程-1线程/" itemprop="url">
+                  并发编程1-线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-09T19:27:24+08:00" content="2017-01-09">
+              2017-01-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-线程"><a href="#1-线程" class="headerlink" title="1.线程"></a>1.线程</h3><h4 id="1-线程状态"><a href="#1-线程状态" class="headerlink" title="1.线程状态"></a>1.线程状态</h4><p><img src="http://i.imgur.com/0HZmNIu.png" alt=""></p>
+<p><img src="http://i.imgur.com/ZK1PN0H.png" alt=""></p>
+<p>由图4-1中可以看到，线程创建之后，调用start()方法开始运行。当线程执行wait()方法之<br>后，线程进入等待状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状<br>态，而超时等待状态相当于在等待状态的基础上增加了超时限制，也就是超时时间到达时将<br>会返回到运行状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到阻塞<br>状态。线程在执行Runnable的run()方法之后将会进入到终止状态。</p>
+<h4 id="2-daemon"><a href="#2-daemon" class="headerlink" title="2.daemon"></a>2.daemon</h4><p>Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这<br>意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调<br>用Thread.setDaemon(true)将线程设置为Daemon线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Daemon</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DaemonRunner(), <span class="string">"DaemonRunner"</span>);</div><div class="line">		thread.setDaemon(<span class="keyword">true</span>);</div><div class="line">		thread.start();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DaemonRunner</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				TimeUnit.SECONDS.sleep(<span class="number">10</span>);</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125; <span class="keyword">finally</span> &#123;</div><div class="line">				System.out.println(<span class="string">"DaemonThread finally run."</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果 不打印任何东西。</p>
+<h4 id="3-线程方法"><a href="#3-线程方法" class="headerlink" title="3.线程方法"></a>3.线程方法</h4><ol>
+<li>start</li>
+<li>run</li>
+<li>suspend() 暂停 不释放资源进入睡眠，容易引起思索</li>
+<li>resume() 恢复</li>
+<li>stop() 停止 不保证线程资源的正常释放</li>
+<li>interrupt() 中断</li>
+<li>join() 当前线程A等待thread线程终止之后才从thread.join()返回。</li>
+</ol>
+<p>等待和通知方法是任意java对象具备的，定义在object上，</p>
+<ol>
+<li>notifyAll：使所有原来在该对象上等待被notify的线程统统退出wait的状态，变成等待该对象上的锁，一旦该对象被解锁，他们就会去竞争。</li>
+<li>notify：notify则文明得多他只是选择一个wait状态线程进行通知，并使它获得该对象上的锁，但不惊动其他同样在等待被该对象notify的线程们，当第一个线程运行完毕以后释放对象上的锁此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，继续处在wait状态，直到这个对象发出一个notify或notifyAll，它们等待的是被notify或notifyAll，而不是锁。</li>
+<li>wait()</li>
+<li>wait(long)</li>
+<li>wait(lonhg,int)</li>
+</ol>
+<p>总结：</p>
+<ul>
+<li>1）使用wait()、notify()和notifyAll()时需要先对调用对象加锁。</li>
+<li>2）调用wait()方法后，线程状态由RUNNING变为WAITING，并将当前线程放置到对象的等待队列。</li>
+<li>3）notify()或notifyAll()方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifAll()的线程释放锁之后，等待线程才有机会从wait()返回。</li>
+<li>4）notify()方法将等待队列中的一个等待线程从等待队列中移到同步队列中，而notifyAll()方法则是将等待队列中所有的线程全部移到同步队列，被移动的线程状态WAITING变为BLOCKED。</li>
+<li>5）从wait()方法返回的前提是获得了调用对象的锁</li>
+</ul>
+<p>等待/通知的经典范式：<br>等待方（消费者）和通知方（生产者）</p>
+<p>等待方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line"><span class="keyword">while</span>(条件不满足) &#123;</div><div class="line">对象.wait();</div><div class="line">&#125; 对</div><div class="line">应的处理逻辑</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通知者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line">改变条件</div><div class="line">对象.notifyAll();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4-管道输入-输出流"><a href="#4-管道输入-输出流" class="headerlink" title="4.管道输入/输出流"></a>4.管道输入/输出流</h4><p>管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。</p>
+<p>管道输入/输出流主要包括了如下4种具体实现：PipedOutputStream、PipedInputStream、PipedReader和PipedWriter，前两种面向字节，而后两种面向字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Piped</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">PipedWriter out = <span class="keyword">new</span> PipedWriter();</div><div class="line">PipedReader in = <span class="keyword">new</span> PipedReader();</div><div class="line"><span class="comment">// 将输出流和输入流进行连接，否则在使用时会抛出IOException</span></div><div class="line">out.connect(in);</div><div class="line">Thread printThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Print(in), <span class="string">"PrintThread"</span>);</div><div class="line">printThread.start();</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = System.in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">out.write(receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125;s</div><div class="line">tatic <span class="class"><span class="keyword">class</span> <span class="title">Print</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> PipedReader in;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Print</span><span class="params">(PipedReader in)</span> </span>&#123;</div><div class="line"><span class="keyword">this</span>.in = in;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">System.out.print((<span class="keyword">char</span>) receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/09/juc_lock/" itemprop="url">
+                  juc:locks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-09T19:27:24+08:00" content="2017-01-09">
+              2017-01-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
+<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
+<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
+<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
+<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
+<p>锁重入需要解决两个问题：</p>
+<ul>
+<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
+<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
+<p><strong>公平与非公平获取锁的区别</strong></p>
+<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
+<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
+<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
+<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
+<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
+<p>写锁的释放和ReentrantLock释放类似、</p>
+<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
+<p>总结一下：</p>
+<p>ReentrantReadWriteLock有以下几个特性：</p>
+<ul>
+<li>公平性<ul>
+<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
+<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
+</ul>
+</li>
+<li>重入性<ul>
+<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
+<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
+<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
+</ul>
+</li>
+<li>锁降级<ul>
+<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
+</ul>
+</li>
+<li>锁获取中断<ul>
+<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
+</ul>
+</li>
+<li>条件变量<ul>
+<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
+</ul>
+</li>
+<li>重入数<ul>
+<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
+<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
+<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
+<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
+<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
+<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/08/并发编程1/" itemprop="url">
+                  并发编程1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-08T19:27:24+08:00" content="2017-01-08">
+              2017-01-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-重排序"><a href="#1-重排序" class="headerlink" title="1.重排序"></a>1.重排序</h3><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。</p>
+<p>如果两个操作访问同一个变量，且这两个操作中有一个为写操作，此时这两个操作之间就存在数据依赖性。</p>
+<ul>
+<li>写后读</li>
+<li>写后写</li>
+<li>读后写</li>
+</ul>
+<p>上面3种情况，只要重排序两个操作的执行顺序，程序的执行结果就会被改变。编译器和处理器在重排序时，会遵守数据依赖性，编译器和处理器不会改变存在数据依赖关系的两个操作的执行顺序。</p>
+<p>这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作，不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑。</p>
+<p><strong>这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作，<br>不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑</strong></p>
+<h3 id="2-as-if-serial语义"><a href="#2-as-if-serial语义" class="headerlink" title="2.as-if-serial语义"></a>2.as-if-serial语义</h3><p>as-if-serial语义的意思是：不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。为了遵守as-if-serial语义，编译器和处理器不会对存在数据依赖关系的操作做重排序，因为这种重排序会改变执行结果。但是，如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> pi = <span class="number">3.14</span>; <span class="comment">// A</span></div><div class="line"><span class="keyword">double</span> r = <span class="number">1.0</span>; <span class="comment">// B</span></div><div class="line"><span class="keyword">double</span> area = pi * r * r; <span class="comment">// C</span></div></pre></td></tr></table></figure>
+<p>a依赖于c b依赖于c ab可以重排序，c在ab后面。</p>
+<h3 id="3-happens-before语义"><a href="#3-happens-before语义" class="headerlink" title="3.happens-before语义"></a>3.happens-before语义</h3><ol>
+<li>A happens-before B。</li>
+<li>B happens-before C。</li>
+<li>A happens-before C</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReorderExample</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> a = <span class="number">0</span>;</div><div class="line"><span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writer</span><span class="params">()</span> </span>&#123;</div><div class="line">a = <span class="number">1</span>; <span class="comment">// 1</span></div><div class="line">flag = <span class="keyword">true</span>; <span class="comment">// 2</span></div><div class="line">&#125; <span class="function">P</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">reader</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">if</span> (f?lag) &#123; <span class="comment">// 3</span></div><div class="line"><span class="keyword">int</span> i = a * a; <span class="comment">// 4</span></div><div class="line">……</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>flag变量是个标记，用来标识变量a是否已被写入。这里假设有两个线程A和B，A首先执行<br>writer()方法，随后B线程接着执行reader()方法。线程B在执行操作4时，能否看到线程A在操作<br>1对共享变量a的写入呢？</p>
+<p><strong>答案是：不一定能看到。</strong></p>
+<h3 id="4-volatile内存语义"><a href="#4-volatile内存语义" class="headerlink" title="4.volatile内存语义"></a>4.volatile内存语义</h3><p>可见性。对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入</p>
+<p>原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性.</p>
+<p>volatile读的内存语义:<br>当读一个volatile变量时，JMM会把该线程对应的本地内存置为无效。线程接下来将从主内存中读取共享变量.</p>
+<p>总结：<br>线程A写一个volatile变量，实质上是线程A向接下来将要读这个volatile变量的某个线程<br>发出了（其对共享变量所做修改的）消息。<br>·线程B读一个volatile变量，实质上是线程B接收了之前某个线程发出的（在写这个volatile<br>变量之前对共享变量所做修改的）消息。<br>·线程A写一个volatile变量，随后线程B读这个volatile变量，这个过程实质上是线程A通过<br>主内存向线程B发送消息。</p>
+<h3 id="4-锁的内存语义"><a href="#4-锁的内存语义" class="headerlink" title="4.锁的内存语义"></a>4.锁的内存语义</h3><p>锁是Java并发编程中最重要的同步机制。锁除了让临界区互斥执行外，还可以让释放锁的线程向获取同一个锁的线程发送消息。</p>
+<p>对比锁释放-获取的内存语义与volatile写-读的内存语义可以看出：锁释放与volatile写有相同的内存语义；锁获取与volatile读有相同的内存语义。</p>
+<p>下面对锁释放和锁获取的内存语义做个总结。</p>
+<p>·线程A释放一个锁，实质上是线程A向接下来将要获取这个锁的某个线程发出了（线程A对共享变量所做修改的）消息。</p>
+<p>·线程B获取一个锁，实质上是线程B接收了之前某个线程发出的（在释放这个锁之前对共享变量所做修改的）消息。</p>
+<p>·线程A释放锁，随后线程B获取这个锁，这个过程实质上是线程A通过主内存向线程B发送消息。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/31/2016总结/" itemprop="url">
                   2016总结
                 </a>
@@ -257,7 +1173,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:14:17+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -390,7 +1306,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:08:12+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -1170,7 +2086,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-31T12:08:12+08:00" content="2016-12-31">
               2016-12-31
             </time>
@@ -1268,7 +2184,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-12-27T13:33:17+08:00" content="2016-12-27">
               2016-12-27
             </time>
@@ -1280,7 +2196,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/tomact/" itemprop="url" rel="index">
@@ -1368,714 +2284,11 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/26/pat1011/" itemprop="url">
-                  pat1011
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-26T20:50:35+08:00" content="2016-12-26">
-              2016-12-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1011.World Cup Betting (20)</p>
-<p>With the 2010 FIFA World Cup running, football fans the world over were becoming increasingly excited as the best players from the best teams doing battles for the World Cup trophy in South Africa. Similarly, football betting fans were putting their money where their mouths were, by laying all manner of World Cup bets.</p>
-<p>Chinese Football Lottery provided a “Triple Winning” game. The rule of winning was simple: first select any three of the games. Then for each selected game, bet on one of the three possible results – namely W for win, T for tie, and L for lose. There was an odd assigned to each result. The winner’s odd would be the product of the three odds times 65%.</p>
-<p>For example, 3 games’ odds are given as the following:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> W    T    L</div><div class="line">1.1  2.5  1.7</div><div class="line">1.2  3.0  1.6</div><div class="line">4.1  1.2  1.1</div></pre></td></tr></table></figure>
-<p>To obtain the maximum profit, one must buy W for the 3rd game, T for the 2nd game, and T for the 1st game. If each bet takes 2 yuans, then the maximum profit would be <code>(4.1*3.0*2.5*65%-1)*2 = 37.98</code> yuans (accurate up to 2 decimal places).</p>
-<p>Input</p>
-<p>Each input file contains one test case. Each case contains the betting information of 3 games. Each game occupies a line with three distinct odds corresponding to W, T and L.</p>
-<p>Output</p>
-<p>For each test case, print in one line the best bet of each game, and the maximum profit accurate up to 2 decimal places. The characters and the number must be separated by one space.</p>
-<p>Sample Input</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.1 2.5 1.7</div><div class="line">1.2 3.0 1.6</div><div class="line">4.1 1.2 1.1</div></pre></td></tr></table></figure>
-<p>Sample Output</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T T W 37.98</div></pre></td></tr></table></figure>
-<p>思路：属于简单送分题。按照思路，直接写程序就好。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t11</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		String[] s=&#123;<span class="string">"W"</span>,<span class="string">"T"</span>,<span class="string">"L"</span>&#125;;</div><div class="line">		String[] ss=<span class="keyword">new</span> String[<span class="number">3</span>];</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		<span class="keyword">double</span> sum=<span class="number">1</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</div><div class="line">			<span class="keyword">double</span> x=<span class="number">0</span>;</div><div class="line">			<span class="keyword">int</span> index=<span class="number">0</span>;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</div><div class="line">				<span class="keyword">double</span> t=sc.nextDouble();</div><div class="line">				<span class="keyword">if</span>(x&lt;t)&#123;</div><div class="line">					x=t;</div><div class="line">					index=j;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			ss[i]=s[index];</div><div class="line">			sum*=x;	</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">for</span>(String str:ss)</div><div class="line">			System.out.print(str+<span class="string">" "</span>);</div><div class="line">		System.out.printf(<span class="string">"%.2f"</span>,(sum*<span class="number">0.65</span>-<span class="number">1</span>)*<span class="number">2</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/26/pat1010/" itemprop="url">
-                  pat1010
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-26T20:43:07+08:00" content="2016-12-26">
-              2016-12-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1010.Radix (25)</p>
-<p>Given a pair of positive integers, for example, 6 and 110, can this equation 6 = 110 be true? The answer is “yes”, if 6 is a decimal number and 110 is a binary number.</p>
-<p>Now for any pair of positive integers N1 and N2, your task is to find the radix of one number while that of the other is given.</p>
-<p>Input Specification:</p>
-<p>Each input file contains one test case. Each case occupies a line which contains 4 positive integers:<br>N1 N2 tag radix<br>Here N1 and N2 each has no more than 10 digits. A digit is less than its radix and is chosen from the set {0-9, a-z} where 0-9 represent the decimal numbers 0-9, and a-z represent the decimal numbers 10-35. The last number “radix” is the radix of N1 if “tag” is 1, or of N2 if “tag” is 2.</p>
-<p>Output Specification:</p>
-<p>For each test case, print in one line the radix of the other number so that the equation N1 = N2 is true. If the equation is impossible, print “Impossible”. If the solution is not unique, output the smallest possible radix.</p>
-<p>Sample Input 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">6 110 1 10</div></pre></td></tr></table></figure></p>
-<p>Sample Output 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2</div></pre></td></tr></table></figure></p>
-<p>Sample Input 2:<br><figure class="highlight plain"><figcaption><span>ab 1 2```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Sample Output 2:</div><div class="line">```Impossible</div></pre></td></tr></table></figure></p>
-<p>思路：如果a等于b，第二个进制数应该大于b中最大的数字，小于等于a的值+1。并且基数有可能很大，所以要声明long。</p>
-<p>解答：<br>C++版本</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stack&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;map&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;math.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;functional&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> uLL;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">1</span>&lt;&lt;<span class="number">30</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e5</span> + <span class="number">50</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">toint</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> ans;</div><div class="line">	<span class="keyword">if</span>(c &gt; <span class="string">'9'</span>) ans = c-<span class="string">'a'</span>+<span class="number">10</span>;</div><div class="line">	<span class="keyword">else</span> ans = c-<span class="string">'0'</span>;</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">uLL <span class="title">change</span><span class="params">(<span class="built_in">string</span> s, uLL r)</span></span>&#123;</div><div class="line">	uLL ans = <span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; s[i]; i++)  ans = ans*r + toint(s[i]);</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">findmax</span><span class="params">(<span class="built_in">string</span> s)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; s[i]; i++) <span class="keyword">if</span>(ans &lt; toint(s[i])) ans = toint(s[i]);</div><div class="line">	<span class="keyword">return</span> ans;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> tag,r;</div><div class="line">	uLL x,y;</div><div class="line">	<span class="built_in">string</span> a,b;</div><div class="line">	<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b&gt;&gt;tag&gt;&gt;r;</div><div class="line">	<span class="keyword">if</span>(tag==<span class="number">2</span>) swap(a,b);</div><div class="line">	x = change(a,r);</div><div class="line">	<span class="keyword">for</span>(uLL l=findmax(b)+<span class="number">1</span>, r = x+<span class="number">1</span>; l &lt;= r; )&#123;</div><div class="line">		uLL m = l+r &gt;&gt; <span class="number">1</span>;</div><div class="line">		y = change(b,m);</div><div class="line">		<span class="keyword">if</span>(y==x) &#123; <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,m); <span class="keyword">return</span> <span class="number">0</span>; &#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(y&gt;x) r = m<span class="number">-1</span>;</div><div class="line">		<span class="keyword">else</span> l = m+<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Impossible\n"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div></pre></td></tr></table></figure>
-<p>java测试用例没有全部通过。我不知道什么原因。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t10_2</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">toint</span><span class="params">(<span class="keyword">char</span> c)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> c&gt;<span class="string">'9'</span>?c-<span class="string">'a'</span>+<span class="number">10</span>:c-<span class="string">'0'</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">long</span> <span class="title">change</span><span class="params">(String s,<span class="keyword">long</span> radix)</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> ans=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</div><div class="line">			ans=ans*radix+toint(s.charAt(i));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> ans;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">findmax</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> ans=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)</div><div class="line">			<span class="keyword">if</span>(ans&lt;toint(s.charAt(i))) ans=toint(s.charAt(i));</div><div class="line">		<span class="keyword">return</span> ans;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="keyword">long</span> tag,r;</div><div class="line">	<span class="keyword">static</span> String a,b;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">long</span> x,y;</div><div class="line">		Scanner sc=<span class="keyword">new</span> Scanner(System.in);</div><div class="line">		a=sc.next();</div><div class="line">		b=sc.next();</div><div class="line">		tag=sc.nextInt();</div><div class="line">		r=sc.nextLong();</div><div class="line">		sc.close();</div><div class="line">		<span class="keyword">if</span>(tag==<span class="number">2</span>)&#123;</div><div class="line">			String tmp=a;a=b;b=tmp;</div><div class="line">		&#125;</div><div class="line">		x=change(a, r);		</div><div class="line">		<span class="keyword">long</span> left=findmax(b)+<span class="number">1</span>,right=x+<span class="number">1</span>;</div><div class="line">		<span class="keyword">while</span>(left&lt;=right)&#123;</div><div class="line">			<span class="keyword">long</span> middle=(left+right)&gt;&gt;<span class="number">1</span>;</div><div class="line">			y=change(b, middle);</div><div class="line">			<span class="keyword">if</span>(x==y)&#123;System.out.println(middle);  <span class="keyword">return</span>;&#125;</div><div class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(y&gt;x) right=middle-<span class="number">1</span>;</div><div class="line">			<span class="keyword">else</span> left=middle+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		System.out.println(<span class="string">"Impossible"</span>);</div><div class="line">		<span class="keyword">return</span> ;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/24/memcached/" itemprop="url">
-                  memcached
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-24T13:21:48+08:00" content="2016-12-24">
-              2016-12-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>原理：</p>
-<ol>
-<li>Memcached是danga的一个项目，最早是为LiveJournal服务的，后来被很多大型网站采用。www.danga.com</li>
-<li>一种缓存技术，可以把你的数据放入内存，从而通过内存访问，提速。维护了一张大的hashtable表，该表是在内存中的，表结构：key    value。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/24/redis/" itemprop="url">
-                  redis
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-24T12:35:12+08:00" content="2016-12-24">
-              2016-12-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://www.yiibai.com/redis/redis_quick_guide.html" target="_blank" rel="external">http://www.yiibai.com/redis/redis_quick_guide.html</a></p>
-<p>Redis是一个速度非常快的非关系数据库，它可以存储键与5种不同类型的值之间的映射，可以将存储在内存的键值对数据持久化到硬盘，可以使用复制特性来扩展读性能，还可以使用客户端分片来扩展写性能。</p>
-<p>安装：<br><a href="http://www.cnblogs.com/sandea/p/5782192.html" target="_blank" rel="external">http://www.cnblogs.com/sandea/p/5782192.html</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-3.2.3.tar.gz</div><div class="line"></div><div class="line">tar -zxvf redis-3.2.3.tar.gz</div><div class="line"></div><div class="line">mv redis-3.2.3 redis</div><div class="line">cd redis</div><div class="line">make MALLOC=libc</div><div class="line">make install</div></pre></td></tr></table></figure>
-<h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h3><p><img src="http://i.imgur.com/7VRR2Xz.png" alt=""></p>
-<p>Redis 有三个主要使其有别于其它很多竞争对手的特点：</p>
-<ul>
-<li>Redis是完全在内存中保存数据的数据库，使用磁盘只是为了持久性目的； </li>
-<li>Redis相比许多键值数据存储系统有相对丰富的数据类型； </li>
-<li>Redis可以将数据复制到任意数量的从服务器中； </li>
-</ul>
-<p>Redis优点</p>
-<ul>
-<li>异常快速 : Redis是非常快的，每秒可以执行大约110000设置操作，81000个/每秒的读取操作。</li>
-<li>支持丰富的数据类型 : Redis支持最大多数开发人员已经知道如列表，集合，可排序集合，哈希等数据类型。这使得在应用中很容易解决的各种问题，因为我们知道哪些问题处理使用哪种数据类型更好解决。</li>
-<li>操作都是原子的 : 所有 Redis 的操作都是原子，从而确保当两个客户同时访问 Redis 服务器得到的是更新后的值（最新值）。</li>
-<li>MultiUtility工具：Redis是一个多功能实用工具，可以在很多如：缓存，消息传递队列中使用（Redis原生支持发布/订阅），在应用程序中，如：Web应用程序会话，网站页面点击数等任何短暂的数据；</li>
-</ul>
-<h3 id="2-redis中数据结构"><a href="#2-redis中数据结构" class="headerlink" title="2.redis中数据结构"></a>2.redis中数据结构</h3><p>5种:string list set hash zset</p>
-<h3 id="3-事务"><a href="#3-事务" class="headerlink" title="3.事务"></a>3.事务</h3><p>Redis事务允许一组命令在单一步骤中执行。事务有两个属性，说明如下：</p>
-<ul>
-<li>在一个事务中的所有命令作为单个独立的操作顺序执行。在Redis事务中的执行过程中而另一客户机发出的请求，这是不可以的；</li>
-<li>Redis事务是原子的。原子意味着要么所有的命令都执行，要么都不执行；</li>
-</ul>
-<p>Redis 事务由指令 MULTI 发起的，之后传递需要在事务中和整个事务中，最后由 EXEC 命令执行所有命令的列表。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; MULTI</div><div class="line">OK</div><div class="line">redis 127.0.0.1:6379&gt; SET tutorial redis</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; GET tutorial</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; INCR visitors</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; EXEC</div><div class="line"></div><div class="line">1) OK</div><div class="line">2) &quot;redis&quot;</div><div class="line">3) (integer) 1</div></pre></td></tr></table></figure>
-<h3 id="4-持久化"><a href="#4-持久化" class="headerlink" title="4.持久化"></a>4.持久化</h3><p>Redis提供两种不同的持久化方法来将数据存储到硬盘里面。一种方法叫快照，它可以将存在于某一时刻的所有数据都写入硬盘里面。另一种方法叫只追加文件（AOF)，它会在执行写命令时，将被执行的写命令复制到硬盘里面。这两种持久化方法既可以同时使用，又可以单独使用，在某些情况下甚至两种方法都不是用，具体选择哪种持久化方法需要根据用户的数据以及应用来决定。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/24/zookeeper/" itemprop="url">
-                  zookeeper
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-24T10:37:01+08:00" content="2016-12-24">
-              2016-12-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://cailin.iteye.com/blog/2014486/" target="_blank" rel="external">http://cailin.iteye.com/blog/2014486/</a></p>
-<p>ps：未完待续</p>
-<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，它包含一个简单的原语集，分布式应用程序可以基于它<strong>实现同步服务，配置维护和命名服务</strong>等。Zookeeper是hadoop的一个子项目，其发展历程无需赘述。在分布式应用中，由于工程师不能很好地使用锁机制，以及基于消息的协调机制不适合在某些应用中使用，因此需要有一种可靠的、可扩展的、分布式的、可配置的协调机制来统一系统的状态。Zookeeper的目的就在于此。本文简单分析zookeeper的工作原理，对于如何使用zookeeper不是本文讨论的重点。</p>
-<p>Zookeeper 从设计模式角度来看，是一个基于观察者模式设计的分布式服务管理框。</p>
-<p>功能：</p>
-<ul>
-<li>统一命名服务（Name Service）：<br>分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住。<br>Name Service 已经是 Zookeeper 内置的功能，你只要调用 Zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</li>
-<li>配置管理</li>
-<li>集群管理</li>
-</ul>
-<h4 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h4><p>Zookeeper中的角色主要有以下三类，如下表所示：<br><img src="http://i.imgur.com/NxWbDV8.jpg" alt=""></p>
-<h4 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h4><p>1.最终一致性：client不论连接到哪个Server，展示给它都是同一个视图，这是zookeeper最重要的性能。</p>
-<p>2 .可靠性：具有简单、健壮、良好的性能，如果消息m被到一台服务器接受，那么它将被所有的服务器接受。</p>
-<p>3 .实时性：Zookeeper保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用sync()接口。</p>
-<p>4 .等待无关（wait-free）：慢的或者失效的client不得干预快速的client的请求，使得每个client都能有效的等待。</p>
-<p>5.原子性：更新只能成功或者失败，没有中间状态。</p>
-<p>6 .顺序性：包括全局有序和偏序两种：全局有序是指如果在一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</p>
-<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>Zookeeper的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。</p>
-<p>为了保证事务的顺序一致性，zookeeper采用了递增的事务id号（zxid）来标识事务。所有的提议（proposal）都在被提出的时候加上了zxid。实现中zxid是一个64位的数字，它高32位是epoch用来标识leader关系是否改变，每次一个leader被选出来，它都会有一个新的epoch，标识当前属于那个leader的统治时期。低32位用于递增计数。</p>
-<p>每个Server在工作过程中有三种状态：</p>
-<ul>
-<li>LOOKING：当前Server不知道leader是谁，正在搜寻</li>
-<li>LEADING：当前Server即为选举出来的leader</li>
-<li>FOLLOWING：leader已经选举出来，当前Server与之同步</li>
-</ul>
-<h4 id="选主流程"><a href="#选主流程" class="headerlink" title="选主流程"></a>选主流程</h4><p>当leader崩溃或者leader失去大多数的follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。Zk的选举算法有两种：一种是基于basic paxos实现的，另外一种是基于fast paxos算法实现的。系统默认的选举算法为fast paxos。先介绍basic paxos流程：</p>
-<ol>
-<li><p>选举线程由当前Server发起选举的线程担任，其主要功能是对投票结果进行统计，并选出推荐的Server；</p>
-</li>
-<li><p>选举线程首先向所有Server发起一次询问(包括自己)；</p>
-</li>
-<li><p>选举线程收到回复后，验证是否是自己发起的询问(验证zxid是否一致)，然后获取对方的id(myid)，并存储到当前询问对象列表中，最后获取对方提议的leader相关信息(id,zxid)，并将这些信息存储到当次选举的投票记录表中；</p>
-</li>
-<li><p>收到所有Server回复以后，就计算出zxid最大的那个Server，并将这个Server相关信息设置成下一次要投票的Server；</p>
-</li>
-<li><p>线程将当前zxid最大的Server设置为当前Server要推荐的Leader，如果此时获胜的Server获得n/2 + 1的Server票数， 设置当前推荐的leader为获胜的Server，将根据获胜的Server相关信息设置自己的状态，否则，继续这个过程，直到leader被选举出来。</p>
-</li>
-</ol>
-<p>通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且<strong>存活的Server的数目不得少于n+1</strong>.</p>
-<p>每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。选主的具体流程图如下所示：<br><img src="http://i.imgur.com/Vbcg5ge.jpg" alt=""></p>
-<p>fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。其流程图如下所示：</p>
-<p><img src="http://i.imgur.com/6faX072.jpg" alt=""></p>
-<h4 id="同步过程"><a href="#同步过程" class="headerlink" title="同步过程"></a>同步过程</h4><p>选完leader以后，zk就进入状态同步过程。</p>
-<ol>
-<li><p>leader等待server连接；</p>
-</li>
-<li><p>Follower连接leader，将最大的zxid发送给leader；</p>
-</li>
-<li><p>Leader根据follower的zxid确定同步点；</p>
-</li>
-<li><p>完成同步后通知follower 已经成为uptodate状态；</p>
-</li>
-<li><p>Follower收到uptodate消息后，又可以重新接受client的请求进行服务了</p>
-</li>
-</ol>
-<p><img src="http://i.imgur.com/uOAy55a.jpg" alt=""></p>
-<h4 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h4><p>leader工作流程：</p>
-<p>Leader主要有三个功能：</p>
-<ol>
-<li>恢复数据；</li>
-<li>维持与Learner的心跳，接收Learner请求并判断Learner的请求消息类型；</li>
-<li>Learner的消息类型主要有PING消息、REQUEST消息、ACK消息、REVALIDATE消息，根据不同的消息类型，进行不同的处理。</li>
-</ol>
-<p>PING消息是指Learner的心跳信息；REQUEST消息是Follower发送的提议信息，包括写请求及同步请求；ACK消息是Follower的对提议的回复，超过半数的Follower通过，则commit该提议；REVALIDATE消息是用来延长SESSION有效时间。</p>
-<p>follower工作流程<br>Follower主要有四个功能：</p>
-<ol>
-<li>向Leader发送请求（PING消息、REQUEST消息、ACK消息、REVALIDATE消息）；</li>
-<li>接收Leader消息并进行处理；</li>
-<li>接收Client的请求，如果为写请求，发送给Leader进行投票；</li>
-<li>返回Client结果。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/23/pat1009/" itemprop="url">
-                  pat1009
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T12:06:37+08:00" content="2016-12-23">
-              2016-12-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1009.Product of Polynomials (25)</p>
-<p>This time, you are supposed to find A*B where A and B are two polynomials.</p>
-<p>Input Specification:</p>
-<p>Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial: K N1 aN1 N2 aN2 … NK aNK, where K is the number of nonzero terms in the polynomial, Ni and aNi (i=1, 2, …, K) are the exponents and coefficients, respectively. It is given that 1 &lt;= K &lt;= 10, 0 &lt;= NK &lt; … &lt; N2 &lt; N1 &lt;=1000.</p>
-<p>Output Specification:</p>
-<p>For each test case you should output the product of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate up to 1 decimal place.</p>
-<p>Sample Input</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2 1 2.4 0 3.2</div><div class="line">2 2 1.5 1 0.5</div></pre></td></tr></table></figure>
-<p>Sample Output</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3 3 3.6 2 6.0 1 1.6</div></pre></td></tr></table></figure>
-<p>思路：正常按照多项式乘法计算就行，注意如果系数是0，那么这一项就是0.运算的时候要过滤到该项。</p>
-<p>解答：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> pat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t9_2</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] a= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] b= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">double</span>[] c= <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">1004</span>*<span class="number">1004</span>];</div><div class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n1,n2;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Scanner sc= <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		n1=sc.nextInt();</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n1;i++)&#123;</div><div class="line">			<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">			<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">			a[e]=c;</div><div class="line">		</div><div class="line">		&#125;</div><div class="line">		n2=sc.nextInt();</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n2;i++)&#123;</div><div class="line">			<span class="keyword">int</span> e=sc.nextInt();</div><div class="line">			<span class="keyword">double</span> c=sc.nextDouble();</div><div class="line">			b[e]=c;</div><div class="line">		&#125;</div><div class="line">		sc.close();</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(a[i]!=<span class="number">0</span>)&#123;</div><div class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;b.length;j++)&#123;</div><div class="line">					<span class="keyword">if</span>(b[j]!=<span class="number">0</span>)&#123;</div><div class="line">						c[i+j]+=a[i]*b[j];</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;			</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;c.length;i++) <span class="keyword">if</span>(c[i]!=<span class="number">0</span>) count++;</div><div class="line">		System.out.print(count);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=c.length-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) </div><div class="line">			<span class="keyword">if</span>(c[i]!=<span class="number">0</span>) &#123;</div><div class="line">				System.out.print(<span class="string">" "</span>+i+<span class="string">" "</span>);</div><div class="line">				System.out.printf(<span class="string">"%.1f"</span>,c[i]);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2116,8 +2329,8 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">78</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">84</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -2125,7 +2338,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">16</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -2133,8 +2346,8 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">36</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -2185,7 +2398,7 @@ Registry的registerComponent方法会为当前容器（如StandardServer）创�
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="并发编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
+使用join。
+问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？
+这里主要是要考察说lock与synchronized 的区别。
+
+利用cpu底层机制lock有读锁 与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="juc:locks">
+<meta property="og:url" content="http://yoursite.com/2017/01/12/juc_questions/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
+使用join。
+问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？
+这里主要是要考察说lock与synchronized 的区别。
+
+利用cpu底层机制lock有读锁 与">
+<meta property="og:updated_time" content="2017-01-12T17:06:00.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="juc:locks">
+<meta name="twitter:description" content="问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
+使用join。
+问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？
+这里主要是要考察说lock与synchronized 的区别。
+
+利用cpu底层机制lock有读锁 与">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/12/juc_questions/"/>
+
+
+  <title> juc:locks | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                juc:locks
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-12T23:27:24+08:00" content="2017-01-12">
+              2017-01-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</strong></p>
+<p>使用join。</p>
+<p><strong>问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</strong></p>
+<p>这里主要是要考察说lock与synchronized 的区别。</p>
+<ol>
+<li><p>利用cpu底层机制lock有读锁 与 写锁的区分。</p>
+<p> synchronized这种排斥了 写/写，读/写 读/读。<br> lock读与读是多个线程可以同时读的。—-可以做为读多写少的应用<br> lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。</p>
+</li>
+<li><p>在于上下文的切换与锁的竞争的优化</p>
+<p> 对于 synchronized 来说。他只有一个条件队列的，里面放着对应于不同类型的（也可以说是处理不同业务类型的）线程，那这时，你只能notifyall<br> ，为了保证程序的正确，把所有的线程都叫起来，不管是不是你想要的业务类型的线程。这种对于性能影响是非常大的。比如10个线程在一个条件队列上等待，那么调用notifyAll 将唤醒所有的线程<br>这个时候线程产生如下：</p>
+<pre><code>a 它们会在锁上面产生竞争。
+b 它们竞争完了之后大部分又大部分wait了
+  这两步，会导致了大量的线程上下文切换。以及大量锁的竞争。
+</code></pre><p> 但这个lock是没问题的。他可以对于 不同的条件创建wait-set ，比如生产者消费者模式，生产者生产一个对象，这时想唤醒消费者，只需要在相应的条件上面的wait set进行single.</p>
+</li>
+<li><p>关于死锁的避免</p>
+</li>
+</ol>
+<p><strong>问题3 在java中wait和sleep方法的不同？</strong></p>
+<ol>
+<li>sleep是thread类的方法，wait是object的方法 </li>
+<li>最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</li>
+</ol>
+<p><strong>问题4 用Java实现阻塞队列</strong></p>
+<p>阻塞队列与普通队列的区别在于，当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞。试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其他的线程往空的队列插入新的元素。同样，试图往已满的阻塞队列中添加新元素的线程同样也会被阻塞，直到其他的线程使队列重新变得空闲起来，如从队列中移除一个或者多个元素，或者完全清空队列</p>
+<p>1.版本1 使用wait和notify实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockQueue</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> List q=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> limit =<span class="number">10</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BlockQueue</span><span class="params">(<span class="keyword">int</span> limit)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.limit=limit;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Object item)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">this</span>.q.add(item);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Object  <span class="title">dequeue</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.q.remove(<span class="number">0</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.版本2 并发包</p>
+<p>看源码分析（@TODO）</p>
+<p><strong>问题5 用Java写代码来解决生产者——消费者问题。</strong></p>
+<p>1.阻塞对列</p>
+<p><strong>问题6 用Java编程一个会导致死锁的程序，你将怎么解决？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDeadLock</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        MyThread mt = <span class="keyword">new</span> MyThread();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"张三"</span>).start();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"李四"</span>).start();</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> Object o1 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> Object o2 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">         </div><div class="line"> </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (flag) &#123;</div><div class="line">                flag = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                flag = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> TestDeadLock().run();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>问题7 什么是原子操作，Java中的原子操作是什么？</strong></p>
+<p>所谓原子操作,就是”不可中断的一个或一系列操作” , java中的atomic？还是说volatile synchronized？</p>
+<p><strong>问题8 Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</strong></p>
+<ol>
+<li>volatile是变量修饰符，而synchronized则作用于一段代码或方法。</li>
+<li>volatile只是在线程内存和“主”内存间同步某个变量的值；而synchronized通过锁定和解锁某个监视器同步所有变量的值。显然synchronized要比volatile消耗更多资源。 </li>
+</ol>
+<p>我自己的理解十volatile中，当一个变量被修改后，本地的缓存写入主内存中，并使其他线程中该对象的缓存失效，直接从主存中读值。synchronized是锁住主内存。</p>
+<p><strong>问题9 什么是竞争条件？你怎样发现和解决竞争？</strong></p>
+<p>在Java多线程中，当两个或以上的线程对同一个数据进行操作的时候，可能会产生“竞争条件”的现象。这种现象产生的根本原因是因为多个线程在对同一个数据进行操作，此时对该数据的操作是非“原子化”的，可能前一个线程对数据的操作还没有结束，后一个线程又开始对同样的数据开始进行操作，这就可能会造成数据结果的变化未知。</p>
+<p>怎么避免？使用锁。</p>
+<p><strong>问题10 如何使用thread dump？ 怎么分析？</strong></p>
+<p><a href="http://blog.csdn.net/rachel_luo/article/details/8920596" target="_blank" rel="external">http://blog.csdn.net/rachel_luo/article/details/8920596</a></p>
+<p><strong>问题11 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</strong></p>
+<p>调用start 多线程！！！你将创建新的线程，并且执行在run()方法里的代码</p>
+<p>调用run 只是一个普通的方法而已。它不会创建新的线程也不会执行调用线程的代码。只是执行一个run方法。并没有创建新的线程。</p>
+<p><strong>问题12 Java中你怎样唤醒一个阻塞的线程？</strong></p>
+<ol>
+<li>wait notify？但其面向的主体是对象object</li>
+<li>LockSupport，它提供的park和unpark方法分别用于阻塞和唤醒</li>
+</ol>
+<p>参照;<a href="http://blog.csdn.net/wangyangzhizhou/article/details/41777547" target="_blank" rel="external">http://blog.csdn.net/wangyangzhizhou/article/details/41777547</a></p>
+<p><strong>问题13 在Java中CycliBarriar和CountdownLatch有什么区别？</strong></p>
+<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
+<p><strong>问题14 什么是不可变对象，它对写并发应用有什么帮助？</strong></p>
+<ol>
+<li>不可变对象：如果一个对象，在它创建完成之后，不能再改变它的状态，那么这个对象就是不可变的。不能改变状态的意思是，不能改变对象内的成员变量，包括基本数据类型的值不能改变，引用类型的变量不能指向其他的对象，引用类型指向的对象的状态也不能改变。</li>
+<li>String为什么是不可变？String类其实就是对字符数组的封装。value是String封装的数组，offset是String在这个value数组中的起始位置，count是String所占的字符的个数。不提供更改方法，所以是不可变的。</li>
+</ol>
+<p><strong>问题15 线程与进程的区别？</strong></p>
+<p>进程可以包含很多线程</p>
+<p><strong>问题16 什么是多线程中的上下文切换？</strong></p>
+<p>上下文切换是存储和恢复CPU状态的过程，它使得线程执行能够从中断点恢复执行。上下文切换是多任务操作系统和多线程环境的基本特征。<br>同一进程中的两个线程之间的切换</p>
+<p><strong>问题17 死锁与活锁的区别，死锁与饥饿的区别？</strong></p>
+<p>死锁发生在当一些进程请求其它进程占有的资源而被阻塞时。</p>
+<p>另外一方面，活锁不会被阻塞，而是不停检测一个永远不可能为真的条件。除去进程本身持有的资源外，活锁状态的进程会持续耗费宝贵的CPU时间。</p>
+<p>最后，进程会处于饥饿状态是因为持续地有其它优先级更高的进程请求相同的资源。不像死锁或者活锁，饥饿能够被解开。例如，当其它高优先级的进程都终止时并且没有更高优先级的进程到达。</p>
+<p><strong>问题18 Java中用到的线程调度算法是什么？</strong></p>
+<p>抢占 和协同？？</p>
+<p><strong>问题19 为什么使用Executor框架比使用应用创建和管理线程好？</strong></p>
+<p><a href="http://www.tuicool.com/articles/ayIvq2Z" target="_blank" rel="external">http://www.tuicool.com/articles/ayIvq2Z</a></p>
+<p><strong>问题10 在Java中Executor和Executors的区别？</strong></p>
+<p>Executor是Java线程池的顶级接口</p>
+<p>Executors是一个类，Executors类提供了若干个静态方法，用于生成不同类型的线程池。</p>
+<p><strong>问题20 如何在Windows和Linux上查找哪个线程使用的CPU时间最长？</strong></p>
+<p>windows上面用任务管理器看，linux下可以用top 这个工具看。</p>
+<p>当然如果你要查找具体的进程，可以用ps命令,比如查找java：<br>ps -ef |grep java<br>linux 获取项目的pid，jps或者ps -ef | grep java</p>
+<p><strong>问题21 线程池底层如何实现？</strong></p>
+<p>详见前几章介绍</p>
+<p>撒花！！！！ 完结。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发编程/" rel="tag">#并发编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/12/juc_executor2/" rel="next" title="juc:collections-ConcurrentMap">
+                <i class="fa fa-chevron-left"></i> juc:collections-ConcurrentMap
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">84</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
