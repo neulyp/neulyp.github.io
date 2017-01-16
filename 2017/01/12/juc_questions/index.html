@@ -97,7 +97,7 @@
 
 利用cpu底层机制lock有读锁 与">
 <meta property="og:type" content="article">
-<meta property="og:title" content="juc:locks">
+<meta property="og:title" content="juc:questions">
 <meta property="og:url" content="http://yoursite.com/2017/01/12/juc_questions/index.html">
 <meta property="og:site_name" content="lyp's blog">
 <meta property="og:description" content="问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
@@ -106,9 +106,9 @@
 这里主要是要考察说lock与synchronized 的区别。
 
 利用cpu底层机制lock有读锁 与">
-<meta property="og:updated_time" content="2017-01-12T17:06:00.075Z">
+<meta property="og:updated_time" content="2017-01-16T15:17:03.171Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="juc:locks">
+<meta name="twitter:title" content="juc:questions">
 <meta name="twitter:description" content="问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
 使用join。
 问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？
@@ -138,7 +138,7 @@
   <link rel="canonical" href="http://yoursite.com/2017/01/12/juc_questions/"/>
 
 
-  <title> juc:locks | lyp's blog </title>
+  <title> juc:questions | lyp's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="">
@@ -260,7 +260,7 @@
             
             
               
-                juc:locks
+                juc:questions
               
             
           </h1>
@@ -382,6 +382,7 @@ b 它们竞争完了之后大部分又大部分wait了
 <p>当然如果你要查找具体的进程，可以用ps命令,比如查找java：<br>ps -ef |grep java<br>linux 获取项目的pid，jps或者ps -ef | grep java</p>
 <p><strong>问题21 线程池底层如何实现？</strong></p>
 <p>详见前几章介绍</p>
+<p><strong>问题22 futuretask什么作用</strong></p>
 <p>撒花！！！！ 完结。</p>
 
       
@@ -414,13 +415,17 @@ b 它们竞争完了之后大部分又大部分wait了
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/12/juc_executor2/" rel="next" title="juc:collections-ConcurrentMap">
-                <i class="fa fa-chevron-left"></i> juc:collections-ConcurrentMap
+              <a href="/2017/01/12/juc_executor2/" rel="next" title="juc:collections-executor2">
+                <i class="fa fa-chevron-left"></i> juc:collections-executor2
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/13/sql_mysql-question/" rel="prev" title="sql_mysql-questions">
+                sql_mysql-questions <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -488,7 +493,7 @@ b 它们竞争完了之后大部分又大部分wait了
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">84</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
@@ -505,7 +510,7 @@ b 它们竞争完了之后大部分又大部分wait了
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>

@@ -1,0 +1,714 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="network," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="1.概述定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现资源共享的计算机集合。
+协议：控制网络中信息接收和发送的一组软件。定义了通信实体之间发送、接收报文的格式和传输顺序，以及收到报文所采取的动作。 
+因特网服务类型
+面向连接服务（connection-oriented service) 
+可靠的数据传送
+流控制
+拥塞控制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="network_概述">
+<meta property="og:url" content="http://yoursite.com/2017/01/13/network_1/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="1.概述定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现资源共享的计算机集合。
+协议：控制网络中信息接收和发送的一组软件。定义了通信实体之间发送、接收报文的格式和传输顺序，以及收到报文所采取的动作。 
+因特网服务类型
+面向连接服务（connection-oriented service) 
+可靠的数据传送
+流控制
+拥塞控制">
+<meta property="og:image" content="http://i.imgur.com/47uik6p.png">
+<meta property="og:image" content="http://i.imgur.com/QJ8LrJA.png">
+<meta property="og:image" content="http://i.imgur.com/gimo6BT.png">
+<meta property="og:image" content="http://i.imgur.com/x11ygPT.png">
+<meta property="og:image" content="http://i.imgur.com/YN5rb81.png">
+<meta property="og:image" content="http://i.imgur.com/t72xjCr.png">
+<meta property="og:updated_time" content="2017-01-16T15:20:31.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="network_概述">
+<meta name="twitter:description" content="1.概述定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现资源共享的计算机集合。
+协议：控制网络中信息接收和发送的一组软件。定义了通信实体之间发送、接收报文的格式和传输顺序，以及收到报文所采取的动作。 
+因特网服务类型
+面向连接服务（connection-oriented service) 
+可靠的数据传送
+流控制
+拥塞控制">
+<meta name="twitter:image" content="http://i.imgur.com/47uik6p.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/13/network_1/"/>
+
+
+  <title> network_概述 | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                network_概述
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-13T18:27:24+08:00" content="2017-01-13">
+              2017-01-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><p>定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现资源共享的计算机集合。</p>
+<p>协议：控制网络中信息接收和发送的一组软件。定义了通信实体之间发送、接收报文的格式和传输顺序，以及收到报文所采取的动作。 </p>
+<h4 id="因特网服务类型"><a href="#因特网服务类型" class="headerlink" title="因特网服务类型"></a>因特网服务类型</h4><ul>
+<li>面向连接服务（connection-oriented service) <ul>
+<li>可靠的数据传送</li>
+<li>流控制</li>
+<li>拥塞控制 </li>
+</ul>
+</li>
+<li>无连接服务（connectionless service） <ul>
+<li>不可靠：源主机不能确定分组是否已经到达目的地。</li>
+<li>无流控制或拥塞控制的功能。</li>
+</ul>
+</li>
+</ul>
+<h4 id="数据如何通过网络传送"><a href="#数据如何通过网络传送" class="headerlink" title="数据如何通过网络传送?"></a>数据如何通过网络传送?</h4><ul>
+<li>电路交换 </li>
+<li>分组交换</li>
+</ul>
+<p>以下分别详细介绍</p>
+<p>电路交换：通信双方必须先建立一个专用的连接（电路），一直维持，直到通信结束。</p>
+<ul>
+<li>多路复用：在一条传输链路上同时建立多条连接，分别传输数据。 <ul>
+<li>频分多路复用FDM(frequency-division multiplexing)</li>
+<li>时分多路复用TDM (time-division multiplexing) </li>
+</ul>
+</li>
+</ul>
+<p><img src="http://i.imgur.com/47uik6p.png" alt=""></p>
+<p>分组交换：源端将报文划分为较小的数据块（分组packet）；<br>每个分组通过一系列链路和分组交换机传送，直到目的端<br>目的端恢复原报文。</p>
+<h4 id="因特网协议栈"><a href="#因特网协议栈" class="headerlink" title="因特网协议栈"></a>因特网协议栈</h4><ul>
+<li>应用层：报文<ul>
+<li>提供各种网络应用。传输应用报文。</li>
+<li>FTP、 SMTP、 HTTP</li>
+</ul>
+</li>
+<li>运输层：报文段<ul>
+<li>在应用程序的客户机和服务器之间提供传输应用层报文服务。传输报文段。</li>
+<li>TCP、 UDP</li>
+</ul>
+</li>
+<li>网络层：数据报<ul>
+<li>主机和主机之间传输网络层分组（数据报）</li>
+<li>IP协议、 选路协议</li>
+</ul>
+</li>
+<li>链路层：帧<ul>
+<li>在邻近单元之间传输数据（帧 ）</li>
+<li>PPP、以太网</li>
+</ul>
+</li>
+<li>物理层：比特<ul>
+<li>在节点之间传输比特流</li>
+<li>传输媒体</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-应用层"><a href="#2-应用层" class="headerlink" title="2.应用层"></a>2.应用层</h3><p>主要掌握应用层协议http，socket api</p>
+<h4 id="http"><a href="#http" class="headerlink" title="http"></a>http</h4><p>请求报文<br><img src="http://i.imgur.com/QJ8LrJA.png" alt=""></p>
+<p>响应报文：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK </div><div class="line">Connection close</div><div class="line">Date: Thu, 06 Aug 1998 12:00:15 GMT </div><div class="line">服务器: Apache/1.3.0 (Unix) </div><div class="line">Last-Modified: Mon, 22 Jun 1998 …... </div><div class="line">Content-Length: 6821 </div><div class="line">Content-Type: text/html</div><div class="line"> </div><div class="line">data data data data data ...</div></pre></td></tr></table></figure>
+<p>响应状态码：</p>
+<ul>
+<li>200 OK<br>请求成功，请求的对象在这个报文后面</li>
+<li>301 Moved Permanently<br>请求的对象已转移，新的URL在响应报文的Location:首部行中指定</li>
+<li>400 Bad Request<br>请求报文不为服务器理解</li>
+<li>404 Not Found<br>请求的文档没有在该服务器上发现</li>
+<li>505 HTTP Version Not Supported</li>
+</ul>
+<h4 id="socket"><a href="#socket" class="headerlink" title="socket"></a>socket</h4><p>client<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*; </div><div class="line"><span class="keyword">import</span> java.net.*; </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TCP</span> <span class="title">Client</span> </span>&#123; </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String argv[])</span> <span class="keyword">throws</span> Exception </span></div><div class="line">    &#123; </div><div class="line">        String sentence; </div><div class="line">        String modifiedSentence; </div><div class="line"></div><div class="line">        BufferedReader inFromUser = </div><div class="line">          <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in)); </div><div class="line"></div><div class="line">        Socket ClientSocket = <span class="keyword">new</span> Socket(<span class="string">"hostname"</span>, <span class="number">6789</span>); </div><div class="line"></div><div class="line">        DataOutputStream outToServer = </div><div class="line">          <span class="keyword">new</span> DataOutputStream(ClientSocket.getOutputStream()); </div><div class="line">        BufferedReader inFromServer = </div><div class="line">          <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">          InputStreamReader(ClientSocket.getInputStream())); </div><div class="line"></div><div class="line">        sentence = inFromUser.readLine(); </div><div class="line"></div><div class="line">        outToServer.writeBytes(sentence + <span class="string">'\n'</span>); </div><div class="line"></div><div class="line">        modifiedSentence = inFromServer.readLine(); </div><div class="line"></div><div class="line">        System.out.println(<span class="string">"FROM Server: "</span> + modifiedSentence); </div><div class="line"></div><div class="line"> ClientSocket.close(); </div><div class="line">                   </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>server</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*; </div><div class="line"><span class="keyword">import</span> java.net.*; </div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TCP</span> <span class="title">Server</span> </span>&#123; </div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String argv[])</span> <span class="keyword">throws</span> Exception </span></div><div class="line">    &#123; </div><div class="line">      String ClientSentence; </div><div class="line">      String capitalizedSentence; </div><div class="line"></div><div class="line">      ServerSocket welcomeSocket = <span class="keyword">new</span> ServerSocket(<span class="number">6789</span>); </div><div class="line">  </div><div class="line">      <span class="keyword">while</span>(<span class="keyword">true</span>) &#123; </div><div class="line">  </div><div class="line">            Socket connectionSocket = welcomeSocket.accept(); </div><div class="line"></div><div class="line">           BufferedReader inFromClient = </div><div class="line">              <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">              InputStreamReader(connectionSocket.getInputStream())); </div><div class="line">           DataOutputStream  outToClient = </div><div class="line">             <span class="keyword">new</span> DataOutputStream(connectionSocket.getOutputStream()); </div><div class="line"></div><div class="line">           ClientSentence = inFromClient.readLine(); </div><div class="line"></div><div class="line">           capitalizedSentence = ClientSentence.toUpperCase() + <span class="string">'\n'</span>; </div><div class="line"></div><div class="line">           outToClient.writeBytes(capitalizedSentence); </div><div class="line">        &#125; </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-传输层"><a href="#3-传输层" class="headerlink" title="3.传输层"></a>3.传输层</h3><p>在运行不同主机上应用进程之间提供逻辑通信<br>传输协议运行在端系统中<br>发送方：将应用报文划分为段，传向网络层<br>接收方：将段重新装配为报文，传向应用层<br>应用可供使用的传输协议不止一个<br>因特网：TCP和UDP</p>
+<h4 id="udp"><a href="#udp" class="headerlink" title="udp"></a>udp</h4><p>为何要有 UDP协议?<br>无连接创建(它将增加时延)<br>简单：在发送方、接收方无连接状态<br>段首部小<br>无拥塞控制: UDP能够尽可能快地传输。</p>
+<p><img src="http://i.imgur.com/gimo6BT.png" alt=""></p>
+<h4 id="tcp"><a href="#tcp" class="headerlink" title="tcp"></a>tcp</h4><p><img src="http://i.imgur.com/x11ygPT.png" alt=""></p>
+<p>序号:<br>报文段中第1个数据字节在字节流中的位置编号</p>
+<p>确认号:<br>期望从对方收到下一个字节的序号<br>累计应答</p>
+<p><strong>三次握手：</strong></p>
+<ul>
+<li>步骤 1:  客户机向服务器发送 TCP SYN报文段<ul>
+<li>指定初始序号</li>
+<li>没有数据</li>
+</ul>
+</li>
+<li>步骤 2:  服务器收到SYN报文段, 用SYNACK报文段回复<ul>
+<li>服务器为该连接分配缓冲区和变量</li>
+<li>指定服务器初始序号</li>
+</ul>
+</li>
+<li>步骤 3:  客户机接收到 SYNACK, 用ACK报文段回复,可能包含数据</li>
+</ul>
+<ul>
+<li>步骤 1: 客户机向服务器发送TCP FIN控制报文段</li>
+<li>步骤 2: 服务器收到FIN，用ACK回答。关闭连接，发送FIN</li>
+<li>步骤 3: 客户机收到FIN, 用ACK回答 </li>
+<li>步骤 4: 服务器接收ACK，连接关闭</li>
+</ul>
+<h3 id="4-网络层"><a href="#4-网络层" class="headerlink" title="4.网络层"></a>4.网络层</h3><p>主要理解ip协议和选路算法</p>
+<p><img src="http://i.imgur.com/YN5rb81.png" alt=""></p>
+<p>NAT: 网络地址转换</p>
+<p><img src="http://i.imgur.com/t72xjCr.png" alt=""></p>
+<h3 id="4-链路层"><a href="#4-链路层" class="headerlink" title="4.链路层"></a>4.链路层</h3><p>帧, 链路访问:<br>将数据报封装进帧，加上首部和尾部<br>如果共享媒体，信道访问<br>位于帧首部的“MAC”地址标识源、目的地</p>
+<p>ARP: 地址解析协议</p>
+<p>LAN上的每个IP节点(主机、路由器)都有ARP表<br>ARP表: 对美协LAN节点的IP/MAC地址映射<br>    &lt; IP地址; MAC地址; TTL&gt;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/network/" rel="tag">#network</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/13/jsp_questions/" rel="next" title="jsp_questions">
+                <i class="fa fa-chevron-left"></i> jsp_questions
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/13/network_tcp报文详解/" rel="prev" title="network_tcp报文详解">
+                network_tcp报文详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-number">1.</span> <span class="nav-text">1.概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#因特网服务类型"><span class="nav-number">1.1.</span> <span class="nav-text">因特网服务类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据如何通过网络传送"><span class="nav-number">1.2.</span> <span class="nav-text">数据如何通过网络传送?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因特网协议栈"><span class="nav-number">1.3.</span> <span class="nav-text">因特网协议栈</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-应用层"><span class="nav-number">2.</span> <span class="nav-text">2.应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#http"><span class="nav-number">2.1.</span> <span class="nav-text">http</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#socket"><span class="nav-number">2.2.</span> <span class="nav-text">socket</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-传输层"><span class="nav-number">3.</span> <span class="nav-text">3.传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#udp"><span class="nav-number">3.1.</span> <span class="nav-text">udp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tcp"><span class="nav-number">3.2.</span> <span class="nav-text">tcp</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-网络层"><span class="nav-number">4.</span> <span class="nav-text">4.网络层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-链路层"><span class="nav-number">5.</span> <span class="nav-text">4.链路层</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

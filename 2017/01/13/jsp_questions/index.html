@@ -1,0 +1,652 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="1.JSP的内置对象有哪些？ 
+
+request：用户端请求，此请求会包含来自GET/POST请求的参数 
+response：网页传回用户端的回应 
+pageContext：管理网页的属性 
+session：与请求有关的会话期 
+application：Servlet正在执行的内容 
+out：用来传送回应的输出 
+config：servlet的构架部件，配置信息 
+page：表示JSP网页本身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jsp_questions">
+<meta property="og:url" content="http://yoursite.com/2017/01/13/jsp_questions/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="1.JSP的内置对象有哪些？ 
+
+request：用户端请求，此请求会包含来自GET/POST请求的参数 
+response：网页传回用户端的回应 
+pageContext：管理网页的属性 
+session：与请求有关的会话期 
+application：Servlet正在执行的内容 
+out：用来传送回应的输出 
+config：servlet的构架部件，配置信息 
+page：表示JSP网页本身">
+<meta property="og:updated_time" content="2017-01-16T15:15:13.798Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsp_questions">
+<meta name="twitter:description" content="1.JSP的内置对象有哪些？ 
+
+request：用户端请求，此请求会包含来自GET/POST请求的参数 
+response：网页传回用户端的回应 
+pageContext：管理网页的属性 
+session：与请求有关的会话期 
+application：Servlet正在执行的内容 
+out：用来传送回应的输出 
+config：servlet的构架部件，配置信息 
+page：表示JSP网页本身">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/13/jsp_questions/"/>
+
+
+  <title> jsp_questions | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jsp_questions
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-13T16:27:25+08:00" content="2017-01-13">
+              2017-01-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1.JSP的内置对象有哪些？ </p>
+<ul>
+<li>request：用户端请求，此请求会包含来自GET/POST请求的参数 </li>
+<li>response：网页传回用户端的回应 </li>
+<li>pageContext：管理网页的属性 </li>
+<li>session：与请求有关的会话期 </li>
+<li>application：Servlet正在执行的内容 </li>
+<li>out：用来传送回应的输出 </li>
+<li>config：servlet的构架部件，配置信息 </li>
+<li>page：表示JSP网页本身 </li>
+<li>exception：异常，未捕捉的例外 </li>
+</ul>
+<p>2.JSP有哪些动作分别是什么？</p>
+<ul>
+<li>jsp：include：在页面被请求的时候引入一个文件 </li>
+<li>jsp：useBean：寻找或者实例化一个JavaBean </li>
+<li>jsp：setProperty：设置JavaBean的属性 </li>
+<li>jsp：getProperty：输出某个JavaBean的属性 </li>
+<li>jsp：foward：把请求转到一个新页面 </li>
+<li>jsp：plugin：根据浏览器类型为Java插件生成OBJECT或EMBED标记</li>
+</ul>
+<p>3.jsp中两种include区别</p>
+<ul>
+<li><p>＜%@ include file=”relativeURI”%＞可以叫作静态include（静态包含），是jsp指令中的一种，(JSP指令控制JSP编译器如何去生成servlet（servlet是用Java编写的服务器端程序。其主要功能在于交互式地浏览和修改数据，生成动态Web内容。狭义的Servlet是指Java语言实现的一个接口，广义的Servlet是指任何实现了这个Servlet接口的类别，一般情况下，人们将Servlet理解为后者。-维基百科）</p>
+</li>
+<li><p>＜jsp:include page=”relativeURI” flush=”true” /＞叫作动态include（动态包含），是jsp动作的一种，(JSP动作是一系列可以调用内建于网络服务器中的功能的XML标签)</p>
+</li>
+<li>执行时间上：file是在翻译阶段执行；page是在请求处理阶段执行</li>
+<li>引入内容的不同：＜%@ include file=”relativeURI”%＞引入静态文本,在JSP页面被转化成servlet之前和它融和到一起，.先包含，后编译，不会检查所含文件的变化，适用于包含静态页面，可以理解为纯粹是把代码写在外面的一种共享方法,所有的变量都是可以和include它的主文件共享, 两者高度紧密结合,不能有变量同名的冲突.而页面设置也可以借用主文件的. jsp:include page=”relativeURI” flush=”true” /＞引入执行页面或servlet所生成的应答文本. 被包含的文件先编译，后包含进来，然后显示。</li>
+</ul>
+<p>4.两种跳转方式分别是什么有什么区别？ </p>
+<ol>
+<li>forward跳转：<jsp:forward page="跳转页面地址"> </jsp:forward></li>
+<li>response跳转：response.sendRedirect(“跳转页面地址”); </li>
+<li>两种跳转的区别如下：1.forward跳转：a.服务器端跳转，地址栏不改变；b.执行到跳转语句后马上无条件跳转，之后的代码不再执行(跳转之前一定要释放全部资源)；c.request设置的属性在跳转后的页面仍可以使用；d.使用<jsp:param name="参数名" value="参数值">传递参数。</jsp:param></li>
+<li>response跳转：a.客户端跳转,地址栏改变；b.所有代码执行完毕后跳转；c.跳转后的页面不能使用上一个页面的request属性；d.使用地址重写传递参数（response.sendRedirect(“URL?参数名＝参数值”)）。 </li>
+</ol>
+<p>5.JSP和Servlet有哪些相同点和不同点？ </p>
+<p>Jsp是Servlet技术的扩展，本质上是Servlet的简易方式，更强调应用的外部表达。JSP编译后是“类 servlet”。Servlet和JSP最主要的不同点在于Servlet的应用逻辑是在java文件中，并且完全从表示层中HTML里分离出来，而 jsp是java和html结合成一个扩展名为.jsp的文件，JSP侧重于视图，servlet侧重于控制逻辑。 </p>
+<p>6.在JSP中如何设置cookie？ </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">    Cookie mycookie=<span class="keyword">new</span> Cookie(<span class="string">"aName"</span>,<span class="string">"aValue"</span>); </div><div class="line">   	response.addCookie(mycookie); </div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	Cookie killMyCookie=<span class="keyword">new</span> Cookie(<span class="string">"mycookie"</span>,<span class="keyword">null</span>); </div><div class="line">	killMyCookie.setMaxAge(<span class="number">0</span>); </div><div class="line">	killMyCookie.setPath(<span class="string">"/"</span>); </div><div class="line">	response.addCookie(killMyCookie); </div><div class="line">%&gt;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/13/linux_command/" rel="next" title="linux_commands">
+                <i class="fa fa-chevron-left"></i> linux_commands
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/13/network_1/" rel="prev" title="network_概述">
+                network_概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

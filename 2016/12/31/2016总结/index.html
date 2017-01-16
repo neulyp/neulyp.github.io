@@ -106,7 +106,7 @@ hadoop应用">
 数据结构与算法分析 （总结：好吧，其实看完当时有收获，时间久了忘了也差不多了）
 effective java （总结：一些模棱两可的问题更加清楚了）
 hadoop应用">
-<meta property="og:updated_time" content="2016-12-31T05:09:47.028Z">
+<meta property="og:updated_time" content="2017-01-16T08:12:08.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2016总结">
 <meta name="twitter:description" content="阅读书籍2016.06-2016.12
@@ -329,6 +329,54 @@ hadoop应用">
 <li>maven(maven命令)</li>
 </ul>
 <p>ps：怎么越写越多。。。以上是要付息或者预习的。</p>
+<p>houxu 2017/1/16</p>
+<ul>
+<li>数据库查询与优化</li>
+<li>心跳包（内存调度，web 插件，括号里是腾讯那边问的）</li>
+<li>编译器，长连接与短链接</li>
+<li>B+树，红黑树，排序算法</li>
+<li>java(object有哪些方法，hashmap)</li>
+<li>二分查找！！（算法）</li>
+<li>OOM（out of memory）</li>
+<li>死锁的必要条件（？？ 那个thread竞争n个资源？）</li>
+<li>java同步方法</li>
+<li>一个int里面二进制有几个1？（n=n&amp;n-1）</li>
+<li>json传输数据有什么缺点？</li>
+<li>http和socket区别？哪个高效</li>
+<li>遇到过java内存泄漏么？怎么回事则呢么解决</li>
+<li>用过哪些调试java内存工具</li>
+<li>java的四种引用（<a href="http://blog.csdn.net/u011860731/article/details/48714321" target="_blank" rel="external">http://blog.csdn.net/u011860731/article/details/48714321</a> 强软弱虚）</li>
+<li>java GC算法与GC方法，内存模型</li>
+<li>算法（一个找素数，一个递归求阶层，AVL树的插入算法）</li>
+<li>锁 反射 wait sleep</li>
+<li>各个排序的时间复杂度 思路 快排和归并的平均时间复杂度与最差时间复杂度</li>
+<li>http报文结构</li>
+<li>threadlocal</li>
+<li>GC判定算法与方法，哪个区域用什么GC算法，</li>
+<li>hashmap和concurrntHashmap的区别</li>
+<li>泛型能否强制转换</li>
+<li>怎么找到一个随机数组的前50大数、中间50大数，（这个用最小堆和partition函数），复杂度是多少</li>
+<li>Arraylist与LinkedList区别</li>
+<li>String与StringBuffer用法</li>
+<li>HashMap与HashTable区别</li>
+<li>Synchronized</li>
+<li>HashMap删除元素的方法</li>
+<li>for each和正常for的用在不同数据结构（ArrayList、set、hashmap）上的效率区别</li>
+<li>一个大文件几个GB，怎么实现复制</li>
+<li>在Git里面，如果有n个分支，m次commit怎么找到任意两个节点共同的那个父节点</li>
+<li>把一个数组中奇数放前面，偶数放后面</li>
+<li>一个是3亿条IP中，怎么找到次数出现最多的5000条IP</li>
+<li>反转链表</li>
+<li>冒泡排序</li>
+<li>生产者消费者</li>
+<li>一组排序数中，给定一个数，返回最接近且不大于这个数的位置，要求时间在O(logn)</li>
+<li>java反射机制</li>
+<li>TCP/IP层次架构，每层的作用与协议；TCP拥塞控制；</li>
+</ul>
+<p>产生死锁的四个必要条件：<br>（1） 互斥条件：一个资源每次只能被一个进程使用。<br>（2） 请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。<br>（3） 不剥夺条件:进程已获得的资源，在末使用完之前，不能强行剥夺。<br>（4） 循环等待条件:若干进程之间形成一种头尾相接的循环等待资源关系。</p>
+<p>计算机里的数字本来就是用二进制存的，所以计算过程也都是二进制计算。利用一些位运算的特性，可以很容易计算1的个数。</p>
+<p>有一个很有意思的特性：随便给一个二进制数，比如n=10001100，我们把它减一：n-1=10001011。重新摆放一下观察：<br>10001100 (n)<br>10001011 (n-1)<br>通过观察得出，n中为1的最低位是第3位，而n-1和n的低3位全都不同。如果进行“按位与”操作，即 n &amp; (n-1) = 10001000。<br>10001100 (n)<br>10001011 (n-1)<br>10001000 (n &amp; (n-1))<br>可以看到底3位都变成了0。<br>如果你数学足够好，可以得出结论：<br>[结论]要消除整数n最低位的1，可以使用 n = n &amp; (n-1)。<br>如果觉得不相信，可以多试试几个数，或者再琢磨一下。<br>利用结论，想要求二进制中有多少个1就很容易了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">countBits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(n != <span class="number">0</span>) &#123;</div><div class="line">        n = n &amp; (n-<span class="number">1</span>);</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> count;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
 <li>机器学习</li>
 <li>spark</li>
@@ -449,7 +497,7 @@ hadoop应用">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">84</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
@@ -466,7 +514,7 @@ hadoop应用">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">Tags</span>
               </a>
             </div>
