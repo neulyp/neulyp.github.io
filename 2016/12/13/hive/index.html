@@ -1,4 +1,322 @@
-<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>hive | lyp's blog</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/5.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">hive</h1><a id="logo" href="/.">lyp's blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">hive</h1><div class="post-meta">Dec 13, 2016<span> | </span><span class="category"><a href="/categories/hadoop/">hadoop</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="post-content"><h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lyp's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="1.hive介绍hive是基于hadoop的一个数据仓库工具。
+Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在HDFS上。 Hive的本质是将HQL转换为MapReduce程序去执行，使不熟悉MapReduce的用户很方便地利用HQL进行数据ETL操作。
+工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hive">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/hive/index.html">
+<meta property="og:site_name" content="lyp's blog">
+<meta property="og:description" content="1.hive介绍hive是基于hadoop的一个数据仓库工具。
+Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在HDFS上。 Hive的本质是将HQL转换为MapReduce程序去执行，使不熟悉MapReduce的用户很方便地利用HQL进行数据ETL操作。
+工作">
+<meta property="og:image" content="http://i.imgur.com/UpnpvV5.png">
+<meta property="og:image" content="http://i.imgur.com/T2N79nW.png">
+<meta property="og:image" content="http://i.imgur.com/8yl4sPC.png">
+<meta property="og:image" content="http://i.imgur.com/0xW0CN6.png">
+<meta property="og:image" content="http://i.imgur.com/f3ne7LT.png">
+<meta property="og:updated_time" content="2016-12-15T05:24:43.748Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hive">
+<meta name="twitter:description" content="1.hive介绍hive是基于hadoop的一个数据仓库工具。
+Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在HDFS上。 Hive的本质是将HQL转换为MapReduce程序去执行，使不熟悉MapReduce的用户很方便地利用HQL进行数据ETL操作。
+工作">
+<meta name="twitter:image" content="http://i.imgur.com/UpnpvV5.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '3188510942',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/13/hive/"/>
+
+
+  <title> hive | lyp's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lyp's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Kategorien
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                hive
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T15:44:16+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-hive介绍"><a href="#1-hive介绍" class="headerlink" title="1.hive介绍"></a>1.hive介绍</h4><p>hive是基于hadoop的一个数据仓库工具。</p>
 <p>Hive由Facebook实现并开源，是建立在Hadoop之上的数据仓库解决方案，支持将结构化的<br>数据文件映射为一张表，提供HQL（Hive SQL）实现方便高效的数据查询，底层数据存储在<br>HDFS上。 Hive的本质是<strong>将HQL转换为MapReduce程序去执行</strong>，使不熟悉MapReduce的用<br>户很方便地利用HQL进行数据ETL操作。</p>
 <p>工作原理：<br><img src="http://i.imgur.com/UpnpvV5.png" alt=""></p>
 <p>hive的入口是driver，执行的sql语句首先提交大driver驱动，然后调用compiler解释驱动，最终解释成mapreduce任务执行，最后结果返回。</p>
@@ -154,4 +472,300 @@
 <h4 id="6-hive-vs-hbase"><a href="#6-hive-vs-hbase" class="headerlink" title="6.hive vs hbase"></a>6.hive vs hbase</h4><p>Hive主要是为简化编写MapReduce程序而生，而HBase是为查询而生。通过Hive的存储接口Hive和HBase可以整合使用。 Hive通过与HBase集成后能够实现快速的查询。同时，由于HBase不持类SQL语句，通过与Hive集成，Hive为HBase提供SQL语法解析的外壳。</p>
 <p>Hive与HBase的整合实现是利用两者对外的API接口互相进行通信的，相互通信主要是依靠<br>hive_hbase-handler.jar工具类。在将HBase和Hive集成的过程中注意确保hbase jar包的一致性。</p>
 <p>Hive集成HBase需要在Hive表和HBase表之间建立映射关系，也就是Hive表的列和列类型与HBase表的列族及列限定词建立关联。每一个在Hive表中的列都存在于HBase中，但反过来在Hive表中则不需要包含所有的HBase中的列</p>
-</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2016/12/13/hive/" data-id="ciyvct77z001m7cw06e8iy5tf" class="article-share-link">Share</a><div class="tags"><a href="/tags/hadoop/">hadoop</a></div><div class="post-nav"><a href="/2016/12/15/hbase/" class="pre">hbase</a><a href="/2016/12/13/java并发编程实战-线程安全性/" class="next">java并发编程实战-线程安全性</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javaweb/">javaweb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java杂记/">java杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pat/">pat</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/poffer/">poffer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tomact/">tomact</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据仓库/">数据仓库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/javaweb/" style="font-size: 15px;">javaweb</a> <a href="/tags/life/" style="font-size: 15px;">life</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/poffer/" style="font-size: 15px;">poffer</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/hadoop/" style="font-size: 15px;">hadoop</a> <a href="/tags/juc/" style="font-size: 15px;">juc</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/java杂记/" style="font-size: 15px;">java杂记</a> <a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/计算机网络/" style="font-size: 15px;">计算机网络</a> <a href="/tags/pat/" style="font-size: 15px;">pat</a> <a href="/tags/tomact/" style="font-size: 15px;">tomact</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/数据仓库/" style="font-size: 15px;">数据仓库</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Poffer1/">poffer1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/jvm-questions/">jvm-questions</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/network_TCP三次握手和四次挥手状态变迁解析/">network_tcp三次握手</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/14/jv-collections1-list/">jv_collections1-list</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/14/jv-collections1-hashmap/">jv_collections1-hashmap&hashset</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/network_tcp报文详解/">network_tcp报文详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/network_questions/">network_questions</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/network_1/">network_概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/jsp_questions/">jsp_questions</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/linux_command/">linux_commands</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">lyp's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag">#hadoop</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/13/java并发编程实战-线程安全性/" rel="next" title="java并发编程实战-线程安全性">
+                <i class="fa fa-chevron-left"></i> java并发编程实战-线程安全性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/15/hbase/" rel="prev" title="hbase">
+                hbase <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Loren" />
+          <p class="site-author-name" itemprop="name">Loren</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-hive介绍"><span class="nav-number">1.</span> <span class="nav-text">1.hive介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-centos7，hive安装"><span class="nav-number">2.</span> <span class="nav-text">2.centos7，hive安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-hive架构"><span class="nav-number">3.</span> <span class="nav-text">3.hive架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-hive文件格式"><span class="nav-number">4.</span> <span class="nav-text">4.hive文件格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-hive操作"><span class="nav-number">5.</span> <span class="nav-text">5.hive操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-hive优劣分析"><span class="nav-number">6.</span> <span class="nav-text">5.hive优劣分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-hive-vs-hbase"><span class="nav-number">7.</span> <span class="nav-text">6.hive vs hbase</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loren</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

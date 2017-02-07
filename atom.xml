@@ -292,90 +292,6 @@
   </entry>
   
   <entry>
-    <title>network_tcp报文详解</title>
-    <link href="http://yoursite.com/2017/01/13/network_tcp%E6%8A%A5%E6%96%87%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2017/01/13/network_tcp报文详解/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:28.201Z</updated>
-    
-    <content type="html"><![CDATA[<p>TCP报文格局详解</p>
-<p>TCP和谈只定义了一种报文格局</p>
-<p>建立、拆除连接、传输数据应用同样的报文</p>
-<p><img src="http://i.imgur.com/yRp4YI6.png" alt=""></p>
-<p> TCP报文格局</p>
-<p>TCP报文段首部（20个字节）</p>
-<ul>
-<li>源端口和目标端口：各占2个字节，16比特的端标语加上32比特的IP地址，共同构成相当于传输层办事接见点的地址，即“插口”；</li>
-<li>这些端口可用来将若干高层和谈向下复用；<br>序号字段和确认序号字段：</li>
-<li>序号：占4个字节，是本报文段所发送的数据项目组第一个字节的序号。在TCP传送的数据流中，每一个字节都有一个序号。例如，一报文段的序号为300，而起数据供100字节，则下一个报文段的序号就是400；</li>
-<li>确认序号：占4字节，是期望收到对方下次发送的数据的第一个字节的序号，也就是期望收到的下一个报文段的首部中的序号；</li>
-<li>因为序号字段有32比特长，可以对4GB的数据进行编号，如许就可包管当序号反复应用时，旧序号的数据早已在收集中消散了；<br>数据偏移字段</li>
-<li>数据偏移：占4比特，默示数据开端的处所离TCP报文段的肇端处有多远。这实际上就是TCP报文段首部的长度。因为首部长度不固定，是以数据偏移字段是须要的。</li>
-<li>保存字段： 6比特，供往后应用，今朝置为0。<br>6个比特的把握字段</li>
-<li>紧急比特URGent：当URG=1时，注解此报文应尽快传送，而不要按本来的列队次序来传送。与“紧急指针”字段共同应用，紧急指针指出在本报文段中的紧急数据的最后一个字节的序号，使接管方可以知道紧急数据共有多长；</li>
-<li>确认比特ACK：只有当ACK=1时，确认序号字段才有意义；</li>
-<li>急迫比特PSH：当PSH=1时，注解恳求远地TCP将本报文段立即传送给其应用层，而不要比及全部缓存都填满了之后再向上交付。</li>
-<li>复位比特ReSeT：当RST=1时，注解呈现严重错误，必须开释连接，然后再重建传输连接。复位比特还用来拒绝一个不法的报文段或拒绝打开一个连接；</li>
-<li>同步比特SYN：在建树连接时应用，当SYN=1而ACK=0时，注解这是一个连接恳求报文段。对方若赞成建树连接，在发还的报文段中使SYN=1和ACK=1。是以，SYN=1默示这是一个连接恳求或毗邻接管报文，而ACK的值用来区分是哪一种报文；</li>
-<li>终止比特FINal：用来开释一个连接，当FIN=1时，注解欲发送的字节串已经发完，并请求开释传输连接；<br>窗口字段</li>
-<li>窗口Window：占2字节，默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以或许发送的数据的字节数至多是此窗口的大小。”</li>
-<li>通知窗口advertised window：接管端按照其接管才能承诺的窗口值，是来自接管端的流量把握。接管端将通知窗口的值放在TCP报文的首部中，传送给对方。</li>
-<li>拥塞窗口congestion window：是发送端按照收集拥塞景象得出的窗口值，是来自发送端的流量把握。</li>
-<li>查验和覆盖了全部的TCP报文段：TCP首部和TCP数据。这是一个强迫性的字段，由发端策画和存储，由收端进行验证。<br>选项字段容许每台主机设定可以或许接管的最大TCP载荷才能（缺省536字节） 。</li>
-</ul>
-<p><img src="http://i.imgur.com/bxOtaW3.png" alt=""></p>
-<p> TCP的数据编号与确认</p>
-<p>数据流、报文段和序号</p>
-<p> TCP通信的动作</p>
-<ul>
-<li>切割：按照合适传输的大小对数据流进行切割<ul>
-<li>最大报文段长度&lt;64Kbytes</li>
-<li>凡是：MTU－（IP头＋TCP头）</li>
-</ul>
-</li>
-<li>答复复兴：用报文段恢答复复兴始数据流的字节次序</li>
-<li>序号：排序、查错及数据流答复复兴</li>
-</ul>
-<p><img src="http://i.imgur.com/CG3OFy8.png" alt=""></p>
-<p>报文序号</p>
-<ul>
-<li>根据数据流中的字节序号（流序号）</li>
-<li>报文序号为报文段中第一字节的流序号<ul>
-<li>如：流序号＝x，长度＝L的报文段，则：</li>
-<li>报文的序号为x，下一报文序号为x＋L</li>
-</ul>
-</li>
-<li>序号特点<ul>
-<li>报文的次序关系</li>
-<li>数据流的地位，更便于流的答复复兴</li>
-<li>需较大的序号空间（32bit，4Gbyte）</li>
-</ul>
-</li>
-</ul>
-<p>例如：在一个报文中，序号为300，而报文中数占领100字节。</p>
-<p>下一个报文符，其序号为400；<br><img src="http://i.imgur.com/8pwye2Z.png" alt=""></p>
-<p><a href="http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml" target="_blank" rel="external">http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TCP报文格局详解&lt;/p&gt;
-&lt;p&gt;TCP和谈只定义了一种报文格局&lt;/p&gt;
-&lt;p&gt;建立、拆除连接、传输数据应用同样的报文&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/yRp4YI6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt; TCP报文格局&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>network_questions</title>
     <link href="http://yoursite.com/2017/01/13/network_questions/"/>
     <id>http://yoursite.com/2017/01/13/network_questions/</id>
@@ -482,6 +398,90 @@
 &lt;ul&gt;
 &lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
 &lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
+    
+    </summary>
+    
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>network_tcp报文详解</title>
+    <link href="http://yoursite.com/2017/01/13/network_tcp%E6%8A%A5%E6%96%87%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://yoursite.com/2017/01/13/network_tcp报文详解/</id>
+    <published>2017-01-13T10:27:24.000Z</published>
+    <updated>2017-02-07T09:17:28.201Z</updated>
+    
+    <content type="html"><![CDATA[<p>TCP报文格局详解</p>
+<p>TCP和谈只定义了一种报文格局</p>
+<p>建立、拆除连接、传输数据应用同样的报文</p>
+<p><img src="http://i.imgur.com/yRp4YI6.png" alt=""></p>
+<p> TCP报文格局</p>
+<p>TCP报文段首部（20个字节）</p>
+<ul>
+<li>源端口和目标端口：各占2个字节，16比特的端标语加上32比特的IP地址，共同构成相当于传输层办事接见点的地址，即“插口”；</li>
+<li>这些端口可用来将若干高层和谈向下复用；<br>序号字段和确认序号字段：</li>
+<li>序号：占4个字节，是本报文段所发送的数据项目组第一个字节的序号。在TCP传送的数据流中，每一个字节都有一个序号。例如，一报文段的序号为300，而起数据供100字节，则下一个报文段的序号就是400；</li>
+<li>确认序号：占4字节，是期望收到对方下次发送的数据的第一个字节的序号，也就是期望收到的下一个报文段的首部中的序号；</li>
+<li>因为序号字段有32比特长，可以对4GB的数据进行编号，如许就可包管当序号反复应用时，旧序号的数据早已在收集中消散了；<br>数据偏移字段</li>
+<li>数据偏移：占4比特，默示数据开端的处所离TCP报文段的肇端处有多远。这实际上就是TCP报文段首部的长度。因为首部长度不固定，是以数据偏移字段是须要的。</li>
+<li>保存字段： 6比特，供往后应用，今朝置为0。<br>6个比特的把握字段</li>
+<li>紧急比特URGent：当URG=1时，注解此报文应尽快传送，而不要按本来的列队次序来传送。与“紧急指针”字段共同应用，紧急指针指出在本报文段中的紧急数据的最后一个字节的序号，使接管方可以知道紧急数据共有多长；</li>
+<li>确认比特ACK：只有当ACK=1时，确认序号字段才有意义；</li>
+<li>急迫比特PSH：当PSH=1时，注解恳求远地TCP将本报文段立即传送给其应用层，而不要比及全部缓存都填满了之后再向上交付。</li>
+<li>复位比特ReSeT：当RST=1时，注解呈现严重错误，必须开释连接，然后再重建传输连接。复位比特还用来拒绝一个不法的报文段或拒绝打开一个连接；</li>
+<li>同步比特SYN：在建树连接时应用，当SYN=1而ACK=0时，注解这是一个连接恳求报文段。对方若赞成建树连接，在发还的报文段中使SYN=1和ACK=1。是以，SYN=1默示这是一个连接恳求或毗邻接管报文，而ACK的值用来区分是哪一种报文；</li>
+<li>终止比特FINal：用来开释一个连接，当FIN=1时，注解欲发送的字节串已经发完，并请求开释传输连接；<br>窗口字段</li>
+<li>窗口Window：占2字节，默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以或许发送的数据的字节数至多是此窗口的大小。”</li>
+<li>通知窗口advertised window：接管端按照其接管才能承诺的窗口值，是来自接管端的流量把握。接管端将通知窗口的值放在TCP报文的首部中，传送给对方。</li>
+<li>拥塞窗口congestion window：是发送端按照收集拥塞景象得出的窗口值，是来自发送端的流量把握。</li>
+<li>查验和覆盖了全部的TCP报文段：TCP首部和TCP数据。这是一个强迫性的字段，由发端策画和存储，由收端进行验证。<br>选项字段容许每台主机设定可以或许接管的最大TCP载荷才能（缺省536字节） 。</li>
+</ul>
+<p><img src="http://i.imgur.com/bxOtaW3.png" alt=""></p>
+<p> TCP的数据编号与确认</p>
+<p>数据流、报文段和序号</p>
+<p> TCP通信的动作</p>
+<ul>
+<li>切割：按照合适传输的大小对数据流进行切割<ul>
+<li>最大报文段长度&lt;64Kbytes</li>
+<li>凡是：MTU－（IP头＋TCP头）</li>
+</ul>
+</li>
+<li>答复复兴：用报文段恢答复复兴始数据流的字节次序</li>
+<li>序号：排序、查错及数据流答复复兴</li>
+</ul>
+<p><img src="http://i.imgur.com/CG3OFy8.png" alt=""></p>
+<p>报文序号</p>
+<ul>
+<li>根据数据流中的字节序号（流序号）</li>
+<li>报文序号为报文段中第一字节的流序号<ul>
+<li>如：流序号＝x，长度＝L的报文段，则：</li>
+<li>报文的序号为x，下一报文序号为x＋L</li>
+</ul>
+</li>
+<li>序号特点<ul>
+<li>报文的次序关系</li>
+<li>数据流的地位，更便于流的答复复兴</li>
+<li>需较大的序号空间（32bit，4Gbyte）</li>
+</ul>
+</li>
+</ul>
+<p>例如：在一个报文中，序号为300，而报文中数占领100字节。</p>
+<p>下一个报文符，其序号为400；<br><img src="http://i.imgur.com/8pwye2Z.png" alt=""></p>
+<p><a href="http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml" target="_blank" rel="external">http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TCP报文格局详解&lt;/p&gt;
+&lt;p&gt;TCP和谈只定义了一种报文格局&lt;/p&gt;
+&lt;p&gt;建立、拆除连接、传输数据应用同样的报文&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/yRp4YI6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt; TCP报文格局&lt;/p&gt;
+
     
     </summary>
     
@@ -737,70 +737,6 @@
   </entry>
   
   <entry>
-    <title>sql_mysql-questions</title>
-    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
-    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
-    <published>2017-01-13T07:27:24.000Z</published>
-    <updated>2017-02-07T09:22:29.914Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
-<p><strong>1.mysql常用引擎？</strong></p>
-<ol>
-<li>InnoDB存储引擎</li>
-<li>MyISAM存储引擎</li>
-</ol>
-<p><strong>2.隔离级别？</strong></p>
-<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
-<ul>
-<li><p>Read Uncommitted（读取未提交内容）</p>
-<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-</li>
-<li><p>Read Committed（读取提交内容）</p>
-<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-</li>
-<li><p>Repeatable Read（可重读）</p>
-<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-</li>
-<li><p>Serializable（可串行化）</p>
-<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-</li>
-</ul>
-<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
-<p><strong>3.mysql oracle分页语句？</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
-<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
-<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
-<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
-<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
-<p><strong>4.复合索引？</strong></p>
-<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
-<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
-<p>复合索引：最左前缀</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
-&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
     <title>mysql-context</title>
     <link href="http://yoursite.com/2017/01/13/sql_mysql-context/"/>
     <id>http://yoursite.com/2017/01/13/sql_mysql-context/</id>
@@ -856,6 +792,70 @@
 &lt;li&gt;MyISAM存储引擎&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;2.
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sql_mysql-questions</title>
+    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
+    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
+    <published>2017-01-13T07:27:24.000Z</published>
+    <updated>2017-02-07T09:22:29.914Z</updated>
+    
+    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
+<p><strong>1.mysql常用引擎？</strong></p>
+<ol>
+<li>InnoDB存储引擎</li>
+<li>MyISAM存储引擎</li>
+</ol>
+<p><strong>2.隔离级别？</strong></p>
+<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
+<ul>
+<li><p>Read Uncommitted（读取未提交内容）</p>
+<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
+</li>
+<li><p>Read Committed（读取提交内容）</p>
+<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
+</li>
+<li><p>Repeatable Read（可重读）</p>
+<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+</li>
+<li><p>Serializable（可串行化）</p>
+<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+</li>
+</ul>
+<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
+<p><strong>3.mysql oracle分页语句？</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
+<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
+<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
+<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
+<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
+<p><strong>4.复合索引？</strong></p>
+<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
+<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
+<p>复合索引：最左前缀</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
+&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
     
     </summary>
     
@@ -1159,97 +1159,6 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>juc:locks</title>
-    <link href="http://yoursite.com/2017/01/09/juc_lock/"/>
-    <id>http://yoursite.com/2017/01/09/juc_lock/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-02-07T09:11:21.904Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
-<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
-<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
-<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
-<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
-<p>锁重入需要解决两个问题：</p>
-<ul>
-<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
-<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
-<p><strong>公平与非公平获取锁的区别</strong></p>
-<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
-<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
-<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
-<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
-<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
-<p>写锁的释放和ReentrantLock释放类似、</p>
-<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
-<p>总结一下：</p>
-<p>ReentrantReadWriteLock有以下几个特性：</p>
-<ul>
-<li>公平性<ul>
-<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
-<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
-</ul>
-</li>
-<li>重入性<ul>
-<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
-<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
-<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
-</ul>
-</li>
-<li>锁降级<ul>
-<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
-</ul>
-</li>
-<li>锁获取中断<ul>
-<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
-</ul>
-</li>
-<li>条件变量<ul>
-<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
-</ul>
-</li>
-<li>重入数<ul>
-<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
-</ul>
-</li>
-</ul>
-<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
-<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
-<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
-<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
-<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
-<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;locks&quot;&gt;&lt;a href=&quot;#locks&quot; class=&quot;headerlink&quot; title=&quot;locks&quot;&gt;&lt;/a&gt;locks&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h3 
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
     <title>并发编程1-线程</title>
     <link href="http://yoursite.com/2017/01/09/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1%E7%BA%BF%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/01/09/并发编程-1线程/</id>
@@ -1350,6 +1259,97 @@ b 它们竞争完了之后大部分又大部分wait了
     
       &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
 &lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
+    
+    </summary>
+    
+      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
+    
+    
+      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>juc:locks</title>
+    <link href="http://yoursite.com/2017/01/09/juc_lock/"/>
+    <id>http://yoursite.com/2017/01/09/juc_lock/</id>
+    <published>2017-01-09T11:27:24.000Z</published>
+    <updated>2017-02-07T09:11:21.904Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
+<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
+<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
+<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
+<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
+<p>锁重入需要解决两个问题：</p>
+<ul>
+<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
+<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
+<p><strong>公平与非公平获取锁的区别</strong></p>
+<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
+<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
+<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
+<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
+<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
+<p>写锁的释放和ReentrantLock释放类似、</p>
+<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
+<p>总结一下：</p>
+<p>ReentrantReadWriteLock有以下几个特性：</p>
+<ul>
+<li>公平性<ul>
+<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
+<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
+</ul>
+</li>
+<li>重入性<ul>
+<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
+<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
+<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
+</ul>
+</li>
+<li>锁降级<ul>
+<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
+</ul>
+</li>
+<li>锁获取中断<ul>
+<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
+</ul>
+</li>
+<li>条件变量<ul>
+<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
+</ul>
+</li>
+<li>重入数<ul>
+<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
+<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
+<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
+<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
+<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
+<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;locks&quot;&gt;&lt;a href=&quot;#locks&quot; class=&quot;headerlink&quot; title=&quot;locks&quot;&gt;&lt;/a&gt;locks&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 
     
     </summary>
     
