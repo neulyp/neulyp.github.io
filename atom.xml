@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-16T15:35:55.214Z</updated>
+  <updated>2017-01-17T12:19:24.935Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,76 +16,16 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>network_tcp三次握手</title>
-    <link href="http://yoursite.com/2017/01/16/network_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81%E8%A7%A3%E6%9E%90/"/>
-    <id>http://yoursite.com/2017/01/16/network_TCP三次握手和四次挥手状态变迁解析/</id>
-    <published>2017-01-16T10:27:24.000Z</published>
-    <updated>2017-01-16T15:35:55.214Z</updated>
-    
-    <content type="html"><![CDATA[<p>TCP是TCP/IP的传输层控制协议，提供可靠的连接服务，采用三次握手确认建立一个连接:</p>
-<p>首先需要了解几个名词：tcp标志位,有6种分别为：SYN(synchronous建立联机) 、ACK(acknowledgement 确认) 、PSH(push传送) 、FIN(finish结束)、 RST(reset重置) 、URG(urgent紧急);</p>
-<ul>
-<li>URG 紧急指针，告诉接收TCP模块紧要指针域指着紧要数据。</li>
-<li>ACK 置1时表示确认号（为合法，为0的时候表示数据段不包含确认信息，确认号被忽略。 </li>
-<li>PSH 置1时请求的数据段在接收方得到后就可直接送到应用程序，而不必等到缓冲区满时才传送。 </li>
-<li>RST 置1时重建连接。如果接收到RST位时候，通常发生了某些错误。 </li>
-<li>SYN 置1时用来发起一个连接。 </li>
-<li>FIN 置1时表示发端完成发送任务。用来释放连接，表明发送方已经没有数据发送了。</li>
-<li>另外还有 Sequence number(顺序号码) 、Acknowledge number(确认号码)在建立握手过程中发送的序列号。</li>
-</ul>
-<p>主机A(client)和主机B(server)开始建立握手过程：</p>
-<ul>
-<li>第一次握手：主机A发送位码为syn＝1,随机产生seq number=10001的数据包到服务器，主机B由SYN=1知道，A要求建立联机，此时状态为SYN_SENT；</li>
-<li>第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1),syn=1,ack=1,随机产生seq=20001的包，此时状态由LISTEN变为SYN_RECV；</li>
-<li>第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功，双方状态ESTABLISHED。</li>
-</ul>
-<p>完成三次握手，主机A与主机B开始传送数据。</p>
-<p>解释各状态的含意：</p>
-<ul>
-<li>CLOSED: 这个没什么好说的了，表示初始状态。 </li>
-<li>LISTEN: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。 </li>
-<li>SYN_RECV: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。 </li>
-<li>SYN_SENT: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。 </li>
-<li>ESTABLISHED：这个容易理解了，表示连接已经建立了。 </li>
-</ul>
-<p>示意图：</p>
-<p><img src="http://i.imgur.com/sNQUAgo.png" alt=""></p>
-<p>SYN攻击</p>
-<p>在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.</p>
-<p>Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。</p>
-<p>Syn攻击是一个典型的DDOS攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.在Linux下可以如下命令检测是否被Syn攻击：</p>
-<p>#netstat -n -p TCP | grep SYN_RECV</p>
-<p>一般较新的TCP/IP协议栈都对这一过程进行修正来防范Syn攻击，修改tcp协议实现。主要方法有SynAttackProtect保护机制、SYN cookies技术、增加最大半连接和缩短超时时间等，但是不能完全防范syn攻击。</p>
-<p>TCP 四次挥手</p>
-<p>TCP的连接的拆除需要发送四个包，因此称为四次挥手(four-way handshake)。客户端或服务器均可主动发起挥手动作。<br>解析各种状态含义：</p>
-<ul>
-<li>FIN_WAIT_1: 这个状态要好好解释一下，其实FIN_WAIT_1和FIN_WAIT_2状态的真正含义都是表示等待对方的FIN报文。而这两种状态的区别 是：FIN_WAIT_1状态实际上是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即 进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马 上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。 </li>
-<li>FIN_WAIT_2：上面已经详细解释了这种状态，实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。 </li>
-<li>TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带 FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。 </li>
-<li>CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到（或同时收到）对方的 ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什 么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报 文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。 </li>
-<li>CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对 方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以 close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。 </li>
-<li>LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</li>
-<li>借用网上的示意图便于理解挥手过程 ：</li>
-</ul>
-<p><img src="http://i.imgur.com/S2kP5Vo.jpg" alt=""></p>
-<p>整理网上知识点，有3个问题分析后得出的结论（不一定保证100%正确）：</p>
-<p>1、 为什么建立连接协议是三次握手，而关闭连接却是四次握手呢？ </p>
-<p>这 是因为服务端的LISTEN状态下的SOCKET当收到SYN报文的建连请求后，它可以把ACK和SYN（ACK起应答作用，而SYN起同步作用）放在一 个报文里来发送。但关闭连接时，当收到对方的FIN报文通知时，它仅仅表示对方没有数据发送给你了；但未必你所有的数据都全部发送给对方了，所以你可以未 必会马上会关闭SOCKET,也即你可能还需要发送一些数据给对方之后，再发送FIN报文给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文 和FIN报文多数情况下都是分开发送的。 </p>
-<p>2、 为什么TIME_WAIT状态还需要等2MSL后才能返回到CLOSED状态？</p>
-<p>因为虽然双方都同意关闭连接了，而且握手的4个报文也都发送完毕，按理可以直接回到CLOSED 状态(就好比从SYN_SENT 状态到ESTABLISH 状态那样)，但是我们必须假想网络是不可靠的，你无法保证你(客户端)最后发送的ACK报文一定会被对方收到，就是说对方处于LAST_ACK 状态下的SOCKET可能会因为超时未收到ACK报文，而重发FIN报文，所以这个TIME_WAIT 状态的作用就是用来重发可能丢失的ACK报文。</p>
-<p>3、关闭TCP连接一定需要4次挥手吗?</p>
-<p>不一定，4次挥手关闭TCP连接是最安全的做法。但在有些时候，我们不喜欢TIME_WAIT 状态(如当MSL数值设置过大导致服务器端有太多TIME_WAIT状态的TCP连接，减少这些条目数可以更快地关闭连接，为新连接释放更多资源)，这时我们可以通过设置SOCKET变量的SO_LINGER标志来避免SOCKET在close()之后进入TIME_WAIT状态，这时将通过发送RST强制终止TCP连接(取代正常的TCP四次握手的终止方式)。但这并不是一个很好的主意，TIME_WAIT 对于我们来说往往是有利的</p>
-]]></content>
+    <title>Poffer1</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer1/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer1/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-01-17T12:19:24.935Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;TCP是TCP/IP的传输层控制协议，提供可靠的连接服务，采用三次握手确认建立一个连接:&lt;/p&gt;
-&lt;p&gt;首先需要了解几个名词：tcp标志位,有6种分别为：SYN(synchronous建立联机) 、ACK(acknowledgement 确认) 、PSH(push传送) 、
-    
     </summary>
     
-    
-      <category term="network" scheme="http://yoursite.com/tags/network/"/>
     
   </entry>
   
@@ -212,6 +152,80 @@
   </entry>
   
   <entry>
+    <title>network_tcp三次握手</title>
+    <link href="http://yoursite.com/2017/01/16/network_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81%E8%A7%A3%E6%9E%90/"/>
+    <id>http://yoursite.com/2017/01/16/network_TCP三次握手和四次挥手状态变迁解析/</id>
+    <published>2017-01-16T10:27:24.000Z</published>
+    <updated>2017-01-16T15:35:55.214Z</updated>
+    
+    <content type="html"><![CDATA[<p>TCP是TCP/IP的传输层控制协议，提供可靠的连接服务，采用三次握手确认建立一个连接:</p>
+<p>首先需要了解几个名词：tcp标志位,有6种分别为：SYN(synchronous建立联机) 、ACK(acknowledgement 确认) 、PSH(push传送) 、FIN(finish结束)、 RST(reset重置) 、URG(urgent紧急);</p>
+<ul>
+<li>URG 紧急指针，告诉接收TCP模块紧要指针域指着紧要数据。</li>
+<li>ACK 置1时表示确认号（为合法，为0的时候表示数据段不包含确认信息，确认号被忽略。 </li>
+<li>PSH 置1时请求的数据段在接收方得到后就可直接送到应用程序，而不必等到缓冲区满时才传送。 </li>
+<li>RST 置1时重建连接。如果接收到RST位时候，通常发生了某些错误。 </li>
+<li>SYN 置1时用来发起一个连接。 </li>
+<li>FIN 置1时表示发端完成发送任务。用来释放连接，表明发送方已经没有数据发送了。</li>
+<li>另外还有 Sequence number(顺序号码) 、Acknowledge number(确认号码)在建立握手过程中发送的序列号。</li>
+</ul>
+<p>主机A(client)和主机B(server)开始建立握手过程：</p>
+<ul>
+<li>第一次握手：主机A发送位码为syn＝1,随机产生seq number=10001的数据包到服务器，主机B由SYN=1知道，A要求建立联机，此时状态为SYN_SENT；</li>
+<li>第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1),syn=1,ack=1,随机产生seq=20001的包，此时状态由LISTEN变为SYN_RECV；</li>
+<li>第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功，双方状态ESTABLISHED。</li>
+</ul>
+<p>完成三次握手，主机A与主机B开始传送数据。</p>
+<p>解释各状态的含意：</p>
+<ul>
+<li>CLOSED: 这个没什么好说的了，表示初始状态。 </li>
+<li>LISTEN: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。 </li>
+<li>SYN_RECV: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。 </li>
+<li>SYN_SENT: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。 </li>
+<li>ESTABLISHED：这个容易理解了，表示连接已经建立了。 </li>
+</ul>
+<p>示意图：</p>
+<p><img src="http://i.imgur.com/sNQUAgo.png" alt=""></p>
+<p>SYN攻击</p>
+<p>在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.</p>
+<p>Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。</p>
+<p>Syn攻击是一个典型的DDOS攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.在Linux下可以如下命令检测是否被Syn攻击：</p>
+<p>#netstat -n -p TCP | grep SYN_RECV</p>
+<p>一般较新的TCP/IP协议栈都对这一过程进行修正来防范Syn攻击，修改tcp协议实现。主要方法有SynAttackProtect保护机制、SYN cookies技术、增加最大半连接和缩短超时时间等，但是不能完全防范syn攻击。</p>
+<p>TCP 四次挥手</p>
+<p>TCP的连接的拆除需要发送四个包，因此称为四次挥手(four-way handshake)。客户端或服务器均可主动发起挥手动作。<br>解析各种状态含义：</p>
+<ul>
+<li>FIN_WAIT_1: 这个状态要好好解释一下，其实FIN_WAIT_1和FIN_WAIT_2状态的真正含义都是表示等待对方的FIN报文。而这两种状态的区别 是：FIN_WAIT_1状态实际上是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即 进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马 上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。 </li>
+<li>FIN_WAIT_2：上面已经详细解释了这种状态，实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。 </li>
+<li>TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带 FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。 </li>
+<li>CLOSING: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到（或同时收到）对方的 ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什 么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报 文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。 </li>
+<li>CLOSE_WAIT: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对 方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以 close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。 </li>
+<li>LAST_ACK: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</li>
+<li>借用网上的示意图便于理解挥手过程 ：</li>
+</ul>
+<p><img src="http://i.imgur.com/S2kP5Vo.jpg" alt=""></p>
+<p>整理网上知识点，有3个问题分析后得出的结论（不一定保证100%正确）：</p>
+<p>1、 为什么建立连接协议是三次握手，而关闭连接却是四次握手呢？ </p>
+<p>这 是因为服务端的LISTEN状态下的SOCKET当收到SYN报文的建连请求后，它可以把ACK和SYN（ACK起应答作用，而SYN起同步作用）放在一 个报文里来发送。但关闭连接时，当收到对方的FIN报文通知时，它仅仅表示对方没有数据发送给你了；但未必你所有的数据都全部发送给对方了，所以你可以未 必会马上会关闭SOCKET,也即你可能还需要发送一些数据给对方之后，再发送FIN报文给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文 和FIN报文多数情况下都是分开发送的。 </p>
+<p>2、 为什么TIME_WAIT状态还需要等2MSL后才能返回到CLOSED状态？</p>
+<p>因为虽然双方都同意关闭连接了，而且握手的4个报文也都发送完毕，按理可以直接回到CLOSED 状态(就好比从SYN_SENT 状态到ESTABLISH 状态那样)，但是我们必须假想网络是不可靠的，你无法保证你(客户端)最后发送的ACK报文一定会被对方收到，就是说对方处于LAST_ACK 状态下的SOCKET可能会因为超时未收到ACK报文，而重发FIN报文，所以这个TIME_WAIT 状态的作用就是用来重发可能丢失的ACK报文。</p>
+<p>3、关闭TCP连接一定需要4次挥手吗?</p>
+<p>不一定，4次挥手关闭TCP连接是最安全的做法。但在有些时候，我们不喜欢TIME_WAIT 状态(如当MSL数值设置过大导致服务器端有太多TIME_WAIT状态的TCP连接，减少这些条目数可以更快地关闭连接，为新连接释放更多资源)，这时我们可以通过设置SOCKET变量的SO_LINGER标志来避免SOCKET在close()之后进入TIME_WAIT状态，这时将通过发送RST强制终止TCP连接(取代正常的TCP四次握手的终止方式)。但这并不是一个很好的主意，TIME_WAIT 对于我们来说往往是有利的</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TCP是TCP/IP的传输层控制协议，提供可靠的连接服务，采用三次握手确认建立一个连接:&lt;/p&gt;
+&lt;p&gt;首先需要了解几个名词：tcp标志位,有6种分别为：SYN(synchronous建立联机) 、ACK(acknowledgement 确认) 、PSH(push传送) 、
+    
+    </summary>
+    
+    
+      <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
     <title>jv_collections1-list</title>
     <link href="http://yoursite.com/2017/01/14/jv-collections1-list/"/>
     <id>http://yoursite.com/2017/01/14/jv-collections1-list/</id>
@@ -274,121 +288,6 @@
     
     
       <category term="collections" scheme="http://yoursite.com/tags/collections/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>network_questions</title>
-    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
-    <id>http://yoursite.com/2017/01/13/network_questions/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-01-16T15:46:01.891Z</updated>
-    
-    <content type="html"><![CDATA[<ol>
-<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
-<p> (1)OSI七层模型</p>
-<ul>
-<li>OSI中的层 功能 TCP/IP协议族</li>
-<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
-<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
-<li>会话层 解除或建立与别的接点的联系 没有协议</li>
-<li>传输层 提供端对端的接口 TCP，UDP</li>
-<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
-<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
-<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
-<p>(2)TCP/IP五层模型的协议</p>
-</li>
-<li>应用层</li>
-<li>传输层</li>
-<li>网络层</li>
-<li>数据链路层</li>
-<li><p>物理层</p>
-<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol>
-<li><p>TCP与UDP的区别。</p>
-<ol>
-<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
-</li>
-<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
-</li>
-<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
-<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
-<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
-<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
-</ol>
-</li>
-<li><p>TCP报文结构。</p>
-<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
-<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
-</li>
-</ol>
-<ol>
-<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
-</ol>
-<p>见博客</p>
-<ol>
-<li>TCP拥塞控制。</li>
-</ol>
-<ol>
-<li>TCP滑动窗口与回退N针协议。</li>
-</ol>
-<p>不知道</p>
-<ol>
-<li>Http的报文结构。</li>
-</ol>
-<ol>
-<li>Http的状态码含义。</li>
-</ol>
-<ol>
-<li>Http request的几种类型。</li>
-</ol>
-<ol>
-<li>Http1.1和Http1.0的区别</li>
-</ol>
-<ol>
-<li>Http怎么处理长连接。</li>
-</ol>
-<ol>
-<li>Cookie与Session的作用于原理。</li>
-</ol>
-<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
-<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
-<ol>
-<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
-</ol>
-<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
-<ol>
-<li>Ping的整个过程。ICMP报文是什么。</li>
-</ol>
-<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
-<ol>
-<li>C/S模式下使用socket通信，几个关键函数。</li>
-</ol>
-<ol>
-<li>IP地址分类。</li>
-</ol>
-<ol>
-<li>路由器与交换机区别。</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
-&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
-&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
-    
-    </summary>
-    
-    
-      <category term="network" scheme="http://yoursite.com/tags/network/"/>
     
   </entry>
   
@@ -600,6 +499,121 @@
   </entry>
   
   <entry>
+    <title>network_questions</title>
+    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
+    <id>http://yoursite.com/2017/01/13/network_questions/</id>
+    <published>2017-01-13T10:27:24.000Z</published>
+    <updated>2017-01-16T15:46:01.891Z</updated>
+    
+    <content type="html"><![CDATA[<ol>
+<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
+<p> (1)OSI七层模型</p>
+<ul>
+<li>OSI中的层 功能 TCP/IP协议族</li>
+<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
+<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
+<li>会话层 解除或建立与别的接点的联系 没有协议</li>
+<li>传输层 提供端对端的接口 TCP，UDP</li>
+<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
+<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
+<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
+<p>(2)TCP/IP五层模型的协议</p>
+</li>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li><p>物理层</p>
+<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>TCP与UDP的区别。</p>
+<ol>
+<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
+</li>
+<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
+</li>
+<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
+<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
+<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
+<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
+</ol>
+</li>
+<li><p>TCP报文结构。</p>
+<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
+<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
+</li>
+</ol>
+<ol>
+<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
+</ol>
+<p>见博客</p>
+<ol>
+<li>TCP拥塞控制。</li>
+</ol>
+<ol>
+<li>TCP滑动窗口与回退N针协议。</li>
+</ol>
+<p>不知道</p>
+<ol>
+<li>Http的报文结构。</li>
+</ol>
+<ol>
+<li>Http的状态码含义。</li>
+</ol>
+<ol>
+<li>Http request的几种类型。</li>
+</ol>
+<ol>
+<li>Http1.1和Http1.0的区别</li>
+</ol>
+<ol>
+<li>Http怎么处理长连接。</li>
+</ol>
+<ol>
+<li>Cookie与Session的作用于原理。</li>
+</ol>
+<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
+<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
+<ol>
+<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
+</ol>
+<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
+<ol>
+<li>Ping的整个过程。ICMP报文是什么。</li>
+</ol>
+<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
+<ol>
+<li>C/S模式下使用socket通信，几个关键函数。</li>
+</ol>
+<ol>
+<li>IP地址分类。</li>
+</ol>
+<ol>
+<li>路由器与交换机区别。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
+&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
+&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
+    
+    </summary>
+    
+    
+      <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
     <title>jsp_questions</title>
     <link href="http://yoursite.com/2017/01/13/jsp_questions/"/>
     <id>http://yoursite.com/2017/01/13/jsp_questions/</id>
@@ -713,6 +727,68 @@
   </entry>
   
   <entry>
+    <title>sql_mysql-questions</title>
+    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
+    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
+    <published>2017-01-13T07:27:24.000Z</published>
+    <updated>2017-01-13T08:06:48.512Z</updated>
+    
+    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
+<p><strong>1.mysql常用引擎？</strong></p>
+<ol>
+<li>InnoDB存储引擎</li>
+<li>MyISAM存储引擎</li>
+</ol>
+<p><strong>2.隔离级别？</strong></p>
+<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
+<ul>
+<li><p>Read Uncommitted（读取未提交内容）</p>
+<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
+</li>
+<li><p>Read Committed（读取提交内容）</p>
+<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
+</li>
+<li><p>Repeatable Read（可重读）</p>
+<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+</li>
+<li><p>Serializable（可串行化）</p>
+<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+</li>
+</ul>
+<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
+<p><strong>3.mysql oracle分页语句？</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
+<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
+<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
+<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
+<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
+<p><strong>4.复合索引？</strong></p>
+<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
+<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
+<p>复合索引：最左前缀</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
+&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>mysql-context</title>
     <link href="http://yoursite.com/2017/01/13/sql_mysql-context/"/>
     <id>http://yoursite.com/2017/01/13/sql_mysql-context/</id>
@@ -768,68 +844,6 @@
 &lt;li&gt;MyISAM存储引擎&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;2.
-    
-    </summary>
-    
-    
-      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sql_mysql-questions</title>
-    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
-    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
-    <published>2017-01-13T07:27:24.000Z</published>
-    <updated>2017-01-13T08:06:48.512Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
-<p><strong>1.mysql常用引擎？</strong></p>
-<ol>
-<li>InnoDB存储引擎</li>
-<li>MyISAM存储引擎</li>
-</ol>
-<p><strong>2.隔离级别？</strong></p>
-<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
-<ul>
-<li><p>Read Uncommitted（读取未提交内容）</p>
-<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-</li>
-<li><p>Read Committed（读取提交内容）</p>
-<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-</li>
-<li><p>Repeatable Read（可重读）</p>
-<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-</li>
-<li><p>Serializable（可串行化）</p>
-<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-</li>
-</ul>
-<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
-<p><strong>3.mysql oracle分页语句？</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
-<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
-<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
-<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
-<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
-<p><strong>4.复合索引？</strong></p>
-<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
-<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
-<p>复合索引：最左前缀</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
-&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
     
     </summary>
     
@@ -1184,22 +1198,6 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>juc:collections-blockqueue</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-16T15:16:04.460Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
     <title>juc:collections-ConcurrentMap</title>
     <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
     <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
@@ -1221,6 +1219,22 @@ b 它们竞争完了之后大部分又大部分wait了
     
       &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
 &lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
+    
+    </summary>
+    
+    
+      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>juc:collections-blockqueue</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
+    <published>2017-01-09T11:27:24.000Z</published>
+    <updated>2017-01-16T15:16:04.460Z</updated>
+    
+    <summary type="html">
     
     </summary>
     
@@ -1310,58 +1324,6 @@ b 它们竞争完了之后大部分又大部分wait了
     
       &lt;h2 id=&quot;locks&quot;&gt;&lt;a href=&quot;#locks&quot; class=&quot;headerlink&quot; title=&quot;locks&quot;&gt;&lt;/a&gt;locks&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h3 
-    
-    </summary>
-    
-    
-      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>并发编程1</title>
-    <link href="http://yoursite.com/2017/01/08/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B1/"/>
-    <id>http://yoursite.com/2017/01/08/并发编程1/</id>
-    <published>2017-01-08T11:27:24.000Z</published>
-    <updated>2017-01-08T12:48:42.868Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-重排序"><a href="#1-重排序" class="headerlink" title="1.重排序"></a>1.重排序</h3><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。</p>
-<p>如果两个操作访问同一个变量，且这两个操作中有一个为写操作，此时这两个操作之间就存在数据依赖性。</p>
-<ul>
-<li>写后读</li>
-<li>写后写</li>
-<li>读后写</li>
-</ul>
-<p>上面3种情况，只要重排序两个操作的执行顺序，程序的执行结果就会被改变。编译器和处理器在重排序时，会遵守数据依赖性，编译器和处理器不会改变存在数据依赖关系的两个操作的执行顺序。</p>
-<p>这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作，不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑。</p>
-<p><strong>这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作，<br>不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑</strong></p>
-<h3 id="2-as-if-serial语义"><a href="#2-as-if-serial语义" class="headerlink" title="2.as-if-serial语义"></a>2.as-if-serial语义</h3><p>as-if-serial语义的意思是：不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。为了遵守as-if-serial语义，编译器和处理器不会对存在数据依赖关系的操作做重排序，因为这种重排序会改变执行结果。但是，如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">double</span> pi = <span class="number">3.14</span>; <span class="comment">// A</span></div><div class="line"><span class="keyword">double</span> r = <span class="number">1.0</span>; <span class="comment">// B</span></div><div class="line"><span class="keyword">double</span> area = pi * r * r; <span class="comment">// C</span></div></pre></td></tr></table></figure>
-<p>a依赖于c b依赖于c ab可以重排序，c在ab后面。</p>
-<h3 id="3-happens-before语义"><a href="#3-happens-before语义" class="headerlink" title="3.happens-before语义"></a>3.happens-before语义</h3><ol>
-<li>A happens-before B。</li>
-<li>B happens-before C。</li>
-<li>A happens-before C</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReorderExample</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> a = <span class="number">0</span>;</div><div class="line"><span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writer</span><span class="params">()</span> </span>&#123;</div><div class="line">a = <span class="number">1</span>; <span class="comment">// 1</span></div><div class="line">flag = <span class="keyword">true</span>; <span class="comment">// 2</span></div><div class="line">&#125; <span class="function">P</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">reader</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">if</span> (f?lag) &#123; <span class="comment">// 3</span></div><div class="line"><span class="keyword">int</span> i = a * a; <span class="comment">// 4</span></div><div class="line">……</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>flag变量是个标记，用来标识变量a是否已被写入。这里假设有两个线程A和B，A首先执行<br>writer()方法，随后B线程接着执行reader()方法。线程B在执行操作4时，能否看到线程A在操作<br>1对共享变量a的写入呢？</p>
-<p><strong>答案是：不一定能看到。</strong></p>
-<h3 id="4-volatile内存语义"><a href="#4-volatile内存语义" class="headerlink" title="4.volatile内存语义"></a>4.volatile内存语义</h3><p>可见性。对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入</p>
-<p>原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性.</p>
-<p>volatile读的内存语义:<br>当读一个volatile变量时，JMM会把该线程对应的本地内存置为无效。线程接下来将从主内存中读取共享变量.</p>
-<p>总结：<br>线程A写一个volatile变量，实质上是线程A向接下来将要读这个volatile变量的某个线程<br>发出了（其对共享变量所做修改的）消息。<br>·线程B读一个volatile变量，实质上是线程B接收了之前某个线程发出的（在写这个volatile<br>变量之前对共享变量所做修改的）消息。<br>·线程A写一个volatile变量，随后线程B读这个volatile变量，这个过程实质上是线程A通过<br>主内存向线程B发送消息。</p>
-<h3 id="4-锁的内存语义"><a href="#4-锁的内存语义" class="headerlink" title="4.锁的内存语义"></a>4.锁的内存语义</h3><p>锁是Java并发编程中最重要的同步机制。锁除了让临界区互斥执行外，还可以让释放锁的线程向获取同一个锁的线程发送消息。</p>
-<p>对比锁释放-获取的内存语义与volatile写-读的内存语义可以看出：锁释放与volatile写有相同的内存语义；锁获取与volatile读有相同的内存语义。</p>
-<p>下面对锁释放和锁获取的内存语义做个总结。</p>
-<p>·线程A释放一个锁，实质上是线程A向接下来将要获取这个锁的某个线程发出了（线程A对共享变量所做修改的）消息。</p>
-<p>·线程B获取一个锁，实质上是线程B接收了之前某个线程发出的（在释放这个锁之前对共享变量所做修改的）消息。</p>
-<p>·线程A释放锁，随后线程B获取这个锁，这个过程实质上是线程A通过主内存向线程B发送消息。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-重排序&quot;&gt;&lt;a href=&quot;#1-重排序&quot; class=&quot;headerlink&quot; title=&quot;1.重排序&quot;&gt;&lt;/a&gt;1.重排序&lt;/h3&gt;&lt;p&gt;重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。&lt;/p&gt;
-&lt;p&gt;如果两个操作访问同一个变
     
     </summary>
     
