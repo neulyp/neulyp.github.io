@@ -374,6 +374,121 @@
   </entry>
   
   <entry>
+    <title>network_questions</title>
+    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
+    <id>http://yoursite.com/2017/01/13/network_questions/</id>
+    <published>2017-01-13T10:27:24.000Z</published>
+    <updated>2017-01-16T15:46:01.891Z</updated>
+    
+    <content type="html"><![CDATA[<ol>
+<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
+<p> (1)OSI七层模型</p>
+<ul>
+<li>OSI中的层 功能 TCP/IP协议族</li>
+<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
+<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
+<li>会话层 解除或建立与别的接点的联系 没有协议</li>
+<li>传输层 提供端对端的接口 TCP，UDP</li>
+<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
+<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
+<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
+<p>(2)TCP/IP五层模型的协议</p>
+</li>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li><p>物理层</p>
+<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>TCP与UDP的区别。</p>
+<ol>
+<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
+</li>
+<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
+</li>
+<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
+<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
+<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
+<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
+</ol>
+</li>
+<li><p>TCP报文结构。</p>
+<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
+<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
+</li>
+</ol>
+<ol>
+<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
+</ol>
+<p>见博客</p>
+<ol>
+<li>TCP拥塞控制。</li>
+</ol>
+<ol>
+<li>TCP滑动窗口与回退N针协议。</li>
+</ol>
+<p>不知道</p>
+<ol>
+<li>Http的报文结构。</li>
+</ol>
+<ol>
+<li>Http的状态码含义。</li>
+</ol>
+<ol>
+<li>Http request的几种类型。</li>
+</ol>
+<ol>
+<li>Http1.1和Http1.0的区别</li>
+</ol>
+<ol>
+<li>Http怎么处理长连接。</li>
+</ol>
+<ol>
+<li>Cookie与Session的作用于原理。</li>
+</ol>
+<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
+<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
+<ol>
+<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
+</ol>
+<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
+<ol>
+<li>Ping的整个过程。ICMP报文是什么。</li>
+</ol>
+<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
+<ol>
+<li>C/S模式下使用socket通信，几个关键函数。</li>
+</ol>
+<ol>
+<li>IP地址分类。</li>
+</ol>
+<ol>
+<li>路由器与交换机区别。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
+&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
+&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
+    
+    </summary>
+    
+    
+      <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
     <title>network_概述</title>
     <link href="http://yoursite.com/2017/01/13/network_1/"/>
     <id>http://yoursite.com/2017/01/13/network_1/</id>
@@ -499,121 +614,6 @@
   </entry>
   
   <entry>
-    <title>network_questions</title>
-    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
-    <id>http://yoursite.com/2017/01/13/network_questions/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-01-16T15:46:01.891Z</updated>
-    
-    <content type="html"><![CDATA[<ol>
-<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
-<p> (1)OSI七层模型</p>
-<ul>
-<li>OSI中的层 功能 TCP/IP协议族</li>
-<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
-<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
-<li>会话层 解除或建立与别的接点的联系 没有协议</li>
-<li>传输层 提供端对端的接口 TCP，UDP</li>
-<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
-<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
-<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
-<p>(2)TCP/IP五层模型的协议</p>
-</li>
-<li>应用层</li>
-<li>传输层</li>
-<li>网络层</li>
-<li>数据链路层</li>
-<li><p>物理层</p>
-<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol>
-<li><p>TCP与UDP的区别。</p>
-<ol>
-<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
-</li>
-<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
-</li>
-<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
-<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
-<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
-<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
-</ol>
-</li>
-<li><p>TCP报文结构。</p>
-<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
-<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
-</li>
-</ol>
-<ol>
-<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
-</ol>
-<p>见博客</p>
-<ol>
-<li>TCP拥塞控制。</li>
-</ol>
-<ol>
-<li>TCP滑动窗口与回退N针协议。</li>
-</ol>
-<p>不知道</p>
-<ol>
-<li>Http的报文结构。</li>
-</ol>
-<ol>
-<li>Http的状态码含义。</li>
-</ol>
-<ol>
-<li>Http request的几种类型。</li>
-</ol>
-<ol>
-<li>Http1.1和Http1.0的区别</li>
-</ol>
-<ol>
-<li>Http怎么处理长连接。</li>
-</ol>
-<ol>
-<li>Cookie与Session的作用于原理。</li>
-</ol>
-<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
-<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
-<ol>
-<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
-</ol>
-<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
-<ol>
-<li>Ping的整个过程。ICMP报文是什么。</li>
-</ol>
-<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
-<ol>
-<li>C/S模式下使用socket通信，几个关键函数。</li>
-</ol>
-<ol>
-<li>IP地址分类。</li>
-</ol>
-<ol>
-<li>路由器与交换机区别。</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
-&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
-&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
-    
-    </summary>
-    
-    
-      <category term="network" scheme="http://yoursite.com/tags/network/"/>
-    
-  </entry>
-  
-  <entry>
     <title>jsp_questions</title>
     <link href="http://yoursite.com/2017/01/13/jsp_questions/"/>
     <id>http://yoursite.com/2017/01/13/jsp_questions/</id>
@@ -727,68 +727,6 @@
   </entry>
   
   <entry>
-    <title>sql_mysql-questions</title>
-    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
-    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
-    <published>2017-01-13T07:27:24.000Z</published>
-    <updated>2017-01-13T08:06:48.512Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
-<p><strong>1.mysql常用引擎？</strong></p>
-<ol>
-<li>InnoDB存储引擎</li>
-<li>MyISAM存储引擎</li>
-</ol>
-<p><strong>2.隔离级别？</strong></p>
-<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
-<ul>
-<li><p>Read Uncommitted（读取未提交内容）</p>
-<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-</li>
-<li><p>Read Committed（读取提交内容）</p>
-<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-</li>
-<li><p>Repeatable Read（可重读）</p>
-<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-</li>
-<li><p>Serializable（可串行化）</p>
-<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-</li>
-</ul>
-<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
-<p><strong>3.mysql oracle分页语句？</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
-<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
-<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
-<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
-<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
-<p><strong>4.复合索引？</strong></p>
-<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
-<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
-<p>复合索引：最左前缀</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
-&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
-    
-    </summary>
-    
-    
-      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
     <title>mysql-context</title>
     <link href="http://yoursite.com/2017/01/13/sql_mysql-context/"/>
     <id>http://yoursite.com/2017/01/13/sql_mysql-context/</id>
@@ -844,6 +782,68 @@
 &lt;li&gt;MyISAM存储引擎&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;2.
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sql_mysql-questions</title>
+    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
+    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
+    <published>2017-01-13T07:27:24.000Z</published>
+    <updated>2017-01-13T08:06:48.512Z</updated>
+    
+    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
+<p><strong>1.mysql常用引擎？</strong></p>
+<ol>
+<li>InnoDB存储引擎</li>
+<li>MyISAM存储引擎</li>
+</ol>
+<p><strong>2.隔离级别？</strong></p>
+<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
+<ul>
+<li><p>Read Uncommitted（读取未提交内容）</p>
+<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
+</li>
+<li><p>Read Committed（读取提交内容）</p>
+<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
+</li>
+<li><p>Repeatable Read（可重读）</p>
+<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+</li>
+<li><p>Serializable（可串行化）</p>
+<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+</li>
+</ul>
+<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
+<p><strong>3.mysql oracle分页语句？</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
+<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
+<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
+<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
+<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
+<p><strong>4.复合索引？</strong></p>
+<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
+<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
+<p>复合索引：最左前缀</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
+&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
     
     </summary>
     
@@ -1198,52 +1198,6 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>juc:collections-ConcurrentMap</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-09T12:08:25.659Z</updated>
-    
-    <content type="html"><![CDATA[<p>本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦</p>
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术。首先将数据分成一段一段地存<br>储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。</p>
-<p><img src="http://i.imgur.com/EdWjCoE.png" alt=""></p>
-<p>ConcurrentHashMap实现map接口和ConcurrentMap接口</p>
-<p>1.初始化</p>
-<p>2.定位segment</p>
-<p>3.get</p>
-<p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
-&lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
-    
-    </summary>
-    
-    
-      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:collections-blockqueue</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-16T15:16:04.460Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
     <title>juc:locks</title>
     <link href="http://yoursite.com/2017/01/09/juc_lock/"/>
     <id>http://yoursite.com/2017/01/09/juc_lock/</id>
@@ -1324,6 +1278,52 @@ b 它们竞争完了之后大部分又大部分wait了
     
       &lt;h2 id=&quot;locks&quot;&gt;&lt;a href=&quot;#locks&quot; class=&quot;headerlink&quot; title=&quot;locks&quot;&gt;&lt;/a&gt;locks&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h3 
+    
+    </summary>
+    
+    
+      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>juc:collections-blockqueue</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
+    <published>2017-01-09T11:27:24.000Z</published>
+    <updated>2017-01-16T15:16:04.460Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="并发编程" scheme="http://yoursite.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>juc:collections-ConcurrentMap</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
+    <published>2017-01-09T11:27:24.000Z</published>
+    <updated>2017-01-09T12:08:25.659Z</updated>
+    
+    <content type="html"><![CDATA[<p>本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术。首先将数据分成一段一段地存<br>储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。</p>
+<p><img src="http://i.imgur.com/EdWjCoE.png" alt=""></p>
+<p>ConcurrentHashMap实现map接口和ConcurrentMap接口</p>
+<p>1.初始化</p>
+<p>2.定位segment</p>
+<p>3.get</p>
+<p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
+&lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
     
     </summary>
     
