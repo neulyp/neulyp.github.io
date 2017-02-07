@@ -1139,56 +1139,27 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>并发编程1-线程</title>
-    <link href="http://yoursite.com/2017/01/09/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://yoursite.com/2017/01/09/并发编程-1线程/</id>
+    <title>juc:collections-ConcurrentMap</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
     <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-09T06:57:16.776Z</updated>
+    <updated>2017-01-09T12:08:25.659Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1-线程"><a href="#1-线程" class="headerlink" title="1.线程"></a>1.线程</h3><h4 id="1-线程状态"><a href="#1-线程状态" class="headerlink" title="1.线程状态"></a>1.线程状态</h4><p><img src="http://i.imgur.com/0HZmNIu.png" alt=""></p>
-<p><img src="http://i.imgur.com/ZK1PN0H.png" alt=""></p>
-<p>由图4-1中可以看到，线程创建之后，调用start()方法开始运行。当线程执行wait()方法之<br>后，线程进入等待状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状<br>态，而超时等待状态相当于在等待状态的基础上增加了超时限制，也就是超时时间到达时将<br>会返回到运行状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到阻塞<br>状态。线程在执行Runnable的run()方法之后将会进入到终止状态。</p>
-<h4 id="2-daemon"><a href="#2-daemon" class="headerlink" title="2.daemon"></a>2.daemon</h4><p>Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这<br>意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调<br>用Thread.setDaemon(true)将线程设置为Daemon线程。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Daemon</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DaemonRunner(), <span class="string">"DaemonRunner"</span>);</div><div class="line">		thread.setDaemon(<span class="keyword">true</span>);</div><div class="line">		thread.start();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DaemonRunner</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				TimeUnit.SECONDS.sleep(<span class="number">10</span>);</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125; <span class="keyword">finally</span> &#123;</div><div class="line">				System.out.println(<span class="string">"DaemonThread finally run."</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果 不打印任何东西。</p>
-<h4 id="3-线程方法"><a href="#3-线程方法" class="headerlink" title="3.线程方法"></a>3.线程方法</h4><ol>
-<li>start</li>
-<li>run</li>
-<li>suspend() 暂停 不释放资源进入睡眠，容易引起思索</li>
-<li>resume() 恢复</li>
-<li>stop() 停止 不保证线程资源的正常释放</li>
-<li>interrupt() 中断</li>
-<li>join() 当前线程A等待thread线程终止之后才从thread.join()返回。</li>
-</ol>
-<p>等待和通知方法是任意java对象具备的，定义在object上，</p>
-<ol>
-<li>notifyAll：使所有原来在该对象上等待被notify的线程统统退出wait的状态，变成等待该对象上的锁，一旦该对象被解锁，他们就会去竞争。</li>
-<li>notify：notify则文明得多他只是选择一个wait状态线程进行通知，并使它获得该对象上的锁，但不惊动其他同样在等待被该对象notify的线程们，当第一个线程运行完毕以后释放对象上的锁此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，继续处在wait状态，直到这个对象发出一个notify或notifyAll，它们等待的是被notify或notifyAll，而不是锁。</li>
-<li>wait()</li>
-<li>wait(long)</li>
-<li>wait(lonhg,int)</li>
-</ol>
-<p>总结：</p>
-<ul>
-<li>1）使用wait()、notify()和notifyAll()时需要先对调用对象加锁。</li>
-<li>2）调用wait()方法后，线程状态由RUNNING变为WAITING，并将当前线程放置到对象的等待队列。</li>
-<li>3）notify()或notifyAll()方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifAll()的线程释放锁之后，等待线程才有机会从wait()返回。</li>
-<li>4）notify()方法将等待队列中的一个等待线程从等待队列中移到同步队列中，而notifyAll()方法则是将等待队列中所有的线程全部移到同步队列，被移动的线程状态WAITING变为BLOCKED。</li>
-<li>5）从wait()方法返回的前提是获得了调用对象的锁</li>
-</ul>
-<p>等待/通知的经典范式：<br>等待方（消费者）和通知方（生产者）</p>
-<p>等待方：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line"><span class="keyword">while</span>(条件不满足) &#123;</div><div class="line">对象.wait();</div><div class="line">&#125; 对</div><div class="line">应的处理逻辑</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通知者</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line">改变条件</div><div class="line">对象.notifyAll();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="4-管道输入-输出流"><a href="#4-管道输入-输出流" class="headerlink" title="4.管道输入/输出流"></a>4.管道输入/输出流</h4><p>管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。</p>
-<p>管道输入/输出流主要包括了如下4种具体实现：PipedOutputStream、PipedInputStream、PipedReader和PipedWriter，前两种面向字节，而后两种面向字符</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Piped</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">PipedWriter out = <span class="keyword">new</span> PipedWriter();</div><div class="line">PipedReader in = <span class="keyword">new</span> PipedReader();</div><div class="line"><span class="comment">// 将输出流和输入流进行连接，否则在使用时会抛出IOException</span></div><div class="line">out.connect(in);</div><div class="line">Thread printThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Print(in), <span class="string">"PrintThread"</span>);</div><div class="line">printThread.start();</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = System.in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">out.write(receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125;s</div><div class="line">tatic <span class="class"><span class="keyword">class</span> <span class="title">Print</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> PipedReader in;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Print</span><span class="params">(PipedReader in)</span> </span>&#123;</div><div class="line"><span class="keyword">this</span>.in = in;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">System.out.print((<span class="keyword">char</span>) receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术。首先将数据分成一段一段地存<br>储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。</p>
+<p><img src="http://i.imgur.com/EdWjCoE.png" alt=""></p>
+<p>ConcurrentHashMap实现map接口和ConcurrentMap接口</p>
+<p>1.初始化</p>
+<p>2.定位segment</p>
+<p>3.get</p>
+<p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1-线程&quot;&gt;&lt;a href=&quot;#1-线程&quot; class=&quot;headerlink&quot; title=&quot;1.线程&quot;&gt;&lt;/a&gt;1.线程&lt;/h3&gt;&lt;h4 id=&quot;1-线程状态&quot;&gt;&lt;a href=&quot;#1-线程状态&quot; class=&quot;headerlink&quot; title=&quot;1.线程状
+      &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
+&lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
     
     </summary>
     
@@ -1287,13 +1258,56 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>juc:collections-blockqueue</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
+    <title>并发编程1-线程</title>
+    <link href="http://yoursite.com/2017/01/09/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://yoursite.com/2017/01/09/并发编程-1线程/</id>
     <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-16T15:16:04.460Z</updated>
+    <updated>2017-01-09T06:57:16.776Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-线程"><a href="#1-线程" class="headerlink" title="1.线程"></a>1.线程</h3><h4 id="1-线程状态"><a href="#1-线程状态" class="headerlink" title="1.线程状态"></a>1.线程状态</h4><p><img src="http://i.imgur.com/0HZmNIu.png" alt=""></p>
+<p><img src="http://i.imgur.com/ZK1PN0H.png" alt=""></p>
+<p>由图4-1中可以看到，线程创建之后，调用start()方法开始运行。当线程执行wait()方法之<br>后，线程进入等待状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状<br>态，而超时等待状态相当于在等待状态的基础上增加了超时限制，也就是超时时间到达时将<br>会返回到运行状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到阻塞<br>状态。线程在执行Runnable的run()方法之后将会进入到终止状态。</p>
+<h4 id="2-daemon"><a href="#2-daemon" class="headerlink" title="2.daemon"></a>2.daemon</h4><p>Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这<br>意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调<br>用Thread.setDaemon(true)将线程设置为Daemon线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Daemon</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DaemonRunner(), <span class="string">"DaemonRunner"</span>);</div><div class="line">		thread.setDaemon(<span class="keyword">true</span>);</div><div class="line">		thread.start();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DaemonRunner</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				TimeUnit.SECONDS.sleep(<span class="number">10</span>);</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125; <span class="keyword">finally</span> &#123;</div><div class="line">				System.out.println(<span class="string">"DaemonThread finally run."</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果 不打印任何东西。</p>
+<h4 id="3-线程方法"><a href="#3-线程方法" class="headerlink" title="3.线程方法"></a>3.线程方法</h4><ol>
+<li>start</li>
+<li>run</li>
+<li>suspend() 暂停 不释放资源进入睡眠，容易引起思索</li>
+<li>resume() 恢复</li>
+<li>stop() 停止 不保证线程资源的正常释放</li>
+<li>interrupt() 中断</li>
+<li>join() 当前线程A等待thread线程终止之后才从thread.join()返回。</li>
+</ol>
+<p>等待和通知方法是任意java对象具备的，定义在object上，</p>
+<ol>
+<li>notifyAll：使所有原来在该对象上等待被notify的线程统统退出wait的状态，变成等待该对象上的锁，一旦该对象被解锁，他们就会去竞争。</li>
+<li>notify：notify则文明得多他只是选择一个wait状态线程进行通知，并使它获得该对象上的锁，但不惊动其他同样在等待被该对象notify的线程们，当第一个线程运行完毕以后释放对象上的锁此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，继续处在wait状态，直到这个对象发出一个notify或notifyAll，它们等待的是被notify或notifyAll，而不是锁。</li>
+<li>wait()</li>
+<li>wait(long)</li>
+<li>wait(lonhg,int)</li>
+</ol>
+<p>总结：</p>
+<ul>
+<li>1）使用wait()、notify()和notifyAll()时需要先对调用对象加锁。</li>
+<li>2）调用wait()方法后，线程状态由RUNNING变为WAITING，并将当前线程放置到对象的等待队列。</li>
+<li>3）notify()或notifyAll()方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifAll()的线程释放锁之后，等待线程才有机会从wait()返回。</li>
+<li>4）notify()方法将等待队列中的一个等待线程从等待队列中移到同步队列中，而notifyAll()方法则是将等待队列中所有的线程全部移到同步队列，被移动的线程状态WAITING变为BLOCKED。</li>
+<li>5）从wait()方法返回的前提是获得了调用对象的锁</li>
+</ul>
+<p>等待/通知的经典范式：<br>等待方（消费者）和通知方（生产者）</p>
+<p>等待方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line"><span class="keyword">while</span>(条件不满足) &#123;</div><div class="line">对象.wait();</div><div class="line">&#125; 对</div><div class="line">应的处理逻辑</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通知者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line">改变条件</div><div class="line">对象.notifyAll();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4-管道输入-输出流"><a href="#4-管道输入-输出流" class="headerlink" title="4.管道输入/输出流"></a>4.管道输入/输出流</h4><p>管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。</p>
+<p>管道输入/输出流主要包括了如下4种具体实现：PipedOutputStream、PipedInputStream、PipedReader和PipedWriter，前两种面向字节，而后两种面向字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Piped</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">PipedWriter out = <span class="keyword">new</span> PipedWriter();</div><div class="line">PipedReader in = <span class="keyword">new</span> PipedReader();</div><div class="line"><span class="comment">// 将输出流和输入流进行连接，否则在使用时会抛出IOException</span></div><div class="line">out.connect(in);</div><div class="line">Thread printThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Print(in), <span class="string">"PrintThread"</span>);</div><div class="line">printThread.start();</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = System.in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">out.write(receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125;s</div><div class="line">tatic <span class="class"><span class="keyword">class</span> <span class="title">Print</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> PipedReader in;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Print</span><span class="params">(PipedReader in)</span> </span>&#123;</div><div class="line"><span class="keyword">this</span>.in = in;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">System.out.print((<span class="keyword">char</span>) receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
     
     <summary type="html">
+    
+      &lt;h3 id=&quot;1-线程&quot;&gt;&lt;a href=&quot;#1-线程&quot; class=&quot;headerlink&quot; title=&quot;1.线程&quot;&gt;&lt;/a&gt;1.线程&lt;/h3&gt;&lt;h4 id=&quot;1-线程状态&quot;&gt;&lt;a href=&quot;#1-线程状态&quot; class=&quot;headerlink&quot; title=&quot;1.线程状
     
     </summary>
     
@@ -1303,27 +1317,13 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
-    <title>juc:collections-ConcurrentMap</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
+    <title>juc:collections-blockqueue</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
     <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-01-09T12:08:25.659Z</updated>
-    
-    <content type="html"><![CDATA[<p>本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦</p>
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术。首先将数据分成一段一段地存<br>储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。</p>
-<p><img src="http://i.imgur.com/EdWjCoE.png" alt=""></p>
-<p>ConcurrentHashMap实现map接口和ConcurrentMap接口</p>
-<p>1.初始化</p>
-<p>2.定位segment</p>
-<p>3.get</p>
-<p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
+    <updated>2017-01-16T15:16:04.460Z</updated>
     
     <summary type="html">
-    
-      &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
-&lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
     
     </summary>
     
