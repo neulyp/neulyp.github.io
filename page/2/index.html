@@ -244,8 +244,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/13/sql_mysql-context/" itemprop="url">
-                  mysql-context
+                <a class="post-title-link" href="/2017/01/13/sql_mysql-question/" itemprop="url">
+                  sql_mysql-questions
                 </a>
               
             
@@ -308,7 +308,6 @@
         
           
             <p>主要内容参照《高性能MySQL》一书</p>
-<p>@TODO</p>
 <p><strong>1.mysql常用引擎？</strong></p>
 <ol>
 <li>InnoDB存储引擎</li>
@@ -393,8 +392,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/13/sql_mysql-question/" itemprop="url">
-                  sql_mysql-questions
+                <a class="post-title-link" href="/2017/01/13/sql_mysql-context/" itemprop="url">
+                  mysql-context
                 </a>
               
             
@@ -457,6 +456,7 @@
         
           
             <p>主要内容参照《高性能MySQL》一书</p>
+<p>@TODO</p>
 <p><strong>1.mysql常用引擎？</strong></p>
 <ol>
 <li>InnoDB存储引擎</li>
@@ -1098,6 +1098,186 @@ b 它们竞争完了之后大部分又大部分wait了
             
               
                 
+                <a class="post-title-link" href="/2017/01/09/juc_lock/" itemprop="url">
+                  juc:locks
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-01-09T19:27:24+08:00" content="2017-01-09">
+              2017-01-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
+<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
+<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
+<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
+<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
+<p>锁重入需要解决两个问题：</p>
+<ul>
+<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
+<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
+<p><strong>公平与非公平获取锁的区别</strong></p>
+<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
+<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
+<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
+<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
+<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
+<p>写锁的释放和ReentrantLock释放类似、</p>
+<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
+<p>总结一下：</p>
+<p>ReentrantReadWriteLock有以下几个特性：</p>
+<ul>
+<li>公平性<ul>
+<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
+<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
+</ul>
+</li>
+<li>重入性<ul>
+<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
+<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
+<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
+</ul>
+</li>
+<li>锁降级<ul>
+<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
+</ul>
+</li>
+<li>锁获取中断<ul>
+<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
+</ul>
+</li>
+<li>条件变量<ul>
+<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
+</ul>
+</li>
+<li>重入数<ul>
+<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
+<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
+<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
+<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
+<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
+<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/09/并发编程-1线程/" itemprop="url">
                   并发编程1-线程
                 </a>
@@ -1433,186 +1613,6 @@ b 它们竞争完了之后大部分又大部分wait了
 <p>3.get</p>
 <p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/09/juc_lock/" itemprop="url">
-                  juc:locks
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2017-01-09T19:27:24+08:00" content="2017-01-09">
-              2017-01-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
-<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
-<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
-<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
-<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
-<p>锁重入需要解决两个问题：</p>
-<ul>
-<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
-<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
-<p><strong>公平与非公平获取锁的区别</strong></p>
-<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
-<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
-<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
-<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
-<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
-<p>写锁的释放和ReentrantLock释放类似、</p>
-<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
-<p>总结一下：</p>
-<p>ReentrantReadWriteLock有以下几个特性：</p>
-<ul>
-<li>公平性<ul>
-<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
-<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
-</ul>
-</li>
-<li>重入性<ul>
-<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
-<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
-<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
-</ul>
-</li>
-<li>锁降级<ul>
-<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
-</ul>
-</li>
-<li>锁获取中断<ul>
-<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
-</ul>
-</li>
-<li>条件变量<ul>
-<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
-</ul>
-</li>
-<li>重入数<ul>
-<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
-</ul>
-</li>
-</ul>
-<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
-<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
-<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
-<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
-<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
-<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
 
           
         

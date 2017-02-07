@@ -497,6 +497,140 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/16/深入理解jvm十-早期（编译期）优化/" itemprop="url">
+                  深入理解jvm十-早期（编译期）优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
+              2016-11-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/jvm/" itemprop="url" rel="index">
+                    <span itemprop="name">jvm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
+<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
+<li>sun的javac eclipsejdt中的ecj</li>
+</ul>
+</li>
+<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
+<li>hotspot vm 中的 c1 c2编译器</li>
+</ul>
+</li>
+<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
+<li>gun compiler for java</li>
+</ul>
+</li>
+</ul>
+<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
+<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
+<ul>
+<li>解析与填充符号表过程。</li>
+<li>插入式注解处理器的注解处理过程。</li>
+<li>分析与字节码生成过程。</li>
+</ul>
+<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/16/jvm11/" itemprop="url">
                   jvm11
                 </a>
@@ -737,140 +871,6 @@
 <li>JNI的使用。</li>
 </ol>
 <p>Java里有很多很杂的东西，有时候需要你阅读源码，大多数可能书里面讲的不是太清楚，需要你在网上寻找答案。<br>推荐书籍：《java核心技术卷I》《Thinking in java》《java并发编程》《effictive java》《大话设计模式》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/16/深入理解jvm十-早期（编译期）优化/" itemprop="url">
-                  深入理解jvm十-早期（编译期）优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-11-16T13:37:45+08:00" content="2016-11-16">
-              2016-11-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/jvm/" itemprop="url" rel="index">
-                    <span itemprop="name">jvm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-编译期"><a href="#1-编译期" class="headerlink" title="1.编译期"></a>1.编译期</h3><ul>
-<li>前端编译器：把<em>java转换成</em>.class文件的过程。 <ul>
-<li>sun的javac eclipsejdt中的ecj</li>
-</ul>
-</li>
-<li>后端运行时编译器（JIT just in time）：字节码转换为机器码的过程<ul>
-<li>hotspot vm 中的 c1 c2编译器</li>
-</ul>
-</li>
-<li>静态提前编译器（AOT ahead of time）：把.java编译成本地机器码的过程。<ul>
-<li>gun compiler for java</li>
-</ul>
-</li>
-</ul>
-<p>ps：java中编译期在运行期的优化过程对于程序运行来说更重要，二前端编译期在编译期的优化过程对于<strong>程序编码</strong>来说更重要。</p>
-<h3 id="2-javac编译器"><a href="#2-javac编译器" class="headerlink" title="2.javac编译器"></a>2.javac编译器</h3><p>从 Sun Javac 的代码来看，编译过程大致可以分为 3 个过程，分别是：</p>
-<ul>
-<li>解析与填充符号表过程。</li>
-<li>插入式注解处理器的注解处理过程。</li>
-<li>分析与字节码生成过程。</li>
-</ul>
-<p>详细内容参考blog<a href="http://blog.csdn.net/u013678930/article/details/52032328" target="_blank" rel="external">http://blog.csdn.net/u013678930/article/details/52032328</a></p>
 
           
         

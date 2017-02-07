@@ -244,182 +244,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM七-虚拟机类加载机制/" itemprop="url">
-                  深入理解JVM七-虚拟机类加载机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
-              2016-10-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/jvm/" itemprop="url" rel="index">
-                    <span itemprop="name">jvm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类从被加载到卸载，整个生命周期如下：</p>
-<ul>
-<li>加载（loading）</li>
-<li>连接（验证verification 准备preparation 解析resolution）</li>
-<li>初始化（initialization）</li>
-<li>使用（using）</li>
-<li>卸载（unloading）</li>
-</ul>
-<p>主动引用，触发类的初始化：</p>
-<ul>
-<li>1.遇到new getstatic putstatic invokestatic</li>
-<li>2.使用java.lang.reflect包的方法对垒进行反射调用。</li>
-<li>3.初始化一个类的时候，如果发现父类还没有进行过初始化，则先触发其父类的初始化。</li>
-<li>4.当虚拟机启动时，用户需要制定一个要执行的主类，虚拟机则会先初始化这个主类。</li>
-<li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
-</ul>
-<p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
-<p>###类加载器###</p>
-<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
-<pre><code>package jvm;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-
-/**
- * 
- * @author neuly
- *
- */
-public class ClassLoaderTest {
-    public static void main(String[] args) throws Exception{
-        ClassLoader myloader= new ClassLoader() {
-                @Override
-                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
-                    try {
-                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
-                        InputStream is= getClass().getResourceAsStream(fileName);
-                        if(is==null){
-                            return super.loadClass(name);
-                        }
-                        byte[] b = new byte[is.available()];
-                        is.read(b);
-                        return defineClass(name, b, 0,b.length);
-                    } catch (IOException e) {;; 
-                        // TODO: handle exception
-                        throw new ClassNotFoundException(name);
-                    }
-
-                }
-            };
-            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
-            System.out.println(obj.getClass());
-            System.out.println(obj instanceof jvm.ClassLoaderTest);
-    }
-}
-</code></pre><p>结果 </p>
-<pre><code>class jvm.ClassLoaderTest
-false
-</code></pre><p>代码加载与自己同一路径下的class文件。</p>
-<p>###2.双亲委派模型###</p>
-<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
-<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
-<p>###2.破坏双亲委派模型###</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/10/24/jvm7/" itemprop="url">
                   jvm7
                 </a>
@@ -596,8 +420,8 @@ false
             
               
                 
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM六-类文件结构/" itemprop="url">
-                  深入理解JVM六-类文件结构
+                <a class="post-title-link" href="/2016/10/24/深入理解JVM七-虚拟机类加载机制/" itemprop="url">
+                  深入理解JVM七-虚拟机类加载机制
                 </a>
               
             
@@ -610,7 +434,7 @@ false
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
+            <time itemprop="dateCreated" datetime="2016-10-24T18:59:48+08:00" content="2016-10-24">
               2016-10-24
             </time>
           </span>
@@ -659,39 +483,70 @@ false
       
         
           
-            <p>class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
-<p>###class文件结构介绍：</p>
-<p>根据java虚拟机规范的规定，class文件格式采用一种类似c语言结构体的伪结构来存储，这种伪结构中只有两种数据类型：无符号数和表。</p>
-<p>无符号数：无符号数属于基本的数据类型，以u1,u2,u4,u8来分别代表1个字节，2个字节，4个字节和8个字节的无符号数，无符号数可以用来描述数字、索引引用、数量值，或者按照utf-8编码构成字符串值。</p>
-<p>表：表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性地以“_info“结尾。表用于描述有层次关系的复合结构的数据，整个class文件本质上就是一张表，它由下列数据项构成：</p>
-<pre><code>ClassFile {  
-    u4 magic;//魔数(0xCAFEBABE)  
-    u2 minor_version;//次版本号  
-    u2 major_version;//主版本号  
-    u2 constant_pool_count;//常量池容量计数值  
-    cp_info constant_pool[constant_pool_count-1];//常量池  
-    u2 access_flags;//访问标志  
-    u2 this_class;//类索引  
-    u2 super_class;//父类索引  
-    u2 interfaces_count;//接口计数器  
-    u2 interfaces[interfaces_count];//接口索引集合  
-    u2 fields_count;//字段计数器  
-    field_info fields[fields_count];//字段表  
-    u2 methods_count;//方法计数器  
-    method_info methods[methods_count];//方法表  
-    u2 attributes_count;//属性表计数器  
-    attribute_info attributes[attributes_count];//属性表集合  
-}  
-</code></pre><p>无论是无符号数还是表，当需要描述的同一类型但是数量不定的多个数据时，经常会使用一个前置的容量计数器加若干个连续的数据项的形式（比如说一个类可能实现了多个接口，这时候需要一个计数器来指定接口的数量），这时候称这一系列连续的某一类型的数据为某一类型的集合。上面的文件格式是固定的，每个数据项的顺序，占用字节数都是被严格限定的，不允许改变。</p>
-<p>1.魔数：class文件头四个字节代表魔数，它的作用是用于确定该文件是一个能被虚拟机接受的class文件,其值为0xCAFEBABE.</p>
-<p>2.版本：魔数后四个字节代表class文件的版本号，其中前两个字节代表次版本号，后两个字节代表主版本号。高版本的jdk能向下兼容以前版本的class文件，但不能运行以后版本的class文件。</p>
-<p>3.常量池：主版本之后的是常量池入口，常量池是class文件结构中与其他项目关联最多的数据类型，也是占用class文件空间最大的数据项目之一，同时还是在class文件中第一个出现的表类型的数据项目。因为常量池中常量数量不固定，所以在常量池入口前需要放置一个计数器，占用两个字节。比如如果该位置的值为0x0016,那就代表常量池中有21项常量（从1开始），第0项空出来是为了满足后面某些指向常量池的索引值的数据在特定情况下需要表达”不引用任何一个常量池项目“的意思，这种情况就可以把索引置为0来表示。class文件结构只有常量池的容量计数器是从1开始的，其他集合类型都是从0开始的。<br>    常量池中主要存放两类数据：字面量和符号引用；<br>（1）字面量：比如文本字符串，被声明为final的常量值等。<br>（2）符号引用：包括类和接口的权限定名，字段的名称和描述符，方法的名称和描述符。</p>
-<p>4.访问标志（access_flags）：常量池之后，紧接着的两个字节代表访问标志，这个标志用于识别一些类或者接口层次的访问信息（比如这个class是否是public是否是final等等)。</p>
-<p>5.类索引，父类索引，接口索引：类索引和父类索引都是一个u2类型的数据，而接口索引集合时一组u2类型的数据的集合，class文件中由这三项数据来确定这个类的继承关系。类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名（除了kava.lang.Object以外所有类的父类索引均不为0）。接口索引集合用来描述这个类实现了哪些接口。<br>    类索引和父类索引用两个u2类型的索引值表示，它们各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过CONSTANT_Class_info类型的常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
-<p>6.字段表集合：字段表集合用于描述接口或者类中声明的变量。字段包括了类级变量或者实例级变量，但是不包括方法内部声明的变量。</p>
-<p>7.方法表集合：内容跟属性表集合基本一致</p>
-<p>8.属性表集合：在class文件、字段表、方法表中都可以携带字节的属性表集合，用于描述某些场景专有的信息。属性表中的数据项目不需要有严格的顺序，java虚拟机在运行时会自动的忽略掉不认识的属性，其中系统预定义了9种虚拟机应该识别的属性，</p>
-<p>连接：<br><a href="http://blog.csdn.net/kobejayandy/article/details/39620833" target="_blank" rel="external">http://blog.csdn.net/kobejayandy/article/details/39620833</a></p>
+            <p>类从被加载到卸载，整个生命周期如下：</p>
+<ul>
+<li>加载（loading）</li>
+<li>连接（验证verification 准备preparation 解析resolution）</li>
+<li>初始化（initialization）</li>
+<li>使用（using）</li>
+<li>卸载（unloading）</li>
+</ul>
+<p>主动引用，触发类的初始化：</p>
+<ul>
+<li>1.遇到new getstatic putstatic invokestatic</li>
+<li>2.使用java.lang.reflect包的方法对垒进行反射调用。</li>
+<li>3.初始化一个类的时候，如果发现父类还没有进行过初始化，则先触发其父类的初始化。</li>
+<li>4.当虚拟机启动时，用户需要制定一个要执行的主类，虚拟机则会先初始化这个主类。</li>
+<li>5.当使用jdk1.7的动态语言支持时，如果一个java.lang.invoke.methodhandle实例最后解析的结果ref_getstatic ref_putstatic ref_invokestatic 的方法句柄。</li>
+</ul>
+<p>主要过程参照另一篇blog<br><a href="http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" title="类的加载初始化过程" target="_blank" rel="external">http://raincoffee.info/2016/09/22/java%E7%B1%BB%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/</a></p>
+<p>###类加载器###</p>
+<p>1.类与类加载器<br>比较两个类食肉相等，只能有一个类加载器加载的前提下才有意义。否则，即使这两个类来源于同一个class文件，被同一个虚拟机加载，只要夹在他们的类加载器不同，拿着两个雷一定不同。</p>
+<pre><code>package jvm;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+
+/**
+ * 
+ * @author neuly
+ *
+ */
+public class ClassLoaderTest {
+    public static void main(String[] args) throws Exception{
+        ClassLoader myloader= new ClassLoader() {
+                @Override
+                public Class&lt;?&gt; loadClass(String name) throws ClassNotFoundException{
+                    try {
+                        String fileName=name.substring(name.lastIndexOf(&quot;.&quot;)+1)+&quot;.class&quot;;
+                        InputStream is= getClass().getResourceAsStream(fileName);
+                        if(is==null){
+                            return super.loadClass(name);
+                        }
+                        byte[] b = new byte[is.available()];
+                        is.read(b);
+                        return defineClass(name, b, 0,b.length);
+                    } catch (IOException e) {;; 
+                        // TODO: handle exception
+                        throw new ClassNotFoundException(name);
+                    }
+
+                }
+            };
+            Object obj =myloader.loadClass(&quot;jvm.ClassLoaderTest&quot;).newInstance();
+            System.out.println(obj.getClass());
+            System.out.println(obj instanceof jvm.ClassLoaderTest);
+    }
+}
+</code></pre><p>结果 </p>
+<pre><code>class jvm.ClassLoaderTest
+false
+</code></pre><p>代码加载与自己同一路径下的class文件。</p>
+<p>###2.双亲委派模型###</p>
+<p>自动类加载器<br>↑<br>扩展类加载器<br>↑<br>应用程序类加载器<br>↑<br>自定义类加载器</p>
+<p>双亲委派工作过程：如果一个类加载器收到了类加载的请求，他首先不会自己去尝试加载这个类，二十八请求为派给父类加载器去完成。每一个层次的类加载器都是如此，因此所有的加载请求最终都应传送到顶层的启动类加载器中，只有当弗雷加载器反馈自己不能完成这个加载请求时，自加载器才会尝试自己去加载。</p>
+<p>###2.破坏双亲委派模型###</p>
 
           
         
@@ -886,8 +741,153 @@ false
             
               
                 
-                <a class="post-title-link" href="/2016/10/24/jvm5/" itemprop="url">
-                  jvm5
+                <a class="post-title-link" href="/2016/10/24/深入理解JVM六-类文件结构/" itemprop="url">
+                  深入理解JVM六-类文件结构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T16:36:18+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/jvm/" itemprop="url" rel="index">
+                    <span itemprop="name">jvm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>class文件是一组以八位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在class文件中，中间没有添加任何分隔符，这使得整个class文件中存储的内容几乎全部都是程序运行的必要数据，没有空隙存在。当需要占用8位字节以上的空间数据时，则会按照高位在前的方式分割成若干个8位字节进行存储。</p>
+<p>###class文件结构介绍：</p>
+<p>根据java虚拟机规范的规定，class文件格式采用一种类似c语言结构体的伪结构来存储，这种伪结构中只有两种数据类型：无符号数和表。</p>
+<p>无符号数：无符号数属于基本的数据类型，以u1,u2,u4,u8来分别代表1个字节，2个字节，4个字节和8个字节的无符号数，无符号数可以用来描述数字、索引引用、数量值，或者按照utf-8编码构成字符串值。</p>
+<p>表：表是由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性地以“_info“结尾。表用于描述有层次关系的复合结构的数据，整个class文件本质上就是一张表，它由下列数据项构成：</p>
+<pre><code>ClassFile {  
+    u4 magic;//魔数(0xCAFEBABE)  
+    u2 minor_version;//次版本号  
+    u2 major_version;//主版本号  
+    u2 constant_pool_count;//常量池容量计数值  
+    cp_info constant_pool[constant_pool_count-1];//常量池  
+    u2 access_flags;//访问标志  
+    u2 this_class;//类索引  
+    u2 super_class;//父类索引  
+    u2 interfaces_count;//接口计数器  
+    u2 interfaces[interfaces_count];//接口索引集合  
+    u2 fields_count;//字段计数器  
+    field_info fields[fields_count];//字段表  
+    u2 methods_count;//方法计数器  
+    method_info methods[methods_count];//方法表  
+    u2 attributes_count;//属性表计数器  
+    attribute_info attributes[attributes_count];//属性表集合  
+}  
+</code></pre><p>无论是无符号数还是表，当需要描述的同一类型但是数量不定的多个数据时，经常会使用一个前置的容量计数器加若干个连续的数据项的形式（比如说一个类可能实现了多个接口，这时候需要一个计数器来指定接口的数量），这时候称这一系列连续的某一类型的数据为某一类型的集合。上面的文件格式是固定的，每个数据项的顺序，占用字节数都是被严格限定的，不允许改变。</p>
+<p>1.魔数：class文件头四个字节代表魔数，它的作用是用于确定该文件是一个能被虚拟机接受的class文件,其值为0xCAFEBABE.</p>
+<p>2.版本：魔数后四个字节代表class文件的版本号，其中前两个字节代表次版本号，后两个字节代表主版本号。高版本的jdk能向下兼容以前版本的class文件，但不能运行以后版本的class文件。</p>
+<p>3.常量池：主版本之后的是常量池入口，常量池是class文件结构中与其他项目关联最多的数据类型，也是占用class文件空间最大的数据项目之一，同时还是在class文件中第一个出现的表类型的数据项目。因为常量池中常量数量不固定，所以在常量池入口前需要放置一个计数器，占用两个字节。比如如果该位置的值为0x0016,那就代表常量池中有21项常量（从1开始），第0项空出来是为了满足后面某些指向常量池的索引值的数据在特定情况下需要表达”不引用任何一个常量池项目“的意思，这种情况就可以把索引置为0来表示。class文件结构只有常量池的容量计数器是从1开始的，其他集合类型都是从0开始的。<br>    常量池中主要存放两类数据：字面量和符号引用；<br>（1）字面量：比如文本字符串，被声明为final的常量值等。<br>（2）符号引用：包括类和接口的权限定名，字段的名称和描述符，方法的名称和描述符。</p>
+<p>4.访问标志（access_flags）：常量池之后，紧接着的两个字节代表访问标志，这个标志用于识别一些类或者接口层次的访问信息（比如这个class是否是public是否是final等等)。</p>
+<p>5.类索引，父类索引，接口索引：类索引和父类索引都是一个u2类型的数据，而接口索引集合时一组u2类型的数据的集合，class文件中由这三项数据来确定这个类的继承关系。类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名（除了kava.lang.Object以外所有类的父类索引均不为0）。接口索引集合用来描述这个类实现了哪些接口。<br>    类索引和父类索引用两个u2类型的索引值表示，它们各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过CONSTANT_Class_info类型的常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
+<p>6.字段表集合：字段表集合用于描述接口或者类中声明的变量。字段包括了类级变量或者实例级变量，但是不包括方法内部声明的变量。</p>
+<p>7.方法表集合：内容跟属性表集合基本一致</p>
+<p>8.属性表集合：在class文件、字段表、方法表中都可以携带字节的属性表集合，用于描述某些场景专有的信息。属性表中的数据项目不需要有严格的顺序，java虚拟机在运行时会自动的忽略掉不认识的属性，其中系统预定义了9种虚拟机应该识别的属性，</p>
+<p>连接：<br><a href="http://blog.csdn.net/kobejayandy/article/details/39620833" target="_blank" rel="external">http://blog.csdn.net/kobejayandy/article/details/39620833</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/24/深入理解JVM笔记五/" itemprop="url">
+                  深入理解JVM笔记五-调优案例分析与实战
                 </a>
               
             
@@ -1008,8 +1008,8 @@ false
             
               
                 
-                <a class="post-title-link" href="/2016/10/24/深入理解JVM笔记五/" itemprop="url">
-                  深入理解JVM笔记五-调优案例分析与实战
+                <a class="post-title-link" href="/2016/10/24/jvm5/" itemprop="url">
+                  jvm5
                 </a>
               
             
@@ -1243,8 +1243,8 @@ false
             
               
                 
-                <a class="post-title-link" href="/2016/10/21/jvm4/" itemprop="url">
-                  jvm4
+                <a class="post-title-link" href="/2016/10/21/深入理解JVM笔记四/" itemprop="url">
+                  深入理解JVM笔记四-虚拟机性能监控与故障处理工具
                 </a>
               
             
@@ -1394,8 +1394,8 @@ C:\Program Files\Java\jdk1.8.0_91\bin&gt;jstat -gc 1676
             
               
                 
-                <a class="post-title-link" href="/2016/10/21/深入理解JVM笔记四/" itemprop="url">
-                  深入理解JVM笔记四-虚拟机性能监控与故障处理工具
+                <a class="post-title-link" href="/2016/10/21/jvm4/" itemprop="url">
+                  jvm4
                 </a>
               
             
