@@ -704,6 +704,147 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/21/sql存储过程/" itemprop="url">
+                  存储过程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>mysql 存储过程，while循环</p>
+<pre><code>--lyp 20160824 begin
+DROP PROCEDURE if EXISTS pp;
+delimiter //
+CREATE PROCEDURE pp ()
+BEGIN
+DECLARE n INT ;
+DECLARE i INT ;
+DECLARE t VARCHAR(255);
+DECLARE s VARCHAR(255);
+SET n = 200 ;
+SET i =1 ;
+WHILE i &lt; n DO
+    BEGIN
+        IF ((select count(*) from information_schema.tables where table_name = CONCAT(&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char))))
+        THEN
+            SET @s=CONCAT(&quot;alter table &quot;,&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char),&quot; add column contract_money double(64,2) COMMENT &apos;合同金额&apos; AFTER loan_AMT&quot;);
+            PREPARE stmt FROM @s ;
+            EXECUTE stmt ;
+            DEALLOCATE PREPARE stmt ;
+        END IF;
+    END;
+    SET i = i + 1 ;
+END WHILE ;
+END ;//
+
+CALL pp();
+--lyp 20160824 end
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/21/js百分数/" itemprop="url">
                   js百分数
                 </a>
@@ -756,6 +897,184 @@ return (Math.round(this * 10000)/100).toFixed(2) + &apos;%&apos;;
 var A=0.35897, B=0.25554;
  alert([A, A.toPercent(), B, B.toPercent()].join(&apos;\n&apos;));
 &lt;/script&gt;
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/21/js数字格式化/" itemprop="url">
+                  js数字格式化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
+<p>(1).  1111111-&gt;11,111,111.00</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function outputmoney(number) {
+number = number.replace(/\,/g, &quot;&quot;);
+if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
+number = Math.round(number * 100) / 100;
+    if (number &lt; 0)
+        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
+    else
+        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
+} 
+//格式化金额
+function outputdollars(number) {
+    if (number.length &lt;= 3)
+        return (number == &apos;&apos; ? &apos;0&apos; : number);
+    else {
+        var mod = number.length % 3;
+        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
+        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
+            if ((mod == 0) &amp;&amp; (i == 0))
+                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+            else
+                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
+        }
+        return (output);
+    }
+}
+function outputcents(amount) {
+    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
+}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
+<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
+&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
+&lt;script language=&quot;javascript&quot;&gt;
+function tran(id)
+{
+  var v, j, sj, rv = &quot;&quot;;
+  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
+  j = v[0].length % 3;
+  sj = v[0].substr(j).toString();
+  for (var i = 0; i &lt; sj.length; i++)
+  {
+    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
+  }
+  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
+  if (rvalue.charCodeAt(0) == 44)
+  {
+    rvalue = rvalue.substr(1);
+  }
+  id.value = rvalue;
+}
+function tran2(id)
+{
+  var v;
+  v = id.value.replace(/,/g,&quot;&quot;);
+  alert(v);
+}
+&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+body,td,th,input {
+ font-size: 12px;
+}
+--&gt;
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
+&lt;br/&gt;
+&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
           
         
@@ -1004,325 +1323,6 @@ var A=0.35897, B=0.25554;
 <p>6、合成复用原则（Composite Reuse Principle）</p>
 <p>原则是尽量使用合成/聚合的方式，而不是使用继承。</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/21/sql存储过程/" itemprop="url">
-                  存储过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
-              2015-11-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">in</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>mysql 存储过程，while循环</p>
-<pre><code>--lyp 20160824 begin
-DROP PROCEDURE if EXISTS pp;
-delimiter //
-CREATE PROCEDURE pp ()
-BEGIN
-DECLARE n INT ;
-DECLARE i INT ;
-DECLARE t VARCHAR(255);
-DECLARE s VARCHAR(255);
-SET n = 200 ;
-SET i =1 ;
-WHILE i &lt; n DO
-    BEGIN
-        IF ((select count(*) from information_schema.tables where table_name = CONCAT(&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char))))
-        THEN
-            SET @s=CONCAT(&quot;alter table &quot;,&quot;ms_mime_consumeloan_static_&quot;,CAST(i as char),&quot; add column contract_money double(64,2) COMMENT &apos;合同金额&apos; AFTER loan_AMT&quot;);
-            PREPARE stmt FROM @s ;
-            EXECUTE stmt ;
-            DEALLOCATE PREPARE stmt ;
-        END IF;
-    END;
-    SET i = i + 1 ;
-END WHILE ;
-END ;//
-
-CALL pp();
---lyp 20160824 end
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/21/js数字格式化/" itemprop="url">
-                  js数字格式化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2015-11-21T16:47:25+08:00" content="2015-11-21">
-              2015-11-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>#JS数字格式化(三位加逗号处理保留两位置小数)</p>
-<p>(1).  1111111-&gt;11,111,111.00</p>
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-function outputmoney(number) {
-number = number.replace(/\,/g, &quot;&quot;);
-if(isNaN(number) || number == &quot;&quot;)return &quot;&quot;;
-number = Math.round(number * 100) / 100;
-    if (number &lt; 0)
-        return &apos;-&apos; + outputdollars(Math.floor(Math.abs(number) - 0) + &apos;&apos;) + outputcents(Math.abs(number) - 0);
-    else
-        return outputdollars(Math.floor(number - 0) + &apos;&apos;) + outputcents(number - 0);
-} 
-//格式化金额
-function outputdollars(number) {
-    if (number.length &lt;= 3)
-        return (number == &apos;&apos; ? &apos;0&apos; : number);
-    else {
-        var mod = number.length % 3;
-        var output = (mod == 0 ? &apos;&apos; : (number.substring(0, mod)));
-        for (i = 0; i &lt; Math.floor(number.length / 3); i++) {
-            if ((mod == 0) &amp;&amp; (i == 0))
-                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
-            else
-                output += &apos;,&apos; + number.substring(mod + 3 * i, mod + 3 * i + 3);
-        }
-        return (output);
-    }
-}
-function outputcents(amount) {
-    amount = Math.round(((amount) - Math.floor(amount)) * 100);
-    return (amount &lt; 10 ? &apos;.0&apos; + amount : &apos;.&apos; + amount);
-}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;input type=text   maxlength=&quot;8&quot; id=&quot;test&quot; onblur=&quot;this.value=outputmoney(this.value);&quot; &gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>(2). 1111111-&gt;11,111,111和11,111,111-&gt;1111111</p>
-<pre><code>&lt;!doctype html public &quot;-//w3c//dtd xhtml 1.0 transitional//en&quot; &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;
-&lt;title&gt;js 格式化金额的代码---www.jb51.net&lt;/title&gt;
-&lt;script language=&quot;javascript&quot;&gt;
-function tran(id)
-{
-  var v, j, sj, rv = &quot;&quot;;
-  v = id.value.replace(/,/g,&quot;&quot;).split(&quot;.&quot;);
-  j = v[0].length % 3;
-  sj = v[0].substr(j).toString();
-  for (var i = 0; i &lt; sj.length; i++)
-  {
-    rv = (i % 3 == 0) ? rv + &quot;,&quot; + sj.substr(i, 1): rv + sj.substr(i, 1);
-  }
-  var rvalue = (v[1] == undefined) ? v[0].substr(0, j) + rv: v[0].substr(0, j) + rv + &quot;.&quot; + v[1];
-  if (rvalue.charCodeAt(0) == 44)
-  {
-    rvalue = rvalue.substr(1);
-  }
-  id.value = rvalue;
-}
-function tran2(id)
-{
-  var v;
-  v = id.value.replace(/,/g,&quot;&quot;);
-  alert(v);
-}
-&lt;/script&gt;
-&lt;style type=&quot;text/css&quot;&gt;
-&lt;!--
-body,td,th,input {
- font-size: 12px;
-}
---&gt;
-&lt;/style&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt&quot; size=&quot;80&quot; onkeyup=&quot;tran(this)&quot; /&gt;
-&lt;br/&gt;
-&lt;input name=&quot;tt&quot; type=&quot;text&quot; id=&quot;tt2&quot; size=&quot;80&quot; onkeyup=&quot;tran2(this)&quot; /&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
           
         
       
