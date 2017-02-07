@@ -1311,6 +1311,24 @@ b 它们竞争完了之后大部分又大部分wait了
   </entry>
   
   <entry>
+    <title>juc:collections-blockqueue</title>
+    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
+    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
+    <published>2017-01-09T11:27:24.000Z</published>
+    <updated>2017-02-07T09:10:08.130Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
+    
+    
+      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
+    
+  </entry>
+  
+  <entry>
     <title>juc:collections-ConcurrentMap</title>
     <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
     <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
@@ -1332,24 +1350,6 @@ b 它们竞争完了之后大部分又大部分wait了
     
       &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
 &lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:collections-blockqueue</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-map/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-map/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-02-07T09:10:08.130Z</updated>
-    
-    <summary type="html">
     
     </summary>
     
