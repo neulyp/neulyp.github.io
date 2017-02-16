@@ -116,49 +116,6 @@
   </entry>
   
   <entry>
-    <title>poffer1</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer1/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer1/</id>
-    <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-07T09:20:26.708Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
-    
-    
-      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面试题12：打印1到最大的n位数</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer12/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer12/</id>
-    <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-16T05:43:55.191Z</updated>
-    
-    <content type="html"><![CDATA[<p>题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.</p>
-<p>解答：<br><a href="http://blog.csdn.net/jsqfengbao/article/details/47174629" target="_blank" rel="external">http://blog.csdn.net/jsqfengbao/article/details/47174629</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.&lt;/p&gt;
-&lt;p&gt;解答：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/jsqfengbao/article/details/4717
-    
-    </summary>
-    
-      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
-    
-    
-      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
-    
-  </entry>
-  
-  <entry>
     <title>面试题4：替换空格</title>
     <link href="http://yoursite.com/2017/01/17/Poffer4/"/>
     <id>http://yoursite.com/2017/01/17/Poffer4/</id>
@@ -184,41 +141,6 @@
 &lt;ol&gt;
 &lt;li&gt;首先遍历原字符串，找出字符串的长度以及其中的空格数量，&lt;/li&gt;
 &lt;li&gt;根据原字符
-    
-    </summary>
-    
-      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
-    
-    
-      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面试题7：用两个栈实现队列</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer7/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer7/</id>
-    <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-16T04:58:59.299Z</updated>
-    
-    <content type="html"><![CDATA[<p>题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。</p>
-<p>解答：</p>
-<ol>
-<li>我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插入一个元素a，不妨先把它插入到stack1，此时stack1 中的元素有｛a}，stack2为空。再压入两个元素b和c,还是插入到stack1中，此时stack1中的元素有｛a,b,c}，其中c位于栈顶，而stack2仍然为空。</li>
-<li>这个时候，我们试着删除从队列中删除一个元素。按照队列先入先出的规则，由于a比b、c先插入到队列中，最先被删除的元素应该是a。元素a存储在stack1中，但并不在占顶上，因此不能直接被删除。注意到stack2我们还一直没有使用过，现在是让stack2发挥作用的时候了。如果我们把stack1中的元素逐个弹出并压入stack2，元素在stack2中的顺序正好和原来的stack1中的顺序相反。因此经过3次弹出stack1和压入stack2操作之后，stack1为空，而stack2中的元素是｛c,b,a}，这个时候就可以弹出stack2的栈顶a了。此时的stack1为空，而stack2的元素为{c,b}，其中在栈顶</li>
-</ol>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack1= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack2= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		stack1.push(s);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function">String <span class="title">deleteHead</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">while</span>(!stack1.isEmpty())&#123;</div><div class="line">				stack2.push(stack1.pop());</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		t7 t= <span class="keyword">new</span> t7();</div><div class="line">		t.appendTail(<span class="string">"a"</span>);</div><div class="line">		t.appendTail(<span class="string">"b"</span>);</div><div class="line">		t.appendTail(<span class="string">"c"</span>);</div><div class="line">		System.out.println(t.deleteHead());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>两个队列模仿栈</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7q</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue1=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue2=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pop</span><span class="params">()</span></span>&#123;</div><div class="line">		String re=<span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue1.size()==<span class="number">0</span>&amp;&amp;queue2.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue2.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue1.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue1.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue2.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue2.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue2.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue1.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> re;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">push</span><span class="params">(String str)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(queue1.size() ==<span class="number">0</span> &amp;&amp; queue2.size() == <span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue2.addLast(str);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> str;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。&lt;/p&gt;
-&lt;p&gt;解答：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插
     
     </summary>
     
@@ -257,37 +179,6 @@
   </entry>
   
   <entry>
-    <title>面试题6：重建二叉树</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer6/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer6/</id>
-    <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-15T13:53:53.764Z</updated>
-    
-    <content type="html"><![CDATA[<p>题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。</p>
-<p>解答：</p>
-<ol>
-<li>在二叉树的前序遍历序列中，第一个数字总是树的根节点的值。但在中序遍历中，根节点的值在序列的中间，左子树的结点的值位于根节点的值的左边，而右子树的结点的值位于根节点的右边。因此我们需要扫描中序遍历序列，才能找到根节点的值。<br>如图所示，前序遍历序列的第一个数字1就是根节点的值。扫描中序遍历序列，就能确定根节点的值的位置。根据中序遍历的特点，在根节点的值1前面3个数字都是左子树结点的值，位于1后面的数字都是右子树结点的值。</li>
-<li>既然我们已经分别找到了左、右子树的前序遍历序列和中序遍历序列，我们可以用同样的方法分别去构建左右子树。也就是说，接下来的事情可以用递归的方法去完成。</li>
-</ol>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t6</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTreeNode</span> </span>&#123;</div><div class="line">		 <span class="keyword">public</span> <span class="keyword">int</span> value;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode leftNode;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode rightNode;  		      </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">()</span></span>&#123;  </div><div class="line">		          </div><div class="line">		 &#125;  </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;  </div><div class="line">		     <span class="keyword">this</span>.value = value ;  </div><div class="line">		     <span class="keyword">this</span>.leftNode = <span class="keyword">null</span>;  </div><div class="line">		     <span class="keyword">this</span>.rightNode = <span class="keyword">null</span>;  </div><div class="line">		 &#125;  </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> preOrder 前序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> inOrder 中序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> length 数组长度  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">Construct</span><span class="params">(<span class="keyword">int</span>[] preOrder, <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> length)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span> (preOrder == <span class="keyword">null</span> || inOrder == <span class="keyword">null</span> || length &lt;= <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            <span class="keyword">return</span> ConstructCore(preOrder, <span class="number">0</span>, preOrder.length - <span class="number">1</span>, inOrder, <span class="number">0</span>,inOrder.length - <span class="number">1</span>);  </div><div class="line">        &#125; <span class="keyword">catch</span> (InvalidPutException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> PreOrder  </div><div class="line">     *            前序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startPreIndex  </div><div class="line">     *            前序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endPreIndex  </div><div class="line">     *            前序序列结束位置  </div><div class="line">     * <span class="doctag">@param</span> InOrder  </div><div class="line">     *            中序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startInIndex  </div><div class="line">     *            中序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endInIndex  </div><div class="line">     *            中序序列结束位置  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     * <span class="doctag">@throws</span> InvalidPutException  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">ConstructCore</span><span class="params">(<span class="keyword">int</span>[] preOrder,<span class="keyword">int</span> startPreIndex, <span class="keyword">int</span> endPreIndex,   </span></span></div><div class="line">            <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> startInIndex, <span class="keyword">int</span> endInIndex) <span class="keyword">throws</span> InvalidPutException &#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> rootValue = preOrder[startPreIndex];  </div><div class="line">        System.out.println(<span class="string">"rootValue = "</span> + rootValue);  </div><div class="line">        BinaryTreeNode root = <span class="keyword">new</span> BinaryTreeNode(rootValue);  </div><div class="line">  </div><div class="line">        <span class="comment">// 只有一个元素  </span></div><div class="line">        <span class="keyword">if</span> (startPreIndex == endPreIndex) &#123;  </div><div class="line">            <span class="keyword">if</span> (startInIndex == endInIndex  </div><div class="line">                    &amp;&amp; preOrder[startPreIndex] == inOrder[startInIndex]) &#123;  </div><div class="line">                System.out.println(<span class="string">"only one element"</span>);  </div><div class="line">                <span class="keyword">return</span> root;  </div><div class="line">            &#125; <span class="keyword">else</span> &#123;  </div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// 在中序遍历中找到根结点的索引  </span></div><div class="line">        <span class="keyword">int</span> rootInIndex = startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">while</span> (rootInIndex &lt;= endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            ++rootInIndex;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (rootInIndex == endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftLength = rootInIndex - startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftPreOrderEndIndex = startPreIndex + leftLength;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &gt; <span class="number">0</span>) &#123;  </div><div class="line">            <span class="comment">// 构建左子树  </span></div><div class="line">            root.leftNode = ConstructCore(preOrder, startPreIndex + <span class="number">1</span>,  </div><div class="line">                    leftPreOrderEndIndex, inOrder, startInIndex,  </div><div class="line">                    rootInIndex - <span class="number">1</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &lt; endPreIndex - startPreIndex) &#123;  </div><div class="line">            <span class="comment">// 右子树有元素,构建右子树  </span></div><div class="line">            root.rightNode = ConstructCore(preOrder, leftPreOrderEndIndex + <span class="number">1</span>,  </div><div class="line">                    endPreIndex, inOrder, rootInIndex + <span class="number">1</span>, endInIndex);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> root;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InvalidPutException</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>&#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;  </div><div class="line">  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPreOrder</span><span class="params">(BinaryTreeNode root)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;  </div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            System.out.print(root.value + <span class="string">" "</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.leftNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.leftNode);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.rightNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.rightNode);  </div><div class="line">        &#125;  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        <span class="keyword">int</span>[] preOrder=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">8</span>&#125;;  </div><div class="line">        <span class="keyword">int</span>[] inOrder=&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">6</span>&#125;;  </div><div class="line">         printPreOrder(Construct(preOrder, inOrder, preOrder.length));  </div><div class="line">    &#125;  </div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。&lt;/p&gt;
-&lt;p
-    
-    </summary>
-    
-      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
-    
-    
-      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
-    
-  </entry>
-  
-  <entry>
     <title>面试题11：数值的整数次方</title>
     <link href="http://yoursite.com/2017/01/17/Poffer11/"/>
     <id>http://yoursite.com/2017/01/17/Poffer11/</id>
@@ -304,6 +195,153 @@
     
       &lt;p&gt;题目：实现函数double Power(double base,int exponent),求base的exponent次方。不得使用库函数，同时不需要考虑大数问题&lt;/p&gt;
 &lt;p&gt;解答：我们用右移运算代替除2，用位与运算符代替了求余运算符（%)来判断一个数是奇数还是偶数。位
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题15：链表中倒数第K个结点</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer15/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer15/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T11:35:24.567Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：输入一个链表，输出该链表中倒数第k哥结点。</p>
+<p>思路：</p>
+<ol>
+<li>先遍历一遍，然后得到数组逆序，放入栈中，输出第k个。</li>
+<li>方法二只遍历一遍，采用双指针，两个指针之间相差k</li>
+</ol>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t15</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> data;</div><div class="line">		ListNode  next;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> ListNode <span class="title">findK</span><span class="params">(ListNode head,<span class="keyword">int</span> k)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(head==<span class="keyword">null</span> ||k&lt;=<span class="number">0</span>) <span class="keyword">return</span>  <span class="keyword">null</span>;</div><div class="line">		ListNode ANode = head;  </div><div class="line">        ListNode BNode = <span class="keyword">null</span>;  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;k-<span class="number">1</span>;i++)&#123;  </div><div class="line">            <span class="keyword">if</span>(ANode.next != <span class="keyword">null</span>)  </div><div class="line">                ANode = ANode.next;  </div><div class="line">            <span class="keyword">else</span>  </div><div class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">        BNode = head;  </div><div class="line">        <span class="keyword">while</span>(ANode.next != <span class="keyword">null</span>)&#123;  </div><div class="line">            ANode = ANode.next;  </div><div class="line">            BNode = BNode.next;  </div><div class="line">        &#125;  </div><div class="line">		<span class="keyword">return</span> BNode;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;  </div><div class="line">        ListNode head = <span class="keyword">new</span> ListNode();  </div><div class="line">        ListNode second = <span class="keyword">new</span> ListNode();  </div><div class="line">        ListNode third = <span class="keyword">new</span> ListNode();  </div><div class="line">        ListNode forth = <span class="keyword">new</span> ListNode();  </div><div class="line">        head.next = second;  </div><div class="line">        second.next = third;  </div><div class="line">        third.next = forth;  </div><div class="line">        head.data = <span class="number">1</span>;  </div><div class="line">        second.data = <span class="number">2</span>;  </div><div class="line">        third.data = <span class="number">3</span>;  </div><div class="line">        forth.data = <span class="number">4</span>;  </div><div class="line">        t15 test = <span class="keyword">new</span> t15();  </div><div class="line">        ListNode result = test.findK(head, <span class="number">1</span>);  </div><div class="line">        System.out.println(result.data);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：输入一个链表，输出该链表中倒数第k哥结点。&lt;/p&gt;
+&lt;p&gt;思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先遍历一遍，然后得到数组逆序，放入栈中，输出第k个。&lt;/li&gt;
+&lt;li&gt;方法二只遍历一遍，采用双指针，两个指针之间相差k&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figu
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题14：调整数组顺序使奇数位于偶数的前面</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer14/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer14/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T10:59:42.112Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。</p>
+<p>思路：双指针。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t14</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEven</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;  </div><div class="line">        <span class="keyword">return</span> n%<span class="number">2</span>==<span class="number">0</span>;</div><div class="line">    &#125;  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">order2</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(arr == <span class="keyword">null</span>)  </div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;  </div><div class="line">        <span class="keyword">int</span> j = arr.length-<span class="number">1</span>;  </div><div class="line">        <span class="keyword">while</span>(i&lt;j)&#123;  </div><div class="line">            <span class="keyword">if</span>(isEven(arr[i]) &amp;&amp; !isEven(arr[j]))&#123;  </div><div class="line">                <span class="keyword">int</span> temp = arr[i];  </div><div class="line">                arr[i]= arr[j];  </div><div class="line">                arr[j] = temp;  </div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(!isEven(arr[i]) &amp;&amp; isEven(arr[j]))&#123;  </div><div class="line">                i++;  </div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(isEven(arr[i]) &amp;&amp; isEven(arr[j]))&#123;  </div><div class="line">                j--;  </div><div class="line">            &#125;<span class="keyword">else</span>&#123;  </div><div class="line">                i++;  </div><div class="line">                j--;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		t14 t= <span class="keyword">new</span> t14();</div><div class="line">		<span class="keyword">int</span>[] arr= &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>&#125;;</div><div class="line">		t.order2(arr);</div><div class="line">		System.out.println(<span class="string">"s"</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;arr.length ;i++)&#123;  </div><div class="line">            System.out.print(arr[i]+<span class="string">","</span>);  </div><div class="line">        &#125; </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。&lt;/p&gt;
+&lt;p&gt;思路：双指针。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题16：反转链表</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer16/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer16/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T12:22:00.141Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：题目：定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t16</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> data;</div><div class="line">		ListNode  next;</div><div class="line">	&#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> ListNode <span class="title">ReverseList</span><span class="params">(ListNode head)</span></span>&#123;  </div><div class="line">	        <span class="keyword">if</span>(head == <span class="keyword">null</span>)  </div><div class="line">	            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">	        ListNode preListNode = <span class="keyword">null</span>;  </div><div class="line">	        ListNode nowListNode = head;  </div><div class="line">	          </div><div class="line">	        <span class="keyword">while</span>(nowListNode != <span class="keyword">null</span>)&#123;  </div><div class="line">	            ListNode nextListNode = nowListNode.next;   <span class="comment">//保存下一个结点  </span></div><div class="line">	            nowListNode.next = preListNode;             <span class="comment">//当前结点指向前一个结点  </span></div><div class="line">	            preListNode = nowListNode;                  <span class="comment">//前任结点 到现任节点  </span></div><div class="line">	            nowListNode = nextListNode;                 <span class="comment">//现任节点到下一结点  </span></div><div class="line">	        &#125;  </div><div class="line">	        <span class="keyword">return</span> preListNode;  </div><div class="line">	    &#125;  </div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;  </div><div class="line">	        ListNode head = <span class="keyword">new</span> ListNode();  </div><div class="line">	        ListNode second = <span class="keyword">new</span> ListNode();  </div><div class="line">	        ListNode third = <span class="keyword">new</span> ListNode();  </div><div class="line">	        ListNode forth = <span class="keyword">new</span> ListNode();  </div><div class="line">	        head.next = second;  </div><div class="line">	        second.next = third;  </div><div class="line">	        third.next = forth;  </div><div class="line">	        head.data = <span class="number">1</span>;  </div><div class="line">	        second.data = <span class="number">2</span>;  </div><div class="line">	        third.data = <span class="number">3</span>;  </div><div class="line">	        forth.data = <span class="number">4</span>;  </div><div class="line">	        t16 test = <span class="keyword">new</span> t16();  </div><div class="line">	        ListNode result = test.ReverseList(head);  </div><div class="line">	        System.out.println(result.data);  </div><div class="line">	 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：题目：定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;l
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题17：合并两个排序的链表</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer17/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer17/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T13:56:02.262Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：输入两个递增排序的链表，合并这两个链表并使新链表中的结点仍然是按照递增排序的。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t17</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> data;</div><div class="line">		ListNode  next;</div><div class="line">	&#125;</div><div class="line">	 <span class="function"><span class="keyword">public</span> ListNode  <span class="title">Merge</span><span class="params">(ListNode pHead1,ListNode pHead2)</span></span>&#123;  </div><div class="line">	        <span class="keyword">if</span>(pHead1 == <span class="keyword">null</span>)  </div><div class="line">	            <span class="keyword">return</span> pHead2;  </div><div class="line">	        <span class="keyword">else</span> <span class="keyword">if</span>(pHead2 == <span class="keyword">null</span>)  </div><div class="line">	            <span class="keyword">return</span> pHead1;  </div><div class="line">	        ListNode pMergedHead = <span class="keyword">null</span>;  </div><div class="line">	        <span class="keyword">if</span>(pHead1.data &lt;pHead2.data)&#123;  </div><div class="line">	            pMergedHead = pHead1;  </div><div class="line">	            pMergedHead.next = Merge(pHead1.next ,pHead2);  </div><div class="line">	        &#125;<span class="keyword">else</span>&#123;  </div><div class="line">	            pMergedHead = pHead2;  </div><div class="line">	            pMergedHead.next = Merge(pHead1,pHead2.next);  </div><div class="line">	        &#125;  </div><div class="line">	        <span class="keyword">return</span> pMergedHead;  </div><div class="line">	    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：输入两个递增排序的链表，合并这两个链表并使新链表中的结点仍然是按照递增排序的。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;l
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题3：二维数组中查找</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer3/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer3/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T08:07:11.908Z</updated>
+    
+    <content type="html"><![CDATA[<p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 题目：在一个二维数组中，每一行都按照从左到右递增的顺序排序，</div><div class="line"> * 每一列都按照从上到下递增的顺序排序。请完成一个函数，</div><div class="line"> * 输入一个这样的一个二维数组和一个整数，判断数组是否含有该数组</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] a=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">9</span>&#125;,&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>&#125;,&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">10</span>,<span class="number">13</span>&#125;,&#123;<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>,<span class="number">15</span>&#125;&#125;;</div><div class="line">		System.out.println(find(<span class="keyword">null</span>,<span class="number">5</span>));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span>[][] a,<span class="keyword">int</span> t)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(a!=<span class="keyword">null</span>)&#123;</div><div class="line">			<span class="keyword">int</span> x=a.length;</div><div class="line">			<span class="keyword">int</span> y=a[<span class="number">0</span>].length-<span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> i=<span class="number">0</span>,j=y;</div><div class="line">			<span class="keyword">while</span>(i&lt;x&amp;&amp;j&gt;=<span class="number">0</span>)&#123;</div><div class="line">				<span class="keyword">if</span>(a[i][j]==t) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(a[i][j]&gt;t)&#123;</div><div class="line">					j--;</div><div class="line">				&#125;<span class="keyword">else</span>&#123;</div><div class="line">					i++;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr
     
     </summary>
     
@@ -352,22 +390,20 @@
   </entry>
   
   <entry>
-    <title>面试题3：二维数组中查找</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer3/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer3/</id>
+    <title>面试题12：打印1到最大的n位数</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer12/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer12/</id>
     <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-15T08:07:11.908Z</updated>
+    <updated>2017-02-16T05:43:55.191Z</updated>
     
-    <content type="html"><![CDATA[<p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<p>解答：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 题目：在一个二维数组中，每一行都按照从左到右递增的顺序排序，</div><div class="line"> * 每一列都按照从上到下递增的顺序排序。请完成一个函数，</div><div class="line"> * 输入一个这样的一个二维数组和一个整数，判断数组是否含有该数组</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] a=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">9</span>&#125;,&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>&#125;,&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">10</span>,<span class="number">13</span>&#125;,&#123;<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>,<span class="number">15</span>&#125;&#125;;</div><div class="line">		System.out.println(find(<span class="keyword">null</span>,<span class="number">5</span>));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span>[][] a,<span class="keyword">int</span> t)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(a!=<span class="keyword">null</span>)&#123;</div><div class="line">			<span class="keyword">int</span> x=a.length;</div><div class="line">			<span class="keyword">int</span> y=a[<span class="number">0</span>].length-<span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> i=<span class="number">0</span>,j=y;</div><div class="line">			<span class="keyword">while</span>(i&lt;x&amp;&amp;j&gt;=<span class="number">0</span>)&#123;</div><div class="line">				<span class="keyword">if</span>(a[i][j]==t) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(a[i][j]&gt;t)&#123;</div><div class="line">					j--;</div><div class="line">				&#125;<span class="keyword">else</span>&#123;</div><div class="line">					i++;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.</p>
+<p>解答：<br><a href="http://blog.csdn.net/jsqfengbao/article/details/47174629" target="_blank" rel="external">http://blog.csdn.net/jsqfengbao/article/details/47174629</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。&lt;/p&gt;
-&lt;p&gt;解答：&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr
+      &lt;p&gt;题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.&lt;/p&gt;
+&lt;p&gt;解答：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/jsqfengbao/article/details/4717
     
     </summary>
     
@@ -379,22 +415,13 @@
   </entry>
   
   <entry>
-    <title>面试题10：二进制中的1的个数</title>
-    <link href="http://yoursite.com/2017/01/17/Poffer10/"/>
-    <id>http://yoursite.com/2017/01/17/Poffer10/</id>
+    <title>poffer1</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer1/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer1/</id>
     <published>2017-01-17T12:19:24.000Z</published>
-    <updated>2017-02-16T05:09:57.710Z</updated>
-    
-    <content type="html"><![CDATA[<p>题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.</p>
-<p>解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可以进行多少次运算。基于这种思路，我们可以写出这样的代码：</p>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 1.请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。</div><div class="line"> * </div><div class="line"> * 2.相关题目，判断一个整数是不是2的整数次幂，一个整数如果是2的整数次幂，</div><div class="line"> * 他的二进制表示有且仅有一个1，那么把这个整数减去1在和它自己做运算，这个整数中唯一的1就变成0.</div><div class="line"> * </div><div class="line"> * 3.输入m和n，计算需要改变m的二进制表示中多少位才能得到n，可以分两步：第一步先求异或，m^n</div><div class="line"> * 第二部，求结果中1的位数。</div><div class="line"> * </div><div class="line"> * 4.：将一个整数减去1之后在和原来的整数做位与运算，得到的结果相当把整数的二进制表示的最后边的1变为0</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t10</span> </span>&#123;</div><div class="line">	 <span class="function"><span class="keyword">private</span> <span class="keyword">static</span>  <span class="keyword">int</span> <span class="title">numof1</span> <span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		 <span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">		 <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</div><div class="line">			 count++;</div><div class="line">			 n=(n-<span class="number">1</span>)&amp;n;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">return</span> count;</div><div class="line">	 &#125;</div><div class="line">	 </div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(numof1(<span class="number">9</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
+    <updated>2017-02-07T09:20:26.708Z</updated>
     
     <summary type="html">
-    
-      &lt;p&gt;题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.&lt;/p&gt;
-&lt;p&gt;解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可
     
     </summary>
     
@@ -425,6 +452,99 @@
 &lt;p&gt;解答：&lt;/p&gt;
 &lt;p&gt;代码：&lt;/p&gt;
 &lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题6：重建二叉树</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer6/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer6/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T13:53:53.764Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。</p>
+<p>解答：</p>
+<ol>
+<li>在二叉树的前序遍历序列中，第一个数字总是树的根节点的值。但在中序遍历中，根节点的值在序列的中间，左子树的结点的值位于根节点的值的左边，而右子树的结点的值位于根节点的右边。因此我们需要扫描中序遍历序列，才能找到根节点的值。<br>如图所示，前序遍历序列的第一个数字1就是根节点的值。扫描中序遍历序列，就能确定根节点的值的位置。根据中序遍历的特点，在根节点的值1前面3个数字都是左子树结点的值，位于1后面的数字都是右子树结点的值。</li>
+<li>既然我们已经分别找到了左、右子树的前序遍历序列和中序遍历序列，我们可以用同样的方法分别去构建左右子树。也就是说，接下来的事情可以用递归的方法去完成。</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t6</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTreeNode</span> </span>&#123;</div><div class="line">		 <span class="keyword">public</span> <span class="keyword">int</span> value;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode leftNode;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode rightNode;  		      </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">()</span></span>&#123;  </div><div class="line">		          </div><div class="line">		 &#125;  </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;  </div><div class="line">		     <span class="keyword">this</span>.value = value ;  </div><div class="line">		     <span class="keyword">this</span>.leftNode = <span class="keyword">null</span>;  </div><div class="line">		     <span class="keyword">this</span>.rightNode = <span class="keyword">null</span>;  </div><div class="line">		 &#125;  </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> preOrder 前序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> inOrder 中序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> length 数组长度  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">Construct</span><span class="params">(<span class="keyword">int</span>[] preOrder, <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> length)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span> (preOrder == <span class="keyword">null</span> || inOrder == <span class="keyword">null</span> || length &lt;= <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            <span class="keyword">return</span> ConstructCore(preOrder, <span class="number">0</span>, preOrder.length - <span class="number">1</span>, inOrder, <span class="number">0</span>,inOrder.length - <span class="number">1</span>);  </div><div class="line">        &#125; <span class="keyword">catch</span> (InvalidPutException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> PreOrder  </div><div class="line">     *            前序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startPreIndex  </div><div class="line">     *            前序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endPreIndex  </div><div class="line">     *            前序序列结束位置  </div><div class="line">     * <span class="doctag">@param</span> InOrder  </div><div class="line">     *            中序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startInIndex  </div><div class="line">     *            中序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endInIndex  </div><div class="line">     *            中序序列结束位置  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     * <span class="doctag">@throws</span> InvalidPutException  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">ConstructCore</span><span class="params">(<span class="keyword">int</span>[] preOrder,<span class="keyword">int</span> startPreIndex, <span class="keyword">int</span> endPreIndex,   </span></span></div><div class="line">            <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> startInIndex, <span class="keyword">int</span> endInIndex) <span class="keyword">throws</span> InvalidPutException &#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> rootValue = preOrder[startPreIndex];  </div><div class="line">        System.out.println(<span class="string">"rootValue = "</span> + rootValue);  </div><div class="line">        BinaryTreeNode root = <span class="keyword">new</span> BinaryTreeNode(rootValue);  </div><div class="line">  </div><div class="line">        <span class="comment">// 只有一个元素  </span></div><div class="line">        <span class="keyword">if</span> (startPreIndex == endPreIndex) &#123;  </div><div class="line">            <span class="keyword">if</span> (startInIndex == endInIndex  </div><div class="line">                    &amp;&amp; preOrder[startPreIndex] == inOrder[startInIndex]) &#123;  </div><div class="line">                System.out.println(<span class="string">"only one element"</span>);  </div><div class="line">                <span class="keyword">return</span> root;  </div><div class="line">            &#125; <span class="keyword">else</span> &#123;  </div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// 在中序遍历中找到根结点的索引  </span></div><div class="line">        <span class="keyword">int</span> rootInIndex = startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">while</span> (rootInIndex &lt;= endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            ++rootInIndex;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (rootInIndex == endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftLength = rootInIndex - startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftPreOrderEndIndex = startPreIndex + leftLength;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &gt; <span class="number">0</span>) &#123;  </div><div class="line">            <span class="comment">// 构建左子树  </span></div><div class="line">            root.leftNode = ConstructCore(preOrder, startPreIndex + <span class="number">1</span>,  </div><div class="line">                    leftPreOrderEndIndex, inOrder, startInIndex,  </div><div class="line">                    rootInIndex - <span class="number">1</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &lt; endPreIndex - startPreIndex) &#123;  </div><div class="line">            <span class="comment">// 右子树有元素,构建右子树  </span></div><div class="line">            root.rightNode = ConstructCore(preOrder, leftPreOrderEndIndex + <span class="number">1</span>,  </div><div class="line">                    endPreIndex, inOrder, rootInIndex + <span class="number">1</span>, endInIndex);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> root;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InvalidPutException</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>&#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;  </div><div class="line">  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPreOrder</span><span class="params">(BinaryTreeNode root)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;  </div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            System.out.print(root.value + <span class="string">" "</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.leftNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.leftNode);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.rightNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.rightNode);  </div><div class="line">        &#125;  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        <span class="keyword">int</span>[] preOrder=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">8</span>&#125;;  </div><div class="line">        <span class="keyword">int</span>[] inOrder=&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">6</span>&#125;;  </div><div class="line">         printPreOrder(Construct(preOrder, inOrder, preOrder.length));  </div><div class="line">    &#125;  </div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。&lt;/p&gt;
+&lt;p
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题7：用两个栈实现队列</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer7/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer7/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T04:58:59.299Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。</p>
+<p>解答：</p>
+<ol>
+<li>我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插入一个元素a，不妨先把它插入到stack1，此时stack1 中的元素有｛a}，stack2为空。再压入两个元素b和c,还是插入到stack1中，此时stack1中的元素有｛a,b,c}，其中c位于栈顶，而stack2仍然为空。</li>
+<li>这个时候，我们试着删除从队列中删除一个元素。按照队列先入先出的规则，由于a比b、c先插入到队列中，最先被删除的元素应该是a。元素a存储在stack1中，但并不在占顶上，因此不能直接被删除。注意到stack2我们还一直没有使用过，现在是让stack2发挥作用的时候了。如果我们把stack1中的元素逐个弹出并压入stack2，元素在stack2中的顺序正好和原来的stack1中的顺序相反。因此经过3次弹出stack1和压入stack2操作之后，stack1为空，而stack2中的元素是｛c,b,a}，这个时候就可以弹出stack2的栈顶a了。此时的stack1为空，而stack2的元素为{c,b}，其中在栈顶</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack1= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack2= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		stack1.push(s);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function">String <span class="title">deleteHead</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">while</span>(!stack1.isEmpty())&#123;</div><div class="line">				stack2.push(stack1.pop());</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		t7 t= <span class="keyword">new</span> t7();</div><div class="line">		t.appendTail(<span class="string">"a"</span>);</div><div class="line">		t.appendTail(<span class="string">"b"</span>);</div><div class="line">		t.appendTail(<span class="string">"c"</span>);</div><div class="line">		System.out.println(t.deleteHead());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>两个队列模仿栈</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7q</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue1=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue2=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pop</span><span class="params">()</span></span>&#123;</div><div class="line">		String re=<span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue1.size()==<span class="number">0</span>&amp;&amp;queue2.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue2.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue1.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue1.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue2.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue2.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue2.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue1.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> re;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">push</span><span class="params">(String str)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(queue1.size() ==<span class="number">0</span> &amp;&amp; queue2.size() == <span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue2.addLast(str);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> str;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题10：二进制中的1的个数</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer10/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer10/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T05:09:57.710Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.</p>
+<p>解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可以进行多少次运算。基于这种思路，我们可以写出这样的代码：</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 1.请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。</div><div class="line"> * </div><div class="line"> * 2.相关题目，判断一个整数是不是2的整数次幂，一个整数如果是2的整数次幂，</div><div class="line"> * 他的二进制表示有且仅有一个1，那么把这个整数减去1在和它自己做运算，这个整数中唯一的1就变成0.</div><div class="line"> * </div><div class="line"> * 3.输入m和n，计算需要改变m的二进制表示中多少位才能得到n，可以分两步：第一步先求异或，m^n</div><div class="line"> * 第二部，求结果中1的位数。</div><div class="line"> * </div><div class="line"> * 4.：将一个整数减去1之后在和原来的整数做位与运算，得到的结果相当把整数的二进制表示的最后边的1变为0</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t10</span> </span>&#123;</div><div class="line">	 <span class="function"><span class="keyword">private</span> <span class="keyword">static</span>  <span class="keyword">int</span> <span class="title">numof1</span> <span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		 <span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">		 <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</div><div class="line">			 count++;</div><div class="line">			 n=(n-<span class="number">1</span>)&amp;n;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">return</span> count;</div><div class="line">	 &#125;</div><div class="line">	 </div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(numof1(<span class="number">9</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.&lt;/p&gt;
+&lt;p&gt;解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可
     
     </summary>
     
@@ -650,374 +770,6 @@
     
     
       <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jv_collections1-hashmap&amp;hashset</title>
-    <link href="http://yoursite.com/2017/01/14/jv-collections1-hashmap/"/>
-    <id>http://yoursite.com/2017/01/14/jv-collections1-hashmap/</id>
-    <published>2017-01-14T10:02:38.000Z</published>
-    <updated>2017-02-07T09:11:57.575Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="hashmap和hashset关系？"><a href="#hashmap和hashset关系？" class="headerlink" title="hashmap和hashset关系？"></a>hashmap和hashset关系？</h3><p>之所以把HashSet和HashMap放在一起讲解，是因为二者在Java里有着相同的实现，前者仅仅是对后者做了一层包装，也就是说HashSet里面有一个HashMap（适配器模式）。</p>
-<h3 id="hashmap"><a href="#hashmap" class="headerlink" title="hashmap"></a>hashmap</h3><p>ashMap实现了Map接口，允许放入null元素，除该类未实现同步外，其余跟Hashtable大致相同，跟TreeMap不同，该容器不保证元素顺序，根据需要该容器可能会对元素重新哈希，元素的顺序也会被重新打散，因此不同时间迭代同一个HashMap的顺序可能会不同。<br>根据对冲突的处理方式不同，哈希表有两种实现方式，一种开放地址方式（Open addressing），另一种是冲突链表方式（Separate chaining with linked lists）。Java HashMap采用的是冲突链表方式。</p>
-<p><img src="http://i.imgur.com/rFE3fRz.png" alt=""></p>
-<p>从上图容易看出，如果选择合适的哈希函数，put()和get()方法可以在常数时间内完成。但在对HashMap进行迭代时，需要遍历整个table以及后面跟的冲突链表。因此对于迭代比较频繁的场景，不宜将HashMap的初始大小设的过大。</p>
-<p>有两个参数可以影响HashMap的性能：初始容量（inital capacity）和负载系数（load factor）。初始容量指定了初始table的大小，负载系数用来指定自动扩容的临界值。当entry的数量超过capacity*load_factor时，容器将自动扩容并重新哈希。对于插入元素较多的场景，将初始容量设大可以减少重新哈希的次数。</p>
-<p>将对向放入到HashMap或HashSet中时，有两个方法需要特别关心：hashCode()和equals()。hashCode()方法决定了对象会被放到哪个bucket里，当多个对象的哈希值冲突时，equals()方法决定了这些对象是否是“同一个对象”。所以，如果要将自定义的对象放入到HashMap或HashSet中，需要@Override hashCode()和equals()方法。</p>
-<h4 id="get（）"><a href="#get（）" class="headerlink" title="get（）"></a>get（）</h4><p>get(Object key)方法根据指定的key值返回对应的value，该方法调用了getEntry(Object key)得到相应的entry，然后返回entry.getValue()。因此getEntry()是算法的核心。<br>算法思想是首先通过hash()函数得到对应bucket的下标，然后依次遍历冲突链表，通过key.equals(k)方法来判断是否是要找的那个entry。</p>
-<p><img src="http://i.imgur.com/HIYMAxP.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line">       Node&lt;K,V&gt; e;</div><div class="line">       <span class="keyword">return</span> (e = getNode(hash(key), key)) == <span class="keyword">null</span> ? <span class="keyword">null</span> : e.value;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Implements Map.get and related methods</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> hash hash for key</div><div class="line">     * <span class="doctag">@param</span> key the key</div><div class="line">     * <span class="doctag">@return</span> the node, or null if none</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> hash, Object key)</span> </span>&#123;</div><div class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; <span class="keyword">int</span> n; K k;</div><div class="line">        <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</div><div class="line">            (first = tab[(n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (first.hash == hash &amp;&amp; <span class="comment">// always check first node</span></div><div class="line">                ((k = first.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                <span class="keyword">return</span> first;</div><div class="line">            <span class="keyword">if</span> ((e = first.next) != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (first <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                    <span class="keyword">return</span> ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);</div><div class="line">                do &#123;</div><div class="line">                    <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                        ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                        <span class="keyword">return</span> e;</div><div class="line">                &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h4 id="put（）"><a href="#put（）" class="headerlink" title="put（）"></a>put（）</h4><p>put(K key, V value)方法是将指定的key, value对添加到map里。该方法首先会对map做一次查找，看是否包含该元组，如果已经包含则直接返回，查找过程类似于getEntry()方法；如果没有找到，则会通过addEntry(int hash, K key, V value, int bucketIndex)方法插入新的entry，插入方式为头插法。</p>
-<p><img src="http://i.imgur.com/bfEWBcV.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> putVal(hash(key), key, value, <span class="keyword">false</span>, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">boolean</span> onlyIfAbsent,</span></span></div><div class="line">                   <span class="keyword">boolean</span> evict) &#123;</div><div class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="keyword">int</span> n, i;</div><div class="line">        <span class="keyword">if</span> ((tab = table) == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</div><div class="line">            n = (tab = resize()).length;</div><div class="line">        <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="keyword">null</span>)</div><div class="line">            tab[i] = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            Node&lt;K,V&gt; e; K k;</div><div class="line">            <span class="keyword">if</span> (p.hash == hash &amp;&amp;</div><div class="line">                ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                e = p;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="keyword">this</span>, tab, hash, key, value);</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> binCount = <span class="number">0</span>; ; ++binCount) &#123;</div><div class="line">                    <span class="keyword">if</span> ((e = p.next) == <span class="keyword">null</span>) &#123;</div><div class="line">                        p.next = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line">                        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></div><div class="line">                            treeifyBin(tab, hash);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                        ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    p = e;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; <span class="comment">// existing mapping for key</span></div><div class="line">                V oldValue = e.value;</div><div class="line">                <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="keyword">null</span>)</div><div class="line">                    e.value = value;</div><div class="line">                afterNodeAccess(e);</div><div class="line">                <span class="keyword">return</span> oldValue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        ++modCount;</div><div class="line">        <span class="keyword">if</span> (++size &gt; threshold)</div><div class="line">            resize();</div><div class="line">        afterNodeInsertion(evict);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h4 id="remove"><a href="#remove" class="headerlink" title="remove()"></a>remove()</h4><p>remove(Object key)的作用是删除key值对应的entry，该方法的具体逻辑是在removeEntryForKey(Object key)里实现的。removeEntryForKey()方法会首先找到key值对应的entry，然后删除该entry（修改链表的相应指针）。查找过程跟getEntry()过程类似。</p>
-<p><img src="http://i.imgur.com/qfk92SC.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">remove</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line">        Node&lt;K,V&gt; e;</div><div class="line">        <span class="keyword">return</span> (e = removeNode(hash(key), key, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">true</span>)) == <span class="keyword">null</span> ?</div><div class="line">            <span class="keyword">null</span> : e.value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">removeNode</span><span class="params">(<span class="keyword">int</span> hash, Object key, Object value,</span></span></div><div class="line">                               <span class="keyword">boolean</span> matchValue, <span class="keyword">boolean</span> movable) &#123;</div><div class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="keyword">int</span> n, index;</div><div class="line">        <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</div><div class="line">            (p = tab[index = (n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>) &#123;</div><div class="line">            Node&lt;K,V&gt; node = <span class="keyword">null</span>, e; K k; V v;</div><div class="line">            <span class="keyword">if</span> (p.hash == hash &amp;&amp;</div><div class="line">                ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                node = p;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ((e = p.next) != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                    node = ((TreeNode&lt;K,V&gt;)p).getTreeNode(hash, key);</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    do &#123;</div><div class="line">                        <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                            ((k = e.key) == key ||</div><div class="line">                             (key != <span class="keyword">null</span> &amp;&amp; key.equals(k)))) &#123;</div><div class="line">                            node = e;</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                        &#125;</div><div class="line">                        p = e;</div><div class="line">                    &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (node != <span class="keyword">null</span> &amp;&amp; (!matchValue || (v = node.value) == value ||</div><div class="line">                                 (value != <span class="keyword">null</span> &amp;&amp; value.equals(v)))) &#123;</div><div class="line">                <span class="keyword">if</span> (node <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                    ((TreeNode&lt;K,V&gt;)node).removeTreeNode(<span class="keyword">this</span>, tab, movable);</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (node == p)</div><div class="line">                    tab[index] = node.next;</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    p.next = node.next;</div><div class="line">                ++modCount;</div><div class="line">                --size;</div><div class="line">                afterNodeRemoval(node);</div><div class="line">                <span class="keyword">return</span> node;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="hashset"><a href="#hashset" class="headerlink" title="hashset"></a>hashset</h3><p>前面已经说过HashSet是对HashMap的简单包装，对HashSet的函数调用都会转换成合适的HashMap方法，因此HashSet的实现非常简单.马蛋，hashset里面就是hashmap</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</div><div class="line"></div><div class="line">    <span class="comment">// Dummy value to associate with an Object in the backing Map</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</div><div class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</div><div class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;(initialCapacity, loadFactor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> map.remove(o)==PRESENT;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;hashmap和hashset关系？&quot;&gt;&lt;a href=&quot;#hashmap和hashset关系？&quot; class=&quot;headerlink&quot; title=&quot;hashmap和hashset关系？&quot;&gt;&lt;/a&gt;hashmap和hashset关系？&lt;/h3&gt;&lt;p&gt;之所以把Ha
-    
-    </summary>
-    
-      <category term="java" scheme="http://yoursite.com/categories/java/"/>
-    
-    
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>network_概述</title>
-    <link href="http://yoursite.com/2017/01/13/network_1/"/>
-    <id>http://yoursite.com/2017/01/13/network_1/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:09.390Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><p>定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现资源共享的计算机集合。</p>
-<p>协议：控制网络中信息接收和发送的一组软件。定义了通信实体之间发送、接收报文的格式和传输顺序，以及收到报文所采取的动作。 </p>
-<h4 id="因特网服务类型"><a href="#因特网服务类型" class="headerlink" title="因特网服务类型"></a>因特网服务类型</h4><ul>
-<li>面向连接服务（connection-oriented service) <ul>
-<li>可靠的数据传送</li>
-<li>流控制</li>
-<li>拥塞控制 </li>
-</ul>
-</li>
-<li>无连接服务（connectionless service） <ul>
-<li>不可靠：源主机不能确定分组是否已经到达目的地。</li>
-<li>无流控制或拥塞控制的功能。</li>
-</ul>
-</li>
-</ul>
-<h4 id="数据如何通过网络传送"><a href="#数据如何通过网络传送" class="headerlink" title="数据如何通过网络传送?"></a>数据如何通过网络传送?</h4><ul>
-<li>电路交换 </li>
-<li>分组交换</li>
-</ul>
-<p>以下分别详细介绍</p>
-<p>电路交换：通信双方必须先建立一个专用的连接（电路），一直维持，直到通信结束。</p>
-<ul>
-<li>多路复用：在一条传输链路上同时建立多条连接，分别传输数据。 <ul>
-<li>频分多路复用FDM(frequency-division multiplexing)</li>
-<li>时分多路复用TDM (time-division multiplexing) </li>
-</ul>
-</li>
-</ul>
-<p><img src="http://i.imgur.com/47uik6p.png" alt=""></p>
-<p>分组交换：源端将报文划分为较小的数据块（分组packet）；<br>每个分组通过一系列链路和分组交换机传送，直到目的端<br>目的端恢复原报文。</p>
-<h4 id="因特网协议栈"><a href="#因特网协议栈" class="headerlink" title="因特网协议栈"></a>因特网协议栈</h4><ul>
-<li>应用层：报文<ul>
-<li>提供各种网络应用。传输应用报文。</li>
-<li>FTP、 SMTP、 HTTP</li>
-</ul>
-</li>
-<li>运输层：报文段<ul>
-<li>在应用程序的客户机和服务器之间提供传输应用层报文服务。传输报文段。</li>
-<li>TCP、 UDP</li>
-</ul>
-</li>
-<li>网络层：数据报<ul>
-<li>主机和主机之间传输网络层分组（数据报）</li>
-<li>IP协议、 选路协议</li>
-</ul>
-</li>
-<li>链路层：帧<ul>
-<li>在邻近单元之间传输数据（帧 ）</li>
-<li>PPP、以太网</li>
-</ul>
-</li>
-<li>物理层：比特<ul>
-<li>在节点之间传输比特流</li>
-<li>传输媒体</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-应用层"><a href="#2-应用层" class="headerlink" title="2.应用层"></a>2.应用层</h3><p>主要掌握应用层协议http，socket api</p>
-<h4 id="http"><a href="#http" class="headerlink" title="http"></a>http</h4><p>请求报文<br><img src="http://i.imgur.com/QJ8LrJA.png" alt=""></p>
-<p>响应报文：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK </div><div class="line">Connection close</div><div class="line">Date: Thu, 06 Aug 1998 12:00:15 GMT </div><div class="line">服务器: Apache/1.3.0 (Unix) </div><div class="line">Last-Modified: Mon, 22 Jun 1998 …... </div><div class="line">Content-Length: 6821 </div><div class="line">Content-Type: text/html</div><div class="line"> </div><div class="line">data data data data data ...</div></pre></td></tr></table></figure>
-<p>响应状态码：</p>
-<ul>
-<li>200 OK<br>请求成功，请求的对象在这个报文后面</li>
-<li>301 Moved Permanently<br>请求的对象已转移，新的URL在响应报文的Location:首部行中指定</li>
-<li>400 Bad Request<br>请求报文不为服务器理解</li>
-<li>404 Not Found<br>请求的文档没有在该服务器上发现</li>
-<li>505 HTTP Version Not Supported</li>
-</ul>
-<h4 id="socket"><a href="#socket" class="headerlink" title="socket"></a>socket</h4><p>client<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*; </div><div class="line"><span class="keyword">import</span> java.net.*; </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TCP</span> <span class="title">Client</span> </span>&#123; </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String argv[])</span> <span class="keyword">throws</span> Exception </span></div><div class="line">    &#123; </div><div class="line">        String sentence; </div><div class="line">        String modifiedSentence; </div><div class="line"></div><div class="line">        BufferedReader inFromUser = </div><div class="line">          <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in)); </div><div class="line"></div><div class="line">        Socket ClientSocket = <span class="keyword">new</span> Socket(<span class="string">"hostname"</span>, <span class="number">6789</span>); </div><div class="line"></div><div class="line">        DataOutputStream outToServer = </div><div class="line">          <span class="keyword">new</span> DataOutputStream(ClientSocket.getOutputStream()); </div><div class="line">        BufferedReader inFromServer = </div><div class="line">          <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">          InputStreamReader(ClientSocket.getInputStream())); </div><div class="line"></div><div class="line">        sentence = inFromUser.readLine(); </div><div class="line"></div><div class="line">        outToServer.writeBytes(sentence + <span class="string">'\n'</span>); </div><div class="line"></div><div class="line">        modifiedSentence = inFromServer.readLine(); </div><div class="line"></div><div class="line">        System.out.println(<span class="string">"FROM Server: "</span> + modifiedSentence); </div><div class="line"></div><div class="line"> ClientSocket.close(); </div><div class="line">                   </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>server</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*; </div><div class="line"><span class="keyword">import</span> java.net.*; </div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TCP</span> <span class="title">Server</span> </span>&#123; </div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String argv[])</span> <span class="keyword">throws</span> Exception </span></div><div class="line">    &#123; </div><div class="line">      String ClientSentence; </div><div class="line">      String capitalizedSentence; </div><div class="line"></div><div class="line">      ServerSocket welcomeSocket = <span class="keyword">new</span> ServerSocket(<span class="number">6789</span>); </div><div class="line">  </div><div class="line">      <span class="keyword">while</span>(<span class="keyword">true</span>) &#123; </div><div class="line">  </div><div class="line">            Socket connectionSocket = welcomeSocket.accept(); </div><div class="line"></div><div class="line">           BufferedReader inFromClient = </div><div class="line">              <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">              InputStreamReader(connectionSocket.getInputStream())); </div><div class="line">           DataOutputStream  outToClient = </div><div class="line">             <span class="keyword">new</span> DataOutputStream(connectionSocket.getOutputStream()); </div><div class="line"></div><div class="line">           ClientSentence = inFromClient.readLine(); </div><div class="line"></div><div class="line">           capitalizedSentence = ClientSentence.toUpperCase() + <span class="string">'\n'</span>; </div><div class="line"></div><div class="line">           outToClient.writeBytes(capitalizedSentence); </div><div class="line">        &#125; </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-传输层"><a href="#3-传输层" class="headerlink" title="3.传输层"></a>3.传输层</h3><p>在运行不同主机上应用进程之间提供逻辑通信<br>传输协议运行在端系统中<br>发送方：将应用报文划分为段，传向网络层<br>接收方：将段重新装配为报文，传向应用层<br>应用可供使用的传输协议不止一个<br>因特网：TCP和UDP</p>
-<h4 id="udp"><a href="#udp" class="headerlink" title="udp"></a>udp</h4><p>为何要有 UDP协议?<br>无连接创建(它将增加时延)<br>简单：在发送方、接收方无连接状态<br>段首部小<br>无拥塞控制: UDP能够尽可能快地传输。</p>
-<p><img src="http://i.imgur.com/gimo6BT.png" alt=""></p>
-<h4 id="tcp"><a href="#tcp" class="headerlink" title="tcp"></a>tcp</h4><p><img src="http://i.imgur.com/x11ygPT.png" alt=""></p>
-<p>序号:<br>报文段中第1个数据字节在字节流中的位置编号</p>
-<p>确认号:<br>期望从对方收到下一个字节的序号<br>累计应答</p>
-<p><strong>三次握手：</strong></p>
-<ul>
-<li>步骤 1:  客户机向服务器发送 TCP SYN报文段<ul>
-<li>指定初始序号</li>
-<li>没有数据</li>
-</ul>
-</li>
-<li>步骤 2:  服务器收到SYN报文段, 用SYNACK报文段回复<ul>
-<li>服务器为该连接分配缓冲区和变量</li>
-<li>指定服务器初始序号</li>
-</ul>
-</li>
-<li>步骤 3:  客户机接收到 SYNACK, 用ACK报文段回复,可能包含数据</li>
-</ul>
-<ul>
-<li>步骤 1: 客户机向服务器发送TCP FIN控制报文段</li>
-<li>步骤 2: 服务器收到FIN，用ACK回答。关闭连接，发送FIN</li>
-<li>步骤 3: 客户机收到FIN, 用ACK回答 </li>
-<li>步骤 4: 服务器接收ACK，连接关闭</li>
-</ul>
-<h3 id="4-网络层"><a href="#4-网络层" class="headerlink" title="4.网络层"></a>4.网络层</h3><p>主要理解ip协议和选路算法</p>
-<p><img src="http://i.imgur.com/YN5rb81.png" alt=""></p>
-<p>NAT: 网络地址转换</p>
-<p><img src="http://i.imgur.com/t72xjCr.png" alt=""></p>
-<h3 id="4-链路层"><a href="#4-链路层" class="headerlink" title="4.链路层"></a>4.链路层</h3><p>帧, 链路访问:<br>将数据报封装进帧，加上首部和尾部<br>如果共享媒体，信道访问<br>位于帧首部的“MAC”地址标识源、目的地</p>
-<p>ARP: 地址解析协议</p>
-<p>LAN上的每个IP节点(主机、路由器)都有ARP表<br>ARP表: 对美协LAN节点的IP/MAC地址映射<br>    &lt; IP地址; MAC地址; TTL&gt;</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1.概述&quot;&gt;&lt;/a&gt;1.概述&lt;/h3&gt;&lt;p&gt;定义：计算机网络是用通信设备和线路将分散在不同地点的有独立功能的多个计算机系统互相连接起来，并按照网络协议进行数据通信，实现
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>network_tcp报文详解</title>
-    <link href="http://yoursite.com/2017/01/13/network_tcp%E6%8A%A5%E6%96%87%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2017/01/13/network_tcp报文详解/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:28.201Z</updated>
-    
-    <content type="html"><![CDATA[<p>TCP报文格局详解</p>
-<p>TCP和谈只定义了一种报文格局</p>
-<p>建立、拆除连接、传输数据应用同样的报文</p>
-<p><img src="http://i.imgur.com/yRp4YI6.png" alt=""></p>
-<p> TCP报文格局</p>
-<p>TCP报文段首部（20个字节）</p>
-<ul>
-<li>源端口和目标端口：各占2个字节，16比特的端标语加上32比特的IP地址，共同构成相当于传输层办事接见点的地址，即“插口”；</li>
-<li>这些端口可用来将若干高层和谈向下复用；<br>序号字段和确认序号字段：</li>
-<li>序号：占4个字节，是本报文段所发送的数据项目组第一个字节的序号。在TCP传送的数据流中，每一个字节都有一个序号。例如，一报文段的序号为300，而起数据供100字节，则下一个报文段的序号就是400；</li>
-<li>确认序号：占4字节，是期望收到对方下次发送的数据的第一个字节的序号，也就是期望收到的下一个报文段的首部中的序号；</li>
-<li>因为序号字段有32比特长，可以对4GB的数据进行编号，如许就可包管当序号反复应用时，旧序号的数据早已在收集中消散了；<br>数据偏移字段</li>
-<li>数据偏移：占4比特，默示数据开端的处所离TCP报文段的肇端处有多远。这实际上就是TCP报文段首部的长度。因为首部长度不固定，是以数据偏移字段是须要的。</li>
-<li>保存字段： 6比特，供往后应用，今朝置为0。<br>6个比特的把握字段</li>
-<li>紧急比特URGent：当URG=1时，注解此报文应尽快传送，而不要按本来的列队次序来传送。与“紧急指针”字段共同应用，紧急指针指出在本报文段中的紧急数据的最后一个字节的序号，使接管方可以知道紧急数据共有多长；</li>
-<li>确认比特ACK：只有当ACK=1时，确认序号字段才有意义；</li>
-<li>急迫比特PSH：当PSH=1时，注解恳求远地TCP将本报文段立即传送给其应用层，而不要比及全部缓存都填满了之后再向上交付。</li>
-<li>复位比特ReSeT：当RST=1时，注解呈现严重错误，必须开释连接，然后再重建传输连接。复位比特还用来拒绝一个不法的报文段或拒绝打开一个连接；</li>
-<li>同步比特SYN：在建树连接时应用，当SYN=1而ACK=0时，注解这是一个连接恳求报文段。对方若赞成建树连接，在发还的报文段中使SYN=1和ACK=1。是以，SYN=1默示这是一个连接恳求或毗邻接管报文，而ACK的值用来区分是哪一种报文；</li>
-<li>终止比特FINal：用来开释一个连接，当FIN=1时，注解欲发送的字节串已经发完，并请求开释传输连接；<br>窗口字段</li>
-<li>窗口Window：占2字节，默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以或许发送的数据的字节数至多是此窗口的大小。”</li>
-<li>通知窗口advertised window：接管端按照其接管才能承诺的窗口值，是来自接管端的流量把握。接管端将通知窗口的值放在TCP报文的首部中，传送给对方。</li>
-<li>拥塞窗口congestion window：是发送端按照收集拥塞景象得出的窗口值，是来自发送端的流量把握。</li>
-<li>查验和覆盖了全部的TCP报文段：TCP首部和TCP数据。这是一个强迫性的字段，由发端策画和存储，由收端进行验证。<br>选项字段容许每台主机设定可以或许接管的最大TCP载荷才能（缺省536字节） 。</li>
-</ul>
-<p><img src="http://i.imgur.com/bxOtaW3.png" alt=""></p>
-<p> TCP的数据编号与确认</p>
-<p>数据流、报文段和序号</p>
-<p> TCP通信的动作</p>
-<ul>
-<li>切割：按照合适传输的大小对数据流进行切割<ul>
-<li>最大报文段长度&lt;64Kbytes</li>
-<li>凡是：MTU－（IP头＋TCP头）</li>
-</ul>
-</li>
-<li>答复复兴：用报文段恢答复复兴始数据流的字节次序</li>
-<li>序号：排序、查错及数据流答复复兴</li>
-</ul>
-<p><img src="http://i.imgur.com/CG3OFy8.png" alt=""></p>
-<p>报文序号</p>
-<ul>
-<li>根据数据流中的字节序号（流序号）</li>
-<li>报文序号为报文段中第一字节的流序号<ul>
-<li>如：流序号＝x，长度＝L的报文段，则：</li>
-<li>报文的序号为x，下一报文序号为x＋L</li>
-</ul>
-</li>
-<li>序号特点<ul>
-<li>报文的次序关系</li>
-<li>数据流的地位，更便于流的答复复兴</li>
-<li>需较大的序号空间（32bit，4Gbyte）</li>
-</ul>
-</li>
-</ul>
-<p>例如：在一个报文中，序号为300，而报文中数占领100字节。</p>
-<p>下一个报文符，其序号为400；<br><img src="http://i.imgur.com/8pwye2Z.png" alt=""></p>
-<p><a href="http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml" target="_blank" rel="external">http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TCP报文格局详解&lt;/p&gt;
-&lt;p&gt;TCP和谈只定义了一种报文格局&lt;/p&gt;
-&lt;p&gt;建立、拆除连接、传输数据应用同样的报文&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/yRp4YI6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt; TCP报文格局&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>network_questions</title>
-    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
-    <id>http://yoursite.com/2017/01/13/network_questions/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:20.126Z</updated>
-    
-    <content type="html"><![CDATA[<ol>
-<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
-<p> (1)OSI七层模型</p>
-<ul>
-<li>OSI中的层 功能 TCP/IP协议族</li>
-<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
-<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
-<li>会话层 解除或建立与别的接点的联系 没有协议</li>
-<li>传输层 提供端对端的接口 TCP，UDP</li>
-<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
-<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
-<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
-<p>(2)TCP/IP五层模型的协议</p>
-</li>
-<li>应用层</li>
-<li>传输层</li>
-<li>网络层</li>
-<li>数据链路层</li>
-<li><p>物理层</p>
-<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol>
-<li><p>TCP与UDP的区别。</p>
-<ol>
-<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
-</li>
-<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
-</li>
-<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
-<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
-<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
-<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
-</ol>
-</li>
-<li><p>TCP报文结构。</p>
-<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
-<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
-</li>
-</ol>
-<ol>
-<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
-</ol>
-<p>见博客</p>
-<ol>
-<li>TCP拥塞控制。</li>
-</ol>
-<ol>
-<li>TCP滑动窗口与回退N针协议。</li>
-</ol>
-<p>不知道</p>
-<ol>
-<li>Http的报文结构。</li>
-</ol>
-<ol>
-<li>Http的状态码含义。</li>
-</ol>
-<ol>
-<li>Http request的几种类型。</li>
-</ol>
-<ol>
-<li>Http1.1和Http1.0的区别</li>
-</ol>
-<ol>
-<li>Http怎么处理长连接。</li>
-</ol>
-<ol>
-<li>Cookie与Session的作用于原理。</li>
-</ol>
-<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
-<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
-<ol>
-<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
-</ol>
-<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
-<ol>
-<li>Ping的整个过程。ICMP报文是什么。</li>
-</ol>
-<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
-<ol>
-<li>C/S模式下使用socket通信，几个关键函数。</li>
-</ol>
-<ol>
-<li>IP地址分类。</li>
-</ol>
-<ol>
-<li>路由器与交换机区别。</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
-&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
-&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
