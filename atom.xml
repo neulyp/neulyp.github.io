@@ -134,6 +134,308 @@
   </entry>
   
   <entry>
+    <title>面试题12：打印1到最大的n位数</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer12/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer12/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T05:43:55.191Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.</p>
+<p>解答：<br><a href="http://blog.csdn.net/jsqfengbao/article/details/47174629" target="_blank" rel="external">http://blog.csdn.net/jsqfengbao/article/details/47174629</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：题目：输入数字n，按顺序打印出从1最大的的n位数十进制数。比如输入3，则打印出1，2，3一直到最大的3位数即999.&lt;/p&gt;
+&lt;p&gt;解答：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/jsqfengbao/article/details/4717
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题4：替换空格</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer4/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer4/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T08:11:35.817Z</updated>
+    
+    <content type="html"><![CDATA[<p>请实现一个函数，把字符串中的每个空格替换成“%20”。例如输入“We are happy.”，则输出“We%20are%20happy.”。</p>
+<p>解答：</p>
+<ol>
+<li>首先遍历原字符串，找出字符串的长度以及其中的空格数量，</li>
+<li>根据原字符串的长度和空格的数量我们可以求出最后新字符串的长度。</li>
+<li>设置两个指针originalIndex和newIndex分别指向原字符串和新字符串的末尾位置。</li>
+<li>如果originalIndex指向内容不为空格，那么将内容赋值给newIndex指向的位置，如果originalIndex指向为空格，那么从newIndex开始赋值“02%”</li>
+<li>直到originalIndex==newIndex时表明字符串中的所有空格都已经替换完毕。</li>
+</ol>
+<p>代码：略</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;请实现一个函数，把字符串中的每个空格替换成“%20”。例如输入“We are happy.”，则输出“We%20are%20happy.”。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先遍历原字符串，找出字符串的长度以及其中的空格数量，&lt;/li&gt;
+&lt;li&gt;根据原字符
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题7：用两个栈实现队列</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer7/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer7/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T04:58:59.299Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。</p>
+<p>解答：</p>
+<ol>
+<li>我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插入一个元素a，不妨先把它插入到stack1，此时stack1 中的元素有｛a}，stack2为空。再压入两个元素b和c,还是插入到stack1中，此时stack1中的元素有｛a,b,c}，其中c位于栈顶，而stack2仍然为空。</li>
+<li>这个时候，我们试着删除从队列中删除一个元素。按照队列先入先出的规则，由于a比b、c先插入到队列中，最先被删除的元素应该是a。元素a存储在stack1中，但并不在占顶上，因此不能直接被删除。注意到stack2我们还一直没有使用过，现在是让stack2发挥作用的时候了。如果我们把stack1中的元素逐个弹出并压入stack2，元素在stack2中的顺序正好和原来的stack1中的顺序相反。因此经过3次弹出stack1和压入stack2操作之后，stack1为空，而stack2中的元素是｛c,b,a}，这个时候就可以弹出stack2的栈顶a了。此时的stack1为空，而stack2的元素为{c,b}，其中在栈顶</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack1= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> Stack&lt;String&gt; stack2= <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(String s)</span></span>&#123;</div><div class="line">		stack1.push(s);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function">String <span class="title">deleteHead</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">while</span>(!stack1.isEmpty())&#123;</div><div class="line">				stack2.push(stack1.pop());</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(stack2.isEmpty())&#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> stack2.pop();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		t7 t= <span class="keyword">new</span> t7();</div><div class="line">		t.appendTail(<span class="string">"a"</span>);</div><div class="line">		t.appendTail(<span class="string">"b"</span>);</div><div class="line">		t.appendTail(<span class="string">"c"</span>);</div><div class="line">		System.out.println(t.deleteHead());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>两个队列模仿栈</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t7q</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue1=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> LinkedList&lt;String&gt; queue2=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">pop</span><span class="params">()</span></span>&#123;</div><div class="line">		String re=<span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue1.size()==<span class="number">0</span>&amp;&amp;queue2.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span>(queue2.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue1.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue1.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue2.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()==<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">while</span>(queue2.size()&gt;<span class="number">0</span>)&#123;</div><div class="line">				re=queue2.removeFirst();</div><div class="line">				<span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;</div><div class="line">					queue1.addLast(re);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> re;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">push</span><span class="params">(String str)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(queue1.size() ==<span class="number">0</span> &amp;&amp; queue2.size() == <span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue1.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue1.addLast(str);  </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(queue2.size()!=<span class="number">0</span>)&#123;  </div><div class="line">            queue2.addLast(str);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> str;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail和deletedHead,分别完成在队列尾部插入节点和在队列头部删除节点的功能。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我们通过一个具体的例子来分析该队列插入和删除元素的过程。首先插
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题13：在O(1)时间删除链表节点</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer13/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer13/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T06:25:03.005Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：给定单向链表的头指针和一个节点指针，定义一个函数在O(1)时间删除该节点。</p>
+<p>如果我们把下一个节点的内容复制到要删除的节点上覆盖原有的内容，再把下一个节点删除，那是不是就相当于把当前要删除的节点删除了？</p>
+<p>解答：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode head,ListNode deListNode)</span></span>&#123;  </div><div class="line">       <span class="keyword">if</span>(deListNode == <span class="keyword">null</span> || head == <span class="keyword">null</span>)&#123;  </div><div class="line">           <span class="keyword">return</span> ;  </div><div class="line">       &#125;  </div><div class="line">       <span class="keyword">if</span>(head == deListNode)&#123;  </div><div class="line">           head =<span class="keyword">null</span>;  </div><div class="line">       &#125;  </div><div class="line">       <span class="keyword">else</span>&#123;  </div><div class="line">           <span class="keyword">if</span>(deListNode.next == <span class="keyword">null</span>)&#123;  </div><div class="line">               ListNode pinitListNode = head;  </div><div class="line">               <span class="keyword">while</span>(pinitListNode.next.next != <span class="keyword">null</span>)&#123;  </div><div class="line">                   pinitListNode = pinitListNode.next;  </div><div class="line">               &#125;  </div><div class="line">               pinitListNode.next = <span class="keyword">null</span>;  </div><div class="line">           &#125;<span class="keyword">else</span>&#123;  </div><div class="line">               deListNode.data = deListNode.next.data;  </div><div class="line">               deListNode.next = deListNode.next.next;  </div><div class="line">           &#125;  </div><div class="line">       &#125;  </div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：给定单向链表的头指针和一个节点指针，定义一个函数在O(1)时间删除该节点。&lt;/p&gt;
+&lt;p&gt;如果我们把下一个节点的内容复制到要删除的节点上覆盖原有的内容，再把下一个节点删除，那是不是就相当于把当前要删除的节点删除了？&lt;/p&gt;
+&lt;p&gt;解答：&lt;br&gt;&lt;figure clas
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题6：重建二叉树</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer6/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer6/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T13:53:53.764Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。</p>
+<p>解答：</p>
+<ol>
+<li>在二叉树的前序遍历序列中，第一个数字总是树的根节点的值。但在中序遍历中，根节点的值在序列的中间，左子树的结点的值位于根节点的值的左边，而右子树的结点的值位于根节点的右边。因此我们需要扫描中序遍历序列，才能找到根节点的值。<br>如图所示，前序遍历序列的第一个数字1就是根节点的值。扫描中序遍历序列，就能确定根节点的值的位置。根据中序遍历的特点，在根节点的值1前面3个数字都是左子树结点的值，位于1后面的数字都是右子树结点的值。</li>
+<li>既然我们已经分别找到了左、右子树的前序遍历序列和中序遍历序列，我们可以用同样的方法分别去构建左右子树。也就是说，接下来的事情可以用递归的方法去完成。</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t6</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTreeNode</span> </span>&#123;</div><div class="line">		 <span class="keyword">public</span> <span class="keyword">int</span> value;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode leftNode;  </div><div class="line">		 <span class="keyword">public</span> BinaryTreeNode rightNode;  		      </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">()</span></span>&#123;  </div><div class="line">		          </div><div class="line">		 &#125;  </div><div class="line">		 <span class="function"><span class="keyword">public</span> <span class="title">BinaryTreeNode</span><span class="params">(<span class="keyword">int</span> value)</span></span>&#123;  </div><div class="line">		     <span class="keyword">this</span>.value = value ;  </div><div class="line">		     <span class="keyword">this</span>.leftNode = <span class="keyword">null</span>;  </div><div class="line">		     <span class="keyword">this</span>.rightNode = <span class="keyword">null</span>;  </div><div class="line">		 &#125;  </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> preOrder 前序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> inOrder 中序遍历数组  </div><div class="line">     * <span class="doctag">@param</span> length 数组长度  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">Construct</span><span class="params">(<span class="keyword">int</span>[] preOrder, <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> length)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span> (preOrder == <span class="keyword">null</span> || inOrder == <span class="keyword">null</span> || length &lt;= <span class="number">0</span>) &#123;  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            <span class="keyword">return</span> ConstructCore(preOrder, <span class="number">0</span>, preOrder.length - <span class="number">1</span>, inOrder, <span class="number">0</span>,inOrder.length - <span class="number">1</span>);  </div><div class="line">        &#125; <span class="keyword">catch</span> (InvalidPutException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     *   </div><div class="line">     * <span class="doctag">@param</span> PreOrder  </div><div class="line">     *            前序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startPreIndex  </div><div class="line">     *            前序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endPreIndex  </div><div class="line">     *            前序序列结束位置  </div><div class="line">     * <span class="doctag">@param</span> InOrder  </div><div class="line">     *            中序遍历序列  </div><div class="line">     * <span class="doctag">@param</span> startInIndex  </div><div class="line">     *            中序序列开始位置  </div><div class="line">     * <span class="doctag">@param</span> endInIndex  </div><div class="line">     *            中序序列结束位置  </div><div class="line">     * <span class="doctag">@return</span> 根结点  </div><div class="line">     * <span class="doctag">@throws</span> InvalidPutException  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BinaryTreeNode <span class="title">ConstructCore</span><span class="params">(<span class="keyword">int</span>[] preOrder,<span class="keyword">int</span> startPreIndex, <span class="keyword">int</span> endPreIndex,   </span></span></div><div class="line">            <span class="keyword">int</span>[] inOrder,<span class="keyword">int</span> startInIndex, <span class="keyword">int</span> endInIndex) <span class="keyword">throws</span> InvalidPutException &#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> rootValue = preOrder[startPreIndex];  </div><div class="line">        System.out.println(<span class="string">"rootValue = "</span> + rootValue);  </div><div class="line">        BinaryTreeNode root = <span class="keyword">new</span> BinaryTreeNode(rootValue);  </div><div class="line">  </div><div class="line">        <span class="comment">// 只有一个元素  </span></div><div class="line">        <span class="keyword">if</span> (startPreIndex == endPreIndex) &#123;  </div><div class="line">            <span class="keyword">if</span> (startInIndex == endInIndex  </div><div class="line">                    &amp;&amp; preOrder[startPreIndex] == inOrder[startInIndex]) &#123;  </div><div class="line">                System.out.println(<span class="string">"only one element"</span>);  </div><div class="line">                <span class="keyword">return</span> root;  </div><div class="line">            &#125; <span class="keyword">else</span> &#123;  </div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// 在中序遍历中找到根结点的索引  </span></div><div class="line">        <span class="keyword">int</span> rootInIndex = startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">while</span> (rootInIndex &lt;= endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            ++rootInIndex;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (rootInIndex == endInIndex &amp;&amp; inOrder[rootInIndex] != rootValue) &#123;  </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidPutException();  </div><div class="line">  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftLength = rootInIndex - startInIndex;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> leftPreOrderEndIndex = startPreIndex + leftLength;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &gt; <span class="number">0</span>) &#123;  </div><div class="line">            <span class="comment">// 构建左子树  </span></div><div class="line">            root.leftNode = ConstructCore(preOrder, startPreIndex + <span class="number">1</span>,  </div><div class="line">                    leftPreOrderEndIndex, inOrder, startInIndex,  </div><div class="line">                    rootInIndex - <span class="number">1</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (leftLength &lt; endPreIndex - startPreIndex) &#123;  </div><div class="line">            <span class="comment">// 右子树有元素,构建右子树  </span></div><div class="line">            root.rightNode = ConstructCore(preOrder, leftPreOrderEndIndex + <span class="number">1</span>,  </div><div class="line">                    endPreIndex, inOrder, rootInIndex + <span class="number">1</span>, endInIndex);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> root;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InvalidPutException</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>&#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;  </div><div class="line">  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPreOrder</span><span class="params">(BinaryTreeNode root)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;  </div><div class="line">            <span class="keyword">return</span>;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            System.out.print(root.value + <span class="string">" "</span>);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.leftNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.leftNode);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (root.rightNode != <span class="keyword">null</span>) &#123;  </div><div class="line">            printPreOrder(root.rightNode);  </div><div class="line">        &#125;  </div><div class="line">    &#125; </div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;   </div><div class="line">        <span class="keyword">int</span>[] preOrder=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">8</span>&#125;;  </div><div class="line">        <span class="keyword">int</span>[] inOrder=&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">6</span>&#125;;  </div><div class="line">         printPreOrder(Construct(preOrder, inOrder, preOrder.length));  </div><div class="line">    &#125;  </div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：输入某二叉树的前序遍历和中序遍历的结果，请重新构造出该二叉树。假设输入的前序遍历和中序遍历的结果中不包含重复的数字。例如输入的前序遍历序列为｛1，2，4，7，3，5，6，8｝和中序遍历为{4,7,2,1,5,3,6,8},则重建出二叉树并输出它的头结点。&lt;/p&gt;
+&lt;p
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题11：数值的整数次方</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer11/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer11/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T05:16:29.112Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：实现函数double Power(double base,int exponent),求base的exponent次方。不得使用库函数，同时不需要考虑大数问题</p>
+<p>解答：我们用右移运算代替除2，用位与运算符代替了求余运算符（%)来判断一个数是奇数还是偶数。位运算的效率比乘除法及求余运算的效率要高很多。既然要优化代码，我们就把优化做到极致。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 实现函数power。</div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t11</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">pow</span><span class="params">(<span class="keyword">double</span> base,<span class="keyword">int</span> exponent)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(exponent==<span class="number">0</span>)</div><div class="line">			<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">		<span class="keyword">if</span>(exponent==<span class="number">1</span>)</div><div class="line">			<span class="keyword">return</span> base;</div><div class="line">		<span class="keyword">double</span> result=pow(base, exponent&gt;&gt;<span class="number">1</span>);</div><div class="line">		result*=result;</div><div class="line">		<span class="keyword">if</span>((exponent&amp;<span class="number">0x1</span>)==<span class="number">1</span>) result*=base;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">p</span><span class="params">(<span class="keyword">double</span> base,<span class="keyword">int</span> exponent)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(base==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span>(exponent&lt;<span class="number">0</span>)&#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">1</span>/pow(base, -exponent);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> pow(base, exponent);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(p(<span class="number">2</span>, <span class="number">3</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：实现函数double Power(double base,int exponent),求base的exponent次方。不得使用库函数，同时不需要考虑大数问题&lt;/p&gt;
+&lt;p&gt;解答：我们用右移运算代替除2，用位与运算符代替了求余运算符（%)来判断一个数是奇数还是偶数。位
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题5：从尾到头打印链表</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer5/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer5/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T08:22:34.834Z</updated>
+    
+    <content type="html"><![CDATA[<p>输入一个链表的头结点，从尾到头反过来打印每个节点。</p>
+<p>解答：</p>
+<ol>
+<li>用栈来打印。（遍历一遍入栈，然后对栈做出栈操作）</li>
+<li>递归就是一个栈。</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t5</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ListNode</span><span class="params">(<span class="keyword">int</span> key, ListNode next)</span> </span>&#123;</div><div class="line">			<span class="keyword">this</span>.key=key;</div><div class="line">			<span class="keyword">this</span>.next=next;		</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> key;</div><div class="line">		ListNode next;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printList</span><span class="params">(ListNode head)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(head!=<span class="keyword">null</span>)&#123;</div><div class="line">			<span class="keyword">if</span>(head.next!=<span class="keyword">null</span>)&#123;</div><div class="line">				printList(head.next);</div><div class="line">			&#125;</div><div class="line">			System.out.println(head.key);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		ListNode n5= <span class="keyword">new</span> ListNode(<span class="number">5</span>, <span class="keyword">null</span>);</div><div class="line">		ListNode n4= <span class="keyword">new</span> ListNode(<span class="number">4</span>, n5);</div><div class="line">		ListNode n3= <span class="keyword">new</span> ListNode(<span class="number">3</span>, n4);</div><div class="line">		ListNode n2= <span class="keyword">new</span> ListNode(<span class="number">2</span>, n3);</div><div class="line">		ListNode head= <span class="keyword">new</span> ListNode(<span class="number">1</span>, n2);</div><div class="line">		printList(head);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;输入一个链表的头结点，从尾到头反过来打印每个节点。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用栈来打印。（遍历一遍入栈，然后对栈做出栈操作）&lt;/li&gt;
+&lt;li&gt;递归就是一个栈。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;figure class=&quot;highlig
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题3：二维数组中查找</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer3/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer3/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-15T08:07:11.908Z</updated>
+    
+    <content type="html"><![CDATA[<p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<p>解答：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 题目：在一个二维数组中，每一行都按照从左到右递增的顺序排序，</div><div class="line"> * 每一列都按照从上到下递增的顺序排序。请完成一个函数，</div><div class="line"> * 输入一个这样的一个二维数组和一个整数，判断数组是否含有该数组</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t3</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] a=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">9</span>&#125;,&#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>&#125;,&#123;<span class="number">4</span>,<span class="number">7</span>,<span class="number">10</span>,<span class="number">13</span>&#125;,&#123;<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>,<span class="number">15</span>&#125;&#125;;</div><div class="line">		System.out.println(find(<span class="keyword">null</span>,<span class="number">5</span>));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span>[][] a,<span class="keyword">int</span> t)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(a!=<span class="keyword">null</span>)&#123;</div><div class="line">			<span class="keyword">int</span> x=a.length;</div><div class="line">			<span class="keyword">int</span> y=a[<span class="number">0</span>].length-<span class="number">1</span>;</div><div class="line">			<span class="keyword">int</span> i=<span class="number">0</span>,j=y;</div><div class="line">			<span class="keyword">while</span>(i&lt;x&amp;&amp;j&gt;=<span class="number">0</span>)&#123;</div><div class="line">				<span class="keyword">if</span>(a[i][j]==t) <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(a[i][j]&gt;t)&#123;</div><div class="line">					j--;</div><div class="line">				&#125;<span class="keyword">else</span>&#123;</div><div class="line">					i++;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序，请完成一个函数，输入一个二维数组和一个整数，判断数组中是否含有该整数。&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题10：二进制中的1的个数</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer10/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer10/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T05:09:57.710Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.</p>
+<p>解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可以进行多少次运算。基于这种思路，我们可以写出这样的代码：</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> offer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 1.请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。</div><div class="line"> * </div><div class="line"> * 2.相关题目，判断一个整数是不是2的整数次幂，一个整数如果是2的整数次幂，</div><div class="line"> * 他的二进制表示有且仅有一个1，那么把这个整数减去1在和它自己做运算，这个整数中唯一的1就变成0.</div><div class="line"> * </div><div class="line"> * 3.输入m和n，计算需要改变m的二进制表示中多少位才能得到n，可以分两步：第一步先求异或，m^n</div><div class="line"> * 第二部，求结果中1的位数。</div><div class="line"> * </div><div class="line"> * 4.：将一个整数减去1之后在和原来的整数做位与运算，得到的结果相当把整数的二进制表示的最后边的1变为0</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> neuly</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t10</span> </span>&#123;</div><div class="line">	 <span class="function"><span class="keyword">private</span> <span class="keyword">static</span>  <span class="keyword">int</span> <span class="title">numof1</span> <span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		 <span class="keyword">int</span> count=<span class="number">0</span>;</div><div class="line">		 <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</div><div class="line">			 count++;</div><div class="line">			 n=(n-<span class="number">1</span>)&amp;n;</div><div class="line">		 &#125;</div><div class="line">		 <span class="keyword">return</span> count;</div><div class="line">	 &#125;</div><div class="line">	 </div><div class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		System.out.println(numof1(<span class="number">9</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：请实现一个函数，输入一个整数，输出该数二进制表示中1的个数。例如把9表示成二进制是1001，有2位是1，因此如果输入9，该函数输出2.&lt;/p&gt;
+&lt;p&gt;解答：把一个整数减去1，再和原整数做与运算，会把该整数最右边的一个1变成0.那么一个整数的二进制表示中有多少个1，就可
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试题9：fibonacci</title>
+    <link href="http://yoursite.com/2017/01/17/Poffer9/"/>
+    <id>http://yoursite.com/2017/01/17/Poffer9/</id>
+    <published>2017-01-17T12:19:24.000Z</published>
+    <updated>2017-02-16T05:06:59.350Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：写一个函数，输入n，求斐波那契数列的第n项</p>
+<p>解答：</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">t9</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span>(n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">		<span class="keyword">return</span> fibonacci(n-<span class="number">1</span>)+fibonacci(n-<span class="number">2</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">fibo</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span>[] result=&#123;<span class="number">0</span>,<span class="number">1</span>&#125;;</div><div class="line">		<span class="keyword">if</span>(n&lt;<span class="number">2</span>) <span class="keyword">return</span> result[n];</div><div class="line">		<span class="keyword">long</span> b1=<span class="number">1</span>;</div><div class="line">		<span class="keyword">long</span> b2=<span class="number">1</span>;</div><div class="line">		<span class="keyword">long</span> sum=<span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</div><div class="line">			sum=b1+b2;</div><div class="line">			b2=b1;</div><div class="line">			b1=sum;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> sum;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>详细步骤：<a href="http://blog.csdn.net/jsqfengbao/article/details/47121489" target="_blank" rel="external">http://blog.csdn.net/jsqfengbao/article/details/47121489</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;题目：写一个函数，输入n，求斐波那契数列的第n项&lt;/p&gt;
+&lt;p&gt;解答：&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;
+    
+    </summary>
+    
+      <category term="poffer" scheme="http://yoursite.com/categories/poffer/"/>
+    
+    
+      <category term="poffer" scheme="http://yoursite.com/tags/poffer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>network_tcp三次握手</title>
     <link href="http://yoursite.com/2017/01/16/network_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81%E8%A7%A3%E6%9E%90/"/>
     <id>http://yoursite.com/2017/01/16/network_TCP三次握手和四次挥手状态变迁解析/</id>
@@ -392,207 +694,6 @@
   </entry>
   
   <entry>
-    <title>network_questions</title>
-    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
-    <id>http://yoursite.com/2017/01/13/network_questions/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:20.126Z</updated>
-    
-    <content type="html"><![CDATA[<ol>
-<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
-<p> (1)OSI七层模型</p>
-<ul>
-<li>OSI中的层 功能 TCP/IP协议族</li>
-<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
-<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
-<li>会话层 解除或建立与别的接点的联系 没有协议</li>
-<li>传输层 提供端对端的接口 TCP，UDP</li>
-<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
-<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
-<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
-<p>(2)TCP/IP五层模型的协议</p>
-</li>
-<li>应用层</li>
-<li>传输层</li>
-<li>网络层</li>
-<li>数据链路层</li>
-<li><p>物理层</p>
-<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol>
-<li><p>TCP与UDP的区别。</p>
-<ol>
-<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
-</li>
-<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
-</li>
-<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
-<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
-<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
-<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
-</ol>
-</li>
-<li><p>TCP报文结构。</p>
-<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
-<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
-</li>
-</ol>
-<ol>
-<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
-</ol>
-<p>见博客</p>
-<ol>
-<li>TCP拥塞控制。</li>
-</ol>
-<ol>
-<li>TCP滑动窗口与回退N针协议。</li>
-</ol>
-<p>不知道</p>
-<ol>
-<li>Http的报文结构。</li>
-</ol>
-<ol>
-<li>Http的状态码含义。</li>
-</ol>
-<ol>
-<li>Http request的几种类型。</li>
-</ol>
-<ol>
-<li>Http1.1和Http1.0的区别</li>
-</ol>
-<ol>
-<li>Http怎么处理长连接。</li>
-</ol>
-<ol>
-<li>Cookie与Session的作用于原理。</li>
-</ol>
-<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
-<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
-<ol>
-<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
-</ol>
-<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
-<ol>
-<li>Ping的整个过程。ICMP报文是什么。</li>
-</ol>
-<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
-<ol>
-<li>C/S模式下使用socket通信，几个关键函数。</li>
-</ol>
-<ol>
-<li>IP地址分类。</li>
-</ol>
-<ol>
-<li>路由器与交换机区别。</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
-&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
-&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>network_tcp报文详解</title>
-    <link href="http://yoursite.com/2017/01/13/network_tcp%E6%8A%A5%E6%96%87%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2017/01/13/network_tcp报文详解/</id>
-    <published>2017-01-13T10:27:24.000Z</published>
-    <updated>2017-02-07T09:17:28.201Z</updated>
-    
-    <content type="html"><![CDATA[<p>TCP报文格局详解</p>
-<p>TCP和谈只定义了一种报文格局</p>
-<p>建立、拆除连接、传输数据应用同样的报文</p>
-<p><img src="http://i.imgur.com/yRp4YI6.png" alt=""></p>
-<p> TCP报文格局</p>
-<p>TCP报文段首部（20个字节）</p>
-<ul>
-<li>源端口和目标端口：各占2个字节，16比特的端标语加上32比特的IP地址，共同构成相当于传输层办事接见点的地址，即“插口”；</li>
-<li>这些端口可用来将若干高层和谈向下复用；<br>序号字段和确认序号字段：</li>
-<li>序号：占4个字节，是本报文段所发送的数据项目组第一个字节的序号。在TCP传送的数据流中，每一个字节都有一个序号。例如，一报文段的序号为300，而起数据供100字节，则下一个报文段的序号就是400；</li>
-<li>确认序号：占4字节，是期望收到对方下次发送的数据的第一个字节的序号，也就是期望收到的下一个报文段的首部中的序号；</li>
-<li>因为序号字段有32比特长，可以对4GB的数据进行编号，如许就可包管当序号反复应用时，旧序号的数据早已在收集中消散了；<br>数据偏移字段</li>
-<li>数据偏移：占4比特，默示数据开端的处所离TCP报文段的肇端处有多远。这实际上就是TCP报文段首部的长度。因为首部长度不固定，是以数据偏移字段是须要的。</li>
-<li>保存字段： 6比特，供往后应用，今朝置为0。<br>6个比特的把握字段</li>
-<li>紧急比特URGent：当URG=1时，注解此报文应尽快传送，而不要按本来的列队次序来传送。与“紧急指针”字段共同应用，紧急指针指出在本报文段中的紧急数据的最后一个字节的序号，使接管方可以知道紧急数据共有多长；</li>
-<li>确认比特ACK：只有当ACK=1时，确认序号字段才有意义；</li>
-<li>急迫比特PSH：当PSH=1时，注解恳求远地TCP将本报文段立即传送给其应用层，而不要比及全部缓存都填满了之后再向上交付。</li>
-<li>复位比特ReSeT：当RST=1时，注解呈现严重错误，必须开释连接，然后再重建传输连接。复位比特还用来拒绝一个不法的报文段或拒绝打开一个连接；</li>
-<li>同步比特SYN：在建树连接时应用，当SYN=1而ACK=0时，注解这是一个连接恳求报文段。对方若赞成建树连接，在发还的报文段中使SYN=1和ACK=1。是以，SYN=1默示这是一个连接恳求或毗邻接管报文，而ACK的值用来区分是哪一种报文；</li>
-<li>终止比特FINal：用来开释一个连接，当FIN=1时，注解欲发送的字节串已经发完，并请求开释传输连接；<br>窗口字段</li>
-<li>窗口Window：占2字节，默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以或许发送的数据的字节数至多是此窗口的大小。”</li>
-<li>通知窗口advertised window：接管端按照其接管才能承诺的窗口值，是来自接管端的流量把握。接管端将通知窗口的值放在TCP报文的首部中，传送给对方。</li>
-<li>拥塞窗口congestion window：是发送端按照收集拥塞景象得出的窗口值，是来自发送端的流量把握。</li>
-<li>查验和覆盖了全部的TCP报文段：TCP首部和TCP数据。这是一个强迫性的字段，由发端策画和存储，由收端进行验证。<br>选项字段容许每台主机设定可以或许接管的最大TCP载荷才能（缺省536字节） 。</li>
-</ul>
-<p><img src="http://i.imgur.com/bxOtaW3.png" alt=""></p>
-<p> TCP的数据编号与确认</p>
-<p>数据流、报文段和序号</p>
-<p> TCP通信的动作</p>
-<ul>
-<li>切割：按照合适传输的大小对数据流进行切割<ul>
-<li>最大报文段长度&lt;64Kbytes</li>
-<li>凡是：MTU－（IP头＋TCP头）</li>
-</ul>
-</li>
-<li>答复复兴：用报文段恢答复复兴始数据流的字节次序</li>
-<li>序号：排序、查错及数据流答复复兴</li>
-</ul>
-<p><img src="http://i.imgur.com/CG3OFy8.png" alt=""></p>
-<p>报文序号</p>
-<ul>
-<li>根据数据流中的字节序号（流序号）</li>
-<li>报文序号为报文段中第一字节的流序号<ul>
-<li>如：流序号＝x，长度＝L的报文段，则：</li>
-<li>报文的序号为x，下一报文序号为x＋L</li>
-</ul>
-</li>
-<li>序号特点<ul>
-<li>报文的次序关系</li>
-<li>数据流的地位，更便于流的答复复兴</li>
-<li>需较大的序号空间（32bit，4Gbyte）</li>
-</ul>
-</li>
-</ul>
-<p>例如：在一个报文中，序号为300，而报文中数占领100字节。</p>
-<p>下一个报文符，其序号为400；<br><img src="http://i.imgur.com/8pwye2Z.png" alt=""></p>
-<p><a href="http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml" target="_blank" rel="external">http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TCP报文格局详解&lt;/p&gt;
-&lt;p&gt;TCP和谈只定义了一种报文格局&lt;/p&gt;
-&lt;p&gt;建立、拆除连接、传输数据应用同样的报文&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/yRp4YI6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt; TCP报文格局&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>network_概述</title>
     <link href="http://yoursite.com/2017/01/13/network_1/"/>
     <id>http://yoursite.com/2017/01/13/network_1/</id>
@@ -720,725 +821,203 @@
   </entry>
   
   <entry>
-    <title>jsp_questions</title>
-    <link href="http://yoursite.com/2017/01/13/jsp_questions/"/>
-    <id>http://yoursite.com/2017/01/13/jsp_questions/</id>
-    <published>2017-01-13T08:27:25.000Z</published>
-    <updated>2017-02-07T09:08:31.539Z</updated>
+    <title>network_tcp报文详解</title>
+    <link href="http://yoursite.com/2017/01/13/network_tcp%E6%8A%A5%E6%96%87%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://yoursite.com/2017/01/13/network_tcp报文详解/</id>
+    <published>2017-01-13T10:27:24.000Z</published>
+    <updated>2017-02-07T09:17:28.201Z</updated>
     
-    <content type="html"><![CDATA[<p>1.JSP的内置对象有哪些？ </p>
+    <content type="html"><![CDATA[<p>TCP报文格局详解</p>
+<p>TCP和谈只定义了一种报文格局</p>
+<p>建立、拆除连接、传输数据应用同样的报文</p>
+<p><img src="http://i.imgur.com/yRp4YI6.png" alt=""></p>
+<p> TCP报文格局</p>
+<p>TCP报文段首部（20个字节）</p>
 <ul>
-<li>request：用户端请求，此请求会包含来自GET/POST请求的参数 </li>
-<li>response：网页传回用户端的回应 </li>
-<li>pageContext：管理网页的属性 </li>
-<li>session：与请求有关的会话期 </li>
-<li>application：Servlet正在执行的内容 </li>
-<li>out：用来传送回应的输出 </li>
-<li>config：servlet的构架部件，配置信息 </li>
-<li>page：表示JSP网页本身 </li>
-<li>exception：异常，未捕捉的例外 </li>
+<li>源端口和目标端口：各占2个字节，16比特的端标语加上32比特的IP地址，共同构成相当于传输层办事接见点的地址，即“插口”；</li>
+<li>这些端口可用来将若干高层和谈向下复用；<br>序号字段和确认序号字段：</li>
+<li>序号：占4个字节，是本报文段所发送的数据项目组第一个字节的序号。在TCP传送的数据流中，每一个字节都有一个序号。例如，一报文段的序号为300，而起数据供100字节，则下一个报文段的序号就是400；</li>
+<li>确认序号：占4字节，是期望收到对方下次发送的数据的第一个字节的序号，也就是期望收到的下一个报文段的首部中的序号；</li>
+<li>因为序号字段有32比特长，可以对4GB的数据进行编号，如许就可包管当序号反复应用时，旧序号的数据早已在收集中消散了；<br>数据偏移字段</li>
+<li>数据偏移：占4比特，默示数据开端的处所离TCP报文段的肇端处有多远。这实际上就是TCP报文段首部的长度。因为首部长度不固定，是以数据偏移字段是须要的。</li>
+<li>保存字段： 6比特，供往后应用，今朝置为0。<br>6个比特的把握字段</li>
+<li>紧急比特URGent：当URG=1时，注解此报文应尽快传送，而不要按本来的列队次序来传送。与“紧急指针”字段共同应用，紧急指针指出在本报文段中的紧急数据的最后一个字节的序号，使接管方可以知道紧急数据共有多长；</li>
+<li>确认比特ACK：只有当ACK=1时，确认序号字段才有意义；</li>
+<li>急迫比特PSH：当PSH=1时，注解恳求远地TCP将本报文段立即传送给其应用层，而不要比及全部缓存都填满了之后再向上交付。</li>
+<li>复位比特ReSeT：当RST=1时，注解呈现严重错误，必须开释连接，然后再重建传输连接。复位比特还用来拒绝一个不法的报文段或拒绝打开一个连接；</li>
+<li>同步比特SYN：在建树连接时应用，当SYN=1而ACK=0时，注解这是一个连接恳求报文段。对方若赞成建树连接，在发还的报文段中使SYN=1和ACK=1。是以，SYN=1默示这是一个连接恳求或毗邻接管报文，而ACK的值用来区分是哪一种报文；</li>
+<li>终止比特FINal：用来开释一个连接，当FIN=1时，注解欲发送的字节串已经发完，并请求开释传输连接；<br>窗口字段</li>
+<li>窗口Window：占2字节，默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以或许发送的数据的字节数至多是此窗口的大小。”</li>
+<li>通知窗口advertised window：接管端按照其接管才能承诺的窗口值，是来自接管端的流量把握。接管端将通知窗口的值放在TCP报文的首部中，传送给对方。</li>
+<li>拥塞窗口congestion window：是发送端按照收集拥塞景象得出的窗口值，是来自发送端的流量把握。</li>
+<li>查验和覆盖了全部的TCP报文段：TCP首部和TCP数据。这是一个强迫性的字段，由发端策画和存储，由收端进行验证。<br>选项字段容许每台主机设定可以或许接管的最大TCP载荷才能（缺省536字节） 。</li>
 </ul>
-<p>2.JSP有哪些动作分别是什么？</p>
+<p><img src="http://i.imgur.com/bxOtaW3.png" alt=""></p>
+<p> TCP的数据编号与确认</p>
+<p>数据流、报文段和序号</p>
+<p> TCP通信的动作</p>
 <ul>
-<li>jsp：include：在页面被请求的时候引入一个文件 </li>
-<li>jsp：useBean：寻找或者实例化一个JavaBean </li>
-<li>jsp：setProperty：设置JavaBean的属性 </li>
-<li>jsp：getProperty：输出某个JavaBean的属性 </li>
-<li>jsp：foward：把请求转到一个新页面 </li>
-<li>jsp：plugin：根据浏览器类型为Java插件生成OBJECT或EMBED标记</li>
+<li>切割：按照合适传输的大小对数据流进行切割<ul>
+<li>最大报文段长度&lt;64Kbytes</li>
+<li>凡是：MTU－（IP头＋TCP头）</li>
 </ul>
-<p>3.jsp中两种include区别</p>
-<ul>
-<li><p>＜%@ include file=”relativeURI”%＞可以叫作静态include（静态包含），是jsp指令中的一种，(JSP指令控制JSP编译器如何去生成servlet（servlet是用Java编写的服务器端程序。其主要功能在于交互式地浏览和修改数据，生成动态Web内容。狭义的Servlet是指Java语言实现的一个接口，广义的Servlet是指任何实现了这个Servlet接口的类别，一般情况下，人们将Servlet理解为后者。-维基百科）</p>
 </li>
-<li><p>＜jsp:include page=”relativeURI” flush=”true” /＞叫作动态include（动态包含），是jsp动作的一种，(JSP动作是一系列可以调用内建于网络服务器中的功能的XML标签)</p>
-</li>
-<li>执行时间上：file是在翻译阶段执行；page是在请求处理阶段执行</li>
-<li>引入内容的不同：＜%@ include file=”relativeURI”%＞引入静态文本,在JSP页面被转化成servlet之前和它融和到一起，.先包含，后编译，不会检查所含文件的变化，适用于包含静态页面，可以理解为纯粹是把代码写在外面的一种共享方法,所有的变量都是可以和include它的主文件共享, 两者高度紧密结合,不能有变量同名的冲突.而页面设置也可以借用主文件的. jsp:include page=”relativeURI” flush=”true” /＞引入执行页面或servlet所生成的应答文本. 被包含的文件先编译，后包含进来，然后显示。</li>
+<li>答复复兴：用报文段恢答复复兴始数据流的字节次序</li>
+<li>序号：排序、查错及数据流答复复兴</li>
 </ul>
-<p>4.两种跳转方式分别是什么有什么区别？ </p>
-<ol>
-<li>forward跳转：<jsp:forward page="跳转页面地址"> </jsp:forward></li>
-<li>response跳转：response.sendRedirect(“跳转页面地址”); </li>
-<li>两种跳转的区别如下：1.forward跳转：a.服务器端跳转，地址栏不改变；b.执行到跳转语句后马上无条件跳转，之后的代码不再执行(跳转之前一定要释放全部资源)；c.request设置的属性在跳转后的页面仍可以使用；d.使用<jsp:param name="参数名" value="参数值">传递参数。</jsp:param></li>
-<li>response跳转：a.客户端跳转,地址栏改变；b.所有代码执行完毕后跳转；c.跳转后的页面不能使用上一个页面的request属性；d.使用地址重写传递参数（response.sendRedirect(“URL?参数名＝参数值”)）。 </li>
-</ol>
-<p>5.JSP和Servlet有哪些相同点和不同点？ </p>
-<p>Jsp是Servlet技术的扩展，本质上是Servlet的简易方式，更强调应用的外部表达。JSP编译后是“类 servlet”。Servlet和JSP最主要的不同点在于Servlet的应用逻辑是在java文件中，并且完全从表示层中HTML里分离出来，而 jsp是java和html结合成一个扩展名为.jsp的文件，JSP侧重于视图，servlet侧重于控制逻辑。 </p>
-<p>6.在JSP中如何设置cookie？ </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">    Cookie mycookie=<span class="keyword">new</span> Cookie(<span class="string">"aName"</span>,<span class="string">"aValue"</span>); </div><div class="line">   	response.addCookie(mycookie); </div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	Cookie killMyCookie=<span class="keyword">new</span> Cookie(<span class="string">"mycookie"</span>,<span class="keyword">null</span>); </div><div class="line">	killMyCookie.setMaxAge(<span class="number">0</span>); </div><div class="line">	killMyCookie.setPath(<span class="string">"/"</span>); </div><div class="line">	response.addCookie(killMyCookie); </div><div class="line">%&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://i.imgur.com/CG3OFy8.png" alt=""></p>
+<p>报文序号</p>
+<ul>
+<li>根据数据流中的字节序号（流序号）</li>
+<li>报文序号为报文段中第一字节的流序号<ul>
+<li>如：流序号＝x，长度＝L的报文段，则：</li>
+<li>报文的序号为x，下一报文序号为x＋L</li>
+</ul>
+</li>
+<li>序号特点<ul>
+<li>报文的次序关系</li>
+<li>数据流的地位，更便于流的答复复兴</li>
+<li>需较大的序号空间（32bit，4Gbyte）</li>
+</ul>
+</li>
+</ul>
+<p>例如：在一个报文中，序号为300，而报文中数占领100字节。</p>
+<p>下一个报文符，其序号为400；<br><img src="http://i.imgur.com/8pwye2Z.png" alt=""></p>
+<p><a href="http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml" target="_blank" rel="external">http://www.360doc.com/content/17/0116/23/39885418_622938307.shtml</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;1.JSP的内置对象有哪些？ &lt;/p&gt;
+      &lt;p&gt;TCP报文格局详解&lt;/p&gt;
+&lt;p&gt;TCP和谈只定义了一种报文格局&lt;/p&gt;
+&lt;p&gt;建立、拆除连接、传输数据应用同样的报文&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/yRp4YI6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt; TCP报文格局&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>network_questions</title>
+    <link href="http://yoursite.com/2017/01/13/network_questions/"/>
+    <id>http://yoursite.com/2017/01/13/network_questions/</id>
+    <published>2017-01-13T10:27:24.000Z</published>
+    <updated>2017-02-07T09:17:20.126Z</updated>
+    
+    <content type="html"><![CDATA[<ol>
+<li><p>OSI与TCP/IP各层的结构与功能，都有哪些协议。</p>
+<p> (1)OSI七层模型</p>
+<ul>
+<li>OSI中的层 功能 TCP/IP协议族</li>
+<li>应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
+<li>表示层 数据格式化，代码转换，数据加密 没有协议</li>
+<li>会话层 解除或建立与别的接点的联系 没有协议</li>
+<li>传输层 提供端对端的接口 TCP，UDP</li>
+<li>网络层 为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
+<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
+<li><p>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</p>
+<p>(2)TCP/IP五层模型的协议</p>
+</li>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li><p>物理层</p>
+<p><a href="http://blog.csdn.net/gs_008/article/details/50976379" target="_blank" rel="external">http://blog.csdn.net/gs_008/article/details/50976379</a></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li><p>TCP与UDP的区别。</p>
+<ol>
+<li><p>TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接</p>
+</li>
+<li><p>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付</p>
+</li>
+<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流;UDP是面向报文的<br>UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如IP电话，实时视频会议等）</li>
+<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
+<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
+<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
+</ol>
+</li>
+<li><p>TCP报文结构。</p>
+<p> <a href="http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml" target="_blank" rel="external">http://www.360doc.com/content/12/1218/10/3405077_254718387.shtml</a></p>
+<p> <img src="http://i.imgur.com/MaWatkG.png" alt=""></p>
+</li>
+</ol>
+<ol>
+<li>TCP的三次握手与四次挥手过程，各个状态名称与含义，TIMEWAIT的作用。</li>
+</ol>
+<p>见博客</p>
+<ol>
+<li>TCP拥塞控制。</li>
+</ol>
+<ol>
+<li>TCP滑动窗口与回退N针协议。</li>
+</ol>
+<p>不知道</p>
+<ol>
+<li>Http的报文结构。</li>
+</ol>
+<ol>
+<li>Http的状态码含义。</li>
+</ol>
+<ol>
+<li>Http request的几种类型。</li>
+</ol>
+<ol>
+<li>Http1.1和Http1.0的区别</li>
+</ol>
+<ol>
+<li>Http怎么处理长连接。</li>
+</ol>
+<ol>
+<li>Cookie与Session的作用于原理。</li>
+</ol>
+<p><a href="http://blog.csdn.net/colzer/article/details/8686966" target="_blank" rel="external">http://blog.csdn.net/colzer/article/details/8686966</a></p>
+<p><a href="http://blog.csdn.net/guoweimelon/article/details/50886092" target="_blank" rel="external">http://blog.csdn.net/guoweimelon/article/details/50886092</a></p>
+<ol>
+<li>电脑上访问一个网页，整个过程是怎么样的：DNS、HTTP、TCP、OSPF、IP、ARP。</li>
+</ol>
+<p><a href="http://blog.csdn.net/xiaominkong123/article/details/52120449" target="_blank" rel="external">http://blog.csdn.net/xiaominkong123/article/details/52120449</a></p>
+<ol>
+<li>Ping的整个过程。ICMP报文是什么。</li>
+</ol>
+<p><a href="http://blog.csdn.net/wujingjing_crystal/article/details/52463424" target="_blank" rel="external">http://blog.csdn.net/wujingjing_crystal/article/details/52463424</a></p>
+<ol>
+<li>C/S模式下使用socket通信，几个关键函数。</li>
+</ol>
+<ol>
+<li>IP地址分类。</li>
+</ol>
+<ol>
+<li>路由器与交换机区别。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;OSI与TCP/IP各层的结构与功能，都有哪些协议。&lt;/p&gt;
+&lt;p&gt; (1)OSI七层模型&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;request：用户端请求，此请求会包含来自GET/POST请求的参数 &lt;/li&gt;
-&lt;li&gt;response：网页传回用户端的回应 &lt;/li&gt;
-&lt;li&gt;pageContext：管理网页的属性 &lt;/li&gt;
-&lt;li&gt;se
+&lt;li&gt;OSI中的层 功能 TCP/IP协议族&lt;/li&gt;
+&lt;li&gt;应用层 文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，F
     
     </summary>
     
-      <category term="javaweb" scheme="http://yoursite.com/categories/javaweb/"/>
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="javaweb" scheme="http://yoursite.com/tags/javaweb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux_commands</title>
-    <link href="http://yoursite.com/2017/01/13/linux_command/"/>
-    <id>http://yoursite.com/2017/01/13/linux_command/</id>
-    <published>2017-01-13T08:27:24.000Z</published>
-    <updated>2017-02-07T09:15:22.926Z</updated>
-    
-    <content type="html"><![CDATA[<p>1.用户添加删除</p>
-<p>useradd user1<br>passwd mima</p>
-<p>userdel user1</p>
-<p>2.查看当前用户</p>
-<p>who am i</p>
-<p>3.文件操作</p>
-<p>mkdir</p>
-<p>rmdir</p>
-<p>touch </p>
-<p>cp -r dir1 dir2</p>
-<p>mv </p>
-<p>rm</p>
-<p>rm -rf *</p>
-<p>chmod 755 abc</p>
-<p>4.分区</p>
-<p>mount</p>
-<p>fdisk -l</p>
-<p>5.查看日志</p>
-<p>cat /var/log/*.log</p>
-<p>tail -f /var/log/messages 实时查看</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;1.用户添加删除&lt;/p&gt;
-&lt;p&gt;useradd user1&lt;br&gt;passwd mima&lt;/p&gt;
-&lt;p&gt;userdel user1&lt;/p&gt;
-&lt;p&gt;2.查看当前用户&lt;/p&gt;
-&lt;p&gt;who am i&lt;/p&gt;
-&lt;p&gt;3.文件操作&lt;/p&gt;
-&lt;p&gt;mkdir&lt;/p&gt;
-&lt;p&gt;rmdir
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mysql-context</title>
-    <link href="http://yoursite.com/2017/01/13/sql_mysql-context/"/>
-    <id>http://yoursite.com/2017/01/13/sql_mysql-context/</id>
-    <published>2017-01-13T07:27:24.000Z</published>
-    <updated>2017-02-07T09:22:16.307Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
-<p>@TODO</p>
-<p><strong>1.mysql常用引擎？</strong></p>
-<ol>
-<li>InnoDB存储引擎</li>
-<li>MyISAM存储引擎</li>
-</ol>
-<p><strong>2.隔离级别？</strong></p>
-<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
-<ul>
-<li><p>Read Uncommitted（读取未提交内容）</p>
-<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-</li>
-<li><p>Read Committed（读取提交内容）</p>
-<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-</li>
-<li><p>Repeatable Read（可重读）</p>
-<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-</li>
-<li><p>Serializable（可串行化）</p>
-<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-</li>
-</ul>
-<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
-<p><strong>3.mysql oracle分页语句？</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
-<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
-<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
-<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
-<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
-<p><strong>4.复合索引？</strong></p>
-<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
-<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
-<p>复合索引：最左前缀</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
-&lt;p&gt;@TODO&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
-&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;2.
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sql_mysql-questions</title>
-    <link href="http://yoursite.com/2017/01/13/sql_mysql-question/"/>
-    <id>http://yoursite.com/2017/01/13/sql_mysql-question/</id>
-    <published>2017-01-13T07:27:24.000Z</published>
-    <updated>2017-02-07T09:22:29.914Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要内容参照《高性能MySQL》一书</p>
-<p><strong>1.mysql常用引擎？</strong></p>
-<ol>
-<li>InnoDB存储引擎</li>
-<li>MyISAM存储引擎</li>
-</ol>
-<p><strong>2.隔离级别？</strong></p>
-<p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。</p>
-<ul>
-<li><p>Read Uncommitted（读取未提交内容）</p>
-<p>  在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-</li>
-<li><p>Read Committed（读取提交内容）</p>
-<p>  这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-</li>
-<li><p>Repeatable Read（可重读）</p>
-<p>  这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-</li>
-<li><p>Serializable（可串行化）</p>
-<p>  这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-</li>
-</ul>
-<p>参照：<a href="http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/mysql_isolation_level.html</a></p>
-<p><strong>3.mysql oracle分页语句？</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">limit</span> ?,?</div><div class="line">//第一个？是其实行号，第二个是返回条目数</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> </div><div class="line">(<span class="keyword">SELECT</span> <span class="keyword">ROWNUM</span> <span class="keyword">AS</span> R,T1.* <span class="keyword">From</span> <span class="string">"city"</span> T1 <span class="keyword">where</span> <span class="keyword">rownum</span> &lt;= <span class="number">30</span> ) t2   </div><div class="line"><span class="keyword">Where</span> t2.R &gt;= <span class="number">10</span></div></pre></td></tr></table></figure>
-<p><strong>3.sql92和sql99写一个a和b表关联的语句</strong></p>
-<p><a href="http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html" target="_blank" rel="external">http://www.voidcn.com/blog/lirx_tech/article/p-5769123.html</a></p>
-<p>SQL92:多张表需要全部放在from之后，所有的连接条件都放在where当中，因此SQL92中的等值连接、非等值链接、外连接等等其实只是where中的条件不同罢了；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select s.col1, t.col2</div><div class="line">from table1 s, table2 t</div><div class="line">where s.id=t.id</div></pre></td></tr></table></figure>
-<p>QL99、交叉连接:直接使用关键字：cross join（交叉连接，即广义笛卡尔积）、natrual join（自然连接）、left join/right join（左右外连接）表示连接类型；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 using(col1, col2);</div><div class="line"></div><div class="line">select *</div><div class="line">from t1</div><div class="line">    join t2 on t1.col1 = t2.col2;</div></pre></td></tr></table></figure>
-<p><strong>4.复合索引？</strong></p>
-<p><a href="http://codecloud.net/56936.html" target="_blank" rel="external">http://codecloud.net/56936.html</a></p>
-<p>索引分单列索引和组合索引：单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引；组合索引，即一个索包含多个列。</p>
-<p>复合索引：最左前缀</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要内容参照《高性能MySQL》一书&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1.mysql常用引擎？&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;InnoDB存储引擎&lt;/li&gt;
-&lt;li&gt;MyISAM存储引擎&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;2.隔离级别？&lt;/strong
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://yoursite.com/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:questions</title>
-    <link href="http://yoursite.com/2017/01/12/juc_questions/"/>
-    <id>http://yoursite.com/2017/01/12/juc_questions/</id>
-    <published>2017-01-12T15:27:24.000Z</published>
-    <updated>2017-02-07T09:11:30.029Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</strong></p>
-<p>使用join。</p>
-<p><strong>问题2 在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</strong></p>
-<p>这里主要是要考察说lock与synchronized 的区别。</p>
-<ol>
-<li><p>利用cpu底层机制lock有读锁 与 写锁的区分。</p>
-<p> synchronized这种排斥了 写/写，读/写 读/读。<br> lock读与读是多个线程可以同时读的。—-可以做为读多写少的应用<br> lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。</p>
-</li>
-<li><p>在于上下文的切换与锁的竞争的优化</p>
-<p> 对于 synchronized 来说。他只有一个条件队列的，里面放着对应于不同类型的（也可以说是处理不同业务类型的）线程，那这时，你只能notifyall<br> ，为了保证程序的正确，把所有的线程都叫起来，不管是不是你想要的业务类型的线程。这种对于性能影响是非常大的。比如10个线程在一个条件队列上等待，那么调用notifyAll 将唤醒所有的线程<br>这个时候线程产生如下：</p>
-<pre><code>a 它们会在锁上面产生竞争。
-b 它们竞争完了之后大部分又大部分wait了
-  这两步，会导致了大量的线程上下文切换。以及大量锁的竞争。
-</code></pre><p> 但这个lock是没问题的。他可以对于 不同的条件创建wait-set ，比如生产者消费者模式，生产者生产一个对象，这时想唤醒消费者，只需要在相应的条件上面的wait set进行single.</p>
-</li>
-<li><p>关于死锁的避免</p>
-</li>
-</ol>
-<p><strong>问题3 在java中wait和sleep方法的不同？</strong></p>
-<ol>
-<li>sleep是thread类的方法，wait是object的方法 </li>
-<li>最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</li>
-</ol>
-<p><strong>问题4 用Java实现阻塞队列</strong></p>
-<p>阻塞队列与普通队列的区别在于，当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞。试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其他的线程往空的队列插入新的元素。同样，试图往已满的阻塞队列中添加新元素的线程同样也会被阻塞，直到其他的线程使队列重新变得空闲起来，如从队列中移除一个或者多个元素，或者完全清空队列</p>
-<p>1.版本1 使用wait和notify实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.LinkedList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockQueue</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> List q=<span class="keyword">new</span> LinkedList&lt;&gt;();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> limit =<span class="number">10</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BlockQueue</span><span class="params">(<span class="keyword">int</span> limit)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.limit=limit;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Object item)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">this</span>.q.add(item);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> Object  <span class="title">dequeue</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException</span>&#123;</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">this</span>.q.size()==<span class="number">0</span>)&#123;</div><div class="line">			wait();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.q.size()==<span class="keyword">this</span>.limit)&#123;</div><div class="line">			notifyAll();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.q.remove(<span class="number">0</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2.版本2 并发包</p>
-<p>看源码分析（@TODO）</p>
-<p><strong>问题5 用Java写代码来解决生产者——消费者问题。</strong></p>
-<p>1.阻塞对列</p>
-<p><strong>问题6 用Java编程一个会导致死锁的程序，你将怎么解决？</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDeadLock</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        MyThread mt = <span class="keyword">new</span> MyThread();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"张三"</span>).start();</div><div class="line">        <span class="keyword">new</span> Thread(mt, <span class="string">"李四"</span>).start();</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> Object o1 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> Object o2 = <span class="keyword">new</span> Object();</div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">         </div><div class="line"> </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (flag) &#123;</div><div class="line">                flag = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                flag = <span class="keyword">true</span>;</div><div class="line">                <span class="keyword">synchronized</span> (o2) &#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">" have o2"</span>);</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        Thread.sleep(<span class="number">100</span>);</div><div class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">synchronized</span> (o1) &#123;</div><div class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">" have o1"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> TestDeadLock().run();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>问题7 什么是原子操作，Java中的原子操作是什么？</strong></p>
-<p>所谓原子操作,就是”不可中断的一个或一系列操作” , java中的atomic？还是说volatile synchronized？</p>
-<p><strong>问题8 Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</strong></p>
-<ol>
-<li>volatile是变量修饰符，而synchronized则作用于一段代码或方法。</li>
-<li>volatile只是在线程内存和“主”内存间同步某个变量的值；而synchronized通过锁定和解锁某个监视器同步所有变量的值。显然synchronized要比volatile消耗更多资源。 </li>
-</ol>
-<p>我自己的理解十volatile中，当一个变量被修改后，本地的缓存写入主内存中，并使其他线程中该对象的缓存失效，直接从主存中读值。synchronized是锁住主内存。</p>
-<p><strong>问题9 什么是竞争条件？你怎样发现和解决竞争？</strong></p>
-<p>在Java多线程中，当两个或以上的线程对同一个数据进行操作的时候，可能会产生“竞争条件”的现象。这种现象产生的根本原因是因为多个线程在对同一个数据进行操作，此时对该数据的操作是非“原子化”的，可能前一个线程对数据的操作还没有结束，后一个线程又开始对同样的数据开始进行操作，这就可能会造成数据结果的变化未知。</p>
-<p>怎么避免？使用锁。</p>
-<p><strong>问题10 如何使用thread dump？ 怎么分析？</strong></p>
-<p><a href="http://blog.csdn.net/rachel_luo/article/details/8920596" target="_blank" rel="external">http://blog.csdn.net/rachel_luo/article/details/8920596</a></p>
-<p><strong>问题11 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</strong></p>
-<p>调用start 多线程！！！你将创建新的线程，并且执行在run()方法里的代码</p>
-<p>调用run 只是一个普通的方法而已。它不会创建新的线程也不会执行调用线程的代码。只是执行一个run方法。并没有创建新的线程。</p>
-<p><strong>问题12 Java中你怎样唤醒一个阻塞的线程？</strong></p>
-<ol>
-<li>wait notify？但其面向的主体是对象object</li>
-<li>LockSupport，它提供的park和unpark方法分别用于阻塞和唤醒</li>
-</ol>
-<p>参照;<a href="http://blog.csdn.net/wangyangzhizhou/article/details/41777547" target="_blank" rel="external">http://blog.csdn.net/wangyangzhizhou/article/details/41777547</a></p>
-<p><strong>问题13 在Java中CycliBarriar和CountdownLatch有什么区别？</strong></p>
-<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
-<p><strong>问题14 什么是不可变对象，它对写并发应用有什么帮助？</strong></p>
-<ol>
-<li>不可变对象：如果一个对象，在它创建完成之后，不能再改变它的状态，那么这个对象就是不可变的。不能改变状态的意思是，不能改变对象内的成员变量，包括基本数据类型的值不能改变，引用类型的变量不能指向其他的对象，引用类型指向的对象的状态也不能改变。</li>
-<li>String为什么是不可变？String类其实就是对字符数组的封装。value是String封装的数组，offset是String在这个value数组中的起始位置，count是String所占的字符的个数。不提供更改方法，所以是不可变的。</li>
-</ol>
-<p><strong>问题15 线程与进程的区别？</strong></p>
-<p>进程可以包含很多线程</p>
-<p><strong>问题16 什么是多线程中的上下文切换？</strong></p>
-<p>上下文切换是存储和恢复CPU状态的过程，它使得线程执行能够从中断点恢复执行。上下文切换是多任务操作系统和多线程环境的基本特征。<br>同一进程中的两个线程之间的切换</p>
-<p><strong>问题17 死锁与活锁的区别，死锁与饥饿的区别？</strong></p>
-<p>死锁发生在当一些进程请求其它进程占有的资源而被阻塞时。</p>
-<p>另外一方面，活锁不会被阻塞，而是不停检测一个永远不可能为真的条件。除去进程本身持有的资源外，活锁状态的进程会持续耗费宝贵的CPU时间。</p>
-<p>最后，进程会处于饥饿状态是因为持续地有其它优先级更高的进程请求相同的资源。不像死锁或者活锁，饥饿能够被解开。例如，当其它高优先级的进程都终止时并且没有更高优先级的进程到达。</p>
-<p><strong>问题18 Java中用到的线程调度算法是什么？</strong></p>
-<p>抢占 和协同？？</p>
-<p><strong>问题19 为什么使用Executor框架比使用应用创建和管理线程好？</strong></p>
-<p><a href="http://www.tuicool.com/articles/ayIvq2Z" target="_blank" rel="external">http://www.tuicool.com/articles/ayIvq2Z</a></p>
-<p><strong>问题10 在Java中Executor和Executors的区别？</strong></p>
-<p>Executor是Java线程池的顶级接口</p>
-<p>Executors是一个类，Executors类提供了若干个静态方法，用于生成不同类型的线程池。</p>
-<p><strong>问题20 如何在Windows和Linux上查找哪个线程使用的CPU时间最长？</strong></p>
-<p>windows上面用任务管理器看，linux下可以用top 这个工具看。</p>
-<p>当然如果你要查找具体的进程，可以用ps命令,比如查找java：<br>ps -ef |grep java<br>linux 获取项目的pid，jps或者ps -ef | grep java</p>
-<p><strong>问题21 线程池底层如何实现？</strong></p>
-<p>详见前几章介绍</p>
-<p><strong>问题22 futuretask什么作用</strong></p>
-<p>撒花！！！！ 完结。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;问题1  现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;使用join。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;问题2 在Java中Lock接口比synchronized块的优势是什么？你需
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:collections-executor2</title>
-    <link href="http://yoursite.com/2017/01/12/juc_executor2/"/>
-    <id>http://yoursite.com/2017/01/12/juc_executor2/</id>
-    <published>2017-01-12T11:27:24.000Z</published>
-    <updated>2017-02-07T09:11:14.097Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文主要介绍线程池的实现原理（面试重点啊！！） 分分钟要搞清楚的</p>
-<h3 id="线程池数据结构和线程构造方法"><a href="#线程池数据结构和线程构造方法" class="headerlink" title="线程池数据结构和线程构造方法"></a>线程池数据结构和线程构造方法</h3><p>从threadpoolThread 中很容易看到线程池的数据结构如下：<br><img src="http://i.imgur.com/HEtEdUP.png" alt=""></p>
-<p>对于ThreadPoolExecutor而言，一个线程就是一个Worker对象，它与一个线程绑定，当Worker执行完毕就是线程执行完毕。</p>
-<p>线程的构造方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line">    <span class="function">Thread <span class="title">newThread</span><span class="params">(Runnable r)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>ThreadPoolExecutor使用一个线程工厂来构造线程。线程池都是提交一个任务Runnable，然后在某一个线程Thread中执行，ThreadFactory 负责如何创建一个新线程。</p>
-<p>在J.U.C中有一个通用的线程工厂java.util.concurrent.Executors.DefaultThreadFactory，它的构造方式如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger poolNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</div><div class="line">    <span class="keyword">final</span> ThreadGroup group;</div><div class="line">    <span class="keyword">final</span> AtomicInteger threadNumber = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</div><div class="line">    <span class="keyword">final</span> String namePrefix;</div><div class="line">    DefaultThreadFactory() &#123;</div><div class="line">        SecurityManager s = System.getSecurityManager();</div><div class="line">        group = (s != <span class="keyword">null</span>)? s.getThreadGroup() :</div><div class="line">                             Thread.currentThread().getThreadGroup();</div><div class="line">        namePrefix = <span class="string">"pool-"</span> +</div><div class="line">                      poolNumber.getAndIncrement() +</div><div class="line">                     <span class="string">"-thread-"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">        Thread t = <span class="keyword">new</span> Thread(group, r,</div><div class="line">                              namePrefix + threadNumber.getAndIncrement(),</div><div class="line">                              <span class="number">0</span>);</div><div class="line">        <span class="keyword">if</span> (t.isDaemon())</div><div class="line">            t.setDaemon(<span class="keyword">false</span>);</div><div class="line">        <span class="keyword">if</span> (t.getPriority() != Thread.NORM_PRIORITY)</div><div class="line">            t.setPriority(Thread.NORM_PRIORITY);</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://i.imgur.com/YToHSNz.png" alt=""></p>
-<h3 id="线程池任务执行流程"><a href="#线程池任务执行流程" class="headerlink" title="线程池任务执行流程"></a>线程池任务执行流程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Executes the given task sometime in the future.  The task</div><div class="line">     * may execute in a new thread or in an existing pooled thread.</div><div class="line">     *</div><div class="line">     * If the task cannot be submitted for execution, either because this</div><div class="line">     * executor has been shutdown or because its capacity has been reached,</div><div class="line">     * the task is handled by the current &#123;<span class="doctag">@code</span> RejectedExecutionHandler&#125;.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> command the task to execute</div><div class="line">     * <span class="doctag">@throws</span> RejectedExecutionException at discretion of</div><div class="line">     *         &#123;<span class="doctag">@code</span> RejectedExecutionHandler&#125;, if the task</div><div class="line">     *         cannot be accepted for execution</div><div class="line">     * <span class="doctag">@throws</span> NullPointerException if &#123;<span class="doctag">@code</span> command&#125; is null</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (command == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        <span class="comment">/*</span></div><div class="line">         * Proceed in 3 steps:</div><div class="line">         *</div><div class="line">         * 1. If fewer than corePoolSize threads are running, try to</div><div class="line">         * start a new thread with the given command as its first</div><div class="line">         * task.  The call to addWorker atomically checks runState and</div><div class="line">         * workerCount, and so prevents false alarms that would add</div><div class="line">         * threads when it shouldn't, by returning false.</div><div class="line">         *</div><div class="line">         * 2. If a task can be successfully queued, then we still need</div><div class="line">         * to double-check whether we should have added a thread</div><div class="line">         * (because existing ones died since last checking) or that</div><div class="line">         * the pool shut down since entry into this method. So we</div><div class="line">         * recheck state and if necessary roll back the enqueuing if</div><div class="line">         * stopped, or start a new thread if there are none.</div><div class="line">         *</div><div class="line">         * 3. If we cannot queue task, then we try to add a new</div><div class="line">         * thread.  If it fails, we know we are shut down or saturated</div><div class="line">         * and so reject the task.</div><div class="line">         */</div><div class="line">        <span class="keyword">int</span> c = ctl.get();</div><div class="line">        <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</div><div class="line">            <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            c = ctl.get();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</div><div class="line">            <span class="keyword">int</span> recheck = ctl.get();</div><div class="line">            <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</div><div class="line">                reject(command);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</div><div class="line">                addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</div><div class="line">            reject(command);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>主要步骤：</p>
-<ol>
-<li>如果任务command为空，则抛出空指针异常，返回。否则进行2。</li>
-<li>如果当前线程池大小 大于或等于 核心线程池大小，进行4。否则进行3。</li>
-<li>创建一个新工作队列（线程，参考上一节），成功直接返回，失败进行</li>
-<li>如果线程池正在运行并且任务加入线程池队列成功，进行5，否则进行7。</li>
-<li>如果线程池已经关闭或者线程池大小为0，进行6，否则直接返回。</li>
-<li>如果线程池已经关闭则执行拒绝策略返回，否则启动一个新线程来进行执行任务，返回。</li>
-<li>如果线程池大小 不大于 最大线程池数量，则启动新线程来进行执行，否则进行拒绝策略，结束。</li>
-</ol>
-<p><img src="http://i.imgur.com/CyLlYaA.png" alt=""></p>
-<p>那么什么时候一个任务被立即执行呢？</p>
-<p>在线程池运行状态下，如果线程池大小 小于 核心线程池大小或者线程池已满（任务队列已满）并且线程池大小 小于 最大线程池大小（此时线程池大小 大于 核心线程池大小的）。</p>
-<p>上面的条件就是一个任务能够被立即执行的条件。</p>
-<p>有了execute的基础，我们再来看ExecutorService中的几个submit方法的实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;Object&gt; ftask = newTaskFor(task, <span class="keyword">null</span>);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, T result)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;T&gt; ftask = newTaskFor(task, result);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Future&lt;T&gt; <span class="title">submit</span><span class="params">(Callable&lt;T&gt; task)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    RunnableFuture&lt;T&gt; ftask = newTaskFor(task);</div><div class="line">    execute(ftask);</div><div class="line">    <span class="keyword">return</span> ftask;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="线程池任务执行结果"><a href="#线程池任务执行结果" class="headerlink" title="线程池任务执行结果"></a>线程池任务执行结果</h3><p>为了解决之前获取线程结果会阻塞主线程并且任务不能被取消，线程池中提出了future接口。</p>
-<p><img src="http://i.imgur.com/zccXej5.png" alt=""></p>
-<p>在Future接口中提供了5个方法。</p>
-<p><img src="http://i.imgur.com/g0Q1FYe.png" alt=""></p>
-<p>在Future接口中提供了5个方法。</p>
-<ul>
-<li>V get() throws InterruptedException, ExecutionException： 等待计算完成，然后获取其结果。</li>
-<li>V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException。最多等待为使计算完成所给定的时间之后，获取其结果（如果结果可用）。</li>
-<li>boolean cancel(boolean mayInterruptIfRunning)：试图取消对此任务的执行。</li>
-<li>boolean isCancelled()：如果在任务正常完成前将其取消，则返回 true。</li>
-<li>boolean isDone()：如果任务已完成，则返回 true。 可能由于正常终止、异常或取消而完成，在所有这些情况中，此方法都将返回 true。</li>
-</ul>
-<p>API看起来容易，来研究下异常吧。</p>
-<p>get()请求获取一个结果会阻塞当前进程，并且可能抛出以下三种异常：</p>
-<ul>
-<li>InterruptedException：执行任务的线程被中断则会抛出此异常，此时不能知道任务是否执行完毕，因此其结果是无用的，必须处理此异常。</li>
-<li>ExecutionException：任务执行过程中(Runnable#run()）方法可能抛出RuntimeException，如果提交的是一个java.util.concurrent.Callable<v>接口任务，那么java.util.concurrent.Callable.call()方法有可能抛出任意异常。</v></li>
-<li>CancellationException：实际上get()方法还可能抛出一个CancellationException的RuntimeException，也就是任务被取消了但是依然去获取结果。</li>
-</ul>
-<p>对于get(long timeout, TimeUnit unit)而言，除了get()方法的异常外，由于有超时机制，因此还可能得到一个TimeoutException。</p>
-<p>boolean cancel(boolean mayInterruptIfRunning)方法比较复杂，各种情况比较多：</p>
-<ul>
-<li>如果任务已经执行完毕，那么返回false。</li>
-<li>如果任务已经取消，那么返回false。</li>
-<li>循环直到设置任务为取消状态，对于未启动的任务将永远不再执行，对于正在运行的任务，将根据mayInterruptIfRunning是否中断其运行，如果不中断那么任务将继续运行直到结束。</li>
-<li>此方法返回后任务要么处于运行结束状态，要么处于取消状态。isDone()将永远返回true，如果cancel()方法返回true，isCancelled()始终返回true。</li>
-</ul>
-<h3 id="延迟、周期性任务调度的实现"><a href="#延迟、周期性任务调度的实现" class="headerlink" title="延迟、周期性任务调度的实现"></a>延迟、周期性任务调度的实现</h3><p>java.util.concurrent.ScheduledThreadPoolExecutor是默认的延迟、周期性任务调度的实现。</p>
-<p>有了整个线程池的实现，再回头来看延迟、周期性任务调度的实现应该就很简单了，因为所谓的延迟、周期性任务调度，无非添加一系列有序的任务队列，然后按照执行顺序的先后来处理整个任务队列。如果是周期性任务，那么在执行完毕的时候加入下一个时间点的任务即可。</p>
-<p>由此可见，ScheduledThreadPoolExecutor和ThreadPoolExecutor的唯一区别在于任务是有序（按照执行时间顺序）的，并且需要到达时间点（临界点）才能执行，并不是任务队列中有任务就需要执行的。也就是说唯一不同的就是任务队列BlockingQueue<runnable> workQueue不一样。ScheduledThreadPoolExecutor的任务队列是java.util.concurrent.ScheduledThreadPoolExecutor.DelayedWorkQueue，它是基于java.util.concurrent.DelayQueue<runnablescheduledfuture>队列的实现。</runnablescheduledfuture></runnable></p>
-<p>DelayQueue是基于有序队列PriorityQueue实现的。PriorityQueue 也叫优先级队列，按照自然顺序对元素进行排序，类似于TreeMap/Collections.sort一样。</p>
-<p>同样是有序队列，DelayQueue和PriorityQueue区别在什么地方？</p>
-<p>由于DelayQueue在获取元素时需要检测元素是否“可用”，也就是任务是否达到“临界点”（指定时间点），因此加入元素和移除元素会有一些额外的操作。</p>
-<p>典型的，移除元素需要检测元素是否达到“临界点”，增加元素的时候如果有一个元素比“头元素”更早达到临界点，那么就需要通知任务队列。因此这需要一个条件变量final Condition available 。</p>
-<p>移除元素（出队列）的过程是这样的：</p>
-<ul>
-<li>总是检测队列的头元素（顺序最小元素，也是最先达到临界点的元素）</li>
-<li>检测头元素与当前时间的差，如果大于0，表示还未到底临界点，因此等待响应时间（使用条件变量available)</li>
-<li>如果小于或者等于0，说明已经到底临界点或者已经过了临界点，那么就移除头元素，并且唤醒其它等待任务队列的线程。</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本文主要介绍线程池的实现原理（面试重点啊！！） 分分钟要搞清楚的&lt;/p&gt;
-&lt;h3 id=&quot;线程池数据结构和线程构造方法&quot;&gt;&lt;a href=&quot;#线程池数据结构和线程构造方法&quot; class=&quot;headerlink&quot; title=&quot;线程池数据结构和线程构造方法&quot;&gt;&lt;/a&gt;线程池数
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:locks</title>
-    <link href="http://yoursite.com/2017/01/11/juc_executor/"/>
-    <id>http://yoursite.com/2017/01/11/juc_executor/</id>
-    <published>2017-01-11T11:27:24.000Z</published>
-    <updated>2017-02-07T09:11:04.415Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
-<p>文章主要介绍executor模块下面的内容。</p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>并发执行任务的一个很重要前提是拆分任务。把一个大的过程或者任务拆分成很多小的工作单元，每一个工作单元可能相关、也可能无关，这些单元在一定程度上可以充分利用CPU的特性并发的执行，从而提高并发性（性能、响应时间、吞吐量等）。</p>
-<p>任务的执行策略包括4W3H部分：</p>
-<ul>
-<li>任务在什么（What）线程中执行</li>
-<li>任务以什么（What）顺序执行（FIFO/LIFO/优先级等）</li>
-<li>同时有多少个（How Many）任务并发执行</li>
-<li>允许有多少个（How Many）个任务进入执行队列</li>
-<li>系统过载时选择放弃哪一个（Which）任务，如何（How）通知应用程序这个动作</li>
-<li>任务执行的开始、结束应该做什么（What）处理</li>
-</ul>
-<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p><img src="http://i.imgur.com/1votuwr.png" alt=""></p>
-<p>Java里面线程池的顶级接口是Executor，但是严格意义上讲Executor并不是一个线程池，而只是一个执行线程的工具。真正的线程池接口是ExecutorService。</p>
-<p><strong>1.executor</strong></p>
-<p>只有一个执行方法 executor()</p>
-<p><strong>2.ExecutorService</strong></p>
-<p><img src="http://i.imgur.com/el6QC9K.png" alt=""></p>
-<p>主要方法如下：</p>
-<p>Future&lt;?&gt; submit(Runnable task)</p>
-<p><t> Future<t> submit(Callable<t> task)</t></t></t></p>
-<p>这两个方法都是向线程池中提交任务，它们的区别在于Runnable在执行完毕后没有结果，Callable执行完毕后有一个结果。这在多个线程中传递状态和结果是非常有用的。另外他们的相同点在于都返回一个Future对象。Future对象可以阻塞线程直到运行完毕（获取结果，如果有的话），也可以取消任务执行，当然也能够检测任务是否被取消或者是否执行完毕。</p>
-<p><strong>3.AbstractExecutorService</strong></p>
-<p>是一个抽象类，继承实现了ExecutorService接口。</p>
-<p><strong>4.ThreadPoolExecutor</strong></p>
-<p>继承抽象类AbstractExecutorService。是ExecutorService的默认实现。</p>
-<p><strong>5.ScheduledThreadPoolExecutor</strong></p>
-<p>ScheduledThreadPoolExecutor是继承ThreadPoolExecutor的ScheduledExecutorService接口实现，周期性任务调度的类实现。</p>
-<p><strong>5.Executors</strong></p>
-<ul>
-<li>要配置一个线程池是比较复杂的，尤其是对于线程池的原理不是很清楚的情况下，很有可能配置的线程池不是较优的，因此在Executors类里面提供了一些静态工厂，生成一些常用的线程池。</li>
-<li>newSingleThreadExecutor：创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。<br>newFixedThreadPool：创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。</li>
-<li>newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。</li>
-<li>newScheduledThreadPool：创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。</li>
-<li>newSingleThreadScheduledExecutor：创建一个单线程的线程池。此线程池支持定时以及周期性执行任务的需求。</li>
-</ul>
-<h3 id="Executor生命周期"><a href="#Executor生命周期" class="headerlink" title="Executor生命周期"></a>Executor生命周期</h3><p><img src="http://i.imgur.com/FDDMmd2.png" alt=""></p>
-<ul>
-<li>线程池在构造前（new操作）是初始状态，一旦构造完成线程池就进入了执行状态RUNNING。严格意义上讲线程池构造完成后并没有线程被立即启动，只有进行“预启动”或者接收到任务的时候才会启动线程。这个会后面线程池的原理会详细分析。但是线程池是出于运行状态，随时准备接受任务来执行。</li>
-<li>线程池运行中可以通过shutdown()和shutdownNow()来改变运行状态。shutdown()是一个平缓的关闭过程，线程池停止接受新的任务，同时等待已经提交的任务执行完毕，包括那些进入队列还没有开始的任务，这时候线程池处于SHUTDOWN状态；shutdownNow()是一个立即关闭过程，线程池停止接受新的任务，同时线程池取消所有执行的任务和已经进入队列但是还没有执行的任务，这时候线程池处于STOP状态。</li>
-<li>一旦shutdown()或者shutdownNow()执行完毕，线程池就进入TERMINATED状态，此时线程池就结束了。</li>
-<li>isTerminating()描述的是SHUTDOWN和STOP两种状态。</li>
-<li>isShutdown()描述的是非RUNNING状态，也就是SHUTDOWN/STOP/TERMINATED三种状态。</li>
-</ul>
-<p>对于关闭线程池期间发生的任务提交情况就会触发一个拒绝执行的操作：<br>这是java.util.concurrent.RejectedExecutionHandler描述的任务操作。（下一小节进行介绍）</p>
-<p>总结：</p>
-<ul>
-<li>线程池有运行、关闭、停止、结束四种状态，结束后就会释放所有资源</li>
-<li>平缓关闭线程池使用shutdown()</li>
-<li>立即关闭线程池使用shutdownNow()，同时得到未执行的任务列表</li>
-<li>检测线程池是否正处于关闭中，使用isShutdown()</li>
-<li>检测线程池是否已经关闭使用isTerminated()</li>
-<li>定时或者永久等待线程池关闭结束使用awaitTermination()操作</li>
-</ul>
-<h3 id="线程池任务拒绝策略"><a href="#线程池任务拒绝策略" class="headerlink" title="线程池任务拒绝策略"></a>线程池任务拒绝策略</h3><p>RejectedExecutionHandler提供了四种方式来处理任务拒绝策略。</p>
-<ul>
-<li>callerRunPolicy 不用线程池线程执行</li>
-<li>DiscardPolicy 直接丢弃任务</li>
-<li>AbortPolicy 跑出异常</li>
-<li>DiscardOldestPolicy 丢弃队列中最旧任务 </li>
-</ul>
-<p>设置策略：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor pool = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, TimeUnit.SECONDS,</div><div class="line">                <span class="keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(<span class="number">1</span>));</div><div class="line">        pool.setRejectedExecutionHandler(<span class="keyword">new</span> ThreadPoolExecutor.DiscardPolicy());</div></pre></td></tr></table></figure>
-<h3 id="周期性任务调度"><a href="#周期性任务调度" class="headerlink" title="周期性任务调度"></a>周期性任务调度</h3><p>java.util.concurrent.ScheduledExecutorService</p>
-<p><img src="http://i.imgur.com/qIPJARw.png" alt=""></p>
-<ul>
-<li>schedule(Runnable command,long delay, TimeUnit unit)：在指定的延迟时间一次性启动任务（Runnable），没有返回值。</li>
-<li>schedule(Callable<v> callable, long delay, TimeUnit unit)：在指定的延迟时间一次性启动任务（Callable），携带一个结果。</v></li>
-<li>scheduleAtFixedRate(Runnable command,long initialDelay,long period,TimeUnit unit)：建并执行一个在给定初始延迟后首次启用的定期操作，后续操作具有给定的周期；也就是将在 initialDelay 后开始执行，然后在 initialDelay+period 后执行，接着在 initialDelay + 2 * period 后执行，依此类推。如果任务的任何一个执行遇到异常，则后续执行都会被取消。否则，只能通过执行程序的取消或终止方法来终止该任务。如果此任务的任何一个执行要花费比其周期更长的时间，则将推迟后续执行，但不会同时执行。</li>
-<li>scheduleWithFixedDelay(Runnable command,long initialDelay,long delay,TimeUnit unit)：创建并执行一个在给定初始延迟后首次启用的定期操作，随后，在每一次执行终止和下一次执行开始之间都存在给定的延迟。如果任务的任一执行遇到异常，就会取消后续执行。否则，只能通过执行程序的取消或终止方法来终止该任务。</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;文章主要介绍executor模块下面的内容。&lt;/p&gt;
-&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>并发编程1-线程</title>
-    <link href="http://yoursite.com/2017/01/09/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-1%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://yoursite.com/2017/01/09/并发编程-1线程/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-02-07T09:25:34.427Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-线程"><a href="#1-线程" class="headerlink" title="1.线程"></a>1.线程</h3><h4 id="1-线程状态"><a href="#1-线程状态" class="headerlink" title="1.线程状态"></a>1.线程状态</h4><p><img src="http://i.imgur.com/0HZmNIu.png" alt=""></p>
-<p><img src="http://i.imgur.com/ZK1PN0H.png" alt=""></p>
-<p>由图4-1中可以看到，线程创建之后，调用start()方法开始运行。当线程执行wait()方法之<br>后，线程进入等待状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状<br>态，而超时等待状态相当于在等待状态的基础上增加了超时限制，也就是超时时间到达时将<br>会返回到运行状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到阻塞<br>状态。线程在执行Runnable的run()方法之后将会进入到终止状态。</p>
-<h4 id="2-daemon"><a href="#2-daemon" class="headerlink" title="2.daemon"></a>2.daemon</h4><p>Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这<br>意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调<br>用Thread.setDaemon(true)将线程设置为Daemon线程。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> ex1;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Daemon</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> DaemonRunner(), <span class="string">"DaemonRunner"</span>);</div><div class="line">		thread.setDaemon(<span class="keyword">true</span>);</div><div class="line">		thread.start();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DaemonRunner</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				TimeUnit.SECONDS.sleep(<span class="number">10</span>);</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125; <span class="keyword">finally</span> &#123;</div><div class="line">				System.out.println(<span class="string">"DaemonThread finally run."</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果 不打印任何东西。</p>
-<h4 id="3-线程方法"><a href="#3-线程方法" class="headerlink" title="3.线程方法"></a>3.线程方法</h4><ol>
-<li>start</li>
-<li>run</li>
-<li>suspend() 暂停 不释放资源进入睡眠，容易引起思索</li>
-<li>resume() 恢复</li>
-<li>stop() 停止 不保证线程资源的正常释放</li>
-<li>interrupt() 中断</li>
-<li>join() 当前线程A等待thread线程终止之后才从thread.join()返回。</li>
-</ol>
-<p>等待和通知方法是任意java对象具备的，定义在object上，</p>
-<ol>
-<li>notifyAll：使所有原来在该对象上等待被notify的线程统统退出wait的状态，变成等待该对象上的锁，一旦该对象被解锁，他们就会去竞争。</li>
-<li>notify：notify则文明得多他只是选择一个wait状态线程进行通知，并使它获得该对象上的锁，但不惊动其他同样在等待被该对象notify的线程们，当第一个线程运行完毕以后释放对象上的锁此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，继续处在wait状态，直到这个对象发出一个notify或notifyAll，它们等待的是被notify或notifyAll，而不是锁。</li>
-<li>wait()</li>
-<li>wait(long)</li>
-<li>wait(lonhg,int)</li>
-</ol>
-<p>总结：</p>
-<ul>
-<li>1）使用wait()、notify()和notifyAll()时需要先对调用对象加锁。</li>
-<li>2）调用wait()方法后，线程状态由RUNNING变为WAITING，并将当前线程放置到对象的等待队列。</li>
-<li>3）notify()或notifyAll()方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或notifAll()的线程释放锁之后，等待线程才有机会从wait()返回。</li>
-<li>4）notify()方法将等待队列中的一个等待线程从等待队列中移到同步队列中，而notifyAll()方法则是将等待队列中所有的线程全部移到同步队列，被移动的线程状态WAITING变为BLOCKED。</li>
-<li>5）从wait()方法返回的前提是获得了调用对象的锁</li>
-</ul>
-<p>等待/通知的经典范式：<br>等待方（消费者）和通知方（生产者）</p>
-<p>等待方：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line"><span class="keyword">while</span>(条件不满足) &#123;</div><div class="line">对象.wait();</div><div class="line">&#125; 对</div><div class="line">应的处理逻辑</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通知者</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>(对象) &#123;</div><div class="line">改变条件</div><div class="line">对象.notifyAll();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="4-管道输入-输出流"><a href="#4-管道输入-输出流" class="headerlink" title="4.管道输入/输出流"></a>4.管道输入/输出流</h4><p>管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。</p>
-<p>管道输入/输出流主要包括了如下4种具体实现：PipedOutputStream、PipedInputStream、PipedReader和PipedWriter，前两种面向字节，而后两种面向字符</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Piped</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">PipedWriter out = <span class="keyword">new</span> PipedWriter();</div><div class="line">PipedReader in = <span class="keyword">new</span> PipedReader();</div><div class="line"><span class="comment">// 将输出流和输入流进行连接，否则在使用时会抛出IOException</span></div><div class="line">out.connect(in);</div><div class="line">Thread printThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Print(in), <span class="string">"PrintThread"</span>);</div><div class="line">printThread.start();</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = System.in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">out.write(receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125;s</div><div class="line">tatic <span class="class"><span class="keyword">class</span> <span class="title">Print</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> PipedReader in;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">Print</span><span class="params">(PipedReader in)</span> </span>&#123;</div><div class="line"><span class="keyword">this</span>.in = in;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> &#123;</div><div class="line"><span class="keyword">int</span> receive = <span class="number">0</span>;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="keyword">while</span> ((receive = in.read()) != -<span class="number">1</span>) &#123;</div><div class="line">System.out.print((<span class="keyword">char</span>) receive);</div><div class="line">&#125;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException ex) &#123;&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-线程&quot;&gt;&lt;a href=&quot;#1-线程&quot; class=&quot;headerlink&quot; title=&quot;1.线程&quot;&gt;&lt;/a&gt;1.线程&lt;/h3&gt;&lt;h4 id=&quot;1-线程状态&quot;&gt;&lt;a href=&quot;#1-线程状态&quot; class=&quot;headerlink&quot; title=&quot;1.线程状
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:locks</title>
-    <link href="http://yoursite.com/2017/01/09/juc_lock/"/>
-    <id>http://yoursite.com/2017/01/09/juc_lock/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-02-07T09:11:21.904Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="locks"><a href="#locks" class="headerlink" title="locks"></a>locks</h2><p><img src="http://i.imgur.com/lwUE2XO.png" alt=""></p>
-<h3 id="lock"><a href="#lock" class="headerlink" title="lock"></a>lock</h3><p>java.util.concurrent.locks.Lock api</p>
-<p><img src="http://i.imgur.com/VmlNAsr.png" alt=""></p>
-<h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h3><p>重入锁ReentrantLock，顾名思义，就是支持重进入的锁，它表示该锁能够支持一个线程对资源的重复加锁。除此之外，该锁的还支持获取锁时的公平和非公平性选择。</p>
-<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最优先获取锁，也可以说锁获取是顺序的。ReentrantLock提供了一个构造函数，能够控制锁是否是公平的。</p>
-<p>锁重入需要解决两个问题：</p>
-<ul>
-<li>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再<br>次成功获取。</li>
-<li>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数等于0时表示锁已经成功释放。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法增加了再次获取同步状态的处理逻辑：通过判断当前线程是否为获取锁的线程来决定获取操作是否成功，如果是获取锁的线程再次请求，则将同步状态值进行增加并返回true，表示获取同步状态成功。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>如果该锁被获取了n次，那么前(n-1)次tryRelease(int releases)方法必须返回false，而只有同<br>步状态完全释放了，才能返回true。可以看到，该方法将同步状态是否为0作为最终释放的条<br>件，当同步状态为0时，将占有线程设置为null，并返回true，表示释放成功。</p>
-<p><strong>公平与非公平获取锁的区别</strong></p>
-<p>公平性与否是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                    compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>该方法与nonfairTryAcquire(int acquires)比较，唯一不同的位置为判断条件多了<strong>hasQueuedPredecessors()</strong>方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释<br>放锁之后才能继续获取锁。</p>
-<h3 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h3><p>ReentrantLock 实现了标准的互斥操作，也就是一次只能有一个线程持有锁，也即所谓独占锁的概念。前面的章节中一直在强调这个特点。显然这个特点在一定程度上面减低了吞吐量，实际上独占锁是一种保守的锁策略，在这种情况下任何“读/读”，“写/读”，“写/写”操作都不能同时发生。但是同样需要强调的一个概念是，锁是有一定的开销的，当并发比较大的时候，锁的开销就比较客观了。所以如果可能的话就尽量少用锁，非要用锁的话就尝试看能否改造为读写锁。</p>
-<p>ReadWriteLock描述的是：一个资源能够被多个读线程访问，或者被一个写线程访问，但是不能同时存在读写线程。也就是说读写锁使用的场合是一个共享资源被大量读取操作，而只有少量的写操作（修改数据）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ReadWriteLock</span> </span>&#123;</div><div class="line">    <span class="function">Lock <span class="title">readLock</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Lock <span class="title">writeLock</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>ReadWriteLock看起来有两个锁：readLock/writeLock。<br>事实上在ReentrantReadWriteLock里锁的实现是靠java.util.concurrent.locks.ReentrantReadWriteLock.Sync完成的。同样它也有两种实现：公平锁和非公平锁，也就是java.util.concurrent.locks.ReentrantReadWriteLock.FairSync和java.util.concurrent.locks.ReentrantReadWriteLock.NonfairSync。</p>
-<p>在ReentrantReadWriteLock里面的锁主体就是一个Sync，也就是上面提到的FairSync或者NonfairSync，所以说实际上只有一个锁，只是在获取读取锁和写入锁的方式上不一样</p>
-<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">Thread current = Thread.currentThread();</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> w = exclusiveCount(c);</div><div class="line"><span class="keyword">if</span> (c != <span class="number">0</span>) &#123;</div><div class="line"><span class="comment">// 存在读锁或者当前获取线程不是已经获取写锁的线程</span></div><div class="line"><span class="keyword">if</span> (w == <span class="number">0</span> || current != getExclusiveOwnerThread())</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"><span class="keyword">if</span> (w + exclusiveCount(acquires) &gt; MAX_COUNT)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">setState(c + acquires);</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;<span class="function">i</span></div><div class="line"><span class="title">f</span> <span class="params">(writerShouldBlock()</span> || !<span class="title">compareAndSetState</span><span class="params">(c, c + acquires)</span>) &#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;<span class="function">s</span></div><div class="line"><span class="title">etExclusiveOwnerThread</span><span class="params">(current)</span>;</div><div class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>该方法除了重入条件（当前线程为获取了写锁的线程）之外，增加了一个读锁是否存在的判断。如果存在读锁，则写锁不能被获取，原因在于：读写锁要确保写锁的操作对读锁可见，如果允许读锁在已被获取的情况下对写锁的获取，那么正在运行的其他读线程就无法感知到当前写线程的操作。因此，只有等待其他读线程都释放了读锁，写锁才能被当前线程获取，而写锁一旦被获取，则其他读写线程的后续访问均被阻塞。</p>
-<p>写锁的释放和ReentrantLock释放类似、</p>
-<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> unused)</span> </span>&#123;</div><div class="line"><span class="keyword">for</span> (;;) &#123;</div><div class="line"><span class="keyword">int</span> c = getState();</div><div class="line"><span class="keyword">int</span> nextc = c + (<span class="number">1</span> &lt;&lt; <span class="number">16</span>);</div><div class="line"><span class="keyword">if</span> (nextc &lt; c)</div><div class="line"><span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line"><span class="keyword">if</span> (exclusiveCount(c) != <span class="number">0</span> &amp;&amp; owner != Thread.currentThread())</div><div class="line"><span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (compareAndSetState(c, nextc))</div><div class="line"><span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1&lt;&lt;16）。</p>
-<p>总结一下：</p>
-<p>ReentrantReadWriteLock有以下几个特性：</p>
-<ul>
-<li>公平性<ul>
-<li>非公平锁（默认） 这个和独占锁的非公平性一样，由于读线程之间没有锁竞争，所以读操作没有公平性和非公平性，写操作时，由于写操作可能立即获取到锁，所以会推迟一个或多个读操作或者写操作。因此非公平锁的吞吐量要高于公平锁。</li>
-<li>公平锁 利用AQS的CLH队列，释放当前保持的锁（读锁或者写锁）时，优先为等待时间最长的那个写线程分配写入锁，当前前提是写线程的等待时间要比所有读线程的等待时间要长。同样一个线程持有写入锁或者有一个写线程已经在等待了，那么试图获取公平锁的（非重入）所有线程（包括读写线程）都将被阻塞，直到最先的写线程释放锁。如果读线程的等待时间比写线程的等待时间还有长，那么一旦上一个写线程释放锁，这一组读线程将获取锁。</li>
-</ul>
-</li>
-<li>重入性<ul>
-<li>读写锁允许读线程和写线程按照请求锁的顺序重新获取读取锁或者写入锁。当然了只有写线程释放了锁，读线程才能获取重入锁。</li>
-<li>写线程获取写入锁后可以再次获取读取锁，但是读线程获取读取锁后却不能获取写入锁。</li>
-<li>另外读写锁最多支持65535个递归写入锁和65535个递归读取锁。</li>
-</ul>
-</li>
-<li>锁降级<ul>
-<li>写线程获取写入锁后可以获取读取锁，然后释放写入锁，这样就从写入锁变成了读取锁，从而实现锁降级的特性。</li>
-</ul>
-</li>
-<li>锁获取中断<ul>
-<li>读取锁和写入锁都支持获取锁期间被中断。这个和独占锁一致。</li>
-</ul>
-</li>
-<li>条件变量<ul>
-<li>写入锁提供了条件变量(Condition)的支持，这个和独占锁一致，但是读取锁却不允许获取条件变量，将得到一个UnsupportedOperationException异常。</li>
-</ul>
-</li>
-<li>重入数<ul>
-<li>读取锁和写入锁的数量最大分别只能是65535（包括重入数）。</li>
-</ul>
-</li>
-</ul>
-<h3 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h3><p>java.util.concurrent.locks.LockSupport</p>
-<p>LockSupport定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能，而LockSupport也成为构建同步组件的基础工具。</p>
-<p><img src="http://i.imgur.com/1U2e6HD.png" alt=""></p>
-<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式</p>
-<p><img src="http://i.imgur.com/QVxzTNX.png" alt=""></p>
-<p>Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">Condition condition = lock.newCondition();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">conditionWait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.await();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;<span class="function">p</span></div><div class="line">ublic <span class="keyword">void</span> <span class="title">conditionSignal</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">condition.signal();</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">lock.unlock();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="http://i.imgur.com/XIhZOml.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;locks&quot;&gt;&lt;a href=&quot;#locks&quot; class=&quot;headerlink&quot; title=&quot;locks&quot;&gt;&lt;/a&gt;locks&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/lwUE2XO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h3 
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc:collections-ConcurrentMap</title>
-    <link href="http://yoursite.com/2017/01/09/juc_collections-blockqueue/"/>
-    <id>http://yoursite.com/2017/01/09/juc_collections-blockqueue/</id>
-    <published>2017-01-09T11:27:24.000Z</published>
-    <updated>2017-02-07T09:09:28.057Z</updated>
-    
-    <content type="html"><![CDATA[<p>本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦</p>
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术。首先将数据分成一段一段地存<br>储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。</p>
-<p><img src="http://i.imgur.com/EdWjCoE.png" alt=""></p>
-<p>ConcurrentHashMap实现map接口和ConcurrentMap接口</p>
-<p>1.初始化</p>
-<p>2.定位segment</p>
-<p>3.get</p>
-<p>Segment的get操作实现非常简单和高效。先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line"><span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line"><span class="keyword">return</span> segmentFor(hash).get(key, hash);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本章正是进入入并发容器的介绍啦！！ 撒花 撒花， 抓紧一切时间看完。夭寿啦啦啦&lt;/p&gt;
-&lt;h3 id=&quot;ConcurrentHashMap&quot;&gt;&lt;a href=&quot;#ConcurrentHashMap&quot; class=&quot;headerlink&quot; title=&quot;ConcurrentH
-    
-    </summary>
-    
-      <category term="juc" scheme="http://yoursite.com/categories/juc/"/>
-    
-    
-      <category term="juc" scheme="http://yoursite.com/tags/juc/"/>
+      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
