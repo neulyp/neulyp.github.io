@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>java14-io | lyp's blog</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/5.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">java14-io</h1><a id="logo" href="/.">lyp's blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Inicio</i></a><a href="/archives/"><i class="fa fa-archive"> Archivo</i></a><a href="/about/"><i class="fa fa-user"> Acerca de</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">java14-io</h1><div class="post-meta">Feb 25, 2017<span> | </span><span class="category"><a href="/categories/jcf/">jcf</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="post-content"><h4 id="io-版本"><a href="#io-版本" class="headerlink" title="io 版本"></a>io 版本</h4><p>Java库的IO分为输入/输出两部分。</p>
+<p>早期的Java 1.0版本的输入系统是InputStream及其子类，输出系统是OutputStream及其子类。</p>
+<p>后来的Java 1.1版本对IO系统进行了重新设计。输入系统是Reader及其子类，输出系统是Writer及其子类。</p>
+<p>Java1.1之所以要重新设计，主要是为了添加国际化支持(即添加了对16位Unicode码的支持)。具体表现为Java 1.0的IO系统是字节流，而Java 1.1的IO系统是字符流。</p>
+<p>字节流，就是数据流中最小的数据单元是8位的字节。</p>
+<p>字符流，就是数据流中最小的数据单元是16位的字符。</p>
+<p>字节流在操作的时候，不会用到缓冲；而字符流会用到缓冲。所以，字符流的效率会更高一些。</p>
+<p>至于为什么用到缓冲会效率更高一些呢？那是因为，缓冲本质上是一段内存区域；而文件大多是存储在硬盘或者Nand Flash上面。读写内存的速度比读写硬盘或Nand Flash上文件的速度快很多！</p>
+<p>目前，文件大多以字节的方式存储的。所以在开发中，字节流使用较为广泛。</p>
+<p><img src="http://i.imgur.com/o7l2qSW.jpg" alt=""></p>
+<h4 id="字节流-io"><a href="#字节流-io" class="headerlink" title="字节流 io"></a>字节流 io</h4><p>InputStream是字节输入流的所有类的超类，它主要包括以下几个常用的子类。</p>
+<p>(01)ByteArrayInputStream</p>
+<p>将Byte数组作为字节数组输入流使用。</p>
+<p>(02)StringBufferInputStream</p>
+<p>将字符串作为字符串输入流使用。已过时，不建议使用。</p>
+<p>(03)FileInputStream</p>
+<p>将文件或FileDescriptor作为文件输入流使用。创建该输入流时，传递的参数可以是“文件名”(String类型)、“File对象”或“FileDescriptor对象”(即可以是标准输入流、输出流、错误流的句柄)。</p>
+<p>(04)PipedInputString</p>
+<p>提供要写入管道输出流的所有数据字节。创建该输入流的时候，可以指定对应的管道输出轮流；这样做的话，意味着将对应的管道输入流连接到了管道输出流。</p>
+<p>(05)FilterInputStream</p>
+<p>它直接继承与InputStream，主要用于实现Decorator模式(这在后面进行说明)。</p>
+<p>FilterInputStream主要有两个派生类“DataInputStream”和“BufferedInputStream”。DataInputStream提供了读取byte、char、int等基本类型和String的各种接口；BufferedInputStream提供了缓冲功能。</p>
+<p>构造方法:</p>
+<ul>
+<li>InputStream() 创建一个输入的stream流<br>方法：</li>
+<li>available():返回stream中的可读字节数，inputstream类中的这个方法始终返回的是0，这个方法需要子类去实现。</li>
+<li>close():关闭stream方法，这个是每次在用完流之后必须调用的方法。</li>
+<li>read():方法是读取一个byte字节,但是返回的是int。</li>
+<li>read(byte[]):一次性读取内容到缓冲字节数组</li>
+<li>read(byte[],int,int):从数据流中的哪个位置offset开始读长度为len的内容到缓冲字节数组</li>
+<li>skip(long):从stream中跳过long类型参数个位置</li>
+</ul>
+<p>以上的方法都是很简单理解的，这里就不写代码介绍了。<br>下面还有三个方法：</p>
+<ul>
+<li>mark(int):用于标记stream的作用</li>
+<li>markSupported()：返回的是boolean类型，因为不是所有的stream都可以调用mark方法的，这个方法就是用来判断stream是否可以调用mark方法和reset方法</li>
+<li>reset()：这个方法和mark方法一起使用的，让stream回到mark的位置。</li>
+</ul>
+<p>OutputStream是字节输出流的所有类的超类，它主要包括以下几个常用的子类。</p>
+<p>基类OutputStream<br>constructor—</p>
+<ul>
+<li>OutputStream()</li>
+</ul>
+<p>method—</p>
+<ul>
+<li>write(int):写入一个字节到stream中</li>
+<li>write(byte[])写入一个byte数组到stream中</li>
+<li>write(byte[],int,int)：把byte数组中从offset开始处写入长度为len的数据</li>
+<li>close()：关闭流，这个是在操作完stream之后必须要调用的方法</li>
+<li>flush():这个方法是用来刷新stream中的数据，让缓冲区中的数据强制的输出</li>
+</ul>
+<p>(01)ByteArrayOutputStream</p>
+<p>字节数组输出流，其中的数据被写入一个 byte 数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray() 和 toString() 获取数据。</p>
+<p>(02)FileOutputStream</p>
+<p>文件输出流是用于将数据写入 File 或 FileDescriptor 的输出流。</p>
+<p>  文件是否可用或能否可以被创建取决于基础平台。特别是某些平台一次只允许一个 FileOutputStream（或其他文件写入对象）打开文件进行写入。在这种情况下，如果所涉及的文件已经打开，则此类中的构造方法将失败。</p>
+<p>(03)PipedOutputString</p>
+<p>可以将管道输出流连接到管道输入流来创建通信管道。管道输出流是管道的发送端。通常，数据由某个线程写入 PipedOutputStream 对象，并由其他线程从连接的 PipedInputStream读取。</p>
+<p>  不建议对这两个对象尝试使用单个线程，因为这样可能会造成该线程死锁。如果某个线程正从连接的管道输入流中读取数据字节，但该线程不再处于活动状态，则该管道被视为处于 毁坏 状态。</p>
+<p>(04)FilterOutputStream</p>
+<p>它直接继承与OutputStream，主要用于实现Decorator模式(这在后面进行说明)。</p>
+<p>FilterOutputStream主要有两个派生类“DataOutputStream”和“BufferedOutputStream”。DataOutputStream提供了写入byte、char、int等基本类型和String的各种接口；BufferedOutputStream提供了缓冲功能。</p>
+<h4 id="decorator模式"><a href="#decorator模式" class="headerlink" title="decorator模式"></a>decorator模式</h4><p>Decorator，装饰模式，又称为Wrapper。它的主要功能在于动态扩展一个类的功能。</p>
+<p>JavaIO系统包括“文件流”、“字符串流”、“字节流”、“缓冲流”等。假如，我们同时需要多种数据流的功能，如输入流和缓冲流。若采用继承的方式，数量太可观了。为了解决这一问题，Decorator模式实现了动态扩展，即在运行的时候动态的给一个类“装饰”上某些功能。比如：</p>
+<p>InputStream input = newBufferedInputStream(new FileInputStream(“test.txt”));</p>
+<p>这就是将FileInputStream装饰成了BufferedInputStream，使它具有了缓冲功能。</p>
+<p>参考：<a href="http://blog.csdn.net/jiangwei0910410003/article/details/22376895" target="_blank" rel="external">http://blog.csdn.net/jiangwei0910410003/article/details/22376895</a></p>
+<p><a href="http://blog.csdn.net/hijiankang/article/details/51027565" target="_blank" rel="external">http://blog.csdn.net/hijiankang/article/details/51027565</a></p>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2017/02/25/14-javaio/" data-id="cizo1p9qa000hfkw01f6x641x" class="article-share-link">Cuota</a><div class="tags"><a href="/tags/jcf/">jcf</a></div><div class="post-nav"><a href="/2017/02/25/2-ArrayList/" class="pre">jcf介绍2-arraylist</a><a href="/2017/02/25/0-Introduction/" class="next">jcf介绍0</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categorías</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javaweb/">javaweb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java杂记/">java杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jcf/">jcf</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pat/">pat</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/poffer/">poffer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tomact/">tomact</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据仓库/">数据仓库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Etiquetas</i></div><div class="tagcloud"><a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/jcf/" style="font-size: 15px;">jcf</a> <a href="/tags/java杂记/" style="font-size: 15px;">java杂记</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/poffer/" style="font-size: 15px;">poffer</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/hadoop/" style="font-size: 15px;">hadoop</a> <a href="/tags/juc/" style="font-size: 15px;">juc</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/life/" style="font-size: 15px;">life</a> <a href="/tags/hashmap/" style="font-size: 15px;">hashmap</a> <a href="/tags/javaweb/" style="font-size: 15px;">javaweb</a> <a href="/tags/linkedhashmap/" style="font-size: 15px;">linkedhashmap</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/计算机网络/" style="font-size: 15px;">计算机网络</a> <a href="/tags/pat/" style="font-size: 15px;">pat</a> <a href="/tags/tomact/" style="font-size: 15px;">tomact</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/数据仓库/" style="font-size: 15px;">数据仓库</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recientes</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio/">jcf介绍15-nio1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio3/">jcf介绍15-nio3</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio2/">jcf介绍16-nio2</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio4/">jcf介绍15-nio4</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio5/">jcf介绍15-nio 总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/2-ArrayList/">jcf介绍2-arraylist</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/14-javaio/">java14-io</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/0-Introduction/">jcf介绍0</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/13-引用/">jcf介绍13-reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/25/10-failfast/">jcf介绍10-fail-fast</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="hellozjf.com" title="周靖峰" target="_blank">周靖峰</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">lyp's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
