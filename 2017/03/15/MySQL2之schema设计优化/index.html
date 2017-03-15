@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>MySQL2之schema设计优化 | lyp's blog</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/5.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">MySQL2之schema设计优化</h1><a id="logo" href="/.">lyp's blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">MySQL2之schema设计优化</h1><div class="post-meta">Mar 15, 2017<span> | </span><span class="category"><a href="/categories/高性能mysql/">高性能mysql</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="post-content"><p>良好的逻辑设计和物理设计是高性能的基石，应该根据系统要执行的查询语句来设计 schema。这往往需要权衡各种因素。</p>
+<p>例如：反范式的设计可以加快某些类型的查询，但同时可能使另一些类型的查询变慢。比如添加计数表和汇总表是一种很好的优化查询的方式，</p>
+<p>但是这些表的维护成本会很高。MySQL独有的特性和实现细节对性能影响也很大。</p>
+<p>选择优化的数据类型的简单原则：</p>
+<p>　　1.更小的通常更好</p>
+<p>　　　　一般情况下，应该尽量使用可以正确存储数据的最小数据类型。</p>
+<p>　　2.简单就好</p>
+<p>　　　　简单数据类型的操作通常需要更少的cpu周期。</p>
+<p>　　3.尽量避免NULL</p>
+<p>　　　　如果查询包含可为NULL的列，对mysql来说更难优化，因为可为NULL的列使得索引，索引统计，值比较都更复杂。</p>
+<p>　　　　可为NULL的列会使用更多的存储空间，在MySQL里也需要特殊处理。</p>
+<p>schema设计的第一步，那就是建表，建表的第一步呢就是设计字段，然而了解mysql的数据类型又对设计字段有莫大的帮助。</p>
+<p>那我们先来了解mysql的基本数据类型吧。</p>
+<p>1.整数类型</p>
+<p>　　TINYINT, SMALLINT,MEDIUMINT,INT,BIGINT</p>
+<p>　　8，16，24，32，64，位存储空间。</p>
+<p>　　MySQL可为整数类型制定宽度，例如INT（11），但对大多数应用这是没意义的；它不会限制值合法范围。对于存储和计算来说</p>
+<p>　　INT(1) 和 INT(20)是相同的</p>
+<p>2.实数类型</p>
+<p>　　FLOAT,DOUBLE,DECIMAL(精确计算用的)</p>
+<p>3.字符串类型</p>
+<p>　　VARCHARE</p>
+<p>　　　　最常见的字符串类型。它比定长类型更节省空间，因为它仅适用必要的空间。有一种情况例外，如果MySQL表使用ROW_FORMAT=FIXED创建的话。</p>
+<p>　　　　VARCHAR需要适用1或2个额外字节记录字符串的长度。如果列的最大长度小于等于255，则使用一个字节记录长度。</p>
+<p>　　CHAR</p>
+<p> 　　　　是定长的。MySQL总是根据定义的字符串分配足够的空间。当存储CHAR值时，MySQL会删除所有的末尾空格。</p>
+<p>　　　　CHAR值会根据需要采用空格填充以方便比较。</p>
+<p>　　　　CHAR适合存储很短的字符串。对于经常变更的数据，CHAR也比VARCHAR更好，因为定长CHAR类型不容易产生碎片。</p>
+<p>　　BLOB和TEXT</p>
+<p>　　　　BLOB和TEXT都是为存储很大数据而设计的字符串数据类型，分别采用二进制和字符方式存储。</p>
+<p>　　使用枚举（ENUM）代替字符串类型</p>
+<p>4.日期和时间类型</p>
+<p>　　DATETIME</p>
+<p>　　　　这个类型能保存大范围的值。从1001年到9999年，精度为妙。</p>
+<p>　　TIMESTAMP</p>
+<p> 　　　　存储空间小，并且会根据时区变化，有特殊的自动更新能力。精度为妙。</p>
+<p>　　如果要存储比秒更小粒度的时间时，可以用bigint类型存储微秒级别的时间戳。</p>
+<p>5.位数据类型</p>
+<p>　　BIT</p>
+<p>标识符的选择：</p>
+<p>　　整数类型</p>
+<p>　　　　整数通常是标识列的最好选择。因为他们很快，并且可以使用auto_increment</p>
+<p>　　enum 和 set 类型</p>
+<p>　　</p>
+<p>　　字符串类型</p>
+<p>　　　　如果可能，尽量避免使用字符串类型作为标识符，因为它们很消耗空间，并且通常比数字类型慢。</p>
+<p>　　　　尤其在MyISAM表里使用字符串作为标识列时要特别小心。MyISAM默认对字符串使用压缩索引，这会使查询很慢。</p>
+<p>　　　　对于完全’随机’的字符串也需要多加注意，例如md5(),sha1(),uuid()产生的字符串。</p>
+<p>　　　　这些函数生成的新值会任意分布在很大的空间内，这会导致insert以及一些select语句变得很慢：</p>
+<p>　　　　　　1.因为插入值会随机写到索引的不同位置，所以使得insert语句更慢。这会导致页分裂，磁盘随机访问，以及对于聚簇存储引擎产生聚簇索引碎片。</p>
+<p>　　　　　　2.select语句会变得更慢，因为逻辑上相邻的行为分布在磁盘和内存的不同地方。</p>
+<p>　　　　　　3.随机值会导致缓存对所有类型的查询语句效果都很差。</p>
+<p>schema设计中的陷阱</p>
+<p>　　1.太多的列</p>
+<p>　　2.太多的关联</p>
+<p>　　3.全能的枚举</p>
+<p>　　</p>
+<p>范式和反范式</p>
+<p>　　三大范式：　　</p>
+<p>　　　　1.必须有主键，列不可分　　</p>
+<p>　　　　2.当一个表是复合主键时，非主键的字段不依赖于部分主键(即必须依赖于全部的主键字段)</p>
+<p>　　　　3.关系模式R（U，F）中的所有非主属性对任何候选关键字都不存在传递依赖</p>
+<p>　　反范式，顾名思义，不遵守三大范式。</p>
+<p>　　首先我们来看看范式的优缺点：</p>
+<p>　　优点：</p>
+<p>　　　　范式化的更新操作通常比反范式快。</p>
+<p>　　　　当数据较好地范式化时，就只有很少或者没有重复数据，所以只需要修改更少的数据</p>
+<p>　　　　范式化的表通常很小，可以更好的放在内存里，所以执行操作会更快。</p>
+<p>　　　　很少有多余的数据意味着检索列表数据更少需要DISTINCT或者GROUP BY语句。</p>
+<p>　　缺点：</p>
+<p>　　　　过度依赖关联。这不但代价昂贵，也可能使一些索引策略无效。</p>
+<p>　　反范式优缺点：</p>
+<p>　　　　因为所有的数据在一张表中，可以很好的避免关联。</p>
+<p>　　　　如果不需要关联，则对大部分查询最差的情况，即使没有使用索引，是全表扫描，当数据比内存大时这可能比关联要快得多，</p>
+<p>　　　　因为这样避免了随机I/O。</p>
+<p>　　　　单独的表能更好的使用索引策略。</p>
+<p>　混用范式和反范式才是schema设计的主流。</p>
+<p>缓存表和汇总表</p>
+<p>　　方便查询，不易维护。</p>
+<p>物化视图</p>
+<p>　　</p>
+<p>计数器表</p>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2017/03/15/MySQL2之schema设计优化/" data-id="cj0awqs2d0021ekw0zgqv9xj2" class="article-share-link">Aktie</a><div class="tags"><a href="/tags/高性能mysql/">高性能mysql</a></div><div class="post-nav"><a href="/2017/03/15/mysql7之高级特性/" class="pre">mysql7之高级特性</a><a href="/2017/03/15/mysql5之创建高性能的索引/" class="next">mysql5之创建高性能的索引</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javaweb/">javaweb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java杂记/">java杂记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jcf/">jcf</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life/">life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/pat/">pat</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/poffer/">poffer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tomact/">tomact</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据仓库/">数据仓库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机网络/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高性能mysql/">高性能mysql</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/jcf/" style="font-size: 15px;">jcf</a> <a href="/tags/高性能mysql/" style="font-size: 15px;">高性能mysql</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/poffer/" style="font-size: 15px;">poffer</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/life/" style="font-size: 15px;">life</a> <a href="/tags/hadoop/" style="font-size: 15px;">hadoop</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/hashmap/" style="font-size: 15px;">hashmap</a> <a href="/tags/juc/" style="font-size: 15px;">juc</a> <a href="/tags/java杂记/" style="font-size: 15px;">java杂记</a> <a href="/tags/js/" style="font-size: 15px;">js</a> <a href="/tags/javaweb/" style="font-size: 15px;">javaweb</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linkedhashmap/" style="font-size: 15px;">linkedhashmap</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/计算机网络/" style="font-size: 15px;">计算机网络</a> <a href="/tags/pat/" style="font-size: 15px;">pat</a> <a href="/tags/tomact/" style="font-size: 15px;">tomact</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/数据仓库/" style="font-size: 15px;">数据仓库</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/MySQL3之服务器性能剖析/">MySQL3之服务器性能剖析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/mysql6之查询性能优化/">mysql6之查询性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/mysql1之简介/">mysql之简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/mysql7之高级特性/">mysql7之高级特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/MySQL2之schema设计优化/">MySQL2之schema设计优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/mysql5之创建高性能的索引/">mysql5之创建高性能的索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/java面试宝典注意点/">java面试宝典注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio/">jcf介绍15-nio1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio2/">jcf介绍16-nio2</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/15-javanio5/">jcf介绍15-nio 总结</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="hellozjf.com" title="周靖峰" target="_blank">周靖峰</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">lyp's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
